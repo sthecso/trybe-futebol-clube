@@ -1,4 +1,5 @@
 import * as express from 'express';
+// import { Clubs } from './database/models/Clubs';
 
 class App {
   public app: express.Express;
@@ -6,6 +7,7 @@ class App {
 
   constructor() {
     // ...
+    this.app = express();
     this.config();
     // ...
   }
@@ -24,7 +26,12 @@ class App {
 
   // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+    this.app.get('/ping', (_req, res) => {
+      res.send('pong');
+    });
   }
 }
 
