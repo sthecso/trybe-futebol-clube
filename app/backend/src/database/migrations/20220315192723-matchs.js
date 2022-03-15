@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       home_team: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'clubs',
@@ -20,7 +20,7 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       away_team: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'clubs',

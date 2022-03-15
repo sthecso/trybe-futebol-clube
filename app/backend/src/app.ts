@@ -1,5 +1,6 @@
 import * as express from 'express';
-// import { Clubs } from './database/models/Clubs';
+import testFunction from './testando';
+import rootRoute from './Routes/root';
 
 class App {
   public app: express.Express;
@@ -21,16 +22,15 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
+    this.app.use(express.json());
+    this.app.use('/', rootRoute);
   }
 
   // ...
   public start(PORT: string | number):void {
+    testFunction();
     this.app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
-    });
-    this.app.get('/ping', (_req, res) => {
-      res.send('pong');
     });
   }
 }
