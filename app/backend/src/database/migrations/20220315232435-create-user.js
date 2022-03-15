@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
+      username: {
         allowNull: false,
         type: Sequelize.STRING,
         onUpdate: 'CASCADE',
