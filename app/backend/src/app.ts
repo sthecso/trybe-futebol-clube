@@ -1,12 +1,22 @@
 import * as express from 'express';
+import * as cors from 'cors';
+import 'dotenv/config';
+import Routes from './routes/index';
 
+// configuração feita de acordo com o site:
+// https://stackoverflow.com/questions/33798933/nodejs-express-routes-as-es6-classes
 class App {
   public app: express.Express;
+
+  public routes: void;
   // ...
 
   constructor() {
     // ...
+    this.app = express();
     this.config();
+    this.routes = Routes.routes(this.app);
+
     // ...
   }
 
@@ -19,12 +29,15 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.app.use(cors());
+    this.app.use(express.json());
     // ...
   }
 
   // ...
   public start(PORT: string | number):void {
     // ...
+    this.app.listen(PORT, () => console.log('Rodando a API s2'));
   }
 }
 
