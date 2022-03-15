@@ -2,7 +2,6 @@ version: '3.9'
 services:
   frontend:
     build: ./frontend
-    # ...
     depends_on:
       backend:
         condition: service_healthy
@@ -12,12 +11,20 @@ services:
       test: ["CMD", "lsof", "-t", "-i:3000"]  # Caso utilize outra porta interna para o front, altere ela aqui também
       timeout: 10s
       retries: 5
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+    restart: always
   backend:
     build: ./backend
-    # ...
     depends_on:
       db:
         condition: service_healthy
+    ports:
+      - 3001:3001
+    volumes:
+      - ./backend:/app
     environment:
       - PORT=3001
       # Os dados abaixo se referem ao container `db`
@@ -31,6 +38,7 @@ services:
       test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também
       timeout: 10s
       retries: 5
+    restart: always
   db:
     image: mysql:8.0.21
     container_name: db
