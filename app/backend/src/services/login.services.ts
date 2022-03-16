@@ -1,3 +1,4 @@
+import { compare } from 'bcryptjs';
 import { ICredentials } from '../utils/interfaces';
 import User from '../database/models/User';
 import { jwtGenerator } from '../helpers';
@@ -12,7 +13,7 @@ export default class LoginService {
       where: { email: credentials.email },
     });
 
-    if (!user || user.password !== credentials.password) {
+    if (!user || !(await compare(credentials.password, user.password))) {
       return { code: 401, data: { message: 'Incorrect email or password' } };
     }
 
