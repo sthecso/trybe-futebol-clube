@@ -11,34 +11,15 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
-
-  // let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
-
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+describe('A requisição POST/login deve retornar os dados esperados ',() => {
+  it('espero que tenha os status 200 e que tenha um token ',async () => {
+    let loginResponse = await chai.request(app)
+     .post('/login')
+     .send({ 
+       username: 'User',
+       password:'$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO',
+     });
+     expect(loginResponse).to.have.status(200);
+     expect(loginResponse.body).to.have.property("token")
   });
 });
