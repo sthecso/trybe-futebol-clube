@@ -1,4 +1,6 @@
-require('dotenv').config();
+require('dotenv').config({  
+  path: process.env.NODE_ENV === "test" ? ".env.testing" : ".env"
+})
 
 module.exports = {
   username: process.env.DB_USER || 'root',
