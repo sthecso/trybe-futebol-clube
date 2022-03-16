@@ -8,13 +8,13 @@ const message2 = 'All fields must be filled';
 const UserBluePrint = Joi.object({
   email: Joi.string().email().required().messages({
     'any.required': message2,
-    'string.empty': message,
+    'string.empty': message2,
     'string.email': message,
     any: message,
   }),
   password: Joi.string().min(7).required().messages({
     'any.required': message2,
-    'string.empty': message,
+    'string.empty': message2,
     'string.min': message,
     any: message,
   }),
