@@ -1,3 +1,4 @@
+import bodyParser = require('body-parser');
 import * as express from 'express';
 
 class App {
@@ -5,9 +6,8 @@ class App {
   // ...
 
   constructor() {
-    // ...
-    this.config();
     this.app = express();
+    this.config();
     // ...
   }
 
@@ -20,14 +20,13 @@ class App {
     };
 
     this.app.use(accessControl);
-    this.app.use(express.json());
-    // ...
+    this.app.use(bodyParser);
   }
 
   // ...
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`Listening on ${PORT}`);
     });
   }
 }

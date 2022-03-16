@@ -12,18 +12,16 @@ Club.init({
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
-    allowNull: false,
   },
   clubName: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
 }, {
   underscored: true,
   sequelize: db,
+  timestamps: false,
   modelName: 'Club',
   tableName: 'clubs',
-  timestamps: false,
 });
 
 export default Club;

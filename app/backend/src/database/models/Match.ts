@@ -1,15 +1,14 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
-// import OtherModel from './OtherModel';
 
 class Match extends Model {
   public id: number;
 
-  public homeTeam: string;
+  public homeTeam: number;
+
+  public awayTeam: number;
 
   public homeTeamGoals: number;
-
-  public awayTeam: string;
 
   public awayTeamGoals: number;
 
@@ -21,34 +20,28 @@ Match.init({
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
-    allowNull: false,
   },
   homeTeam: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  homeTeamGoals: {
-    type: DataTypes.NUMBER,
-    allowNull: false,
+    type: DataTypes.INTEGER,
   },
   awayTeam: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
+  homeTeamGoals: {
+    type: DataTypes.INTEGER,
   },
   awayTeamGoals: {
-    type: DataTypes.NUMBER,
-    allowNull: false,
+    type: DataTypes.INTEGER,
   },
   inProgress: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
   },
 }, {
   underscored: true,
   sequelize: db,
+  timestamps: false,
   modelName: 'Match',
   tableName: 'matchs',
-  timestamps: false,
 });
 
 export default Match;
