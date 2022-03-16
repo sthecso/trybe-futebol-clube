@@ -3,7 +3,7 @@ import db from '.';
 import Match from './match';
 
 class Club extends Model {
-  public club_name:string;
+  public club_name: string;
 }
 
 Club.init({
