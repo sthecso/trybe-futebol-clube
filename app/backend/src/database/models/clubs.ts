@@ -7,9 +7,9 @@ class Clubs extends Model {
 Clubs.init(
   {
     id: {
+      primaryKey: true,
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
     },
     club_name: {
       type: DataTypes.STRING,
@@ -19,7 +19,7 @@ Clubs.init(
   {
     underscored: true,
     sequelize: db,
-    modelName: 'Clubs',
+    tableName: 'clubs',
     timestamps: false,
   },
 );

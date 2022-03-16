@@ -1,16 +1,20 @@
 import { DataTypes, Model } from 'sequelize';
+import sequelize = require('sequelize');
+import Clubs from './clubs';
 import db from '.';
 
-class Matchs extends Model {}
+class Matchs extends Model {
+}
 
 Matchs.init({
   id: {
     type: DataTypes.INTEGER,
+    primaryKey: true,
     allowNull: false,
     autoIncrement: true,
   },
   home_team: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   home_team_goals: {
@@ -34,7 +38,11 @@ Matchs.init({
   timestamps: false,
   underscored: true,
   sequelize: db,
-  modelName: 'Matchs',
+  tableName: 'matchs',
 });
+
+Clubs.hasMany(Matchs, { foreignKey: 'home_team' });
+
+Matchs.belongsTo(Clubs, { foreignKey: 'home_team' });
 
 export default Matchs;
