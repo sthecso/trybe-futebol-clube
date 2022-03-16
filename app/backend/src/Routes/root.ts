@@ -4,7 +4,7 @@ import UserController from '../controllers/User';
 
 const rootRoute = Router();
 
-rootRoute.get('/login', async (req, res) => {
+rootRoute.post('/login', async (req, res) => {
   const newUser = new UserController(req);
   const person = await newUser.getOne();
   if (!person) {
