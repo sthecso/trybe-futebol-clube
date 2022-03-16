@@ -1,4 +1,6 @@
 import * as express from 'express';
+import userRouter from './database/routes/user';
+import 'dotenv/config';
 
 class App {
   public app: express.Express;
@@ -19,12 +21,13 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.app.use('/login', userRouter);
     // ...
   }
 
   // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT);
   }
 }
 

@@ -3,40 +3,61 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+
 
 import { Response } from 'superagent';
+import User from '../database/models/user';
+import { ErrorRequestHandler } from 'express';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
+
+interface DBUser {
+  username: string,
+  role: string,
+  email: string,
+  password: string,
+}
+
+const dataMock = {
+  username: 'samuel',
+  role: "atacante",
+  email: "samuel@hotmail.com",
+  password: '1234567'
+}
 
 describe('Seu teste', () => {
   /**
    * Exemplo do uso de stubs com tipos
    */
 
-  // let chaiHttpResponse: Response;
+   let chaiHttpResponse: Response;
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
+   before(async () => {
+     await sinon
+       .stub(User, "findOne")
+       .resolves({
+         dataMock
+       } as any);
+   });
 
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
+   after(()=>{
+     (User.findOne as sinon.SinonStub).restore();
+   })
 
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
+   it('testa se usuario consegue logar', async (done) => {
+     chaiHttpResponse = await chai
+        .request(app).post('/login').send({password: "12345678", email: "samuel@hotmail.com"})
+        .end((err: ErrorRequestHandler, res: Response) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(201);
+          (done)
+        })
+        
 
-  //   expect(...)
-  // });
+     
+   });
 
   it('Seu sub-teste', () => {
     expect(false).to.be.eq(true);
