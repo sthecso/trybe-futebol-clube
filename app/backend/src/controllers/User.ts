@@ -1,17 +1,26 @@
-import { Request } from 'express';
-import ICRUD from '../Interfaces/ICRUD';
-import userModel from '../database/models/User';
-import UserType from '../Types/User';
+import { Request, Response, RequestHandler } from 'express';
+import { compareSync } from 'bcryptjs';
+import generateToken from '../Utils/GenerateToken';
+import Codes from '../Enums/Codes';
+import * as userService from '../Services/User';
 
-export default class User implements ICRUD<UserType> {
-  req: Request;
-
-  constructor(req: Request) {
-    this.req = req;
+const login:RequestHandler = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const person = await userService.getByEmail(email);
+  if (!person || !compareSync(password, person.password)) {
+    return res.status(Codes.unauthorized).json({ message: 'Unauthorized' });
   }
+  res.status(Codes.OK).json({
+    user: {
+      id: person.id,
+      email: person.email,
+      username: person.username,
+      role: person.role,
+    },
+    token: generateToken({ email: person.email }),
+  });
+};
 
-  public async getOne(): Promise<UserType | undefined> {
-    const user = await userModel.findByPk(this.req.body.id);
-    return user as UserType;
-  }
-}
+const lala = 'la';
+
+export { login, lala };

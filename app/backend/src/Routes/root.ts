@@ -1,16 +1,9 @@
 import { Router } from 'express';
-import Codes from '../Enums/Codes';
-import UserController from '../controllers/User';
+import validateLogin from '../Middlewares/ValidateLogin';
+import * as UserController from '../Controllers/User';
 
 const rootRoute = Router();
 
-rootRoute.post('/login', async (req, res) => {
-  const newUser = new UserController(req);
-  const person = await newUser.getOne();
-  if (!person) {
-    return res.status(Codes.notFound).json({ message: 'User not found' });
-  }
-  res.status(Codes.OK).json(person);
-});
+rootRoute.post('/login', validateLogin, UserController.login);
 
 export default rootRoute;

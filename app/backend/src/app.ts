@@ -1,6 +1,7 @@
 import * as express from 'express';
 import testFunction from './testando';
 import rootRoute from './Routes/root';
+import InternalErrorHandler from './Utils/InternalErrorHandler';
 
 class App {
   public app: express.Express;
@@ -23,7 +24,8 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
-    this.app.use('/', rootRoute);
+    this.app.use(rootRoute);
+    this.app.use(InternalErrorHandler);
   }
 
   // ...
