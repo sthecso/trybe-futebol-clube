@@ -5,6 +5,7 @@ import Codes from '../Enums/Codes';
 import * as userService from '../Services/User';
 
 const login:RequestHandler = async (req: Request, res: Response) => {
+  console.log('Tentando logar');
   const { email, password } = req.body;
   const person = await userService.getByEmail(email);
   if (!person || !compareSync(password, person.password)) {
