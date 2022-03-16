@@ -1,2 +1,4 @@
 joi
 express-async-errors
+-D shelljs
+-D @types/shelljs
