@@ -3,6 +3,7 @@ enum HttpStatusCode {
   Created,
   NoContent = 204,
   BadRequest = 400,
+  NotAuthorized,
   NotFound = 404,
   Conflict = 409,
   InternalServerError = 500,

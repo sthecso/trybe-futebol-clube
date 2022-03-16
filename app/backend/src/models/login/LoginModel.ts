@@ -17,14 +17,14 @@ class LoginModel {
     const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) {
-      const message = 'Has no user with this email';
+      const message = 'Incorrect email or password';
       return new this.ErrorCatcher(this.httpStatusCode.NotFound, message);
     }
 
     const verifyPassword = await compare(password, user.password);
 
     if (!verifyPassword) {
-      const message = 'Password is incorrect';
+      const message = 'Incorrect email or password';
       return new this.ErrorCatcher(this.httpStatusCode.BadRequest, message);
     }
 

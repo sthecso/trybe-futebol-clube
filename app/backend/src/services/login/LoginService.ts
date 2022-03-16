@@ -20,7 +20,7 @@ class LoginService {
 
     return {
       data: {
-        user,
+        user: user.data,
         token,
       },
     };
