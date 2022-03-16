@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as cors from 'cors';
-import 'dotenv/config';
+// import 'dotenv/config';
 import Routes from './routes/index';
 
 // configuração feita de acordo com o site:
