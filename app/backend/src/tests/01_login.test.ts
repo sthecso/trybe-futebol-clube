@@ -36,7 +36,7 @@ describe('Login endpoints', () => {
   });
 
   describe('When login fails because email is', () => {
-    it('incorrect: API responds with status 401 and correct error message', async () => {
+    it('incorrect: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -48,7 +48,7 @@ describe('Login endpoints', () => {
       expect(message).to.be.equal("Incorrect email or password");
     });
   
-    it('not a string: API responds with status 422 and correct error message', async () => {
+    it('not a string: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -60,7 +60,7 @@ describe('Login endpoints', () => {
       expect(message).to.be.equal("Email must be a string");
     });
   
-    it('an empty string: API responds with status 400 and correct error message', async () => {
+    it('an empty string: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -72,7 +72,7 @@ describe('Login endpoints', () => {
       expect(message).to.be.equal("All fields must be filled");
     });
   
-    it('not provided: API responds with status 401 and correct error message', async () => {
+    it('not provided: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -86,7 +86,7 @@ describe('Login endpoints', () => {
   });
 
   describe('When login fails because password is', () => {
-    it('incorrect: API responds with status 401 and correct error message', async () => {
+    it('incorrect: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -98,7 +98,7 @@ describe('Login endpoints', () => {
       expect(message).to.be.equal("Incorrect email or password");
     });
   
-    it('not a string: API responds with status 422 and correct error message', async () => {
+    it('not a string: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -110,7 +110,7 @@ describe('Login endpoints', () => {
       expect(message).to.be.equal("Password must be a string");
     });
   
-    it('an empty string: API responds with status 400 and correct error message', async () => {
+    it('an empty string: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -122,7 +122,7 @@ describe('Login endpoints', () => {
       expect(message).to.be.equal("All fields must be filled");
     });
   
-    it('not provided: API responds with status 401 and correct error message', async () => {
+    it('not provided: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -146,7 +146,7 @@ describe('Login endpoints', () => {
       expect(chaiHttpResponse.text).to.be.equal('admin');
     });
   
-    it('invalid: API responds with status 401 and correct error message', async () => {
+    it('invalid: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .get('/login/validate')
@@ -158,7 +158,7 @@ describe('Login endpoints', () => {
       expect(message).to.be.equal('Invalid token');
     });
   
-    it('not provided: API responds with status 401 and correct error message', async () => {
+    it('not provided: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .get('/login/validate');
