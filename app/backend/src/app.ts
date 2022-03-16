@@ -1,5 +1,6 @@
 import * as express from 'express';
 import loginController from './database/controllers/LoginController';
+import validateLoginController from './database/controllers/validateLoginController';
 
 class App {
   public app: express.Express;
@@ -20,6 +21,7 @@ class App {
     this.app.use(accessControl);
     this.app.use(express.json());
     this.app.post('/login', loginController);
+    this.app.get('/login/validate', validateLoginController);
   }
 
   public start(PORT: string | number):void {

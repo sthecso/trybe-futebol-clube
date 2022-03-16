@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs';
 import { User } from '../../utils/Interfaces';
 import Users from '../models/Users';
-import generateToken from '../../utils/token';
+import { generateToken } from '../../utils/token';
 
 async function loginService(receivedEmail: string, password: string) {
   const users = await Users.findOne({ where: { email: receivedEmail } });

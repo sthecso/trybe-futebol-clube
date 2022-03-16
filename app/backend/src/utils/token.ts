@@ -1,13 +1,15 @@
 import { readFileSync } from 'fs';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { User } from './Interfaces';
 
 const jwtConfig = { expiresIn: '4h' };
 
 const segredo = readFileSync('jwt.evaluation.key', 'utf-8');
 
-function generateToken(tokenData: User) {
+export function generateToken(tokenData: User) {
   return sign({ data: tokenData }, segredo, jwtConfig);
 }
 
-export default generateToken;
+export function verifyToken(token: string) {
+  return verify(token, segredo);
+}
