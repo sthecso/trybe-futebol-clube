@@ -1,6 +1,7 @@
 FROM node:16-alpine
 WORKDIR /app
-EXPOSE 3001
-ADD node_modules.tar.gz .
+COPY package*.json /
+RUN npm install
 COPY . .
-ENTRYPOINT [ "npm", "start" ] 
+EXPOSE 3001
+CMD [ "npm", "start" ]

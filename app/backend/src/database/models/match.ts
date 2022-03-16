@@ -43,6 +43,8 @@ Match.init({
     allowNull: false,
   },
 }, {
+  underscored: true,
+  timestamps: false,
   sequelize: db,
   modelName: 'Match',
 });
