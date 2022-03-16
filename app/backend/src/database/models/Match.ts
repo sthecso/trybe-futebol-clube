@@ -4,9 +4,9 @@ import db from '.';
 class Match extends Model {
   public id: number;
 
-  public homeTeam: number;
+  public homeTeam: string;
 
-  public awayTeam: number;
+  public awayTeam: string;
 
   public homeTeamGoals: number;
 
@@ -22,10 +22,12 @@ Match.init({
     primaryKey: true,
   },
   homeTeam: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   awayTeam: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   homeTeamGoals: {
     type: DataTypes.INTEGER,
