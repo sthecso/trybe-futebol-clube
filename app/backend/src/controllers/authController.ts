@@ -3,7 +3,9 @@ import userValidation from '../validations/userValidation';
 
 export default {
   login: async (req: Request, res: Response): Promise<void> => {
-    const { email, password } = await userValidation.bodyLogin(req.body);
+    userValidation.bodyLogin(req.body);
+
+    const { email, password } = req.body;
 
     // resposta temporária para testar a validação
     res.status(200).json({ email, password });

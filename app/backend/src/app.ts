@@ -1,4 +1,6 @@
 import * as express from 'express';
+import 'express-async-errors';
+import joiError from './middlewares/joiError';
 import authRoute from './routes';
 
 class App {
@@ -20,6 +22,8 @@ class App {
     this.app.use(accessControl);
     this.app.use(express.json());
     this.app.use(authRoute);
+
+    this.app.use(joiError);
   }
 
   public start(PORT: string | number):void {
