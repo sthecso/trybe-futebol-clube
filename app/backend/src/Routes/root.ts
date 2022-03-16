@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import validateLogin from '../Middlewares/ValidateLogin';
-import * as UserController from '../Controllers/User';
+import * as UserController from '../controllers/User';
 
 const rootRoute = Router();
 
