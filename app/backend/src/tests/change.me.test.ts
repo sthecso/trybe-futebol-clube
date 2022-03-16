@@ -21,10 +21,13 @@ interface DBUser {
 }
 
 const dataMock = {
-  username: 'samuel',
-  role: "atacante",
-  email: "samuel@hotmail.com",
-  password: '1234567'
+  user: {
+    id: 1,
+    username: "Admin",
+    role: "admin",
+    email: "admin@admin.com"
+  },
+  token: "123.456.789" 
 }
 
 describe('Seu teste', () => {
@@ -46,12 +49,12 @@ describe('Seu teste', () => {
      (User.findOne as sinon.SinonStub).restore();
    })
 
-   it('testa se usuario consegue logar', async (done) => {
+   it('testa retorno do Response apos login com sucesso', async (done) => {
      chaiHttpResponse = await chai
         .request(app).post('/login').send({password: "12345678", email: "samuel@hotmail.com"})
         .end((err: ErrorRequestHandler, res: Response) => {
           expect(err).to.be.null;
-          expect(res).to.have.status(201);
+          expect(res).to.have.json.contain(dataMock);
           (done)
         })
         
@@ -59,7 +62,16 @@ describe('Seu teste', () => {
      
    });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+   it('testa se usuario consegue logar', async (done) => {
+    chaiHttpResponse = await chai
+       .request(app).post('/login').send({password: "12345678", email: "samuel@hotmail.com"})
+       .end((err: ErrorRequestHandler, res: Response) => {
+         expect(err).to.be.null;
+         expect(res).to.have.status(201);
+         (done)
+       })
+       
+
+    
   });
 });

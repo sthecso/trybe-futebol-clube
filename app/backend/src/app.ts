@@ -1,6 +1,7 @@
 import * as express from 'express';
-import userRouter from './database/routes/user';
+
 import 'dotenv/config';
+import userRouter from './database/routes/user';
 
 class App {
   public app: express.Express;
