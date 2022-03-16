@@ -9,7 +9,7 @@ const login:RequestHandler = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const person = await userService.getByEmail(email);
   if (!person || !compareSync(password, person.password)) {
-    return res.status(Codes.unauthorized).json({ message: 'Unauthorized' });
+    return res.status(Codes.unauthorized).json({ message: 'Incorrect email or password' });
   }
   res.status(Codes.OK).json({
     user: {
@@ -25,4 +25,4 @@ const login:RequestHandler = async (req: Request, res: Response) => {
 const lala = 'la';
 
 export { login, lala };
-//aa
+// aa
