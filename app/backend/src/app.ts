@@ -1,12 +1,22 @@
 import * as express from 'express';
 
+import * as bodyParse from 'body-parser';
+
+import { Login } from './routers';
+
 class App {
   public app: express.Express;
+
+  private loginRouter = new Login();
+
+  private parseJson = bodyParse;
 
   constructor() {
     this.app = express();
 
     this.config();
+    
+    this.app.use(this.parseJson.json());
   }
 
   private config():void {
@@ -21,6 +31,8 @@ class App {
   }
 
   public start(PORT: string | number):void {
+    this.app.use('/login', this.loginRouter.handle);
+
     this.app.listen(PORT, () => {
       console.log(`server listen at port ${PORT}`);
     });
