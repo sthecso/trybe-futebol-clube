@@ -7,7 +7,7 @@ class App {
   constructor() {
     // ...
     this.config();
-    // ..
+    // ...
   }
 
   private config():void {
