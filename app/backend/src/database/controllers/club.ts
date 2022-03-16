@@ -8,4 +8,10 @@ const getAll: RequestHandler = async (_req, res) => {
   return res.status(200).json(user);
 };
 
-export default { getAll };
+const findClub: RequestHandler = async (req, res) => {
+  const { clubName } = req.body;
+  const club = await services.findClub(clubName);
+  return res.status(200).json({ club });
+};
+
+export default { getAll, findClub };
