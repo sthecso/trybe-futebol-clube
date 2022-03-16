@@ -4,3 +4,8 @@ export interface User {
   role: string,
   email: string,
 }
+
+export interface LoginReturn {
+  user: User,
+  token: string
+}
