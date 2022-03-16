@@ -79,3 +79,15 @@ describe('Quando o login é mal sucedido, pois a senha está incorreta', () => {
   });
 });
 
+describe('Quando o login é mal sucedido, pois o email não foi passado.', () => {
+  let chaiHttpResponse: Response;
+
+  it('Retorna status 401', async () => {
+    chaiHttpResponse = await chai
+       .request(app)
+       .post('/login')
+       .send({ email: '', password: 'password' });
+
+    expect(chaiHttpResponse.status).to.be.equal(401);
+  });
+});
