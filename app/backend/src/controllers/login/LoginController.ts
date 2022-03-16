@@ -7,9 +7,13 @@ import { IUserRequest, ILoginResponse } from '../../interfaces/login';
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
 class LoginController {
-  private loginService = new LoginService();
-
   private httpStatusCode = HttpStatusCode;
+
+  constructor(
+    private loginService: LoginService = new LoginService(),
+  ) {
+    this.handle = this.handle.bind(this);
+  }
 
   async handle(
     req: Request,

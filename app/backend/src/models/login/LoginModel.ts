@@ -21,7 +21,7 @@ class LoginModel {
       return new this.ErrorCatcher(this.httpStatusCode.NotFound, message);
     }
 
-    const verifyPassword = await compare(user.password, password);
+    const verifyPassword = await compare(password, user.password);
 
     if (!verifyPassword) {
       const message = 'Password is incorrect';
@@ -29,8 +29,12 @@ class LoginModel {
     }
 
     return {
-      httpStatusCode: this.httpStatusCode.Ok,
-      data: user,
+      data: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        email: user.email,
+      },
     };
   }
 }

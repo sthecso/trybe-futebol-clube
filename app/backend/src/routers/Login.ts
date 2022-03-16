@@ -2,19 +2,19 @@ import { Router } from 'express';
 import { LoginController } from '../controllers/login';
 
 class Login {
-  private router: Router;
+  public router: Router;
 
   private loginController = new LoginController();
 
   constructor() {
     this.router = Router();
+
+    this.start();
   }
 
-  handle() {
+  private start() {
     this.router.post('/', this.loginController.handle);
   }
 }
-
-// router.post('/', LoginController.handle);
 
 export default Login;

@@ -1,9 +1,10 @@
-import * as sinon from 'sinon';
 import * as chai from 'chai';
+
 import chaiHttp = require('chai-http');
 
+import { Response } from 'superagent';
+
 import { app } from '../app';
-import User from '../database/models/User';
 
 chai.use(chaiHttp);
 
@@ -19,29 +20,19 @@ describe('/login', () => {
 
   const mockToken = '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW';
 
-  before(async () => {
-    sinon
-      .stub(User, 'create')
-      .resolves(mockUserPost as User);
-  });
+  let chaiHttpResponse: Response;
 
-  after(()=>{
-    (User.findOne as sinon.SinonStub).restore();
-  });
-
-  it('...', async () => {
-    await chai
+  it('has the correct response', async () => {
+    chaiHttpResponse = await chai
        .request(app)
        .post('/login')
-       .send({
-         email: 'stringEmail',
-         password: 'stringPasscode',
-       })
-       .end((err, res) => {
-         expect(err).to.be.null;
-         expect(res).to.have.status(200);
-         expect(res.body.user).to.be.eql(mockUserPost);
-         expect(res.body.token).to.be.eql(mockToken);
-       });
+       .set('content-type', 'application/json')
+       .send({ email: 'admin@admin.com', password: 'secret_admin' });
+
+    const { user, token, message } = chaiHttpResponse.body;
+
+    console.log(chaiHttpResponse.body);
+
+    expect(chaiHttpResponse.status).to.be.equal(200);
   });
 });

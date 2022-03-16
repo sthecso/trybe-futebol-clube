@@ -15,7 +15,7 @@ class App {
     this.app = express();
 
     this.config();
-    
+
     this.app.use(this.parseJson.json());
   }
 
@@ -31,7 +31,7 @@ class App {
   }
 
   public start(PORT: string | number):void {
-    this.app.use('/login', this.loginRouter.handle);
+    this.app.use('/login', this.loginRouter.router);
 
     this.app.listen(PORT, () => {
       console.log(`server listen at port ${PORT}`);
