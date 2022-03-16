@@ -1,9 +1,13 @@
+// npm run test:browser
+// npm run test:debug
+// compose:up | compose:down
+
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+import clubs from '../database/models/clubs';
 
 import { Response } from 'superagent';
 
@@ -11,7 +15,22 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
+describe('Testes de Migration e Model da tabela clubs', () => {
+  const teams = [{
+    id: 1,
+    club_name: 'Bahia'
+  }, {
+    id: 2,
+    club_name: 'Cruzeiro'
+  }
+]
+  
+  before( async () => {
+    sinon.stub(clubs, 'getAll').resolves(teams);
+  });
+
+  it('Verifica se a ')
+  
   /**
    * Exemplo do uso de stubs com tipos
    */
