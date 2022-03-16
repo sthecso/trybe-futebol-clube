@@ -10,7 +10,7 @@ module.exports = {
       },
       home_team: {
         allowNull: false,
-        type: Sequelize.NUMBER,
+        type: Sequelize.STRING,
         references: {
           model: 'clubs',
           key: 'id',
@@ -20,11 +20,11 @@ module.exports = {
       },
       home_team_goals: {
         allowNull: false,
-        type: Sequelize.NUMBER,
+        type: Sequelize.STRING,
       },
       away_team: {
         allowNull: false,
-        type: Sequelize.NUMBER,
+        type: Sequelize.STRING,
         references: {
           model: 'clubs',
           key: 'id',
@@ -34,7 +34,7 @@ module.exports = {
       },
       away_team_goals: {
         allowNull: false,
-        type: Sequelize.NUMBER,
+        type: Sequelize.STRING,
       },
       in_progress: {
         allowNull: false,
