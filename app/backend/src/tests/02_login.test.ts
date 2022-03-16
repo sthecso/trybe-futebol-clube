@@ -57,18 +57,6 @@ describe('Login tests', () => {
     expect(message).to.be.equal("Email must be a string");
   });
 
-  it('When email is not a valid email format, responds with status 422 and error message', async () => {
-    chaiHttpResponse = await chai
-      .request(app)
-      .post('/login')
-      .send({ email: 'admin.com', password: 'secret_admin' });
-
-    const { message } = chaiHttpResponse.body;
-
-    expect(chaiHttpResponse.status).equal(422);
-    expect(message).to.be.equal("Email must be a valid email address");
-  });
-
   it('When email is an empty string, responds with status 400 and error message', async () => {
     chaiHttpResponse = await chai
       .request(app)
@@ -77,8 +65,8 @@ describe('Login tests', () => {
 
     const { message } = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).equal(400);
-    expect(message).to.be.equal("Email is not allowed to be empty");
+    expect(chaiHttpResponse.status).equal(401);
+    expect(message).to.be.equal("All fields must be filled");
   });
 
   it('Without an email, responds with status 401 and error message', async () => {
@@ -125,8 +113,8 @@ describe('Login tests', () => {
 
     const { message } = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).equal(400);
-    expect(message).to.be.equal("Password is not allowed to be empty");
+    expect(chaiHttpResponse.status).equal(401);
+    expect(message).to.be.equal("All fields must be filled");
   });
 
   it('Without a password, responds with status 401 and error message', async () => {
