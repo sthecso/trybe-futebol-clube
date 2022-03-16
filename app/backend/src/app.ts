@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import 'dotenv/config';
 import userRouter from './database/routes/user';
+import clubRouter from './database/routes/club';
 
 class App {
   public app: express.Express;
@@ -23,6 +24,7 @@ class App {
 
     this.app.use(accessControl);
     this.app.use('/login', userRouter);
+    this.app.use('/clubs', clubRouter);
     // ...
   }
 
