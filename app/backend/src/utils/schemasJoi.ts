@@ -12,8 +12,8 @@ export const schemaUserRequest = Joi.object({
     'string.base': '"password" must be a number larger than or equal to 6',
     'string.min': '"password" must be a number larger than or equal to 6',
     'string.empty': FIELD_REQUIRED_MESSAGE,
-    'any.required': FIELD_REQUIRED_MESSAGE
+    'any.required': FIELD_REQUIRED_MESSAGE,
   }),
 });
 
-export const lint = () => {}
+export const lint = () => {};
