@@ -12,7 +12,7 @@ export default class MatchsController {
   async findAll(req: Request, res: Response) {
     const { inProgress } = req.query;
     let inProgBool: boolean | undefined;
-
+    // look for a way to improve this 👇
     if (inProgress === 'true') inProgBool = true;
     if (inProgress === 'false') inProgBool = false;
 
