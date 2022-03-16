@@ -1,6 +1,6 @@
+shelljs
+@types/shelljs
+@types/bcryptjs
 joi
 express-async-errors
 bcryptjs
--D shelljs
--D @types/shelljs
--D @types/bcryptjs
