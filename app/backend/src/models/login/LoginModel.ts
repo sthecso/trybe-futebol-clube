@@ -18,14 +18,14 @@ class LoginModel {
 
     if (!user) {
       const message = 'Incorrect email or password';
-      return new this.ErrorCatcher(this.httpStatusCode.NotFound, message);
+      return new this.ErrorCatcher(this.httpStatusCode.NotAuthorized, message);
     }
 
     const verifyPassword = await compare(password, user.password);
 
     if (!verifyPassword) {
       const message = 'Incorrect email or password';
-      return new this.ErrorCatcher(this.httpStatusCode.BadRequest, message);
+      return new this.ErrorCatcher(this.httpStatusCode.NotAuthorized, message);
     }
 
     return {
