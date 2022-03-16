@@ -5,7 +5,7 @@ class App {
   // ...
 
   constructor() {
-    // ...
+    this.app = express();
     this.config();
     // ...
   }
@@ -19,12 +19,17 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.app.get('/', (req, res) => {
+      res.status(200).send('olá')
+    })
     // ...
   }
 
   // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT, () => {
+      console.log('Running on', PORT);
+    });
   }
 }
 
