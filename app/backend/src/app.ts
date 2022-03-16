@@ -7,6 +7,7 @@ class App {
   constructor() {
     // ...
     this.config();
+    this.app = express();
     // ...
   }
 
@@ -19,12 +20,15 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.app.use(express.json());
     // ...
   }
 
   // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   }
 }
 
