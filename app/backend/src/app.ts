@@ -1,4 +1,5 @@
 import * as express from 'express';
+import Club from './database/models/club';
 
 class App {
   public app: express.Express;
@@ -19,9 +20,10 @@ class App {
     };
 
     this.app.use(accessControl);
-    this.app.get('/', (req, res) => {
-      res.status(200).send('olá')
-    })
+    this.app.get('/', async (req, res) => {
+      const r = await Club.findAll();
+      res.status(200).send(r);
+    });
     // ...
   }
 
