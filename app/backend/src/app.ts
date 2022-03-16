@@ -1,14 +1,12 @@
-import bodyParser = require('body-parser');
 import * as express from 'express';
+import loginController from './database/controllers/LoginController';
 
 class App {
   public app: express.Express;
-  // ...
 
   constructor() {
     this.app = express();
     this.config();
-    // ...
   }
 
   private config():void {
@@ -20,10 +18,10 @@ class App {
     };
 
     this.app.use(accessControl);
-    this.app.use(bodyParser);
+    this.app.use(express.json());
+    this.app.post('/login', loginController);
   }
 
-  // ...
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
       console.log(`Listening on ${PORT}`);
@@ -32,6 +30,4 @@ class App {
 }
 
 export { App };
-
-// A execução dos testes de cobertura depende dessa exportação
 export const { app } = new App();
