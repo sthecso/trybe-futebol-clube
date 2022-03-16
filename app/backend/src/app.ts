@@ -1,7 +1,7 @@
 import * as express from 'express';
 import 'express-async-errors';
-import joiError from './middlewares/joiError';
-import authRoute from './routes';
+import joiError from './middlewares';
+import loginRoute from './routes';
 
 class App {
   public app: express.Express;
@@ -21,7 +21,7 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
-    this.app.use(authRoute);
+    this.app.use('/login', loginRoute);
 
     this.app.use(joiError);
   }

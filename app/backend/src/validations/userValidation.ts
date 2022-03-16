@@ -1,9 +1,13 @@
 import Joi = require('joi');
-import runSchema from './validations';
 
-export default {
-  bodyLogin: runSchema(Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(),
-  })),
-};
+export default class UserValidation {
+  constructor(
+    private schema: Joi.Schema,
+  ) {}
+
+  async bodyLogin(value: unknown) {
+    const { error } = await this.schema.validateAsync(value);
+
+    if (error) throw error;
+  }
+}

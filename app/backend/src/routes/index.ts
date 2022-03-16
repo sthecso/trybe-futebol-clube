@@ -1,3 +1,3 @@
-import authRoute from './authRoute';
+import loginRoute from './loginRoute';
 
-export default authRoute;
+export default loginRoute;
