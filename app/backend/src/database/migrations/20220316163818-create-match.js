@@ -31,14 +31,6 @@ module.exports = {
       in_progress: {
         type: Sequelize.INTEGER,
       },
-      createdAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-      },
     });
   },
   down: async (queryInterface, Sequelize) => {
