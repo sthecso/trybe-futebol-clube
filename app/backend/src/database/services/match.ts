@@ -5,4 +5,8 @@ const getAll = async () => {
   return matchs;
 };
 
-export default { getAll };
+/* const getByProgress = async (progressQuery) => {
+  const match = await Match.findAll({ where: { in_progress: progressQuery } });
+  return match; */
+
+export default { getAll /* getByProgress */ };
