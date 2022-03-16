@@ -3,7 +3,7 @@ import db from '.';
 
 interface UserAttributes {
   id?: number;
-  name: string;
+  username: string;
   role: string;
   email: string;
   password: string;
@@ -19,7 +19,7 @@ User.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
-    name: {
+    username: {
       allowNull: false,
       type: DataTypes.STRING,
     },
