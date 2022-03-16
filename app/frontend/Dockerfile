@@ -1,5 +1,5 @@
 FROM node:16-alpine
-WORKDIR /frontemd
+WORKDIR /frontend
 
 COPY ["package.json", "package-lock.json*", "./"]
 
