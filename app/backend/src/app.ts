@@ -1,11 +1,12 @@
 import * as express from 'express';
+import userRoute from './routes/route';
 
 class App {
   public app: express.Express;
   // ...
 
   constructor() {
-    this.app= express();
+    this.app = express();
     this.config();
     // ...
   }
@@ -19,12 +20,13 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.app.use('/', userRoute);
     // ...
   }
 
   // ...
   public start(PORT: string | number):void {
-    this.app.listen(PORT, () => console.log(`App rodando na porta ${PORT}`))
+    this.app.listen(PORT, () => console.log(`App rodando na porta ${PORT}`));
   }
 }
 
