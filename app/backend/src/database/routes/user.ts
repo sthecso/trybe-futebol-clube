@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import getUser from '../controllers/user';
+import controller from '../controllers/user';
 import verifyBody from '../middlewares/userMiddleware';
 
 const userRouter = Router();
 
-userRouter.post('/', verifyBody, getUser);
+userRouter.post('/', verifyBody, controller.getUser);
+userRouter.get('/validate', controller.verifyUser);
 
 export default userRouter;
