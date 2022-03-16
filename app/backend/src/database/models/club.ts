@@ -3,11 +3,22 @@ import db from '.';
 import Match from './match';
 
 class Club extends Model {
+  public id: number;
+
   public club_name: string;
 }
 
 Club.init({
-  club_name: DataTypes.STRING,
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  club_name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   underscored: true,
   sequelize: db,
