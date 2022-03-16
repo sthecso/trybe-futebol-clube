@@ -5,3 +5,5 @@ import verifyBody from '../middlewares/userMiddleware';
 const userRouter = Router();
 
 userRouter.post('/', verifyBody, getUser);
+
+export default userRouter;
