@@ -51,11 +51,6 @@ Match.init({
   tableName: 'matchs',
 });
 
-/**
-  * `Workaround` para aplicar as associations em TS:
-  * Associations 1:N devem ficar em uma das instâncias de modelo
-  * */
-
 Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
 Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
 
