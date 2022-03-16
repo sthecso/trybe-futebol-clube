@@ -21,4 +21,4 @@ module.exports = {
   }
 };
 
-// Caputo disse que essa parte da migrations continua igual e como javascript
+// Caputo disse que essa parte da migrations continua igual como era antes, ou seja, com javascript
