@@ -13,6 +13,7 @@ module.exports = {
         },
         club_name: {
           type: Sequelize.STRING,
+          allowNull: false,
         },
       },
     );
