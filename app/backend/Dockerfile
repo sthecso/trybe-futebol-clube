@@ -1,10 +1,12 @@
-FROM node:14-alpine
+FROM node:16-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package.json .
 
-ADD node_modules.tar.gz ./
+RUN npm install
+
+COPY . .
 
 EXPOSE 3001
 
