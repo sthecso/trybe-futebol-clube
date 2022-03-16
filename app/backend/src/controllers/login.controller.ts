@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { ITokenData } from '../utils/interfaces';
-import LoginService from '../services/login.services';
+import { LoginService } from '../services';
 
 export default class LoginController {
-  constructor(
-    private loginService: LoginService = new LoginService(),
-  ) {
+  private loginService: LoginService;
+
+  constructor() {
+    this.loginService = new LoginService();
     this.login = this.login.bind(this);
     this.validate = this.validate.bind(this);
   }

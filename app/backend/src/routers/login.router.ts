@@ -1,12 +1,12 @@
 import * as express from 'express';
-import LoginController from '../controllers/login.controller';
+import { LoginController } from '../controllers';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
 
 export default class Login {
   public router: express.Router;
 
-  public loginController: LoginController;
+  private loginController: LoginController;
 
   constructor() {
     this.loginController = new LoginController();

@@ -1,12 +1,14 @@
 import { compare } from 'bcryptjs';
 import { ICredentials } from '../utils/interfaces';
-import User from '../database/models/User';
+import UserModel from '../database/models/User';
 import { jwtGenerator } from '../helpers';
 
 export default class LoginService {
-  constructor(
-    readonly userModel = User,
-  ) {}
+  private userModel: typeof UserModel;
+
+  constructor() {
+    this.userModel = UserModel;
+  }
 
   async login(credentials: ICredentials) {
     const user = await this.userModel.findOne({
