@@ -1,4 +1,4 @@
-import ClubModel from '../database/models/Club';
+import { ClubModel } from '../database/models';
 
 export default class ClubsServices {
   private clubModel: typeof ClubModel;

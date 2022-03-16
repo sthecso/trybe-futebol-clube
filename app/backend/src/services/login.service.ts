@@ -1,6 +1,6 @@
 import { compare } from 'bcryptjs';
 import { ICredentials } from '../utils/interfaces';
-import UserModel from '../database/models/User';
+import { UserModel } from '../database/models';
 import { jwtGenerator } from '../helpers';
 
 export default class LoginService {
