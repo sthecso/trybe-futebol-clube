@@ -9,6 +9,9 @@ export default (err: Error, req: Request, res: Response, next: NextFunction) => 
     case 'any.required':
       res.status(401).json({ message: 'All fields must be filled' });
       break;
+    case 'string.empty':
+      res.status(401).json({ message: 'All fields must be filled' });
+      break;
     case 'string.email':
       res.status(401).json({ message: 'Incorrect email or password' });
       break;
