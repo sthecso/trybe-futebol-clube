@@ -19,3 +19,4 @@ Club.init({
 });
 
 export default Club;
+// test
