@@ -9,7 +9,7 @@ class GetAllMatchesController {
 
   private httpStatusCode = HttpStatusCode;
 
-  constructor () {
+  constructor() {
     this.handle = this.handle.bind(this);
   }
 

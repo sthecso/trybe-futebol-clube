@@ -135,7 +135,7 @@ describe(getRequirement(17), () => {
   });
 });
 
-describe(getRequirement(19), () => {
+describe.only(getRequirement(19), () => {
   it('Será validado que a página apresentará todos os dados de partidas sem nenhum filtro', async () => {
     await page.waitForTimeout(puppeteerDefs.pause.brief);
 

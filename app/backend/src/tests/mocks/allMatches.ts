@@ -6,6 +6,14 @@ export default [
     awayTeam: 8,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 16,
+      clubName: "São Paulo"
+    },
+    awayClub: {
+      id: 8,
+      clubName: "Grêmio"
+    }
   },
   {
     id: 2,
@@ -14,6 +22,14 @@ export default [
     awayTeam: 14,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 9,
+      clubName: "Internacional"
+    },
+    awayClub: {
+      id: 14,
+      clubName: "Santos"
+    }
   },
   {
     id: 3,
@@ -22,6 +38,14 @@ export default [
     awayTeam: 11,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 4,
+      clubName: "Corinthians"
+    },
+    awayClub: {
+      id: 11,
+      clubName: "Napoli-SC"
+    }
   },
   {
     id: 4,
@@ -30,6 +54,14 @@ export default [
     awayTeam: 2,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 3,
+      clubName: "Botafogo"
+    },
+    awayClub: {
+      id: 2,
+      clubName: "Bahia"
+    }
   },
   {
     id: 5,
@@ -38,6 +70,14 @@ export default [
     awayTeam: 10,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 7,
+      clubName: "Flamengo"
+    },
+    awayClub: {
+      id: 10,
+      clubName: "Minas Brasília"
+    }
   },
   {
     id: 6,
@@ -46,6 +86,14 @@ export default [
     awayTeam: 13,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 5,
+      clubName: "Cruzeiro"
+    },
+    awayClub: {
+      id: 13,
+      clubName: "Real Brasília"
+    }
   },
   {
     id: 7,
@@ -54,6 +102,14 @@ export default [
     awayTeam: 6,
     awayTeamGoals: 2,
     inProgress: false,
+    homeClub: {
+      id: 12,
+      clubName: "Palmeiras"
+    },
+    awayClub: {
+      id: 6,
+      clubName: "Ferroviária"
+    }
   },
   {
     id: 8,
@@ -62,6 +118,14 @@ export default [
     awayTeam: 1,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 15,
+      clubName: "São José-SP"
+    },
+    awayClub: {
+      id: 1,
+      clubName: "Avaí/Kindermann"
+    }
   },
   {
     id: 9,
@@ -70,6 +134,14 @@ export default [
     awayTeam: 12,
     awayTeamGoals: 3,
     inProgress: false,
+    homeClub: {
+      id: 1,
+      clubName: "Avaí/Kindermann"
+    },
+    awayClub: {
+      id: 12,
+      clubName: "Palmeiras"
+    }
   },
   {
     id: 10,
@@ -78,6 +150,14 @@ export default [
     awayTeam: 9,
     awayTeamGoals: 2,
     inProgress: false,
+    homeClub: {
+      id: 2,
+      clubName: "Bahia"
+    },
+    awayClub: {
+      id: 9,
+      clubName: "Internacional"
+    }
   },
   {
     id: 11,
@@ -86,6 +166,14 @@ export default [
     awayTeam: 3,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 13,
+      clubName: "Real Brasília"
+    },
+    awayClub: {
+      id: 3,
+      clubName: "Botafogo"
+    }
   },
   {
     id: 12,
@@ -94,6 +182,14 @@ export default [
     awayTeam: 4,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 6,
+      clubName: "Ferroviária"
+    },
+    awayClub: {
+      id: 4,
+      clubName: "Corinthians"
+    }
   },
   {
     id: 13,
@@ -102,6 +198,14 @@ export default [
     awayTeam: 5,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 8,
+      clubName: "Grêmio"
+    },
+    awayClub: {
+      id: 5,
+      clubName: "Cruzeiro"
+    }
   },
   {
     id: 14,
@@ -110,6 +214,14 @@ export default [
     awayTeam: 16,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 14,
+      clubName: "Santos"
+    },
+    awayClub: {
+      id: 16,
+      clubName: "São Paulo"
+    }
   },
   {
     id: 15,
@@ -118,6 +230,14 @@ export default [
     awayTeam: 15,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 10,
+      clubName: "Minas Brasília"
+    },
+    awayClub: {
+      id: 15,
+      clubName: "São José-SP"
+    }
   },
   {
     id: 16,
@@ -126,6 +246,14 @@ export default [
     awayTeam: 7,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 11,
+      clubName: "Napoli-SC"
+    },
+    awayClub: {
+      id: 7,
+      clubName: "Flamengo"
+    }
   },
   {
     id: 17,
@@ -134,6 +262,14 @@ export default [
     awayTeam: 8,
     awayTeamGoals: 3,
     inProgress: false,
+    homeClub: {
+      id: 1,
+      clubName: "Avaí/Kindermann"
+    },
+    awayClub: {
+      id: 8,
+      clubName: "Grêmio"
+    }
   },
   {
     id: 18,
@@ -142,6 +278,14 @@ export default [
     awayTeam: 5,
     awayTeamGoals: 2,
     inProgress: false,
+    homeClub: {
+      id: 12,
+      clubName: "Palmeiras"
+    },
+    awayClub: {
+      id: 5,
+      clubName: "Cruzeiro"
+    }
   },
   {
     id: 19,
@@ -150,6 +294,14 @@ export default [
     awayTeam: 2,
     awayTeamGoals: 2,
     inProgress: false,
+    homeClub: {
+      id: 11,
+      clubName: "Napoli-SC"
+    },
+    awayClub: {
+      id: 2,
+      clubName: "Bahia"
+    }
   },
   {
     id: 20,
@@ -158,6 +310,14 @@ export default [
     awayTeam: 9,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 7,
+      clubName: "Flamengo"
+    },
+    awayClub: {
+      id: 9,
+      clubName: "Internacional"
+    }
   },
   {
     id: 21,
@@ -166,6 +326,14 @@ export default [
     awayTeam: 13,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 6,
+      clubName: "Ferroviária"
+    },
+    awayClub: {
+      id: 13,
+      clubName: "Real Brasília"
+    }
   },
   {
     id: 22,
@@ -174,6 +342,14 @@ export default [
     awayTeam: 3,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 4,
+      clubName: "Corinthians"
+    },
+    awayClub: {
+      id: 3,
+      clubName: "Botafogo"
+    }
   },
   {
     id: 23,
@@ -182,6 +358,14 @@ export default [
     awayTeam: 16,
     awayTeamGoals: 3,
     inProgress: false,
+    homeClub: {
+      id: 15,
+      clubName: "São José-SP"
+    },
+    awayClub: {
+      id: 16,
+      clubName: "São Paulo"
+    }
   },
   {
     id: 24,
@@ -190,6 +374,14 @@ export default [
     awayTeam: 14,
     awayTeamGoals: 2,
     inProgress: false,
+    homeClub: {
+      id: 10,
+      clubName: "Minas Brasília"
+    },
+    awayClub: {
+      id: 14,
+      clubName: "Santos"
+    }
   },
   {
     id: 25,
@@ -198,6 +390,14 @@ export default [
     awayTeam: 6,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 2,
+      clubName: "Bahia"
+    },
+    awayClub: {
+      id: 6,
+      clubName: "Ferroviária"
+    }
   },
   {
     id: 26,
@@ -206,6 +406,14 @@ export default [
     awayTeam: 1,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 13,
+      clubName: "Real Brasília"
+    },
+    awayClub: {
+      id: 1,
+      clubName: "Avaí/Kindermann"
+    }
   },
   {
     id: 27,
@@ -214,6 +422,14 @@ export default [
     awayTeam: 15,
     awayTeamGoals: 2,
     inProgress: false,
+    homeClub: {
+      id: 5,
+      clubName: "Cruzeiro"
+    },
+    awayClub: {
+      id: 15,
+      clubName: "São José-SP"
+    }
   },
   {
     id: 28,
@@ -222,6 +438,14 @@ export default [
     awayTeam: 7,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 16,
+      clubName: "São Paulo"
+    },
+    awayClub: {
+      id: 7,
+      clubName: "Flamengo"
+    }
   },
   {
     id: 29,
@@ -230,6 +454,14 @@ export default [
     awayTeam: 4,
     awayTeamGoals: 4,
     inProgress: false,
+    homeClub: {
+      id: 9,
+      clubName: "Internacional"
+    },
+    awayClub: {
+      id: 4,
+      clubName: "Corinthians"
+    }
   },
   {
     id: 30,
@@ -238,6 +470,14 @@ export default [
     awayTeam: 12,
     awayTeamGoals: 4,
     inProgress: false,
+    homeClub: {
+      id: 3,
+      clubName: "Botafogo"
+    },
+    awayClub: {
+      id: 12,
+      clubName: "Palmeiras"
+    }
   },
   {
     id: 31,
@@ -246,6 +486,14 @@ export default [
     awayTeam: 10,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 8,
+      clubName: "Grêmio"
+    },
+    awayClub: {
+      id: 10,
+      clubName: "Minas Brasília"
+    }
   },
   {
     id: 32,
@@ -254,6 +502,14 @@ export default [
     awayTeam: 11,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 14,
+      clubName: "Santos"
+    },
+    awayClub: {
+      id: 11,
+      clubName: "Napoli-SC"
+    }
   },
   {
     id: 33,
@@ -262,6 +518,14 @@ export default [
     awayTeam: 16,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 1,
+      clubName: "Avaí/Kindermann"
+    },
+    awayClub: {
+      id: 16,
+      clubName: "São Paulo"
+    }
   },
   {
     id: 34,
@@ -270,6 +534,14 @@ export default [
     awayTeam: 6,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 9,
+      clubName: "Internacional"
+    },
+    awayClub: {
+      id: 6,
+      clubName: "Ferroviária"
+    }
   },
   {
     id: 35,
@@ -278,6 +550,14 @@ export default [
     awayTeam: 5,
     awayTeamGoals: 3,
     inProgress: false,
+    homeClub: {
+      id: 10,
+      clubName: "Minas Brasília"
+    },
+    awayClub: {
+      id: 5,
+      clubName: "Cruzeiro"
+    }
   },
   {
     id: 36,
@@ -286,6 +566,14 @@ export default [
     awayTeam: 7,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 2,
+      clubName: "Bahia"
+    },
+    awayClub: {
+      id: 7,
+      clubName: "Flamengo"
+    }
   },
   {
     id: 37,
@@ -294,6 +582,14 @@ export default [
     awayTeam: 13,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 15,
+      clubName: "São José-SP"
+    },
+    awayClub: {
+      id: 13,
+      clubName: "Real Brasília"
+    }
   },
   {
     id: 38,
@@ -302,6 +598,14 @@ export default [
     awayTeam: 4,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 14,
+      clubName: "Santos"
+    },
+    awayClub: {
+      id: 4,
+      clubName: "Corinthians"
+    }
   },
   {
     id: 39,
@@ -310,6 +614,14 @@ export default [
     awayTeam: 11,
     awayTeamGoals: 0,
     inProgress: false,
+    homeClub: {
+      id: 3,
+      clubName: "Botafogo"
+    },
+    awayClub: {
+      id: 11,
+      clubName: "Napoli-SC"
+    }
   },
   {
     id: 40,
@@ -318,6 +630,14 @@ export default [
     awayTeam: 8,
     awayTeamGoals: 1,
     inProgress: false,
+    homeClub: {
+      id: 12,
+      clubName: "Palmeiras"
+    },
+    awayClub: {
+      id: 8,
+      clubName: "Grêmio"
+    }
   },
   {
     id: 41,
@@ -326,6 +646,14 @@ export default [
     awayTeam: 9,
     awayTeamGoals: 0,
     inProgress: true,
+    homeClub: {
+      id: 16,
+      clubName: "São Paulo"
+    },
+    awayClub: {
+      id: 9,
+      clubName: "Internacional"
+    }
   },
   {
     id: 42,
@@ -334,6 +662,14 @@ export default [
     awayTeam: 1,
     awayTeamGoals: 0,
     inProgress: true,
+    homeClub: {
+      id: 6,
+      clubName: "Ferroviária"
+    },
+    awayClub: {
+      id: 1,
+      clubName: "Avaí/Kindermann"
+    }
   },
   {
     id: 43,
@@ -342,6 +678,14 @@ export default [
     awayTeam: 10,
     awayTeamGoals: 0,
     inProgress: true,
+    homeClub: {
+      id: 11,
+      clubName: "Napoli-SC"
+    },
+    awayClub: {
+      id: 10,
+      clubName: "Minas Brasília"
+    }
   },
   {
     id: 44,
@@ -350,6 +694,14 @@ export default [
     awayTeam: 15,
     awayTeamGoals: 2,
     inProgress: true,
+    homeClub: {
+      id: 7,
+      clubName: "Flamengo"
+    },
+    awayClub: {
+      id: 15,
+      clubName: "São José-SP"
+    }
   },
   {
     id: 45,
@@ -358,6 +710,14 @@ export default [
     awayTeam: 3,
     awayTeamGoals: 1,
     inProgress: true,
+    homeClub: {
+      id: 5,
+      clubName: "Cruzeiro"
+    },
+    awayClub: {
+      id: 3,
+      clubName: "Botafogo"
+    }
   },
   {
     id: 46,
@@ -366,6 +726,14 @@ export default [
     awayTeam: 12,
     awayTeamGoals: 1,
     inProgress: true,
+    homeClub: {
+      id: 4,
+      clubName: "Corinthians"
+    },
+    awayClub: {
+      id: 12,
+      clubName: "Palmeiras"
+    }
   },
   {
     id: 47,
@@ -374,6 +742,14 @@ export default [
     awayTeam: 14,
     awayTeamGoals: 2,
     inProgress: true,
+    homeClub: {
+      id: 8,
+      clubName: "Grêmio"
+    },
+    awayClub: {
+      id: 14,
+      clubName: "Santos"
+    }
   },
   {
     id: 48,
@@ -382,5 +758,13 @@ export default [
     awayTeam: 2,
     awayTeamGoals: 1,
     inProgress: true,
+    homeClub: {
+      id: 13,
+      clubName: "Real Brasília"
+    },
+    awayClub: {
+      id: 2,
+      clubName: "Bahia"
+    }
   }
 ];
