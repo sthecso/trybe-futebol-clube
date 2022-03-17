@@ -1,11 +1,16 @@
 import { Router } from 'express';
 
-import { GetAllClubsController } from '../controllers/club';
+import {
+  GetAllClubsController,
+  GetClubByIdController,
+} from '../controllers/club';
 
 class Club {
   public router: Router;
 
   private getAllClubsController = new GetAllClubsController();
+
+  private getClubByIdController = new GetClubByIdController();
 
   constructor() {
     this.router = Router();
@@ -17,6 +22,11 @@ class Club {
     this.router.get(
       '/',
       this.getAllClubsController.handle,
+    );
+
+    this.router.get(
+      '/:id',
+      this.getClubByIdController.handle,
     );
   }
 }

@@ -37,6 +37,7 @@ describe('/clubs/:id', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(400);
     expect(response).to.have.own.property('message');
+    expect(response.message).to.be.eql('Id must be a number');
   });
 
   it('not found a club with a valid id', async () => {
@@ -49,6 +50,7 @@ describe('/clubs/:id', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(404);
     expect(response).to.have.own.property('message');
+    expect(response.message).to.be.eql('Has no club with this id');
   });
 
   it('found a club with a valid id', async () => {

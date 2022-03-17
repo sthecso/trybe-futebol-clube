@@ -1,2 +1,2 @@
 export { default as GetAllClubsController } from './GetAllClubsController';
-export const lint = () => {};
+export { default as GetClubByIdController } from './GetClubByIdController';

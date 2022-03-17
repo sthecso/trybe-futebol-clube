@@ -1,2 +1,2 @@
 export { default as GetAllClubsService } from './GetAllClubsService';
-export const lint = () => {};
+export { default as GetClubByIdService } from './GetClubByIdService';
