@@ -4,6 +4,7 @@ import { ValidateInProgress } from '../middlewares/match';
 
 import {
   GetAllMatchesController,
+  CreateMatchController,
 } from '../controllers/match';
 
 class Match {
@@ -12,6 +13,8 @@ class Match {
   private validateInProgress = new ValidateInProgress();
 
   private getAllMatchesController = new GetAllMatchesController();
+
+  private createMatchController = new CreateMatchController();
 
   constructor() {
     this.router = Router();
@@ -24,6 +27,11 @@ class Match {
       '/',
       this.validateInProgress.handle,
       this.getAllMatchesController.handle,
+    );
+
+    this.router.post(
+      '/',
+      this.createMatchController.handle,
     );
   }
 }

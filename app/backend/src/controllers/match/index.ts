@@ -1,2 +1,2 @@
 export { default as GetAllMatchesController } from './GetAllMatchesController';
-export const lint = () => {};
+export { default as CreateMatchController } from './CreateMatchController';

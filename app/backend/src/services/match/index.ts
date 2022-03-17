@@ -1,2 +1,2 @@
 export { default as GetAllMatchesService } from './GetAllMatchesService';
-export const lint = () => {};
+export { default as CreateMatchService } from './CreateMatchService';
