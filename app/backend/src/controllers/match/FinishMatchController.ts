@@ -32,7 +32,7 @@ class FinishMatchController {
 
     return res
       .status(this.httpStatusCode.Ok)
-      .send();
+      .json({ message: 'Match was finish' });
   }
 }
 
