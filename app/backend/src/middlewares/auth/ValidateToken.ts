@@ -23,11 +23,11 @@ class ValidateToken {
   decodeToken(token: string): string | IUserResponse {
     try {
       const secret = this.readFile('jwt.evaluation.key');
-  
+
       const { id, role, email, username } = jwt.verify(token, secret) as jwt.JwtPayload;
-  
+
       const userDataDecoded: IUserResponse = { id, role, email, username };
-  
+
       return userDataDecoded;
     } catch (error) {
       if (error instanceof Error) {

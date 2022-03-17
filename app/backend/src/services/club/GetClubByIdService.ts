@@ -9,19 +9,19 @@ class GetClubByIdService {
 
   private ErrorCatcher = ErrorCatcher;
 
-  validateId(id: string): string | void {
-    if (isNaN(Number(id))) {
-      return 'Id must be a number';
+  validateId(id: string): ErrorCatcher | void {
+    if (Number.isNaN(Number(id))) {
+      return new this.ErrorCatcher(
+        this.httpStatusCode.BadRequest,
+        'Id must be a number',
+      );
     }
   }
 
   async handle(id: string) {
     const isNotValidId = this.validateId(id);
     if (isNotValidId) {
-      return new this.ErrorCatcher(
-        this.httpStatusCode.BadRequest,
-        isNotValidId,
-      );
+      return isNotValidId;
     }
 
     const club = await this.getClubByIdModel.handle(Number(id));
