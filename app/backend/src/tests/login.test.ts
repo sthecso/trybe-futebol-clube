@@ -4,10 +4,13 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
+import generateToken from '../Utils/GenerateToken';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
+
+const validToken = generateToken({ email:'admin@admin.com' });
 
 describe('Rota /Login', () => {
   it('Deve retornar erro caso não seja fornecido email', () => {
@@ -16,7 +19,7 @@ describe('Rota /Login', () => {
       .post('/login')
       .send({ password: '123' })
       .then((res: Response) => {
-        expect(res.status).to.be.equal(400);
+        expect(res.status).to.be.equal(401);
       });
   });
   it('Deve retornar erro caso não seja fornecido senha', () => {
@@ -25,7 +28,7 @@ describe('Rota /Login', () => {
       .post('/login')
       .send({ email: 'test@test.com' })
       .then((res: Response) => {
-        expect(res.status).to.be.equal(400);
+        expect(res.status).to.be.equal(401);
       });
   });
   it('Deve rentornar erro caso o usuario nao exista', () => {
@@ -55,30 +58,34 @@ describe('Rota /Login', () => {
         expect(res.status).to.be.equal(200);
       });
   });
-
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
-
-  // let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
 });
+
+describe('Rota /login/validate', () => {
+  it('Deve retornar erro caso não encontre o token nos headers', () => {
+    return chai
+      .request(app)
+      .get('/login/validate')
+      .then((res: Response) => {
+        expect(res.status).to.be.equal(401);
+      });
+  })
+  it('Deve retornar erro caso o token não seja valido', () => {
+    return chai
+      .request(app)
+      .get('/login/validate')
+      .set('authorization', 'token')
+      .then((res: Response) => {
+        expect(res.status).to.be.equal(401);
+      });
+  })
+  it('Deve retornar a role caso o token seja valido', () => {
+    return chai
+      .request(app)
+      .get('/login/validate')
+      .set('authorization', validToken)
+      .then((res: Response) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.text).to.be.equal('admin');
+      });
+  })
+})
