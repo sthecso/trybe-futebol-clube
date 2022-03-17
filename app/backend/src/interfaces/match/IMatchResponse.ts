@@ -1,6 +1,6 @@
-import IMatchRequest from './IMatchRequest';
+import IMatchPostRequest from './IMatchPostRequest';
 
-interface IMatchResponse extends IMatchRequest {
+interface IMatchResponse extends IMatchPostRequest {
   id: number;
 }
 

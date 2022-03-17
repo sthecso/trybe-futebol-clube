@@ -2,7 +2,7 @@ import { CreateMatchModel } from '../../models/match';
 
 import { GetClubByIdModel } from '../../models/club';
 
-import { IMatchRequest } from '../../interfaces/match';
+import { IMatchPostRequest } from '../../interfaces/match';
 
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
@@ -15,7 +15,7 @@ class CreateMatchService {
 
   private httpStatusCode = HttpStatusCode;
 
-  async handle(matchData: IMatchRequest) {
+  async handle(matchData: IMatchPostRequest) {
     const homeClub = await this.getClubByIdModel.handle(matchData.homeTeam);
 
     const awayClub = await this.getClubByIdModel.handle(matchData.awayTeam);

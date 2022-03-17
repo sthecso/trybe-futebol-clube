@@ -1,12 +1,12 @@
 import Match from '../../database/models/Matchs';
 
-import { IMatchRequest, IMatchResponse } from '../../interfaces/match';
+import { IMatchPostRequest, IMatchResponse } from '../../interfaces/match';
 
 class CreateMatchModel {
   private matchEntity = Match;
 
   async handle(
-    matchData: IMatchRequest,
+    matchData: IMatchPostRequest,
   ): Promise<IMatchResponse> {
     const createdMatch = await this.matchEntity.create(matchData);
 

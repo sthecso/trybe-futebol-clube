@@ -4,7 +4,7 @@ import { CreateMatchService } from '../../services/match';
 
 import { IErrorMessage } from '../../interfaces';
 
-import { IMatchResponse, IMatchRequest } from '../../interfaces/match';
+import { IMatchResponse, IMatchPostRequest } from '../../interfaces/match';
 
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
@@ -22,7 +22,7 @@ class CreateMatchController {
     res: Response,
     _nextMiddleware: NextFunction,
   ): Promise<Response<IErrorMessage | IMatchResponse>> {
-    const matchData = req.body as IMatchRequest;
+    const matchData = req.body as IMatchPostRequest;
 
     const createdMatch = await this.createMatchService.handle(matchData);
 
