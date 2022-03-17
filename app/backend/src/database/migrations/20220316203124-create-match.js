@@ -12,6 +12,12 @@ module.exports = {
       home_team: {
         type: Sequelize.STRING,
         allowNull: false,
+        references: {
+          model: 'clubs',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       home_team_goals: {
         type: Sequelize.STRING,
@@ -20,6 +26,12 @@ module.exports = {
       away_team: {
         type: Sequelize.STRING,
         allowNull: false,
+        references: {
+          model: 'clubs',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       away_team_goals: {
         type: Sequelize.STRING,
