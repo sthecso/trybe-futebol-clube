@@ -19,7 +19,7 @@ class App {
   }
 
   private routes():void {
-    this.app.use('/', LoginController.router);
+    this.app.use('/users', LoginController.router);
   }
 
   private config():void {
@@ -37,6 +37,10 @@ class App {
   // ...
   public start(PORT: string | number):void {
     this.app.listen(PORT);
+    this.app.use((_req, res) => {
+      res.status(200).send('Hello World!');
+    });
+    console.log(`Server running on port: ${PORT}`);
   }
 }
 

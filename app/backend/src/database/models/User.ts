@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-export default class User extends Model {}
+export default class User extends Model { }
 
 User.init({
   // Model attributes are defined here
@@ -17,7 +17,8 @@ User.init({
   },
   role: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: 'user',
   },
   password: {
     type: DataTypes.STRING,
@@ -26,6 +27,7 @@ User.init({
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
 }, {
   // Other model options go here
