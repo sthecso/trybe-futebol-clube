@@ -14,23 +14,11 @@ class Users extends Model {
 }
 
 Users.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  username: {
-    type: DataTypes.STRING,
-  },
-  email: {
-    type: DataTypes.STRING,
-  },
-  role: {
-    type: DataTypes.STRING,
-  },
-  password: {
-    type: DataTypes.STRING,
-  },
+  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+  username: { type: DataTypes.STRING },
+  email: { type: DataTypes.STRING },
+  role: { type: DataTypes.STRING },
+  password: { type: DataTypes.STRING },
 }, {
   underscored: true,
   sequelize: db,
