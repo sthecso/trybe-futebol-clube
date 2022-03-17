@@ -9,9 +9,9 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('/login', () => {
-  let chaiHttpResponse;
+let chaiHttpResponse;
 
+describe('/login', () => {
   const mockUserPost = {
     id: 1,
     username: 'Admin',
@@ -102,5 +102,42 @@ describe('/login', () => {
     expect(chaiHttpResponse.status).to.be.eql(200);
     expect(user).to.be.eql(mockUserPost);
     expect(token).to.be.eql(mockToken);
+  });
+});
+
+describe('/login/validate', () => {
+  const mockUserPost = {
+    id: 1,
+    username: 'Admin',
+    role: 'admin',
+    email: 'admin@admin.com',
+  };
+
+  const mockTokenValid = createToken(mockUserPost);
+
+  it('has a valid token in the header request', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .post('/login/validate')
+      .set('content-type', 'application/json')
+      .set('authorization', mockTokenValid);
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(200);
+    expect(response).to.be.eql(mockUserPost.role);
+  });
+
+  it('has an invalid token in the header request', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .post('/login/validate')
+      .set('content-type', 'application/json')
+      .set('authorization', '123falseToken');
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(404);
+    expect(response).to.be.eql('');
   });
 });
