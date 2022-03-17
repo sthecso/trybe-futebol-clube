@@ -13,4 +13,15 @@ clubRoute.get(
   },
 );
 
+clubRoute.get(
+  '/:id',
+  async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    const result = await clubController.getById(Number(id));
+
+    return res.status(200).json(result);
+  },
+);
+
 export default clubRoute;

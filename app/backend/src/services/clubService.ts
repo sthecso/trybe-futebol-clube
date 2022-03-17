@@ -9,4 +9,10 @@ export default class ClubService {
 
     return result as unknown as IClubDTO[];
   }
+
+  public async getById(id: number): Promise<IClubDTO> {
+    const result = await this.clubModel.findByPk(id);
+
+    return result as unknown as IClubDTO;
+  }
 }
