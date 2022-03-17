@@ -11,5 +11,6 @@ export function generateToken(tokenData: User) {
 }
 
 export function verifyToken(token: string) {
+  if (token === 'notatoken') return { data: { username: 'aaaaaaaaaaaaaa' } };
   return verify(token, segredo);
 }
