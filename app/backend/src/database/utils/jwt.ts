@@ -1,6 +1,5 @@
-import * as jwt from 'jsonwebtoken';
 import { readFileSync } from 'fs';
-// import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 import ITokenPayload from './interfaces';
 
 const SECRET = readFileSync(
@@ -10,7 +9,7 @@ const SECRET = readFileSync(
   },
 );
 
-const sign = (payload: ITokenPayload) => jwt.sign(
+export const sign = (payload: ITokenPayload) => jwt.sign(
   payload,
   SECRET,
   {
@@ -19,4 +18,10 @@ const sign = (payload: ITokenPayload) => jwt.sign(
   },
 );
 
-export default sign;
+export const verify = (token: string) => jwt.verify(
+  token,
+  SECRET,
+  {
+    algorithms: ['HS256'],
+  },
+);
