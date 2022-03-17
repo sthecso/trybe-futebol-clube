@@ -246,7 +246,7 @@ describe('POST \'/matchs\'', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('There is no team with such id!');
+    expect(response.message).to.be.eql('It is not possible to create a match with two equal teams');
   });
 
   it('on success', async () => {
@@ -343,7 +343,7 @@ describe('PATCH \'/matchs/:id/finish\'', () => {
   });
 });
 
-describe('PUT \'/matchs/:id\'', () => {
+describe('PATCH \'/matchs/:id\'', () => {
   const mockSuccessBodyRequest = {
     homeTeam: 11,
     awayTeam: 7,
@@ -388,9 +388,9 @@ describe('PUT \'/matchs/:id\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('id must be a number');
+    expect(response.message).to.be.eql('\'id\' must be a number');
   });
 
   it('not found a team with this id', async () => {
@@ -405,7 +405,7 @@ describe('PUT \'/matchs/:id\'', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(404);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('team not found');
+    expect(response.message).to.be.eql('Has no match with this id');
   });
 
   it('with an invalid \'homeTeamGoals\'', async () => {

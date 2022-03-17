@@ -1,11 +1,13 @@
-import { EditMatchByIdModel } from '../../models/match';
+import { EditMatchByIdModel, GetMatchByIdModel } from '../../models/match';
 
-import { IMatchPatchRequest } from '../../interfaces/match';
+import { IMatchPatchRequest, IMatchResponse } from '../../interfaces/match';
 
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
 class EditMatchByIdService {
   private editMatchByIdModel = new EditMatchByIdModel();
+
+  private getMatchByIdModel = new GetMatchByIdModel();
 
   private ErrorCatcher = ErrorCatcher;
 
@@ -26,12 +28,12 @@ class EditMatchByIdService {
   }
 
   async handle(
-    matchData: IMatchPatchRequest,
-    id: number,
-  ): Promise<ErrorCatcher | void> {
+    matchData: object,
+    id: string,
+  ): Promise<ErrorCatcher | IMatchResponse> {
     let error = {};
 
-    Object.entries(matchData).forEach((entries) => {
+    Object.entries({ ...matchData, id }).forEach((entries) => {
       const verify = this.verifyIsNumber(entries[1], entries[0]);
       if (verify instanceof ErrorCatcher) {
         error = verify;
@@ -42,7 +44,13 @@ class EditMatchByIdService {
       return error;
     }
 
-    await this.editMatchByIdModel.handle(matchData, id);
+    const validMatchData = matchData as IMatchPatchRequest;
+
+    await this.editMatchByIdModel.handle(validMatchData, Number(id));
+
+    const match = await this.getMatchByIdModel.handle(Number(id));
+
+    return match;
   }
 }
 

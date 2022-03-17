@@ -12,6 +12,7 @@ import {
   GetAllMatchesController,
   CreateMatchController,
   FinishMatchController,
+  EditMatchByIdController,
 } from '../controllers/match';
 
 class Match {
@@ -31,10 +32,26 @@ class Match {
 
   private finishMatchController = new FinishMatchController();
 
+  private editMatchByIdController = new EditMatchByIdController();
+
   constructor() {
     this.router = Router();
 
     this.start();
+  }
+
+  private patchRoutes() {
+    this.router.patch(
+      '/:id',
+      this.validateTokenMiddleware.handle,
+      this.editMatchByIdController.handle,
+    );
+
+    this.router.patch(
+      '/:id/finish',
+      this.validateTokenMiddleware.handle,
+      this.finishMatchController.handle,
+    );
   }
 
   private start() {
@@ -52,11 +69,7 @@ class Match {
       this.createMatchController.handle,
     );
 
-    this.router.patch(
-      '/:id/finish',
-      this.validateTokenMiddleware.handle,
-      this.finishMatchController.handle,
-    );
+    this.patchRoutes();
   }
 }
 
