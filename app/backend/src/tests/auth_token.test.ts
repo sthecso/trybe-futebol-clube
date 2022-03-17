@@ -1,7 +1,7 @@
 import { assert, expect } from "chai";
 import Token from "../auth/Token";
 
-describe("Teste Unitário Token", () => {
+describe("Teste Unitário Token", async () => {
   const payload = {
     "sub": "1234567890",
     "name": "John Doe",
@@ -12,10 +12,9 @@ describe("Teste Unitário Token", () => {
     assert.isFunction(Token.generate)
   });
 
-  it("Testa se a função verify", () => {
-    const token = Token.generate(payload)
-    const result = Token.verify(token);
-    console.log(result);
+  it("Testa se a função verify", async () => {
+    const token = await Token.generate(payload)
+    const result = await Token.verify(token);
     
     expect(result).to.include(payload);
   });
