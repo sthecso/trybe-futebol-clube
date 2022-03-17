@@ -1,2 +1,2 @@
 bcryptjs
-
+--save-dev @types/bcryptjs
