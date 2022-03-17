@@ -4,7 +4,7 @@ import { IErrorMessage } from '../../interfaces';
 
 import { HttpStatusCode } from '../../utils';
 
-class ValidateInProgress {
+class ValidateInProgressQueryString {
   private httpStatusCode = HttpStatusCode;
 
   constructor() {
@@ -34,4 +34,4 @@ class ValidateInProgress {
   }
 }
 
-export default ValidateInProgress;
+export default ValidateInProgressQueryString;

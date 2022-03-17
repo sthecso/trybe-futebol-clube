@@ -2,6 +2,8 @@ import * as chai from 'chai';
 
 import chaiHttp = require('chai-http');
 
+import * as shell from 'shelljs';
+
 import { app } from '../app';
 
 import {
@@ -80,6 +82,10 @@ describe('POST \'/matchs\'', () => {
     id: 1,
     ...mockSuccessBodyRequest,
   };
+
+  after(() => {
+    shell.exec('npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all');
+  });
 
   it('with an invalid \'homeTeam\'', async () => {
     chaiHttpResponse = await chai
@@ -212,7 +218,7 @@ describe('POST \'/matchs\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(404);
+    expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
     expect(response.message).to.be.eql('It is not possible to create a match with two equal teams');
   });

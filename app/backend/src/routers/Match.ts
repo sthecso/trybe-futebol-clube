@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
-import { ValidateInProgress } from '../middlewares/match';
+import {
+  ValidateInProgressQueryString,
+  ValidateInProgressBodyRequest,
+} from '../middlewares/match';
 
 import {
   GetAllMatchesController,
@@ -10,7 +13,9 @@ import {
 class Match {
   public router: Router;
 
-  private validateInProgress = new ValidateInProgress();
+  private validateInProgressQueryString = new ValidateInProgressQueryString();
+
+  private validateInProgressBodyRequest = new ValidateInProgressBodyRequest();
 
   private getAllMatchesController = new GetAllMatchesController();
 
@@ -25,12 +30,13 @@ class Match {
   private start() {
     this.router.get(
       '/',
-      this.validateInProgress.handle,
+      this.validateInProgressQueryString.handle,
       this.getAllMatchesController.handle,
     );
 
     this.router.post(
       '/',
+      this.validateInProgressBodyRequest.handle,
       this.createMatchController.handle,
     );
   }
