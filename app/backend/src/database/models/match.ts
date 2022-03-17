@@ -46,7 +46,7 @@ Match.init({
   underscored: true,
   timestamps: false,
   sequelize: db,
-  modelName: 'Match',
+  modelName: 'matchs',
 });
 
 export default Match;

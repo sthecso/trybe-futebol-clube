@@ -23,7 +23,7 @@ Club.init({
   underscored: true,
   sequelize: db,
   timestamps: false,
-  modelName: 'Club',
+  modelName: 'clubs',
 });
 
 Match.belongsTo(Club, { foreignKey: 'home_team', as: 'clubHome' });
