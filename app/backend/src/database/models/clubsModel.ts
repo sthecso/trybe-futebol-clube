@@ -14,7 +14,7 @@ Clubs.init({
 }, {
   underscored: true,
   sequelize: db,
-  modelName: 'Clubs',
+  modelName: 'clubs',
   timestamps: false,
 });
 

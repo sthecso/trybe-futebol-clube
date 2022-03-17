@@ -17,7 +17,7 @@ Matchs.init({
 }, {
   underscored: true,
   sequelize: db,
-  modelName: 'Matchs',
+  modelName: 'matchs',
   timestamps: false,
 });
 
