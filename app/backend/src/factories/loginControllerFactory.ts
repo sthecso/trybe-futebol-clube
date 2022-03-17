@@ -1,13 +1,12 @@
+import LoginService from '../services';
 import UserValidation from '../validations';
 import LoginController from '../controllers';
 import loginSchema from '../utils/joiSchemas';
 
-// import { UserService } from '../services';
-
 const loginControllerFactory = (): LoginController => {
   const userValidation = new UserValidation(loginSchema);
-  // const userService = new UserService();
-  const loginController = new LoginController(userValidation);
+  const loginService = new LoginService();
+  const loginController = new LoginController(userValidation, loginService);
   return loginController;
 };
 
