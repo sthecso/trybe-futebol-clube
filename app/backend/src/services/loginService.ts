@@ -21,9 +21,9 @@ export default class ServiceLogin {
       expiresIn: '7d',
       algorithm: 'HS256',
     };
-    const { username, role } = user;
+    const {id, username, role } = user;
     const JWT_SECRET:Jwt.Secret = readFileSync('./jwt.evaluation.key', 'utf-8');
     const token = Jwt.sign(payload, JWT_SECRET, jwtConfig);
-    return { user: { username, role, email }, token };
+    return { user: { id, username, role, email }, token };
   }
 }
