@@ -5,7 +5,7 @@ class App {
   // ...
 
   constructor() {
-    // ...
+    this.app = express();
     this.config();
     // ...
   }
@@ -19,7 +19,7 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
+    this.app.use(express.json())
   }
 
   // ...
