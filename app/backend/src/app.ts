@@ -14,15 +14,15 @@ class App {
     // ...
   }
 
-  private middlewares():void {
+  private middlewares(): void {
     this.app.use(express.json());
   }
 
-  private routes():void {
-    this.app.use('/users', LoginController.router);
+  private routes(): void {
+    this.app.use('/login', LoginController.router);
   }
 
-  private config():void {
+  private config(): void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
@@ -35,7 +35,7 @@ class App {
   }
 
   // ...
-  public start(PORT: string | number):void {
+  public start(PORT: string | number): void {
     this.app.listen(PORT);
     this.app.use((_req, res) => {
       res.status(200).send('Hello World!');
