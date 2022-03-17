@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import Club from './Club';
 
-class Match extends Model {}
+export default class Match extends Model {}
 
 Match.init({
   // Model attributes are defined here

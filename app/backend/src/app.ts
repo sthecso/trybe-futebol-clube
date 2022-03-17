@@ -1,4 +1,5 @@
 import * as express from 'express';
+import LoginController from './login/login.controller';
 
 class App {
   public app: express.Express;
@@ -9,11 +10,16 @@ class App {
     this.app = express();
     this.middlewares();
     this.config();
+    this.routes();
     // ...
   }
 
   private middlewares():void {
     this.app.use(express.json());
+  }
+
+  private routes():void {
+    this.app.use('/', LoginController.router);
   }
 
   private config():void {

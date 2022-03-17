@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-class User extends Model {}
+export default class User extends Model {}
 
 User.init({
   // Model attributes are defined here
