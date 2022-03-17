@@ -1,25 +1,19 @@
 import * as jwt from "jsonwebtoken";
 
-interface IJwt {
-  sign(payload: object, secretOrPrivateKey: string): string;
-  verify(payload: string, secretOrPrivateKey: string): object;
-}
-
 class Token {
-  private jwt: IJwt;
+  private jwt;
 
   constructor(webtoken: any) {
     this.jwt = webtoken;
   }
 
-  generate(payload: object): string {
+  async generate(payload: object): Promise<string> {
     return this.jwt.sign(payload, "123654987");
   }
 
-  verify(token: string): object {
+  async verify(token: string): Promise<object> {
     return this.jwt.verify(token, "123654987");
   }
 }
-
 
 export default new Token(jwt);
