@@ -1,7 +1,9 @@
 import * as chai from 'chai';
+
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
+import { createToken } from '../utils';
 
 chai.use(chaiHttp);
 
@@ -14,30 +16,78 @@ describe('/login', () => {
     id: 1,
     username: 'Admin',
     role: 'admin',
-    email: '',
+    email: 'admin@admin.com',
   };
 
-  const mockToken = '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW';
+  const mockToken = createToken(mockUserPost);
 
-  const mockErrorMessage = 'Incorrect email or password';
+  const INCORRECT_EMAIL_OR_PASSWORD_MESSAGE = 'Incorrect email or password';
 
-  it('has the incorrect body response', async () => {
+  const HAS_NO_FIELD = 'All fields must be filled';
+
+  it('has an incorrect email in body request', async () => {
     chaiHttpResponse = await chai
       .request(app)
       .post('/login')
       .set('content-type', 'application/json')
       .send({
         email: 'banana@banana.com',
+        password: 'secret_admin',
+      });
+
+    const { message } = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(401);
+    expect(message).to.be.eql(INCORRECT_EMAIL_OR_PASSWORD_MESSAGE);
+  });
+
+  it('has an incorrect password in body request', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .post('/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: 'admin@admin.com',
         password: 'secret_banana',
       });
 
     const { message } = chaiHttpResponse.body;
 
     expect(chaiHttpResponse.status).to.be.eql(401);
-    expect(message).to.be.eql(mockErrorMessage);
+    expect(message).to.be.eql(INCORRECT_EMAIL_OR_PASSWORD_MESSAGE);
   });
 
-  it('has the correct body response', async () => {
+  it('has no email in body request', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .post('/login')
+      .set('content-type', 'application/json')
+      .send({
+        password: 'secret_admin',
+      });
+
+    const { message } = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(401);
+    expect(message).to.be.eql(HAS_NO_FIELD);
+  });
+
+  it('has no password in body request', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .post('/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: 'admin@admin.com'
+      });
+
+    const { message } = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(401);
+    expect(message).to.be.eql(HAS_NO_FIELD);
+  });
+
+  it('has a correct body request', async () => {
     chaiHttpResponse = await chai
       .request(app)
       .post('/login')
