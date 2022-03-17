@@ -1,7 +1,7 @@
 import ServiceLogin from '../services/loginService';
 
 export default class ControllerLogin {
-  public static getUser(email:string, password: string) {
-    ServiceLogin.login(email, password);
+  public static async getUser(email:string, password: string) {
+    return ServiceLogin.login(email, password);
   }
 }

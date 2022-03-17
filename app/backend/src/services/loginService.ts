@@ -1,12 +1,14 @@
+import * as bcrypt from 'bcryptjs';
 import * as Jwt from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 import User from '../database/models/User';
+import { IUser } from '../interface/User';
 
 export default class ServiceLogin {
   public static async login(email:string, password:string) {
-    const user = await User.findOne({ where: { email } });
-    const user2 = await User.findOne({ where: { password } });
-    if (!user || !user2) {
+    const user = await User.findOne({ where: { email } }) as unknown as IUser;
+    const bool = await bcrypt.compare(password, user.password);
+    if (!user || !bool) {
       const error = new Error();
       error.message = 'Incorrect email or password';
       throw error;
