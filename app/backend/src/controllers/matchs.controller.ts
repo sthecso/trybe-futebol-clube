@@ -7,6 +7,8 @@ export default class MatchsController {
   constructor() {
     this.matchsService = new MatchsService();
     this.findAll = this.findAll.bind(this);
+    this.findById = this.findById.bind(this);
+    this.saveMatchInProgress = this.saveMatchInProgress.bind(this);
   }
 
   async findAll(req: Request, res: Response) {
@@ -17,6 +19,25 @@ export default class MatchsController {
     if (inProgress === 'false') inProgBool = false;
 
     const { code, data } = await this.matchsService.findAll(inProgBool);
+    return res.status(code).json(data);
+  }
+
+  async findById(req: Request, res: Response) {
+    const { code, data } = await this.matchsService.findById(req.params.id);
+
+    return res.status(code).json(data);
+  }
+
+  async saveMatchInProgress(req: Request, res: Response) {
+    const { homeTeam, awayTeam } = req.body;
+    // Try to move this validation to Joi
+    if (homeTeam === awayTeam) {
+      return res.status(401) // 401 ???
+        .json({ message: 'It is not possible to create a match with two equal teams' });
+    }
+
+    const { code, data } = await this.matchsService.saveMatchInProgress(req.body);
+
     return res.status(code).json(data);
   }
 }
