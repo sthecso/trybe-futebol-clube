@@ -1,7 +1,7 @@
-import * as fs from "fs/promises";
+import * as fs from 'fs/promises';
 
 async function readFile(pathFile: string): Promise<string> {
-  const resultFileRead = await fs.readFile(pathFile, "utf8");
+  const resultFileRead = await fs.readFile(pathFile, 'utf8');
   return resultFileRead;
 }
 

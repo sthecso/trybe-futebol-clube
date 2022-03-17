@@ -1,6 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import db from ".";
-import Match from "./matchs";
+import { Model, DataTypes } from 'sequelize';
+import db from '.';
+import Match from './matchs';
 // import OtherModel from './OtherModel';
 
 class Club extends Model {}
@@ -13,8 +13,8 @@ Club.init(
     underscored: true,
     sequelize: db,
     timestamps: false,
-    modelName: "clubs",
-  }
+    modelName: 'clubs',
+  },
 );
 
 /**
@@ -25,8 +25,8 @@ Club.init(
 // OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
-Club.hasOne(Match, { foreignKey: "home_team" });
-Club.hasOne(Match, { foreignKey: "away_team" });
+Club.hasOne(Match, { foreignKey: 'home_team' });
+Club.hasOne(Match, { foreignKey: 'away_team' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
 export default Club;
