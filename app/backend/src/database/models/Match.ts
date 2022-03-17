@@ -2,6 +2,8 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
 class Match extends Model {
+  public id: number;
+
   public homeTeam: string;
 
   public homeTeamGoals: number;
@@ -15,6 +17,7 @@ class Match extends Model {
 Match.init({
   id: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     autoIncrement: true,
     primaryKey: true,
   },
@@ -26,8 +29,9 @@ Match.init({
 }, {
   sequelize: db,
   underscored: true,
-  modelName: 'Match',
   timestamps: false,
+  modelName: 'Match',
+  tableName: 'matchs',
 });
 
 export default Match;
