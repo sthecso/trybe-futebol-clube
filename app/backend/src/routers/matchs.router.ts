@@ -31,5 +31,10 @@ export default class Login {
       middlewares.validateBody(joiSchemas.newMatch),
       this.matchsController.saveMatchInProgress,
     );
+
+    this.router.patch(
+      '/:id/finish',
+      this.matchsController.finishMatch,
+    );
   }
 }

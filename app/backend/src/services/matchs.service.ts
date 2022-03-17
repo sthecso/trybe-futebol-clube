@@ -50,4 +50,11 @@ export default class MatchService {
 
     return { code: 201, data: newMatch };
   }
+
+  async finishMatch(id: string) {
+    const [success] = await this.matchModel.update({ inProgress: false }, { where: { id } });
+
+    return success ? { code: 200, data: { message: 'Finished match' } }
+      : { code: 422, data: { message: 'Match already over or does not exist' } };
+  }
 }

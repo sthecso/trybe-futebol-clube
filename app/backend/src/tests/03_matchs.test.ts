@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe.only('Matchs endpoints', () => {
+describe('Matchs endpoints', () => {
   let chaiHttpResponse: Response;
   let loginToken: string;
 
@@ -107,7 +107,7 @@ describe.only('Matchs endpoints', () => {
         newMatchId = body.id;
         delete body.id;
         expect(body).to.be.deep.equal(validNewMatch);
-    })
+    });
 
     it('API saves new match in the database', async () => {
       chaiHttpResponse = await chai
@@ -120,8 +120,8 @@ describe.only('Matchs endpoints', () => {
       expect(body.id).to.be.equal(newMatchId);
       delete body.id; delete body.homeClub; delete body.awayClub;
       expect(body).to.be.deep.equal(validNewMatch);
-    })
-  })
+    });
+  });
 
   describe('When failing to save a new match with a POST request to /matchs because', () => {
     it('token is invalid: API responds with status 401 and correct message', async () => {
@@ -354,5 +354,53 @@ describe.only('Matchs endpoints', () => {
       expect(chaiHttpResponse.status).to.be.equal(401);
       expect(message).to.be.equal('It is not possible to create a match with two equal teams');
     });
-  })
+  });
+
+  describe.only('When finishing a match with a PATCH request to /matchs/:id/finish', () => {
+    it('API responds with status 200 and finished game message', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/41/finish');
+
+        const { status, body } = chaiHttpResponse;
+
+        expect(status).to.be.equal(200);
+        expect(body.message).to.be.equal('Finished match');
+    });
+
+    it('API updates the match in the database', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/matchs/41');
+
+      const { status, body } = chaiHttpResponse;
+
+      expect(status).to.be.equal(200);
+      expect(body.inProgress).to.be.equal(false);
+    });
+  });
+
+  describe('When fail to finish a match with a PATCH request to /matchs/:id/finish because', () => {
+    it('match is already over: API responds with status 422 and correct message', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/1/finish');
+
+        const { status, body } = chaiHttpResponse;
+
+        expect(status).to.be.equal(422);
+        expect(body.message).to.be.equal('Match already over or does not exist');
+    });
+
+    it('match does not exist: API responds with status 422 and correct message', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/447/finish');
+
+        const { status, body } = chaiHttpResponse;
+
+        expect(status).to.be.equal(422);
+        expect(body.message).to.be.equal('Match already over or does not exist');
+    });
+  });
 });

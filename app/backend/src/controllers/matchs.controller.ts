@@ -9,6 +9,7 @@ export default class MatchsController {
     this.findAll = this.findAll.bind(this);
     this.findById = this.findById.bind(this);
     this.saveMatchInProgress = this.saveMatchInProgress.bind(this);
+    this.finishMatch = this.finishMatch.bind(this);
   }
 
   async findAll(req: Request, res: Response) {
@@ -37,6 +38,12 @@ export default class MatchsController {
     }
 
     const { code, data } = await this.matchsService.saveMatchInProgress(req.body);
+
+    return res.status(code).json(data);
+  }
+
+  async finishMatch(req: Request, res: Response) {
+    const { code, data } = await this.matchsService.finishMatch(req.params.id);
 
     return res.status(code).json(data);
   }
