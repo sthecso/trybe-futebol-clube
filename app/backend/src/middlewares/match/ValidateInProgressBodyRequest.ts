@@ -23,8 +23,8 @@ class ValidateInProgressBodyRequest {
     }
 
     return res
-      .status(this.httpStatusCode.BadRequest)
-      .json({ message: '\'inProgress\' must be \'true\' or \'false\'' });
+      .status(this.httpStatusCode.NotAuthorized)
+      .json({ message: 'There is no team with such id!' });
   }
 }
 

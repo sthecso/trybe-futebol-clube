@@ -19,7 +19,7 @@ class ValidateMatchData {
   ): ErrorCatcher | string | object | undefined | null | number | boolean {
     if (Number.isNaN(Number(data))) {
       return new this.ErrorCatcher(
-        this.httpStatusCode.BadRequest,
+        this.httpStatusCode.NotAuthorized,
         `'${field}' must be a number`,
       );
     }

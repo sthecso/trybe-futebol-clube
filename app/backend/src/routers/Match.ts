@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import { ValidateToken } from '../middlewares/auth';
+
 import {
   ValidateInProgressQueryString,
   ValidateInProgressBodyRequest,
@@ -12,6 +14,8 @@ import {
 
 class Match {
   public router: Router;
+
+  private validateTokenMiddleware = new ValidateToken();
 
   private validateInProgressQueryString = new ValidateInProgressQueryString();
 
@@ -36,6 +40,7 @@ class Match {
 
     this.router.post(
       '/',
+      this.validateTokenMiddleware.handle,
       this.validateInProgressBodyRequest.handle,
       this.createMatchController.handle,
     );
