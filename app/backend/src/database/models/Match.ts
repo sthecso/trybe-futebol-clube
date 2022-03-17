@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
+import Club from './Club';
 
 class Match extends Model {}
 
@@ -12,11 +13,11 @@ Match.init({
     autoIncrement: true,
   },
   home_team: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   away_team: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   home_team_goals: {
@@ -37,3 +38,9 @@ Match.init({
   sequelize: db, // We need to pass the connection instance
   modelName: 'Match', // We need to choose the model name
 });
+
+Match.hasMany(Club, { foreignKey: 'home_team', as: 'home' });
+Match.hasMany(Club, { foreignKey: 'away_team', as: 'away' });
+
+Club.belongsTo(Match, { foreignKey: 'home_team', as: 'home' });
+Club.belongsTo(Match, { foreignKey: 'away_team', as: 'away' });
