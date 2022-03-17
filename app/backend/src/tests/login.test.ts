@@ -91,7 +91,7 @@ describe('Endpoint /login', () => {
               .send(user)
               .then((res: Response) => {
                 expect(res.status).to.equal(422);
-                expect(res.body.message).to.equal('email must be a string');
+                expect(res.body.message).to.equal('"email" must be a string');
               });
             });
     })
