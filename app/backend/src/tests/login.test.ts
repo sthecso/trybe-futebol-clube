@@ -118,7 +118,7 @@ describe('/login/validate', () => {
   it('has a valid token in the header request', async () => {
     chaiHttpResponse = await chai
       .request(app)
-      .post('/login/validate')
+      .get('/login/validate')
       .set('content-type', 'application/json')
       .set('authorization', mockTokenValid);
 
@@ -131,7 +131,7 @@ describe('/login/validate', () => {
   it('has an invalid token in the header request', async () => {
     chaiHttpResponse = await chai
       .request(app)
-      .post('/login/validate')
+      .get('/login/validate')
       .set('content-type', 'application/json')
       .set('authorization', '123falseToken');
 
