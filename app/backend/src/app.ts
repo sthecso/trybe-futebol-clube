@@ -1,4 +1,6 @@
 import * as express from 'express';
+import getClubByIdController from './database/controllers/getClubByIdController';
+import getClubsController from './database/controllers/getClubsController';
 import loginController from './database/controllers/LoginController';
 import validateLoginController from './database/controllers/validateLoginController';
 
@@ -20,8 +22,12 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
+
     this.app.post('/login', loginController);
     this.app.get('/login/validate', validateLoginController);
+
+    this.app.get('/clubs', getClubsController);
+    this.app.get('/clubs/:id', getClubByIdController);
   }
 
   public start(PORT: string | number):void {
