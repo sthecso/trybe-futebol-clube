@@ -296,7 +296,7 @@ describe('PATCH \'/matchs/:id/finish\'', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(400);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('\'inProgress\' must have \'true\' or \'false\'');
+    expect(response.message).to.be.eql('id must be a number');
   });
 
   it('not found a team with this id', async () => {
@@ -308,12 +308,12 @@ describe('PATCH \'/matchs/:id/finish\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(chaiHttpResponse.status).to.be.eql(404);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('\'inProgress\' must have \'true\' or \'false\'');
+    expect(response.message).to.be.eql('Has no match with this id');
   });
 
-  it('on success without \'inProgress\' query string', async () => {
+  it('a match that is already over', async () => {
     chaiHttpResponse = await chai
       .request(app)
       .patch('/matchs/1/finish')
@@ -322,7 +322,21 @@ describe('PATCH \'/matchs/:id/finish\'', () => {
 
     const response = chaiHttpResponse.body;
 
+    expect(chaiHttpResponse.status).to.be.eql(409);
+    expect(response).to.have.own.property('message');
+    expect(response.message).to.be.eql('This match is already finished');
+  });
+
+  it('finish match with id \'47\'', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .patch('/matchs/47/finish')
+      .set('content-type', 'application/json')
+      .set('authorization', token);
+
+    const response = chaiHttpResponse.body;
+
     expect(chaiHttpResponse.status).to.be.eql(200);
-    expect(response).to.be.eql(allMatchesMock);
+    expect(response).to.be.eql('Finalizado');
   });
 });

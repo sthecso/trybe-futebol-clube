@@ -11,6 +11,7 @@ import {
 import {
   GetAllMatchesController,
   CreateMatchController,
+  FinishMatchController,
 } from '../controllers/match';
 
 class Match {
@@ -27,6 +28,8 @@ class Match {
   private getAllMatchesController = new GetAllMatchesController();
 
   private createMatchController = new CreateMatchController();
+
+  private finishMatchController = new FinishMatchController();
 
   constructor() {
     this.router = Router();
@@ -47,6 +50,12 @@ class Match {
       this.validateInProgressBodyRequest.handle,
       this.validateMatchData.handle,
       this.createMatchController.handle,
+    );
+
+    this.router.patch(
+      '/:id/finish',
+      this.validateTokenMiddleware.handle,
+      this.finishMatchController.handle,
     );
   }
 }
