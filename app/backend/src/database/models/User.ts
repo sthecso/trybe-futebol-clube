@@ -1,6 +1,5 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
-
-const sequelize = new Sequelize('sqlite::memory:');
+import { DataTypes, Model } from 'sequelize';
+import db from '.';
 
 class User extends Model {
   declare id: number;
@@ -38,4 +37,6 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
-}, { sequelize, timestamps: false, modelName: 'user' });
+}, { sequelize: db, timestamps: false, modelName: 'user' });
+
+export default User;

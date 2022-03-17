@@ -19,10 +19,10 @@ module.exports = {
       },
       email: {
         allowNull: false,
-
         type: Sequelize.STRING
       },
-      image: {
+      password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
     });

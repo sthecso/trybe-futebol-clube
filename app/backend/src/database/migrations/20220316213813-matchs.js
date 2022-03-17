@@ -11,32 +11,35 @@ module.exports = {
       },
       home_team: {
         allowNull: false,
-        type: Sequelize.NUMBER,
-        field: 'homeTeam',
-      },
-      home_team_goals: {
-        allowNull: false,
-        type: Sequelize.NUMBER,
-        field: 'HomeTeamGoals',
-      },
-      away_team: {
-        allowNull: false,
-        type: Sequelize.NUMBER,
-        field: 'awayTeam',
-      },
-      inProgress: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
-      },
-      clubId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'matchs',
+          model: 'clubs',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      home_team_goals: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+      away_team: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'clubs',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      away_team_goals: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+      in_progress: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
       },
     });
   },

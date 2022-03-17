@@ -1,16 +1,8 @@
-import { Sequelize, DataTypes, Model, ModelStatic } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
+import Matchs from './Match';
+import db from '.';
 
-const sequelize = new Sequelize('sqlite::memory:');
-
-class Clubs extends Model {
-  declare id: number;
-
-  declare clubName: string;
-
-  declare clubId: string;
-
-  static associate: (models: { Matchs: ModelStatic<Model<never, never>>; }) => void;
-}
+class Clubs extends Model {}
 
 Clubs.init({
   id: {
@@ -22,14 +14,26 @@ Clubs.init({
   club_name: {
     type: DataTypes.STRING,
     allowNull: false,
-    field: 'clubName',
   },
-  clubId: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}, { sequelize, timestamps: false, modelName: 'clubs', underscored: true });
+}, { sequelize: db, timestamps: false, modelName: 'clubs', underscored: true });
 
-Clubs.associate = (models) => {
-  Clubs.hasMany(models.Matchs, { foreignKey: 'clubId', as: 'club' });
-};
+Clubs.hasOne(Matchs, {
+  as: 'club a',
+  foreignKey: 'home_team',
+});
+
+Clubs.hasOne(Matchs, {
+  as: 'club a',
+  foreignKey: 'away_team',
+});
+
+// Clubs.hasMany(Matchs, {
+//   as: 'club b',
+//   foreignKey: 'away_team',
+// });
+Matchs.belongsTo(Clubs, { as: 'match a', foreignKey: 'home_team' });
+
+// Matchs.belongsTo(Clubs, { as: 'match a', foreignKey: 'home_team' });
+Matchs.belongsTo(Clubs, { as: 'match b', foreignKey: 'away_team' });
+
+export default Clubs;
