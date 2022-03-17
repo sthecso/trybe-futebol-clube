@@ -3,18 +3,29 @@ import db from '.';
 // import OtherModel from './OtherModel';
 
 class Club extends Model {
-  // public <campo>!: <tipo>;
+  public id: number;
+
+  public clubName: string;
 }
 
 Club.init({
-  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  club_name: { type: DataTypes.STRING, allowNull: false },
-  // ... Campos
+  // ... Campo
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  clubName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   // ... Outras configs
   underscored: true,
   sequelize: db,
   modelName: 'Club',
+  tableName: 'clubs',
   timestamps: false,
 });
 
@@ -23,10 +34,10 @@ Club.init({
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
-// OtherModel.belongsTo(Club, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
-// OtherModel.belongsTo(Club, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
+// OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
+// OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
-// Club.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
-// Club.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
+// Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
+// Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
 export default Club;
