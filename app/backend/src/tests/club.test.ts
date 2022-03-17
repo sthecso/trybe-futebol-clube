@@ -12,7 +12,7 @@ const { expect } = chai;
 
 let chaiHttpResponse;
 
-describe('/clubs', () => {
+describe('GET \'/clubs\'', () => {
   it('on success', async () => {
     chaiHttpResponse = await chai
       .request(app)
@@ -26,7 +26,7 @@ describe('/clubs', () => {
   });
 });
 
-describe('/clubs/:id', () => {
+describe('GET \'/clubs/:id\'', () => {
   it('has a invalid id', async () => {
     chaiHttpResponse = await chai
       .request(app)

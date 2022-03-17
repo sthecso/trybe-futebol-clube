@@ -11,7 +11,7 @@ const { expect } = chai;
 
 let chaiHttpResponse;
 
-describe('/login', () => {
+describe('POST \'/login\'', () => {
   const mockUserPost = {
     id: 1,
     username: 'Admin',
@@ -103,7 +103,7 @@ describe('/login', () => {
   });
 });
 
-describe('/login/validate', () => {
+describe('GET \'/login/validate\'', () => {
   const mockUserPost = {
     id: 1,
     username: 'Admin',
