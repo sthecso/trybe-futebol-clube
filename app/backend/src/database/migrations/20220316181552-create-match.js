@@ -9,13 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       home_team: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       home_team_goals: {
         type: Sequelize.INTEGER
       },
       away_team: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       away_team_goals: {
         type: Sequelize.INTEGER

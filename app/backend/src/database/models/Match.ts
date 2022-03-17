@@ -21,9 +21,9 @@ Match.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  home_team: DataTypes.STRING,
+  home_team: DataTypes.INTEGER,
   home_team_goals: DataTypes.INTEGER,
-  away_team: DataTypes.STRING,
+  away_team: DataTypes.INTEGER,
   away_team_goals: DataTypes.INTEGER,
   in_progress: DataTypes.BOOLEAN,
 }, {
