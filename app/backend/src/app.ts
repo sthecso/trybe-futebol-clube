@@ -6,8 +6,14 @@ class App {
 
   constructor() {
     // ...
+    this.app = express();
+    this.middlewares();
     this.config();
     // ...
+  }
+
+  private middlewares():void {
+    this.app.use(express.json());
   }
 
   private config():void {
@@ -24,7 +30,7 @@ class App {
 
   // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT);
   }
 }
 

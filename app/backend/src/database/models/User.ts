@@ -6,17 +6,30 @@ class User extends Model {}
 User.init({
   // Model attributes are defined here
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  club_name: {
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
   },
 }, {
   // Other model options go here
+  timestamps: false,
   sequelize: db, // We need to pass the connection instance
   modelName: 'User', // We need to choose the model name
 });

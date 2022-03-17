@@ -6,7 +6,7 @@ class Match extends Model {}
 Match.init({
   // Model attributes are defined here
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
@@ -20,11 +20,11 @@ Match.init({
     allowNull: false,
   },
   home_team_goals: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   away_team_goals: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   in_progress: {
@@ -33,6 +33,7 @@ Match.init({
   },
 }, {
   // Other model options go here
+  timestamps: false,
   sequelize: db, // We need to pass the connection instance
   modelName: 'Match', // We need to choose the model name
 });

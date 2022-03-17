@@ -1,12 +1,12 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-class Clubs extends Model {}
+class Club extends Model {}
 
-Clubs.init({
+Club.init({
   // Model attributes are defined here
   id: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
@@ -17,6 +17,7 @@ Clubs.init({
   },
 }, {
   // Other model options go here
+  timestamps: false,
   sequelize: db, // We need to pass the connection instance
-  modelName: 'Clubs', // We need to choose the model name
+  modelName: 'Club', // We need to choose the model name
 });
