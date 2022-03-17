@@ -1,12 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
+import { IClubDTO } from '../../interfaces/IClubDTO';
 import db from '.';
 
-interface ClubAttributes {
-  id?: number;
-  clubName: string;
-}
-
-export default class Club extends Model<ClubAttributes> {}
+export default class Club extends Model<IClubDTO> {}
 
 Club.init(
   {

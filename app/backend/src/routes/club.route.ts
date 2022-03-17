@@ -7,8 +7,10 @@ const clubController = clubControllerFactory();
 clubRoute.get(
   '/',
   async (req: Request, res: Response): Promise<Response> => {
-    return res.status(200).json({});
-  }
-)
+    const result = await clubController.get();
+
+    return res.status(200).json(result);
+  },
+);
 
 export default clubRoute;

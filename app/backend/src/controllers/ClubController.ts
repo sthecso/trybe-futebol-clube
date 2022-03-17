@@ -1,3 +1,4 @@
+import { IClubDTO } from '../interfaces/IClubDTO';
 import { ClubService } from '../services';
 
 export default class ClubController {
@@ -7,7 +8,9 @@ export default class ClubController {
     readonly clubService: ClubService,
   ) {}
 
-  public async get(): Promise<void> {
-    console.log(this.papiro);
+  public async get(): Promise<IClubDTO[]> {
+    const result = await this.clubService.getAll();
+
+    return result;
   }
 }

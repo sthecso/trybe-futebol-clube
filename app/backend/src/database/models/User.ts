@@ -1,15 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
+import { IUserDTO } from '../../interfaces/IUserDTO';
 import db from '.';
 
-interface UserAttributes {
-  id?: number;
-  username: string;
-  role: string;
-  email: string;
-  password: string;
-}
-
-export default class User extends Model<UserAttributes> {}
+export default class User extends Model<IUserDTO> {}
 
 User.init(
   {
