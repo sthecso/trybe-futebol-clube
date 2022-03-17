@@ -7,14 +7,14 @@ import User from '../../database/models/User';
 import { IUserRequest } from '../../interfaces/login';
 
 class LoginModel {
-  private userModel = User;
+  private userEntity = User;
 
   private ErrorCatcher = ErrorCatcher;
 
   private httpStatusCode = HttpStatusCode;
 
   async handle({ email, password }: IUserRequest) {
-    const user = await this.userModel.findOne({ where: { email } });
+    const user = await this.userEntity.findOne({ where: { email } });
 
     if (!user) {
       const message = 'Incorrect email or password';

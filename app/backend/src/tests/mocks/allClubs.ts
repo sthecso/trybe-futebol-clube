@@ -1,50 +1,66 @@
 export default [
   {
-    club_name: 'Avaí/Kindermann',
+    id: 1,
+    clubName: 'Avaí/Kindermann',
   },
   {
-    club_name: 'Bahia',
+    id: 2,
+    clubName: 'Bahia',
   },
   {
-    club_name: 'Botafogo',
+    id: 3,
+    clubName: 'Botafogo',
   },
   {
-    club_name: 'Corinthians',
+    id: 4,
+    clubName: 'Corinthians',
   },
   {
-    club_name: 'Cruzeiro',
+    id: 5,
+    clubName: 'Cruzeiro',
   },
   {
-    club_name: 'Ferroviária',
+    id: 6,
+    clubName: 'Ferroviária',
   },
   {
-    club_name: 'Flamengo',
+    id: 7,
+    clubName: 'Flamengo',
   },
   {
-    club_name: 'Grêmio',
+    id: 8,
+    clubName: 'Grêmio',
   },
   {
-    club_name: 'Internacional',
+    id: 9,
+    clubName: 'Internacional',
   },
   {
-    club_name: 'Minas Brasília',
+    id: 10,
+    clubName: 'Minas Brasília',
   },
   {
-    club_name: 'Napoli-SC',
+    id: 11,
+    clubName: 'Napoli-SC',
   },
   {
-    club_name: 'Palmeiras',
+    id: 12,
+    clubName: 'Palmeiras',
   },
   {
-    club_name: 'Real Brasília',
+    id: 13,
+    clubName: 'Real Brasília',
   },
   {
-    club_name: 'Santos',
+    id: 14,
+    clubName: 'Santos',
   },
   {
-    club_name: 'São José-SP',
+    id: 15,
+    clubName: 'São José-SP',
   },
   {
-    club_name: 'São Paulo',
+    id: 16,
+    clubName: 'São Paulo',
   },
 ];

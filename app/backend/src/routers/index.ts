@@ -1,2 +1,2 @@
 export { default as Login } from './Login';
-export const lint = () => {};
+export { default as Club } from './Club';

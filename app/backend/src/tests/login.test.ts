@@ -19,8 +19,6 @@ describe('/login', () => {
     email: 'admin@admin.com',
   };
 
-  const mockToken = createToken(mockUserPost);
-
   const INCORRECT_EMAIL_OR_PASSWORD_MESSAGE = 'Incorrect email or password';
 
   const HAS_NO_FIELD = 'All fields must be filled';
@@ -101,7 +99,7 @@ describe('/login', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(200);
     expect(user).to.be.eql(mockUserPost);
-    expect(token).to.be.eql(mockToken);
+    expect(token).to.be.a('string');
   });
 });
 
@@ -137,7 +135,7 @@ describe('/login/validate', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(404);
-    expect(response).to.be.eql('');
+    expect(chaiHttpResponse.status).to.be.eql(401);
+    expect(response).to.have.own.property('message');
   });
 });

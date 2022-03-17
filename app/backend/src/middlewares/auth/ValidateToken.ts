@@ -21,13 +21,20 @@ class ValidateToken {
   }
 
   decodeToken(token: string): string | IUserResponse {
-    const secret = this.readFile('jwt.evaluation.key');
-
-    const { id, role, email, username } = jwt.verify(token, secret) as jwt.JwtPayload;
-
-    const userDataDecoded: IUserResponse = { id, role, email, username };
-
-    return userDataDecoded;
+    try {
+      const secret = this.readFile('jwt.evaluation.key');
+  
+      const { id, role, email, username } = jwt.verify(token, secret) as jwt.JwtPayload;
+  
+      const userDataDecoded: IUserResponse = { id, role, email, username };
+  
+      return userDataDecoded;
+    } catch (error) {
+      if (error instanceof Error) {
+        return error.message;
+      }
+      return 'Something went wrong';
+    }
   }
 
   handle(
@@ -37,7 +44,7 @@ class ValidateToken {
   ): Response<IErrorMessage> | void {
     const { authorization: token } = req.headers;
 
-    if (!token) {
+    if (!token || !token.length) {
       return res.status(this.httpStatusCode.NotAuthorized)
         .json({ message: 'Has no token in headers' });
     }
@@ -46,7 +53,7 @@ class ValidateToken {
 
     if (typeof jwtDecoded === 'string') {
       return res.status(this.httpStatusCode.NotAuthorized)
-      .json({ message: 'This token is invalid' });
+        .json({ message: jwtDecoded });
     }
 
     req.userDataDecoded = jwtDecoded;
