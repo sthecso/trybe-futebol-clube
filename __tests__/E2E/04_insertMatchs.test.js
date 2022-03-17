@@ -71,7 +71,7 @@ describe(getRequirement(24), () => {
       homeGoals: twoGoals,
       awayGoals: oneGoal
     }
-
+    // TEM QUE LIBERAR O MÉTODO PATCH NO CORS DO BACKEND
     await insertFinished(page, dadosInsert)
 
     const rows = await database.query(select.all.matchs, { type: 'SELECT' });
@@ -115,8 +115,9 @@ describe(getRequirement(26), () => {
     const dadosInsert = {
       homeTeam: 12345,
       awayTeam: 3,
-      homeGoals: twoGoals,
-      awayGoals: oneGoal
+      homeGoals: twoGoals, // era pra ser homeTeamGoals
+      awayGoals: oneGoal, // era pra ser awayTeam Goals
+      // inProgress: true // Falta o inProgress: true
     }
 
     const { data: { token } } = await axios.post(`${URL(containerPorts.backend).BASE_URL}/login`, {
