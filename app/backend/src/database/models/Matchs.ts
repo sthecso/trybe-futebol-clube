@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
-// import Clubs from './Clubs';
 
 class Matchs extends Model {
   public id: number;
