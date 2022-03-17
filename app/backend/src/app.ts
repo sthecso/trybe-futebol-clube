@@ -1,6 +1,6 @@
 import * as express from 'express';
 import 'express-async-errors';
-import joiError from './middlewares';
+import { joiError, domainError } from './middlewares';
 import loginRoute from './routes';
 
 class App {
@@ -23,6 +23,7 @@ class App {
     this.app.use(express.json());
     this.app.use('/login', loginRoute);
 
+    this.app.use(domainError);
     this.app.use(joiError);
   }
 
