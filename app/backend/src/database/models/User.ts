@@ -31,5 +31,5 @@ User.init({
   // Other model options go here
   timestamps: false,
   sequelize: db, // We need to pass the connection instance
-  modelName: 'User', // We need to choose the model name
+  modelName: 'users', // We need to choose the model name
 });

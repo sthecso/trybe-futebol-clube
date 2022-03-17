@@ -36,7 +36,7 @@ Match.init({
   // Other model options go here
   timestamps: false,
   sequelize: db, // We need to pass the connection instance
-  modelName: 'Match', // We need to choose the model name
+  modelName: 'matchs', // We need to choose the model name
 });
 
 Match.hasMany(Club, { foreignKey: 'home_team', as: 'home' });

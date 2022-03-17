@@ -19,5 +19,5 @@ Club.init({
   // Other model options go here
   timestamps: false,
   sequelize: db, // We need to pass the connection instance
-  modelName: 'Club', // We need to choose the model name
+  modelName: 'clubs', // We need to choose the model name
 });
