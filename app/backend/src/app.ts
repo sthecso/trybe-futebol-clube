@@ -1,13 +1,18 @@
 import * as express from 'express';
 
+import * as bodyParser from 'body-parser';
+
 class App {
   public app: express.Express;
-  // ...
+
+  private parseJson = bodyParser;
 
   constructor() {
-    // ...
+    this.app = express();
+
     this.config();
-    // ...
+
+    this.app.use(this.parseJson.json());
   }
 
   private config():void {
@@ -19,16 +24,16 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
   }
 
-  // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT, () => {
+      console.log(`Running at port ${PORT} ✨`);
+    });
   }
 }
 
-export { App };
-
 // A execução dos testes de cobertura depende dessa exportação
 export const { app } = new App();
+
+export { App };
