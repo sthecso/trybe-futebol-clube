@@ -1,0 +1,5 @@
+joi
+bcryptjs
+express-async-errors
+bcryptjs
+@types/bcryptjs

@@ -16,7 +16,7 @@ export default (err: Error, req: Request, res: Response, next: NextFunction) => 
       res.status(401).json({ message: 'Incorrect email or password' });
       break;
     default:
-      res.status(422).json({ error: err.message });
+      res.status(422).json({ message: err.message });
   }
 
   next();
