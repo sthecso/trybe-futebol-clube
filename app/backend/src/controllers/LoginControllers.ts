@@ -1,44 +1,26 @@
 import { Request, Response } from 'express';
 import User from '../database/models/User';
-import { generateToken } from '../jwt'
-import { compare } from 'bcryptjs';
+import { generateToken } from '../jwt';
+import { emailInvalide, passwordCompare, passwordInvalide } from '../utils/UserUtils';
 
 export default class LoginController {
-
-  async login(req: Request, res: Response) {
+  static async login(req: Request, res: Response) {
     const { email, password } = req.body;
 
-    const emailInvalide = (email === null || email === undefined) 
-      ? '"email" is required'
-      : (!email || email.length === 0) 
-      ? '"email" is not allowed to be empty'
-      : null;
-  
-    if (emailInvalide) return res.status(400).json({ message: emailInvalide });
+    const resultEmail = emailInvalide(email);
+    if (resultEmail) return res.status(401).json({ message: resultEmail });
 
-    const passwordInvalide = (password === null || password === undefined)
-    ? '"password" is required'
-    : (!password || password.length === 0) 
-    ? '"password" is not allowed to be empty'
-    : null;
-    
-    if (passwordInvalide) return res.status(400).json({ message: passwordInvalide });
+    const resultPassword = passwordInvalide(password);
+    if (resultPassword) return res.status(401).json({ message: resultPassword });
 
-    try {
-      const user = await User.findOne({ where: { email } });
-      if (user) {
-        const passwordEqual = await compare(password, user.password);
-        if(!passwordEqual) {
-          return res.status(400).json({ message: 'Invalid password' });
-        }
-        const payload = `${user.id}`;
-        const token = generateToken(payload);
-        return res.status(200).json({ token });
-      }
-      return res.status(400).json({ message: 'Invalid fields' });
-    } catch (error) {
-      return res.status(500).json({ message: error });
+    const user = await User.findOne({ where: { email } });
+    if (user) {
+      const passwordEqual = await passwordCompare(password, user.password);
+      if (passwordEqual) return res.status(401).json({ message: passwordEqual });
+      const token = generateToken(`${user.id}`);
+      const u = { id: user.id, username: user.username, role: user.role, email: user.email };
+      return res.status(200).json({ user: u, token });
     }
+    return res.status(400).json({ message: 'Invalid fields' });
   }
 }
-

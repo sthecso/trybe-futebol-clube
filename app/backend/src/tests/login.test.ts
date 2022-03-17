@@ -1,66 +1,80 @@
-import * as sinon from 'sinon';
+/* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable func-names */
+/* eslint-disable mocha/no-mocha-arrows */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable max-lines-per-function */
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
-// import { Response } from 'superagent';
 import { app } from '../app';
-// import Example from '../database/models/ExampleModel';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
 describe('/POST Login', () => {
-  it('o status é 200', async function () {
+  const userEmail = 'user@user.com';
+  const userPassword = 'secret_user';
 
-    let login = {
-      email: "user@user.com",
-      password: "secret_user"
-    }
+  it('o status é 200', async function () {
+    const login = {
+      email: userEmail,
+      password: userPassword,
+    };
     const result = await chai.request(app)
       .post('/login')
       .set('content-type', 'application/json')
-      .send(login)
+      .send(login);
     expect(result.status).to.be.equals(200);
   });
 
   it('a resposta deve conter um jwt token ', async () => {
-    let login = {
-      email: "user@user.com",
-      password: "secret_user"
-    }
+    const login = {
+      email: userEmail,
+      password: userPassword,
+    };
     const result = await chai.request(app)
       .post('/login')
       .set('content-type', 'application/json')
-      .send(login)
+      .send(login);
     expect(result.status).to.be.equals(200);
     expect(result.body).to.haveOwnProperty('token');
-    expect(result.body.token).not.null;
   });
 
-  it('deve retornar 400 quando faltar email', async function () {
-    let login = {
-      password: "secret_user"
-    }
+  it('deve retornar 401 quando faltar email', async function () {
+    const login = {
+      password: userPassword,
+    };
     const result = await chai.request(app)
       .post('/login')
       .set('content-type', 'application/json')
-      .send(login)
-    expect(result.status).to.be.equals(400);
+      .send(login);
+    expect(result.status).to.be.equals(401);
     expect(result.body).to.haveOwnProperty('message');
-    expect(result.body.message).not.null;
   });
 
-  it('deve retornar 400 quando faltar password', async function () {
-    let login = {
-      email: "user@user.com"
-    }
+  it('deve retornar 401 quando faltar password', async function () {
+    const login = {
+      email: userEmail,
+    };
     const result = await chai.request(app)
       .post('/login')
       .set('content-type', 'application/json')
-      .send(login)
-    expect(result.status).to.be.equals(400);
+      .send(login);
+    expect(result.status).to.be.equals(401);
     expect(result.body).to.haveOwnProperty('message');
-    expect(result.body.message).not.null;
+  });
+
+  it('o retorno deve ser o seguinte', async function () {
+    const login = {
+      email: userEmail,
+      password: userPassword,
+    };
+    const result = await chai.request(app)
+      .post('/login')
+      .set('content-type', 'application/json')
+      .send(login);
+    expect(result.body).to.haveOwnProperty('user');
+    expect(result.body).to.haveOwnProperty('token');
   });
 });

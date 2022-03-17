@@ -1,11 +1,12 @@
 import * as express from 'express';
 import LoginController from './controllers/LoginControllers';
+import MatchsController from './controllers/MatchsControllers';
 
 class App {
   public app: express.Express;
 
   constructor() {
-    this.app = express()
+    this.app = express();
     this.config();
   }
 
@@ -18,10 +19,10 @@ class App {
     };
 
     this.app.use(accessControl);
-    this.app.use(express.json())
+    this.app.use(express.json());
 
-    const loginController = new LoginController();
-    this.app.post('/login', loginController.login);
+    this.app.post('/login', LoginController.login);
+    this.app.get('/matchs', MatchsController.all);
   }
 
   public start(PORT: string | number):void {
