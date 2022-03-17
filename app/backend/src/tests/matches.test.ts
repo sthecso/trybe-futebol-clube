@@ -262,3 +262,67 @@ describe('POST \'/matchs\'', () => {
     expect(response).to.deep.equal(mockSuccessBodyResponse);
   });
 });
+
+describe('PATCH \'/matchs/:id/finish\'', () => {
+  let token: string;
+
+  before(async () => {
+    shell.exec('npm run db:reset');
+
+    const { body: { token: loginToken } } = await chai
+      .request(app)
+      .post('/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: 'admin@admin.com',
+        password: 'secret_admin',
+      })
+
+    token = loginToken;
+  });
+
+  after(() => {
+    shell.exec('npm run db:reset');
+  });
+
+  it('with an invalid id', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .patch('/matchs/thisIsANumber/finish')
+      .set('content-type', 'application/json')
+      .set('authorization', token);
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(response).to.have.own.property('message');
+    expect(response.message).to.be.eql('\'inProgress\' must have \'true\' or \'false\'');
+  });
+
+  it('not found a team with this id', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .patch('/matchs/999/finish')
+      .set('content-type', 'application/json')
+      .set('authorization', token);
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(response).to.have.own.property('message');
+    expect(response.message).to.be.eql('\'inProgress\' must have \'true\' or \'false\'');
+  });
+
+  it('on success without \'inProgress\' query string', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .patch('/matchs/1/finish')
+      .set('content-type', 'application/json')
+      .set('authorization', token);
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(200);
+    expect(response).to.be.eql(allMatchesMock);
+  });
+});
