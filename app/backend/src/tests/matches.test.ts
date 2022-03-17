@@ -79,12 +79,29 @@ describe('POST \'/matchs\'', () => {
   };
 
   const mockSuccessBodyResponse = {
-    id: 1,
+    id: 49,
     ...mockSuccessBodyRequest,
   };
 
+  let token: string;
+
+  before(async () => {
+    shell.exec('npm run db:reset');
+
+    const { body: { token: loginToken } } = await chai
+      .request(app)
+      .post('/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: 'admin@admin.com',
+        password: 'secret_admin',
+      })
+
+    token = loginToken;
+  });
+
   after(() => {
-    shell.exec('npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all');
+    shell.exec('npm run db:reset');
   });
 
   it('with an invalid \'homeTeam\'', async () => {
@@ -92,6 +109,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         homeTeam: 'ThisIsANumber',
@@ -99,9 +117,9 @@ describe('POST \'/matchs\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('\'homeTeam\', \'awayTeam\', \'homeTeamGoals\' and \'awayTeamGoals\' must be a number');
+    expect(response.message).to.be.eql('\'homeTeam\' must be a number');
   });
 
   it('with an invalid \'awayTeam\'', async () => {
@@ -109,6 +127,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         awayTeam: 'ThisIsANumber',
@@ -116,9 +135,9 @@ describe('POST \'/matchs\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('\'homeTeam\', \'awayTeam\', \'homeTeamGoals\' and \'awayTeamGoals\' must be a number');
+    expect(response.message).to.be.eql('\'awayTeam\' must be a number');
   });
 
   it('with an invalid \'homeTeamGoals\'', async () => {
@@ -126,6 +145,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         homeTeamGoals: 'ThisIsANumber',
@@ -133,9 +153,9 @@ describe('POST \'/matchs\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('\'homeTeam\', \'awayTeam\', \'homeTeamGoals\' and \'awayTeamGoals\' must be a number');
+    expect(response.message).to.be.eql('\'homeTeamGoals\' must be a number');
   });
 
   it('with an invalid \'awayTeamGoals\'', async () => {
@@ -143,6 +163,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         awayTeamGoals: 'ThisIsANumber',
@@ -150,9 +171,9 @@ describe('POST \'/matchs\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('\'homeTeam\', \'awayTeam\', \'homeTeamGoals\' and \'awayTeamGoals\' must be a number');
+    expect(response.message).to.be.eql('\'awayTeamGoals\' must be a number');
   });
 
   it('with an invalid \'inProgress\'', async () => {
@@ -160,6 +181,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         inProgress: 'ThisIsABoolean',
@@ -167,9 +189,9 @@ describe('POST \'/matchs\'', () => {
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(400);
+    expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('\'inProgress\' must be \'true\' or \'false\'');
+    expect(response.message).to.be.eql('There is no team with such id!');
   });
 
   it('no team was found that has the id equal to \'homeTeam\'', async () => {
@@ -177,6 +199,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         homeTeam: 999,
@@ -194,6 +217,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         awayTeam: 999,
@@ -211,6 +235,7 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send({
         ...mockSuccessBodyRequest,
         awayTeam: 999,
@@ -220,7 +245,7 @@ describe('POST \'/matchs\'', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
-    expect(response.message).to.be.eql('It is not possible to create a match with two equal teams');
+    expect(response.message).to.be.eql('There is no team with such id!');
   });
 
   it('on success', async () => {
@@ -228,11 +253,12 @@ describe('POST \'/matchs\'', () => {
       .request(app)
       .post('/matchs')
       .set('content-type', 'application/json')
+      .set('authorization', token)
       .send(mockSuccessBodyRequest);
 
     const response = chaiHttpResponse.body;
 
     expect(chaiHttpResponse.status).to.be.eql(201);
-    expect(response).to.be.eql(mockSuccessBodyResponse);
+    expect(response).to.deep.equal(mockSuccessBodyResponse);
   });
 });

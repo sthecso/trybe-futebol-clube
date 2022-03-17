@@ -5,6 +5,7 @@ import { ValidateToken } from '../middlewares/auth';
 import {
   ValidateInProgressQueryString,
   ValidateInProgressBodyRequest,
+  ValidateMatchData,
 } from '../middlewares/match';
 
 import {
@@ -20,6 +21,8 @@ class Match {
   private validateInProgressQueryString = new ValidateInProgressQueryString();
 
   private validateInProgressBodyRequest = new ValidateInProgressBodyRequest();
+
+  private validateMatchData = new ValidateMatchData();
 
   private getAllMatchesController = new GetAllMatchesController();
 
@@ -42,6 +45,7 @@ class Match {
       '/',
       this.validateTokenMiddleware.handle,
       this.validateInProgressBodyRequest.handle,
+      this.validateMatchData.handle,
       this.createMatchController.handle,
     );
   }
