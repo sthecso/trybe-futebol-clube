@@ -1,4 +1,8 @@
 import * as express from 'express';
+import {
+  joiError,
+  serverError,
+} from './database/middlewares/error';
 
 class App {
   public app: express.Express;
@@ -16,8 +20,11 @@ class App {
       next();
     };
 
+    // middlewares
     this.app.use(accessControl);
     this.app.use(express.json());
+    this.app.use(joiError);
+    this.app.use(serverError);
   }
 
   public start(PORT: string | number): void {
