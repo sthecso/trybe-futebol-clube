@@ -141,7 +141,7 @@ describe('Endpoint /login', () => {
             });
         })
 
-        it('When password length is less than 6'), async () => {
+        it('When password length is less than 6', async () => {
           const user = {
             "email": "RonaldinhoSoccer@fifa.com",
             "password": "12345"
@@ -151,10 +151,64 @@ describe('Endpoint /login', () => {
             .post('/login')
             .send(user)
             .then((res: Response) => {
-              expect(res.status).to.equal(401);
-              expect(res.body.message).to.equal('Incorrect email or password');
+              expect(res.status).to.equal(422);
+              expect(res.body.message).to.equal('"password" length must be at least 6 characters long');
             });
-        }
+        })
+      })
+
+    describe('Endpoint /login/validate', () => {
+      describe('Verify Token', () => {
+        it('When token is valid, return a role', async () => {
+          const user = {
+            "email": "admin@admin.com",
+            "password": "secret_admin"
+          }
+
+          await chai.request(app)
+            .post('/login')
+            .send(user)
+            .then(async (res: Response) => {
+              const { token } = res.body;
+              
+              await chai.request(app)
+                .get('/login/validate')
+                .set('Authorization', token)
+                .then((res: Response) => {
+                  expect(res.status).to.equal(200);
+                  expect(res.body).to.equal('admin');
+                })
+            });
+        });
+
+        it('When token is empty', async () => {
+          const token = "";
+
+          await chai.request(app)
+            .get('/login/validate')
+            .set('Authorization', token)
+            .then((res: Response) => {
+              expect(res.status).to.equal(401);
+              expect(res.body.message).to.equal('Token not found');
+            });
+        })
+
+        it('When token is invalid', async () => {
+          const token = "token.invalid.test";
+
+          await chai.request(app)
+            .get('/login/validate')
+            .set('Authorization', token)
+            .then((res: Response) => {
+              expect(res.status).to.equal(401);
+              expect(res.body.message).to.equal('Invalid token');
+            });
+          
+        })
       })
     })
+
+  })
+
+
 })

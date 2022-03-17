@@ -11,11 +11,11 @@ const errorMap: ErrorMap = {
 };
 
 const domainError = (err: Error, req: Request, res: Response, next: NextFunction) => {
-  // if (err.name.includes('JsonWebTokenError')) {
-  //   return res
-  //     .status(401)
-  //     .json({ error: 'Invalid token' });
-  // }
+  if (err.name.includes('JsonWebTokenError')) {
+    return res
+      .status(401)
+      .json({ message: 'Invalid token' });
+  }
 
   const status = errorMap[err.name];
 
