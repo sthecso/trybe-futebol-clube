@@ -1,5 +1,5 @@
 import { verifyToken } from '../utils';
-import LoginService from '../services/LoginService';
+import { LoginService } from '../services';
 import UserValidation from '../validations';
 import { IUserDTOwithToken, LoginBody } from '../interfaces/IUserDTO';
 

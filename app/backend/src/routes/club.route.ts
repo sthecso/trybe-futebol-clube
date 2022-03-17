@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
+import { clubControllerFactory } from '../factories';
 
 const clubRoute = Router();
+const clubController = clubControllerFactory();
 
 clubRoute.get(
   '/',

@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express';
+import { loginControllerFactory } from '../factories';
 import { createError } from '../utils';
-
-import loginControllerFactory from '../factories';
 
 const loginRoute = Router();
 const loginController = loginControllerFactory();

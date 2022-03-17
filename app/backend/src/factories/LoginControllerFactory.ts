@@ -1,7 +1,7 @@
-import LoginService from '../services';
 import UserValidation from '../validations';
-import LoginController from '../controllers';
 import loginSchema from '../utils/joiSchemas';
+import { LoginController } from '../controllers';
+import { LoginService } from '../services';
 
 const loginControllerFactory = (): LoginController => {
   const userValidation = new UserValidation(loginSchema);
