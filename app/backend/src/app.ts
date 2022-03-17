@@ -1,6 +1,7 @@
 import * as express from 'express';
 import getClubByIdController from './database/controllers/getClubByIdController';
 import getClubsController from './database/controllers/getClubsController';
+import getMatchsController from './database/controllers/getMatchsController';
 import loginController from './database/controllers/LoginController';
 import validateLoginController from './database/controllers/validateLoginController';
 
@@ -28,6 +29,8 @@ class App {
 
     this.app.get('/clubs', getClubsController);
     this.app.get('/clubs/:id', getClubByIdController);
+
+    this.app.get('/matchs', getMatchsController);
   }
 
   public start(PORT: string | number):void {
