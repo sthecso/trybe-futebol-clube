@@ -12,3 +12,11 @@ module.exports = {
   },
   logging: false,
 };
+require("dotenv").config();
+
+// testa local
+// username: "root",
+// password: "trybe12345",
+// database: "TRYBE_FUTEBOL_CLUBE",
+// host: "localhost",
+// port: "3002",
