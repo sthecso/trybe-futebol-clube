@@ -3,4 +3,4 @@ bcryptjs
 @types/bcryptjs
 shelljs
 @types/shelljs
-express-rescue
+express-async-errors
