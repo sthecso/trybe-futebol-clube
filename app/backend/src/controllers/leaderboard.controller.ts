@@ -7,10 +7,16 @@ export default class ClubService {
   constructor() {
     this.leaderboardService = new LeaderboardService();
     this.getHomeRanking = this.getHomeRanking.bind(this);
+    this.getAwayRanking = this.getAwayRanking.bind(this);
   }
 
   async getHomeRanking(_req: Request, res: Response) {
     const { code, data } = await this.leaderboardService.getHomeRanking();
+    return res.status(code).json(data);
+  }
+
+  async getAwayRanking(_req: Request, res: Response) {
+    const { code, data } = await this.leaderboardService.getAwayRanking();
     return res.status(code).json(data);
   }
 }

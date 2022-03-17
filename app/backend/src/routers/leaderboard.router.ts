@@ -17,5 +17,10 @@ export default class Login {
       '/home',
       this.leaderboardController.getHomeRanking,
     );
+
+    this.router.get(
+      '/away',
+      this.leaderboardController.getAwayRanking,
+    );
   }
 }

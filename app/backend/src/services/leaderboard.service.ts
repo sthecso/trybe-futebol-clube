@@ -101,4 +101,21 @@ export default class LeaderboardService {
       data: LeaderboardService.createLeaderboard(clubsHomeHistory, 'homeMatchs'),
     };
   }
+
+  async getAwayRanking() {
+    const clubsAwayHistory = await this.clubModel.findAll({
+      attributes: ['clubName'],
+      include: [{
+        model: this.matchModel,
+        as: 'awayMatchs',
+        attributes: ['id', ['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
+        where: { inProgress: false },
+      }],
+    }) as unknown as ISequelizeClubsHistory[];
+
+    return {
+      code: 200,
+      data: LeaderboardService.createLeaderboard(clubsAwayHistory, 'awayMatchs'),
+    };
+  }
 }
