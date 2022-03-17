@@ -4,6 +4,8 @@ import { HttpStatusCode } from '../../utils';
 
 import { GetAllMatchesService } from '../../services/match';
 
+import { IExpressQuery } from '../../interfaces';
+
 class GetAllMatchesController {
   private getAllMatchesService = new GetAllMatchesService();
 
@@ -14,11 +16,13 @@ class GetAllMatchesController {
   }
 
   async handle(
-    _req: Request,
+    req: Request,
     res: Response,
     _nextMiddleware: NextFunction,
   ) {
-    const allMatches = await this.getAllMatchesService.handle();
+    const { inProgress } = req.query as unknown as IExpressQuery;
+
+    const allMatches = await this.getAllMatchesService.handle(inProgress);
 
     return res
       .status(this.httpStatusCode.Ok)

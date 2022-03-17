@@ -4,17 +4,17 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 
-import { allMatchesMock } from './mocks';
+import {
+  allMatchesMock,
+  matchesInProgress,
+  matchesNotInProgress,
+} from './mocks';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
 let chaiHttpResponse;
-
-const matchesNotInProgress = [];
-
-const matchesInProgress = [];
 
 describe('/matchs', () => {
   it('with an invalid \'inProgress\' query string', async () => {

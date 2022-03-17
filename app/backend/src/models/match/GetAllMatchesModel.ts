@@ -7,15 +7,27 @@ class GetAllMatchesModel {
 
   private clubEntity = Club;
 
-  async handle() {
-    const allMatches = await this.matchEntity.findAll({
-      include: [
-        { model: this.clubEntity, as: 'homeClub' },
-        { model: this.clubEntity, as: 'awayClub' },
-      ],
-    });
+  async handle(inProgress: boolean | undefined = undefined) {
+    let matches;
 
-    return allMatches;
+    if (inProgress === undefined) {
+      matches = await this.matchEntity.findAll({
+        include: [
+          { model: this.clubEntity, as: 'homeClub' },
+          { model: this.clubEntity, as: 'awayClub' },
+        ],
+      });
+    } else {
+      matches = await this.matchEntity.findAll({
+        where: { inProgress },
+        include: [
+          { model: this.clubEntity, as: 'homeClub' },
+          { model: this.clubEntity, as: 'awayClub' },
+        ],
+      });
+    }
+
+    return matches;
   }
 }
 
