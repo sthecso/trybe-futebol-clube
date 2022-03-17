@@ -416,4 +416,56 @@ describe('Matchs endpoints', () => {
         expect(body.message).to.be.equal('Match already over or does not exist');
     });
   });
+
+  describe('When updating a match score with a PATCH request to /matchs/:id', () => {
+    it('API responds with status 200 and updated score message', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/42')
+        .send({ homeTeamGoals: 3, awayTeamGoals: 1});
+
+        const { status, body } = chaiHttpResponse;
+
+        expect(status).to.be.equal(200);
+        expect(body.message).to.be.equal('Match score updated');
+    });
+
+    it('API updates the match in the database', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/matchs/42');
+
+      const { status, body } = chaiHttpResponse;
+
+      expect(status).to.be.equal(200);
+      expect(body.homeTeamGoals).to.be.equal(3);
+      expect(body.awayTeamGoals).to.be.equal(1);
+    });
+  });
+
+  describe('When fail to update a match score with a PATCH request to /matchs/:id because', () => {
+    it('match is already over: API responds with status 422 and correct message', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/1')
+        .send({ homeTeamGoals: 3, awayTeamGoals: 1});;
+
+        const { status, body } = chaiHttpResponse;
+
+        expect(status).to.be.equal(422);
+        expect(body.message).to.be.equal('Match already over or does not exist');
+    });
+
+    it('match does not exist: API responds with status 422 and correct message', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matchs/447')
+        .send({ homeTeamGoals: 3, awayTeamGoals: 1});;
+
+        const { status, body } = chaiHttpResponse;
+
+        expect(status).to.be.equal(422);
+        expect(body.message).to.be.equal('Match already over or does not exist');
+    });
+  });
 });

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { INewMatch } from '../utils/interfaces';
+import { INewMatch, IScore } from '../utils/interfaces';
 import { MatchModel, ClubModel } from '../database/models';
 
 export default class MatchService {
@@ -62,6 +62,13 @@ export default class MatchService {
     const [success] = await this.matchModel.update({ inProgress: false }, { where: { id } });
 
     return success ? { code: 200, data: { message: 'Finished match' } }
+      : { code: 422, data: { message: 'Match already over or does not exist' } };
+  }
+
+  async updateScore(id: string, newScore: IScore) {
+    const [success] = await this.matchModel.update(newScore, { where: { id, inProgress: true } });
+
+    return success ? { code: 200, data: { message: 'Match score updated' } }
       : { code: 422, data: { message: 'Match already over or does not exist' } };
   }
 }

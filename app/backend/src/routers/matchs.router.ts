@@ -15,15 +15,9 @@ export default class Login {
   }
 
   private route(): void {
-    this.router.get(
-      '/',
-      this.matchsController.findAll,
-    );
+    this.router.get('/', this.matchsController.findAll);
 
-    this.router.get(
-      '/:id',
-      this.matchsController.findById,
-    );
+    this.router.get('/:id', this.matchsController.findById);
 
     this.router.post(
       '/',
@@ -32,9 +26,8 @@ export default class Login {
       this.matchsController.saveMatchInProgress,
     );
 
-    this.router.patch(
-      '/:id/finish',
-      this.matchsController.finishMatch,
-    );
+    this.router.patch('/:id/finish', this.matchsController.finishMatch);
+
+    this.router.patch('/:id', this.matchsController.updateScore);
   }
 }
