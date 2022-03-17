@@ -31,7 +31,7 @@ class LoginService {
         id: this._result.getDataValue('id'),
         username: this._result.getDataValue('username'),
         role: this._result.getDataValue('role'),
-      }); return res.json({ user: this._result, token });
+      }); return res.status(200).json({ user: this._result, token });
     } catch (error) {
       return res.status(500).json({
         error,
