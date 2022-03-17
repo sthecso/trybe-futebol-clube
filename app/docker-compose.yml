@@ -7,26 +7,30 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    # Os `healthcheck` devem garantir que a aplicação
+    # está operacional, antes de liberar o container
     healthcheck:
-      test: [ "CMD", "lsof", "-t", "-i:3000" ]
+      test: ["CMD", "lsof", "-t", "-i:3000"]  # Caso utilize outra porta interna para o front, altere ela aqui também
       timeout: 10s
       retries: 5
   backend:
     build: ./backend
+    ports:
+      - 3001:3001
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - 3001:3001
     environment:
       - PORT=3001
+      # Os dados abaixo se referem ao container `db`
+      # Dica: Relembre aqui da comunicação interna entre containers
       - DB_USER=root
       - DB_PASS=123456
       - DB_HOST=db
       - DB_NAME=TRYBE_FUTEBOL_CLUBE
       - DB_PORT=3306
     healthcheck:
-      test: [ "CMD", "lsof", "-t", "-i:3001" ]
+      test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também
       timeout: 10s
       retries: 5
   db:
@@ -38,8 +42,9 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
     restart: 'always'
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"] # Deve aguardar o banco ficar operacional
       timeout: 10s
       retries: 5
     cap_add:
-      - SYS_NICE
+      - SYS_NICE # Deve omitir alertas menores
+      
