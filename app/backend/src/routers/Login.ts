@@ -2,8 +2,9 @@ import { Router } from 'express';
 
 import { ValidateLoginRequest } from '../middlewares/login';
 
-import { LoginController } from '../controllers/login';
-import { ValidateToken } from '../auth';
+import { LoginController, ValidateTokenController } from '../controllers/login';
+
+import { ValidateToken } from '../middlewares/auth';
 
 class Login {
   public router: Router;
@@ -12,7 +13,9 @@ class Login {
 
   private validateLoginRequest = new ValidateLoginRequest();
 
-  private validateToken = new ValidateToken();
+  private validateTokenController = new ValidateTokenController();
+
+  private validateTokenMiddleware = new ValidateToken();
 
   constructor() {
     this.router = Router();
@@ -29,7 +32,9 @@ class Login {
 
     this.router.get(
       '/validate',
-      this.validateToken.handle,
+      this.validateTokenMiddleware.handle,
+      this.validateTokenController.handle,
+
     );
   }
 }

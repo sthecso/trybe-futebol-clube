@@ -1,10 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
+
 import { readFileSync } from 'fs';
 
 import * as jwt from 'jsonwebtoken';
-import IErrorMessage from '../interfaces/IErrorMessage';
-import { IUserResponse } from '../interfaces/login';
-import { HttpStatusCode } from '../utils';
+
+import { IUserResponse } from '../../interfaces/login';
+
+import { HttpStatusCode } from '../../utils';
+
+import { IErrorMessage } from '../../interfaces';
 
 class ValidateToken {
   private httpStatusCode = HttpStatusCode;
@@ -16,19 +20,21 @@ class ValidateToken {
     this.decodeToken = this.decodeToken.bind(this);
   }
 
-  decodeToken(token: string): string | jwt.JwtPayload {
+  decodeToken(token: string): string | IUserResponse {
     const secret = this.readFile('jwt.evaluation.key');
 
-    const jwtDecoded = jwt.verify(token, secret);
+    const { id, role, email, username } = jwt.verify(token, secret) as jwt.JwtPayload;
 
-    return jwtDecoded;
+    const userDataDecoded: IUserResponse = { id, role, email, username };
+
+    return userDataDecoded;
   }
 
   handle(
     req: Request,
     res: Response,
-    _nextMiddleware: NextFunction,
-  ): Response<IErrorMessage | string> {
+    nextMiddleware: NextFunction,
+  ): Response<IErrorMessage> | void {
     const { authorization: token } = req.headers;
 
     if (!token) {
@@ -43,7 +49,9 @@ class ValidateToken {
       .json({ message: 'This token is invalid' });
     }
 
-    return res.status(this.httpStatusCode.Ok).json(jwtDecoded.role);
+    req.userDataDecoded = jwtDecoded;
+
+    nextMiddleware();
   }
 }
 

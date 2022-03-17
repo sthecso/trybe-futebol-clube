@@ -1,2 +1,2 @@
 export { default as LoginController } from './LoginController';
-export const lint = () => {};
+export { default as ValidateTokenController } from './ValidateTokenController';

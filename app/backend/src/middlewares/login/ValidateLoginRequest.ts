@@ -3,7 +3,8 @@ import { NextFunction, Request, Response } from 'express';
 import { IUserRequest } from '../../interfaces/login';
 
 import { HttpStatusCode, schemaUserRequest } from '../../utils';
-import IErrorMessage from '../../interfaces/IErrorMessage';
+
+import { IErrorMessage } from '../../interfaces';
 
 class ValidateLoginRequest {
   private httpStatusCode = HttpStatusCode;
