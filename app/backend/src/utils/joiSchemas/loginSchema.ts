@@ -1,7 +1,7 @@
 import Joi = require('joi');
-import IUserDTO from '../interfaces';
+import { LoginBody } from '../../interfaces/IUserDTO';
 
-const loginSchema = Joi.object<IUserDTO>({
+const loginSchema = Joi.object<LoginBody>({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });

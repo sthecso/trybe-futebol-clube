@@ -1,3 +1,2 @@
-import joiError from './joiError';
-
-export default joiError;
+export { default as joiError } from './joiError';
+export { default as domainError } from './domainError';
