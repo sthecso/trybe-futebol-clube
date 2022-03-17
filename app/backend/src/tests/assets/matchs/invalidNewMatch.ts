@@ -18,7 +18,7 @@ export default {
     homeTeamGoals: 2,
     awayTeamGoals: 2,
     inProgress: true
-},
+  },
   noAT: {
     homeTeam: 16,
     homeTeamGoals: 2,
@@ -31,14 +31,14 @@ export default {
     homeTeamGoals: 2,
     awayTeamGoals: 2,
     inProgress: true
-},
+  },
   negativeAT: {
     homeTeam: 16,
     awayTeam: -8,
     homeTeamGoals: 2,
     awayTeamGoals: 2,
     inProgress: true
-},
+  },
   noHTG: {
     homeTeam: 16,
     awayTeam: 8,
@@ -51,14 +51,14 @@ export default {
     homeTeamGoals: 'batata',
     awayTeamGoals: 2,
     inProgress: true
-},
+  },
   negativeHTG: {
     homeTeam: 16,
     awayTeam: 8,
     homeTeamGoals: -2,
     awayTeamGoals: 2,
     inProgress: true
-},
+  },
   noATG: {
     homeTeam: 16,
     homeTeamGoals: 2,
@@ -71,39 +71,46 @@ export default {
     homeTeamGoals: 2,
     awayTeamGoals: 'batata',
     inProgress: true
-},
+  },
   negativeATG: {
     homeTeam: 16,
     awayTeam: 8,
     homeTeamGoals: 2,
     awayTeamGoals: -2,
     inProgress: true
-},
+  },
   noIP: {
     homeTeam: 16,
     awayTeam: 8,
     homeTeamGoals: 2,
     awayTeamGoals: 2,
-},
+  },
   stringIP: {
     homeTeam: 16,
     awayTeam: 8,
     homeTeamGoals: 2,
     awayTeamGoals: 2,
     inProgress: 'batata'
-},
+  },
   falseIP: {
     homeTeam: 16,
     awayTeam: 8,
     homeTeamGoals: 2,
     awayTeamGoals: 2,
     inProgress: false
-},
+  },
   sameTeam: {
     homeTeam: 8,
     awayTeam: 8,
     homeTeamGoals: 2,
     awayTeamGoals: 2,
     inProgress: true
-}
+  },
+  unknownTeam: {
+    homeTeam: 447,
+    awayTeam: 8,
+    homeTeamGoals: 2,
+    awayTeamGoals: 2,
+    inProgress: true
+  }
 }

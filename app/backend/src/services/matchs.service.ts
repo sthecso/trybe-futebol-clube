@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { INewMatch } from '../utils/interfaces';
 import { MatchModel, ClubModel } from '../database/models';
 
@@ -46,6 +47,12 @@ export default class MatchService {
   }
 
   async saveMatchInProgress(data: INewMatch) {
+    const teams = await this.clubModel.count({
+      where: { id: { [Op.in]: [data.homeTeam, data.awayTeam] } },
+    });
+
+    if (teams < 2) return { code: 401, data: { message: 'There is no team with such id!' } };
+
     const newMatch = await this.matchModel.create(data);
 
     return { code: 201, data: newMatch };
