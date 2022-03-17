@@ -31,10 +31,24 @@ User.init({
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      notNull: { msg: '"email" is required' },
+      notEmpty: { msg: '"email" is required' },
+      isEmail: { msg: '"email" must be a valid email' },
+    },
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      notNull: { msg: '"password" is required' },
+      notEmpty: { msg: '"password" is required' },
+      isEven(value: string) {
+        if (!value || value.length !== 6) {
+          throw new Error('"password" length must be 6 characters long');
+        }
+      },
+    },
   },
 }, {
   sequelize: db,
