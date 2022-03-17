@@ -10,8 +10,8 @@ const generateToken = (payload: string) => {
 
 const validateToken = (token: string) => {
   try {
-    const { user } = verify(token, jwtSecret) as { user: string };
-    return user || false;
+    const id = verify(token, jwtSecret);
+    return id || false;
   } catch (error) {
     return false;
   }

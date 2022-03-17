@@ -18,4 +18,11 @@ describe('/GET Matchs', () => {
       .get('/matchs');
     expect(result.status).to.be.equals(200);
   });
+
+  it('deveria retornar uma lista de matchs', async function () {
+    const result = await chai.request(app)
+      .get('/matchs');
+    expect(result.status).to.be.equals(200);
+    expect(Array.isArray(result.body)).to.be.equal(true);
+  });
 });

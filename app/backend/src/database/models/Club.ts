@@ -3,7 +3,8 @@ import db from '.';
 
 class Club extends Model {
   public id: number;
-  public club_name: string;
+
+  public clubName: string;
 }
 
 Club.init({

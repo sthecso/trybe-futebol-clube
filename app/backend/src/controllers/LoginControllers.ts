@@ -21,6 +21,6 @@ export default class LoginController {
       const u = { id: user.id, username: user.username, role: user.role, email: user.email };
       return res.status(200).json({ user: u, token });
     }
-    return res.status(400).json({ message: 'Invalid fields' });
+    return res.status(401).json({ message: 'Incorrect email or password' });
   }
 }
