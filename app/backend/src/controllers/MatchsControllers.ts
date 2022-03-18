@@ -24,7 +24,7 @@ export default class MatchsController {
       where: { id: { [Op.in]: [homeTeam, awayTeam] } },
     });
 
-    if (teams.count < 2) return res.status(401).json({ message: 'Team not found' });
+    if (teams.count < 2) return res.status(401).json({ message: 'There is no team with such id!' });
 
     try {
       const newMatch = await Matchs.create({ ...req.body });

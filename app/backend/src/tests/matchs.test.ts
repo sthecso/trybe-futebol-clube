@@ -48,7 +48,7 @@ describe('Matchs', () => {
       const homeTeam = 9999;
       const awayTeam = 8888;
 
-      const teamNotFoundError = 'Team not found';
+      const teamNotFoundError = 'There is no team with such id!';
 
       const result = await chai.request(app)
         .post('/matchs')
