@@ -1,11 +1,15 @@
-import { sign } from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 import IUserResponse from '../interfaces/IUserResponse';
 
-const signToken = (data: IUserResponse) => {
-  const SECRET = readFileSync('jwt.evaluation.key', { encoding: 'utf-8' });
+const SECRET = readFileSync('jwt.evaluation.key', { encoding: 'utf-8' });
 
-  return sign({ ...data }, SECRET, { expiresIn: '5d' });
+const signToken = (data: IUserResponse) => {
+  jwt.sign(
+    data,
+    SECRET,
+    { algorithm: 'HS256', expiresIn: '1h' },
+  );
 };
 
 export default signToken;
