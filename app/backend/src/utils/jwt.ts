@@ -1,9 +1,10 @@
 import * as dotenv from 'dotenv';
 import * as jwt from 'jsonwebtoken';
+import { readFileSync } from 'fs';
 
 dotenv.config();
 
-const secret = process.env.JWT_SECRET || 'SuperSecretJwt';
+const secret = readFileSync('jwt.evaluation.key', 'utf8');
 
 const sign = (payload: object, duration = '1h') => jwt.sign(payload, secret, {
   algorithm: 'HS256',
