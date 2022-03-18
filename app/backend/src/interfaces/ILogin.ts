@@ -1,16 +1,9 @@
-interface LoginDTO {
+export interface LoginDTO extends IEmailAndPasswordDTO {
   username: string;
   role: string;
-  email: string;
-  password: string;
 }
 
-export default class LoginRegisted implements LoginDTO {
-  username: string;
-
-  role: string;
-
+export interface IEmailAndPasswordDTO {
   email: string;
-
   password: string;
 }

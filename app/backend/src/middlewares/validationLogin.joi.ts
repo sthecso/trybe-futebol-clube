@@ -2,10 +2,14 @@ import * as Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
 
 const schema = Joi.object({
-  username: Joi.string().required(),
-  role: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+  email: Joi.string().email().required().messages({
+    'any.invalid': 'Incorrect email or password',
+    'any.required': 'All fields must be filled',
+  }),
+  password: Joi.string().min(6).required().messages({
+    'any.invalid': 'Incorrect email or password',
+    'any.required': 'All fields must be filled',
+  }),
 });
 
 let code: number;
@@ -15,10 +19,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   if (error) {
     if (error.message) {
-      code = 400;
+      code = 401;
     }
 
-    const err = { error: error.message };
+    const err = { message: error.message };
 
     return res.status(code).json(err);
   }

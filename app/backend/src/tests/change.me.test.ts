@@ -1,9 +1,11 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import * as jwt from 'jsonwebtoken';
+
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+// import Example from '../database/models/ExampleModel';
 import LoginController from '../controllers';
 
 import { Response } from 'superagent';
@@ -44,6 +46,35 @@ describe('Seu teste', () => {
   });
 });
 
+describe('Testa auth/validateJWT.ts,', () => {
+  let chaiHttpResponse: Response;
+  before(async () => {
+    sinon
+      .stub(jwt, "verify")
+      .resolves(() => {
+        throw new Error('Token not found')
+      })
+  });
+
+  after(()=>{
+    (jwt.verify as sinon.SinonStub).restore();
+  });
+
+  it('E verificado se o token não existir a reposta de status e 401', async () => {
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/login')
+       .set('authorization', 'algumTokenJwtAleatório')
+       .send({})
+       .then((res) => {
+         expect(res.status).to.be.equal(401);
+       }).catch((err) => {
+         throw err
+       }) as unknown as Response;
+  });
+})
+
+
 describe('Testa endpoint /login', () => {
   let chaiHttpResponse: Response;
   const expectedResult = {
@@ -55,12 +86,12 @@ describe('Testa endpoint /login', () => {
 
    before(async () => {
     sinon
-      .stub(User, "create")
+      .stub(User, "findOne")
       .resolves(expectedResult as User);
   });
 
   after(()=>{
-    (User.create as sinon.SinonStub).restore();
+    (User.findOne as sinon.SinonStub).restore();
   })
    it('É retornado status 200 se o cadastro de usuario e feito com sucesso', async () => {
     chaiHttpResponse = await chai
@@ -74,3 +105,4 @@ describe('Testa endpoint /login', () => {
        }) as unknown as Response;
   });
 })
+

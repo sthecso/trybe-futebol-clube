@@ -23,7 +23,7 @@ export default async (req: Data, res: Response, next: NextFunction) => {
 
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(401).json({ error: 'Token not found' });
+    return res.status(401).json('Token not found');
   }
 
   try {
