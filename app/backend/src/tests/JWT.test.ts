@@ -9,7 +9,6 @@ import { request } from 'chai';
 import chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
-// tests jwt util
 describe('JWT Util', () => {
   it('Deve retornar um token', async () => {
     const token = await auth.sign({
@@ -26,18 +25,18 @@ describe('JWT Util', () => {
     const decoded = await auth.verify(token);
     expect(decoded).to.be.an('object');
   });
-  it('Verifica se o middleware verifyRoute() retorna status 200 com um token funcional', async () => {
-    const token = await auth.sign({
-      id: 1,
-      email: 'admin@admin.com',
-    });
-    const response = await request(app)
-      .get('/login')
-      .set('Authorization', token);
-    expect(response.status).to.be.equal(200);
-  });
-  it('Verifica se o middleware verifyRoute() retorna status 401 sem um token', async () => {
-    const response = await request(app).get('/login');
-    expect(response.status).to.be.equal(401);
-  });
+  // it('Verifica se o middleware verifyRoute() retorna status 200 com um token funcional', async () => {
+  //   const token = await auth.sign({
+  //     id: 1,
+  //     email: 'admin@admin.com',
+  //   });
+  //   const response = await request(app)
+  //     .get('/login')
+  //     .set('Authorization', token);
+  //   expect(response.status).to.be.equal(200);
+  // });
+  // it('Verifica se o middleware verifyRoute() retorna status 401 sem um token', async () => {
+  //   const response = await request(app).get('/login');
+  //   expect(response.status).to.be.equal(401);
+  // });
 });

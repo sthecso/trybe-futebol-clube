@@ -8,9 +8,9 @@ class App {
   constructor() {
     // ...
     this.app = express();
-    this.middlewares();
+    // this.middlewares();
     this.config();
-    this.routes();
+    // this.routes();
     // ...
   }
 
@@ -23,6 +23,8 @@ class App {
   }
 
   private config(): void {
+    this.middlewares();
+    this.routes();
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
@@ -37,9 +39,6 @@ class App {
   // ...
   public start(PORT: string | number): void {
     this.app.listen(PORT);
-    this.app.use((_req, res) => {
-      res.status(200).send('Hello World!');
-    });
     console.log(`Server running on port: ${PORT}`);
   }
 }
