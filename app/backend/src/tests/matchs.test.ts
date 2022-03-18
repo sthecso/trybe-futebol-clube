@@ -43,5 +43,20 @@ describe('Matchs', () => {
       expect(result.body).to.haveOwnProperty('message');
       expect(result.body.message).to.be.equals(sameTeamError);
     });
+
+    it('deveria impedir adicionar partida com times não cadastrados', async function () {
+      const homeTeamId = 9999;
+      const awayTeamId = 8888;
+
+      const teamNotFoundError = 'Team not found';
+
+      const result = await chai.request(app)
+        .post('/matchs')
+        .set('content-type', 'application/json')
+        .send({ homeTeamId, awayTeamId });
+      expect(result.status).to.be.equals(401);
+      expect(result.body).to.haveOwnProperty('message');
+      expect(result.body.message).to.be.equals(teamNotFoundError);
+    });
   });
 });
