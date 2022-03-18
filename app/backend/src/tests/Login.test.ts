@@ -11,10 +11,21 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe('Login Test', () => {
+  it('Devera retornar um token ao fazer um login com sucesso', async () => {
+    const response: Response = await chai.request(app).post('/login').send({
+      email: 'admin@admin.com',
+      password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
+    });
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.have.property('token');
+  });
+})
+
+// describe('Seu teste', () => {
+/**
+ * Exemplo do uso de stubs com tipos
+ */
 
   // let chaiHttpResponse: Response;
 
@@ -38,7 +49,7 @@ describe('Seu teste', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
-  });
-});
+//   it('Seu sub-teste', () => {
+//     expect(false).to.be.eq(true);
+//   });
+// });

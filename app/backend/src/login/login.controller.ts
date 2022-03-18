@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import LoginService from './login.service';
+import auth from '../utils/auth';
 
 class LoginController {
   router = Router();
@@ -9,7 +10,7 @@ class LoginController {
   }
 
   Routes() {
-    this.router.get('/', LoginService.index);
+    this.router.get('/', auth.verifyRoute, LoginService.index);
     this.router.post('/', LoginService.login);
   }
 }
