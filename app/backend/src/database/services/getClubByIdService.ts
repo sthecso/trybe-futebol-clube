@@ -1,6 +1,6 @@
 import Clubs from '../models/Clubs';
 
-async function getClubByIdService(id: string) {
+async function getClubByIdService(id: string | number) {
   const club = await Clubs.findByPk(id);
   return club;
 }
