@@ -65,6 +65,7 @@ describe('Matchs', () => {
         awayTeam: 2,
         homeTeamGoals: 2,
         awayTeamGoals: 2,
+        inProgress: true,
       };
 
       const result = await chai.request(app)
@@ -73,8 +74,7 @@ describe('Matchs', () => {
         .send(newMatch);
 
       expect(result.status).to.be.equals(201);
-      expect(result.body).to.haveOwnProperty('inProgress');
-      expect(result.body.inProgress).to.be.equals(true);
+      expect(result.body).to.haveOwnProperty('id');
     });
   });
 
@@ -85,6 +85,7 @@ describe('Matchs', () => {
         awayTeam: 2,
         homeTeamGoals: 2,
         awayTeamGoals: 2,
+        inProgress: true,
       };
 
       const message = 'Finished match';

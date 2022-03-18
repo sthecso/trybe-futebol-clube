@@ -27,7 +27,7 @@ export default class MatchsController {
     if (teams.count < 2) return res.status(401).json({ message: 'Team not found' });
 
     try {
-      const newMatch = await Matchs.create({ ...req.body, inProgress: true });
+      const newMatch = await Matchs.create({ ...req.body });
       return res.status(201).json(newMatch);
     } catch (error) {
       return res.status(500).json({ erro: error });
