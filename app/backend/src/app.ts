@@ -23,9 +23,9 @@ class App {
   }
 
   // ...
-  public start(PORT: string | number):void {
-    // ...
-  }
+  // public start(PORT: string | number):void {
+  //   // ...
+  // }
 }
 
 export { App };
