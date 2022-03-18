@@ -45,18 +45,36 @@ describe('Matchs', () => {
     });
 
     it('deveria impedir adicionar partida com times não cadastrados', async function () {
-      const homeTeamId = 9999;
-      const awayTeamId = 8888;
+      const homeTeam = 9999;
+      const awayTeam = 8888;
 
       const teamNotFoundError = 'Team not found';
 
       const result = await chai.request(app)
         .post('/matchs')
         .set('content-type', 'application/json')
-        .send({ homeTeamId, awayTeamId });
+        .send({ homeTeam, awayTeam });
       expect(result.status).to.be.equals(401);
       expect(result.body).to.haveOwnProperty('message');
       expect(result.body.message).to.be.equals(teamNotFoundError);
+    });
+
+    it('deve ser possível adicionar uma partida nova com status inProgress', async function () {
+      const newMatch = {
+        homeTeam: 1,
+        awayTeam: 2,
+        homeTeamGoals: 2,
+        awayTeamGoals: 2,
+      };
+
+      const result = await chai.request(app)
+        .post('/matchs')
+        .set('content-type', 'application/json')
+        .send(newMatch);
+
+      expect(result.status).to.be.equals(201);
+      expect(result.body).to.haveOwnProperty('inProgress');
+      expect(result.body.inProgress).to.be.equals(true);
     });
   });
 });

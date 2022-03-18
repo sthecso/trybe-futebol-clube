@@ -15,17 +15,22 @@ export default class MatchsController {
   }
 
   static async createMatch(req: Request, res: Response) {
-    const { homeTeamId, awayTeamId } = req.body;
-    if (homeTeamId === awayTeamId) {
+    const { homeTeam, awayTeam } = req.body;
+    if (homeTeam === awayTeam) {
       return res.status(401)
         .json({ message: 'It is not possible to create a match with two equal teams' });
     }
     const teams = await Club.findAndCountAll({
-      where: { id: { [Op.in]: [homeTeamId, awayTeamId] } },
+      where: { id: { [Op.in]: [homeTeam, awayTeam] } },
     });
 
     if (teams.count < 2) return res.status(401).json({ message: 'Team not found' });
 
-    return res.status(200).json({ message: 'ok' });
+    try {
+      const newMatch = await Matchs.create({ ...req.body, inProgress: true });
+      return res.status(201).json(newMatch);
+    } catch (error) {
+      return res.status(500).json({ erro: error });
+    }
   }
 }
