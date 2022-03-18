@@ -4,6 +4,7 @@ import 'dotenv/config';
 
 import LoginRouter from './database/routes/user';
 import ClubRouter from './database/routes/club';
+import MatchRouter from './database/routes/match';
 
 class App {
   public app: express.Express;
@@ -13,13 +14,16 @@ class App {
 
   private clubRouter = new ClubRouter();
 
+  private matchRouter = new MatchRouter();
+
   constructor() {
     // ...
     this.app = express();
     this.config();
     this.app.use(express.json());
     this.app.use('/login', this.loginRouter.router);
-    this.app.use('/clubs', this.clubRouter.routePath);
+    this.app.use('/clubs', this.clubRouter.router);
+    this.app.use('/matchs', this.matchRouter.router);
     // ...
   }
 

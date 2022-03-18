@@ -2,7 +2,7 @@ import { Router } from 'express';
 import ClubController from '../controllers/club';
 
 class ClubRouter {
-  private router: Router;
+  public router: Router;
 
   private controllerClub = new ClubController();
 
