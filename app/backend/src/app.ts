@@ -27,8 +27,8 @@ class App {
 
   // ...
   public start(PORT: string | number): void {
-    console.log(this.app);
-    console.log(PORT);
+    this.app.listen(PORT, () => console
+      .log(`Server online on port \x1b[03;94m${PORT}\x1b[00m!`));
   }
 }
 
