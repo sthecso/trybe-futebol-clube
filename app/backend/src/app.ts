@@ -1,17 +1,21 @@
 import * as express from 'express';
 
 import 'dotenv/config';
-import userRouter from './database/routes/user';
-import clubRouter from './database/routes/club';
-import matchRouter from './database/routes/match';
+
+import LoginRouter from './database/routes/user';
 
 class App {
   public app: express.Express;
+
   // ...
+  private loginRouter = new LoginRouter();
 
   constructor() {
     // ...
+    this.app = express();
     this.config();
+    this.app.use(express.json());
+    this.app.use('/login', this.loginRouter.router);
     // ...
   }
 
@@ -24,15 +28,15 @@ class App {
     };
 
     this.app.use(accessControl);
-    this.app.use('/login', userRouter);
-    this.app.use('/clubs', clubRouter);
-    this.app.use('/matchs', matchRouter);
+
     // ...
   }
 
   // ...
   public start(PORT: string | number):void {
-    this.app.listen(PORT);
+    this.app.listen(PORT, () => {
+      console.log(`Rodando na porta ${PORT}`);
+    });
   }
 }
 

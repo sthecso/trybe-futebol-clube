@@ -1,4 +1,4 @@
-import Club from '../models/club';
+import Club from '../modelsSequelize/club';
 
 const getAll = async () => {
   const clubs = await Club.findAll();

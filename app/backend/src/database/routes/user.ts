@@ -1,10 +1,22 @@
 import { Router } from 'express';
-import controller from '../controllers/user';
-import verifyBody from '../middlewares/userMiddleware';
+import LoginUserController from '../controllers/user';
+import VerifyValidFields from '../middlewares/userMiddleware';
 
-const userRouter = Router();
+class LoginRouter {
+  public router: Router;
 
-userRouter.post('/', verifyBody, controller.getUser);
-userRouter.get('/validate', controller.verifyUser);
+  private loginController = new LoginUserController();
 
-export default userRouter;
+  private validateFields = new VerifyValidFields();
+
+  constructor() {
+    this.router = Router();
+    this.start();
+  }
+
+  private start() {
+    this.router.post('/', this.validateFields.verifyRequest, this.loginController.findUser);
+  }
+}
+
+export default LoginRouter;

@@ -9,7 +9,7 @@ class User extends Model {
 
   public role: string;
 
-  public emil: string;
+  public email: string;
 
   public password: string;
 }

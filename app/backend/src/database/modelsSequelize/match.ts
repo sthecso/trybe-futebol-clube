@@ -32,7 +32,7 @@ Match.init({
     allowNull: false,
   },
   inProgress: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
 }, {
@@ -43,10 +43,10 @@ Match.init({
   timestamps: false,
 });
 
-Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
+Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'matche' });
 Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
 
-Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'club' });
+Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'clube' });
 Match.hasMany(Club, { foreignKey: 'awayTeam', as: 'club' });
 
 export default Match;

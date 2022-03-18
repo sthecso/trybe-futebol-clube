@@ -1,35 +1,27 @@
-import jwt = require('jsonwebtoken');
-import fs = require('fs/promises');
-import { RequestHandler } from 'express';
-import services from '../services/user';
-import User from '../models/user';
+import { Request, Response } from 'express';
+import StatusCode from '../utils/statusCode';
+import { IUserReq } from '../interfaces/login';
+import LoginUserService from '../services/userLogin';
+import { GenerateStatusError } from '../utils';
 
-const getUser: RequestHandler = async (req, res) => {
-  const userr = await services.getUser(req.body);
-  if (userr === null) return res.status(400).json({ message: 'usuario nao encontrado' });
-  const { email, password } = req.body;
-  const senha = await fs.readFile('../../../jwt.evaluation.key', 'utf8');
-  const token = jwt.sign({ email, password }, senha, { expiresIn: '7D', algorithm: 'HS256' });
-  const user = { userr };
-  return res.status(201).json({ user, token });
-};
+class LoginUserController {
+  private StatusCode = StatusCode;
 
-const verifyUser: RequestHandler = async (req, res) => {
-  try {
-    let token = req.headers.authorization;
-    token = `${token}`;
-    const senha = await fs.readFile('../../../jwt.evaluation.key', 'utf8');
-    const decoded = jwt.verify(token, senha);
-    const { username, password } = <any>decoded;
-    const user = await User.findOne({ where: { username, password }, attributes: ['role'] });
-    if (!user) {
-      return res
-        .status(401)
-        .json({ message: 'Erro ao procurar usuário do token.' });
-    }
-    return res.status(200).send(user);
-  } catch (err) {
-    console.error(err);
+  private loginService = new LoginUserService();
+
+  constructor() {
+    this.findUser = this.findUser.bind(this);
   }
-};
-export default { getUser, verifyUser };
+
+  async findUser(req: Request, res: Response): Promise<Response> {
+    const requestData = req.body as IUserReq;
+    const user = await this.loginService.findUser(requestData);
+    if (user instanceof GenerateStatusError) {
+      return res.status(user.status).json({ message: user.message });
+    }
+
+    return res.status(this.StatusCode.Ok).json(user);
+  }
+}
+
+export default LoginUserController;

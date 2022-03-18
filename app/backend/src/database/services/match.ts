@@ -1,4 +1,4 @@
-import Match from '../models/match';
+import Match from '../modelsSequelize/match';
 
 const getAll = async () => {
   const matchs = await Match.findAll();

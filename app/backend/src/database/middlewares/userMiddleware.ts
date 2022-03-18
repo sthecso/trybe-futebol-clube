@@ -1,21 +1,30 @@
-import { RequestHandler } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { IUserReq } from '../interfaces/login';
+import StatusCode from '../utils/statusCode';
 
-const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+class VerifyValidFields {
+  private statusCode = StatusCode;
 
-const verifyBody: RequestHandler = (req, res, next) => {
-  if (regex.test(req.body.email) === false) {
-    return res.status(401).json({ message: 'Incorrect email or password' });
+  private regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+  constructor() {
+    this.verifyRequest = this.verifyRequest.bind(this);
   }
 
-  if (req.body.password.length < 7) {
-    return res.status(401).json({ message: 'Incorrect email or password' });
+  async verifyRequest(req: Request, res: Response, next: NextFunction) {
+    const userreq = req.body as IUserReq;
+    if (!userreq.email || !userreq.password) {
+      const message = 'All fields must be filled';
+      return res.status(this.statusCode.Unauthorized).json({ message });
+    }
+
+    if (userreq.password.length < 7 || this.regex.test(userreq.email) === false) {
+      const message = 'Incorrect email or password';
+      return res.status(this.statusCode.Unauthorized).json({ message });
+    }
+
+    next();
   }
+}
 
-  if (!req.body.email || !req.body.password) {
-    return res.status(401).json({ message: 'All fields must be filled' });
-  }
-
-  next();
-};
-
-export default verifyBody;
+export default VerifyValidFields;
