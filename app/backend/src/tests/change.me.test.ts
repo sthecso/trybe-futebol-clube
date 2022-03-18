@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe("Testa se o endpoint login retorna dados esperados", () => {
-  it("Testa se rertona status 200 e usuario tem um token", async () => {
+  it("Testa se retorna status 200 e usuario tem um token", async () => {
     const loginTest = await chai.request(app).post("/login").send({
       username: "Admin",
       password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW",
@@ -20,6 +20,7 @@ describe("Testa se o endpoint login retorna dados esperados", () => {
     expect(loginTest.status).to.be.equal(200);
     expect(loginTest.body).to.be.property("token");
   });
+
   /**
    * Exemplo do uso de stubs com tipos
    */
