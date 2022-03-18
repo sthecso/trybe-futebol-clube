@@ -17,10 +17,10 @@ class LoginRouter {
 
   constructor() {
     this.router = Router();
-    this.start();
+    this.routePath();
   }
 
-  private start() {
+  private routePath() {
     this.router.post('/', this.validateFields.verifyRequest, this.loginController.findUser);
 
     this.router.get(

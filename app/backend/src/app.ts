@@ -3,6 +3,7 @@ import * as express from 'express';
 import 'dotenv/config';
 
 import LoginRouter from './database/routes/user';
+import ClubRouter from './database/routes/club';
 
 class App {
   public app: express.Express;
@@ -10,12 +11,15 @@ class App {
   // ...
   private loginRouter = new LoginRouter();
 
+  private clubRouter = new ClubRouter();
+
   constructor() {
     // ...
     this.app = express();
     this.config();
     this.app.use(express.json());
     this.app.use('/login', this.loginRouter.router);
+    this.app.use('/clubs', this.clubRouter.routePath);
     // ...
   }
 
