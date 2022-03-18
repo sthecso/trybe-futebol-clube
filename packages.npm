@@ -1,0 +1,2 @@
+--save-dev @commitlint/{cli,config-conventional}
+husky --save-dev
