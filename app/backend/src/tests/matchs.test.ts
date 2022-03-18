@@ -12,17 +12,36 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('/GET Matchs', () => {
-  it('o status é 200', async function () {
-    const result = await chai.request(app)
-      .get('/matchs');
-    expect(result.status).to.be.equals(200);
+describe('Matchs', () => {
+  describe('/GET Matchs', () => {
+    it('o status é 200', async function () {
+      const result = await chai.request(app)
+        .get('/matchs');
+      expect(result.status).to.be.equals(200);
+    });
+
+    it('deveria retornar uma lista de matchs', async function () {
+      const result = await chai.request(app)
+        .get('/matchs');
+      expect(result.status).to.be.equals(200);
+      expect(Array.isArray(result.body)).to.be.equal(true);
+    });
   });
 
-  it('deveria retornar uma lista de matchs', async function () {
-    const result = await chai.request(app)
-      .get('/matchs');
-    expect(result.status).to.be.equals(200);
-    expect(Array.isArray(result.body)).to.be.equal(true);
+  describe('/POST Matchs', () => {
+    it('deveria impedir adicionar partida com times iguais', async function () {
+      const homeTeamId = 1;
+      const awayTeamId = 1;
+
+      const sameTeamError = 'It is not possible to create a match with two equal teams';
+
+      const result = await chai.request(app)
+        .post('/matchs')
+        .set('content-type', 'application/json')
+        .send({ homeTeamId, awayTeamId });
+      expect(result.status).to.be.equals(401);
+      expect(result.body).to.haveOwnProperty('message');
+      expect(result.body.message).to.be.equals(sameTeamError);
+    });
   });
 });
