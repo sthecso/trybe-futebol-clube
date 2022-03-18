@@ -1,5 +1,5 @@
 import { ICredentials, ITokenData } from '../interfaces';
-import UsersRepository from '../repositories/users.repository';
+import { UsersRepository } from '../repositories';
 
 export default class LoginService {
   constructor(

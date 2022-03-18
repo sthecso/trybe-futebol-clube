@@ -1,20 +1,18 @@
-import { ClubModel } from '../database/models';
+import { ClubsRepository } from '../repositories';
 
 export default class ClubsServices {
-  private clubModel: typeof ClubModel;
+  constructor(
+    private clubsRepository: typeof ClubsRepository,
+  ) {}
 
-  constructor() {
-    this.clubModel = ClubModel;
-  }
-
-  async findAll() {
-    const clubsList = await this.clubModel.findAll();
+  async getAllClubs() {
+    const clubsList = await this.clubsRepository.getAllClubs();
 
     return { code: 200, data: clubsList };
   }
 
-  async findById(id: string) {
-    const club = await this.clubModel.findByPk(id);
+  async getClubById(id: string) {
+    const club = await this.clubsRepository.getClubById(id);
 
     return club ? { code: 200, data: club } : { code: 404, data: { message: 'Club not found' } };
   }

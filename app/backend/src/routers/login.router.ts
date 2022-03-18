@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { loginControllerFactory } from '../factories';
+import loginControllerFactory from '../factories/login.controller.factory';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
 

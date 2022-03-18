@@ -1,13 +1,12 @@
 import * as express from 'express';
-import { ClubsController } from '../controllers';
+import { clubsControllerFactory } from '../factories';
+
+const clubsController = clubsControllerFactory();
 
 export default class Login {
   public router: express.Router;
 
-  private clubsController: ClubsController;
-
   constructor() {
-    this.clubsController = new ClubsController();
     this.router = express.Router();
     this.route();
   }
@@ -15,12 +14,18 @@ export default class Login {
   private route(): void {
     this.router.get(
       '/',
-      this.clubsController.findAll,
+      async (req: express.Request, res: express.Response) => {
+        const { code, data } = await clubsController.getAllClubs();
+        return res.status(code).json(data);
+      },
     );
 
     this.router.get(
       '/:id',
-      this.clubsController.findById,
+      async (req: express.Request, res: express.Response) => {
+        const { code, data } = await clubsController.getClubById(req.params.id);
+        return res.status(code).json(data);
+      },
     );
   }
 }
