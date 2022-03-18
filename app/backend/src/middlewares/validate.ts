@@ -8,11 +8,13 @@ import { ObjectSchema } from 'joi'; // any schema
   validate(schema)();
 */
 const validate = (schema: ObjectSchema): RequestHandler =>
-  (req, _res, _next) => {
+  (req, _res, next) => {
     const { body } = req;
     const { error } = schema.validate(body);
 
-    if (error) throw error;
+    if (error) next(error);
+
+    next();
   };
 
 export default validate;

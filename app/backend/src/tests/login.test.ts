@@ -5,8 +5,8 @@ import { app } from '../app';
 
 import { Response } from 'superagent';
 import { exec } from 'shelljs';
-import { StatusCodes } from 'http-status-codes';
-import * as messages from '../database/utils/messages';
+import * as messages from '../utils/messages';
+import StatusCodes from '../utils/StatusCodes';
 
 chai.use(chaiHttp);
 
@@ -60,7 +60,7 @@ describe('Login', () => {
       it('The API responds with the correct message', () => {
         const { message } = httpResponse.body;
 
-        expect(message).to.be.equal(messages.login.email.base);
+        expect(message).to.be.equal(messages.user.email.base);
       });
     });
 
@@ -78,7 +78,7 @@ describe('Login', () => {
       it('The API responds with the correct message', () => {
         const { message } = httpResponse.body;
   
-        expect(message).to.be.equal(messages.login.empty);
+        expect(message).to.be.equal(messages.user.required);
       });
     });
 
@@ -96,7 +96,7 @@ describe('Login', () => {
       it('The API responds with the correct message', () => {
         const { message } = httpResponse.body;
 
-        expect(message).to.be.equal(messages.login.incorrect);
+        expect(message).to.be.equal(messages.user.incorrect);
       });
     });
 
@@ -114,7 +114,7 @@ describe('Login', () => {
       it('The API responds with the correct message', () => {
         const { message } = httpResponse.body;
   
-        expect(message).to.be.equal(messages.login.password.base);
+        expect(message).to.be.equal(messages.user.password.base);
       });
     });
 
@@ -133,7 +133,7 @@ describe('Login', () => {
         const { message } = httpResponse.body;
 
         expect(message).to.be
-          .equal(messages.login.empty);
+          .equal(messages.user.required);
       });
     });
 
@@ -152,7 +152,7 @@ describe('Login', () => {
         const { message } = httpResponse.body;
 
         expect(message).to.be
-          .equal(messages.login.incorrect);
+          .equal(messages.user.incorrect);
       });
     });
   });
