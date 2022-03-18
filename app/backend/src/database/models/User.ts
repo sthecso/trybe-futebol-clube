@@ -1,16 +1,17 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
+export default class User extends Model {
+  public id: number;
 
-interface IUser {
-  id?: number;
-  username: string;
-  role: string;
-  email: string;
-  password: string;
+  public username: string;
+
+  public role: string;
+
+  public email: string;
+
+  public password: string;
 }
-
-export default class User extends Model<IUser> {}
 
 User.init(
   {
