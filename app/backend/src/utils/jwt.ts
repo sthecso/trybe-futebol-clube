@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 
 dotenv.config();
 
-const secret = readFileSync('jwt.evaluation.key', 'utf8');
+const secret = readFileSync('jwt.evaluation.key', { encoding: 'utf-8' }).trim();
 
 const sign = (payload: object, duration = '1h') => jwt.sign(payload, secret, {
   algorithm: 'HS256',
