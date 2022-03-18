@@ -18,7 +18,13 @@ class Login {
 
       const userFound = await this.loginService.findEmail();
 
-      const token = await Token.generate({ email, password });
+      if (!undefined) {
+        return res.status(401).json({
+          message: 'Incorrect email or password',
+        });
+      }
+
+      const token = await Token.generate({ email });
       return res.status(200).json({
         user: userFound,
         token,
