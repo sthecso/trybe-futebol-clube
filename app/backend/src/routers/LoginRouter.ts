@@ -10,9 +10,11 @@ class LoginRouter {
 
   constructor() {
     this.loginController = new LoginController();
+    this.router = express.Router();
+    this.route();
   }
 
-  login() {
+  private route(): void {
     this.router.post('/', validateSchema(loginSchema), this.loginController.login);
   }
 }

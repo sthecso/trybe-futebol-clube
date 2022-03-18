@@ -9,10 +9,11 @@ class App {
     // ...
     this.app = express();
     this.config();
+    this.route();
     // ...
   }
 
-  private config():void {
+  private config(): void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
@@ -22,11 +23,12 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
-    this.app.use('/login', new LoginRouter().router);
-    // ...
   }
 
-  // ...
+  private route(): void {
+    this.app.use('/login', new LoginRouter().router);
+  }
+
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
       console.log('Server on', PORT);
