@@ -10,7 +10,7 @@ const joiError: ErrorRequestHandler = async (err, _req, res, next) => {
 
     return res
       .status(status)
-      .json({ error: message });
+      .json({ message });
   }
 
   next(err);
