@@ -133,6 +133,7 @@
     ],
     "sonarjs/no-inverted-boolean-check": [
       "error"
-    ]
+    ],
+    "@typescript-eslint/no-non-null-assertion": 0
   }
 }

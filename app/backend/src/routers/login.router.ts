@@ -1,15 +1,14 @@
 import * as express from 'express';
-import { LoginController } from '../controllers';
+import { loginControllerFactory } from '../factories';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
+
+const loginController = loginControllerFactory();
 
 export default class Login {
   public router: express.Router;
 
-  private loginController: LoginController;
-
   constructor() {
-    this.loginController = new LoginController();
     this.router = express.Router();
     this.route();
   }
@@ -18,13 +17,19 @@ export default class Login {
     this.router.post(
       '/',
       middlewares.validateBody(joiSchemas.login),
-      this.loginController.login,
+      async (req: express.Request, res: express.Response) => {
+        const { code, data } = await loginController.login(req.body);
+        return res.status(code).json(data);
+      },
     );
 
     this.router.get(
       '/validate',
       middlewares.jwtAuth,
-      this.loginController.validate,
+      async (req: express.Request, res: express.Response) => {
+        const { code, data } = loginController.validate(req.tokenData!);
+        return res.status(code).send(data);
+      },
     );
   }
 }

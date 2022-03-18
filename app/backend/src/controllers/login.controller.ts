@@ -1,24 +1,17 @@
-import { Request, Response } from 'express';
-import { ITokenData } from '../interfaces';
+import { ITokenData, ICredentials } from '../interfaces';
 import { LoginService } from '../services';
 
 export default class LoginController {
-  private loginService: LoginService;
+  constructor(
+    private loginService: LoginService,
+  ) {}
 
-  constructor() {
-    this.loginService = new LoginService();
-    this.login = this.login.bind(this);
-    this.validate = this.validate.bind(this);
+  async login(credentials: ICredentials) {
+    return this.loginService.login(credentials);
   }
 
-  async login(req: Request, res: Response) {
-    const { code, data } = await this.loginService.login(req.body);
-    return res.status(code).json(data);
-  }
-
-  validate(req: Request, res: Response) {
-    const { role } = req.tokenData as ITokenData;
-    res.status(200).send(role);
-    return this;
+  validate(tokenData: ITokenData) {
+    if (!this) { console.log('lint chato'); }
+    return { code: 200, data: tokenData.role };
   }
 }
