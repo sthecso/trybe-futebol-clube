@@ -1,4 +1,4 @@
-import { ITokenData } from '../../utils/interfaces';
+import { ITokenData } from '../../interfaces';
 
 declare module 'express-serve-static-core' {
   interface Request {

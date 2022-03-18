@@ -1,5 +1,5 @@
 import sortArray = require('sort-array');
-import { IClubHistory, IClubStats, ILeaderboardMatchGoals } from '../utils/interfaces';
+import { IClubHistory, IClubStats, ILeaderboardMatchGoals } from '../interfaces';
 import { ClubModel, MatchModel } from '../database/models';
 
 export default class LeaderboardService {

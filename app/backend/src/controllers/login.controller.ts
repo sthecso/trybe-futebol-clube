@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ITokenData } from '../utils/interfaces';
+import { ITokenData } from '../interfaces';
 import { LoginService } from '../services';
 
 export default class LoginController {

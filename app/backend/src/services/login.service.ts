@@ -1,5 +1,5 @@
 import { compare } from 'bcryptjs';
-import { ICredentials } from '../utils/interfaces';
+import { ICredentials } from '../interfaces';
 import { UserModel } from '../database/models';
 import { jwtGenerator } from '../helpers';
 

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { INewMatch, IScore } from '../utils/interfaces';
+import { INewMatch, IScore } from '../interfaces';
 import { MatchModel, ClubModel } from '../database/models';
 
 export default class MatchService {
