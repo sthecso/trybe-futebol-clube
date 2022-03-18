@@ -29,13 +29,7 @@ describe('Seu teste', () => {
   // after(()=>{
   //   (Example.findOne as sinon.SinonStub).restore();
   // })
-
-  it('Testa se o servidor está funcionado', async () => {
-    chaiHttpResponse = await chai.request(app).get('/')
-
-    expect(chaiHttpResponse).have.status(200)
-  });
-
+  
   it('Testa a rota /login', async () => {
     chaiHttpResponse = await chai.request(app).post('/login').send({
       email: "string",
