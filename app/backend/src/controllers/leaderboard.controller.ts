@@ -8,6 +8,7 @@ export default class ClubService {
     this.leaderboardService = new LeaderboardService();
     this.getHomeRanking = this.getHomeRanking.bind(this);
     this.getAwayRanking = this.getAwayRanking.bind(this);
+    this.getOverallRanking = this.getOverallRanking.bind(this);
   }
 
   async getHomeRanking(_req: Request, res: Response) {
@@ -17,6 +18,11 @@ export default class ClubService {
 
   async getAwayRanking(_req: Request, res: Response) {
     const { code, data } = await this.leaderboardService.getAwayRanking();
+    return res.status(code).json(data);
+  }
+
+  async getOverallRanking(_req: Request, res: Response) {
+    const { code, data } = await this.leaderboardService.getOverallRanking();
     return res.status(code).json(data);
   }
 }

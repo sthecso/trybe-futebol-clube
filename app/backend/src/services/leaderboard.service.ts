@@ -1,9 +1,9 @@
 import sortArray = require('sort-array');
-import { IClubStats, ILeaderboardMatchsGoals, ISequelizeClubsHistory } from '../utils/interfaces';
+import { IClubHistory, IClubStats, ILeaderboardMatchGoals } from '../utils/interfaces';
 import { ClubModel, MatchModel } from '../database/models';
 
 export default class LeaderboardService {
-  private static calcTotalPoints(matchs: ILeaderboardMatchsGoals[]) {
+  private static calcTotalPoints(matchs: ILeaderboardMatchGoals[]) {
     return matchs.reduce((totalPoints, match) => {
       if (match.goalsFavor > match.goalsOwn) return totalPoints + 3;
       if (match.goalsFavor === match.goalsOwn) return totalPoints + 1;
@@ -11,42 +11,33 @@ export default class LeaderboardService {
     }, 0);
   }
 
-  private static calcTotalVictories(matchs: ILeaderboardMatchsGoals[]) {
+  private static calcTotalVictories(matchs: ILeaderboardMatchGoals[]) {
     return matchs.reduce((totalVictories, match) => {
       if (match.goalsFavor > match.goalsOwn) return totalVictories + 1;
       return totalVictories;
     }, 0);
   }
 
-  private static calcTotalDraws(matchs: ILeaderboardMatchsGoals[]) {
+  private static calcTotalDraws(matchs: ILeaderboardMatchGoals[]) {
     return matchs.reduce((totalDraws, match) => {
       if (match.goalsFavor === match.goalsOwn) return totalDraws + 1;
       return totalDraws;
     }, 0);
   }
 
-  private static calcTotalLosses(matchs: ILeaderboardMatchsGoals[]) {
+  private static calcTotalLosses(matchs: ILeaderboardMatchGoals[]) {
     return matchs.reduce((totalLosses, match) => {
       if (match.goalsFavor < match.goalsOwn) return totalLosses + 1;
       return totalLosses;
     }, 0);
   }
 
-  private static calcGoalsFavor(matchs: ILeaderboardMatchsGoals[]) {
+  private static calcGoalsFavor(matchs: ILeaderboardMatchGoals[]) {
     return matchs.reduce((goalsFavor, match) => goalsFavor + match.goalsFavor, 0);
   }
 
-  private static calcGoalsOwn(matchs: ILeaderboardMatchsGoals[]) {
+  private static calcGoalsOwn(matchs: ILeaderboardMatchGoals[]) {
     return matchs.reduce((goalsOwn, match) => goalsOwn + match.goalsOwn, 0);
-  }
-
-  private static calcGoalsBalance(matchs: ILeaderboardMatchsGoals[]) {
-    return this.calcGoalsFavor(matchs) - this.calcGoalsOwn(matchs);
-  }
-
-  private static calcEfficiency(matchs: ILeaderboardMatchsGoals[]) {
-    return Number(((this.calcTotalPoints(matchs) / (matchs.length * 3)) * 100)
-      .toFixed(2));
   }
 
   private static sortLeaderboard(clubsStats: IClubStats[]) {
@@ -55,25 +46,28 @@ export default class LeaderboardService {
     return sortArray(clubsStats, { by: sortProps, order: sortPropsOrder });
   }
 
-  private static createLeaderboard(
-    clubsHistory: ISequelizeClubsHistory[],
-    matchs: 'homeMatchs' | 'awayMatchs',
-  ) {
-    return this.sortLeaderboard(clubsHistory.map((club) => {
-      const clubHistory = club.get({ plain: true }); // turn sequelize model instance in a plain object
-      return {
-        name: clubHistory.clubName,
-        totalPoints: this.calcTotalPoints(clubHistory[matchs]),
-        totalGames: clubHistory[matchs].length,
-        totalVictories: this.calcTotalVictories(clubHistory[matchs]),
-        totalDraws: this.calcTotalDraws(clubHistory[matchs]),
-        totalLosses: this.calcTotalLosses(clubHistory[matchs]),
-        goalsFavor: this.calcGoalsFavor(clubHistory[matchs]),
-        goalsOwn: this.calcGoalsOwn(clubHistory[matchs]),
-        goalsBalance: this.calcGoalsBalance(clubHistory[matchs]),
-        efficiency: this.calcEfficiency(clubHistory[matchs]),
+  private static createLeaderboard(clubsHistory: IClubHistory[]) {
+    const unsortedLeaderboard = clubsHistory.map(({ clubName, matchs }) => {
+      const clubStats = {
+        name: clubName,
+        totalPoints: this.calcTotalPoints(matchs),
+        totalGames: matchs.length,
+        totalVictories: this.calcTotalVictories(matchs),
+        totalDraws: this.calcTotalDraws(matchs),
+        totalLosses: this.calcTotalLosses(matchs),
+        goalsFavor: this.calcGoalsFavor(matchs),
+        goalsOwn: this.calcGoalsOwn(matchs),
+        goalsBalance: 0,
+        efficiency: 0,
       };
-    }));
+
+      clubStats.goalsBalance = clubStats.goalsFavor - clubStats.goalsOwn;
+      clubStats.efficiency = +(((clubStats.totalPoints / (matchs.length * 3)) * 100).toFixed(2));
+
+      return clubStats;
+    });
+
+    return this.sortLeaderboard(unsortedLeaderboard);
   }
 
   private clubModel: typeof ClubModel;
@@ -86,36 +80,59 @@ export default class LeaderboardService {
   }
 
   async getHomeRanking() {
-    const clubsHomeHistory = await this.clubModel.findAll({
-      attributes: ['clubName'],
-      include: [{
-        model: this.matchModel,
-        as: 'homeMatchs',
-        attributes: ['id', ['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
-        where: { inProgress: false },
-      }],
-    }) as unknown as ISequelizeClubsHistory[];
+    const clubsHomeHistory = (await this.clubModel.findAll({ include: [{
+      model: this.matchModel,
+      as: 'homeMatchs',
+      attributes: [['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
+      where: { inProgress: false },
+    }],
+    }))
+      .map((clubHistory) => {
+        const plainHistory = clubHistory.get({ plain: true });
+        plainHistory.matchs = [...plainHistory.homeMatchs];
+        delete plainHistory.homeMatchs;
+        return plainHistory;
+      }) as IClubHistory[];
 
-    return {
-      code: 200,
-      data: LeaderboardService.createLeaderboard(clubsHomeHistory, 'homeMatchs'),
-    };
+    return { code: 200, data: LeaderboardService.createLeaderboard(clubsHomeHistory) };
   }
 
   async getAwayRanking() {
-    const clubsAwayHistory = await this.clubModel.findAll({
-      attributes: ['clubName'],
-      include: [{
-        model: this.matchModel,
-        as: 'awayMatchs',
-        attributes: ['id', ['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
-        where: { inProgress: false },
-      }],
-    }) as unknown as ISequelizeClubsHistory[];
+    const clubsAwayHistory = (await this.clubModel.findAll({ include: [{
+      model: this.matchModel,
+      as: 'awayMatchs',
+      attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
+      where: { inProgress: false },
+    }],
+    }))
+      .map((clubHistory) => {
+        const plainHistory = clubHistory.get({ plain: true });
+        plainHistory.matchs = [...plainHistory.awayMatchs];
+        return plainHistory;
+      }) as IClubHistory[];
 
-    return {
-      code: 200,
-      data: LeaderboardService.createLeaderboard(clubsAwayHistory, 'awayMatchs'),
-    };
+    return { code: 200, data: LeaderboardService.createLeaderboard(clubsAwayHistory) };
+  }
+
+  async getOverallRanking() {
+    const clubsOverallHistory = (await this.clubModel.findAll({ include: [{
+      model: this.matchModel,
+      as: 'homeMatchs',
+      attributes: [['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
+      where: { inProgress: false },
+    }, {
+      model: this.matchModel,
+      as: 'awayMatchs',
+      attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
+      where: { inProgress: false },
+    }],
+    }))
+      .map((clubHistory) => {
+        const plainHistory = clubHistory.get({ plain: true });
+        plainHistory.matchs = [...plainHistory.homeMatchs, ...plainHistory.awayMatchs];
+        return plainHistory;
+      }) as IClubHistory[];
+
+    return { code: 200, data: LeaderboardService.createLeaderboard(clubsOverallHistory) };
   }
 }

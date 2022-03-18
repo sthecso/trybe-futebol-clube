@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
-import { home, away } from './assets/leaderboard';
+import { home, away, overall } from './assets/leaderboard';
 
 chai.use(chaiHttp);
 
@@ -98,6 +98,44 @@ describe('Leaderboard endpoints', () => {
 
       expect(status).to.be.equal(200);
       expect(body).to.be.deep.equal(away.result2);
+    });
+  });
+
+  describe('When making GET request to /leaderboard', () => {
+    before(() => {
+      exec('npm run db:reset');
+    });
+
+    it('API responds with status 200 and ordered ranking of clubs', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/leaderboard');
+
+      const { status, body } = chaiHttpResponse;
+
+      expect(status).to.be.equal(200);
+      expect(body).to.be.deep.equal(overall.result1);
+    });
+
+    it('After adding a new match: API responds with status 200 and ordered ranking of clubs', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/matchs')
+        .set('authorization', loginToken)
+        .send({ homeTeam: 7, awayTeam: 11, homeTeamGoals: 3, awayTeamGoals: 0, inProgress: true });
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch(`/matchs/${chaiHttpResponse.body.id}/finish`);
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/leaderboard');
+
+      const { status, body } = chaiHttpResponse;
+
+      expect(status).to.be.equal(200);
+      expect(body).to.be.deep.equal(overall.result2);
     });
   });
 });

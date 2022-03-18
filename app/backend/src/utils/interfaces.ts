@@ -23,20 +23,14 @@ export interface IScore {
   awayTeamGoals: number;
 }
 
-export interface ILeaderboardMatchsGoals {
-  id: number;
+export interface ILeaderboardMatchGoals {
   goalsFavor: number;
   goalsOwn: number
 }
 
-export interface ISequelizeClubsHistory {
-  get(param: { plain: true }): IClubsHistory;
-}
-
-export interface IClubsHistory {
+export interface IClubHistory {
   clubName: string;
-  homeMatchs: ILeaderboardMatchsGoals[];
-  awayMatchs: ILeaderboardMatchsGoals[];
+  matchs: ILeaderboardMatchGoals[];
 }
 
 export interface IClubStats {

@@ -22,5 +22,10 @@ export default class Login {
       '/away',
       this.leaderboardController.getAwayRanking,
     );
+
+    this.router.get(
+      '/',
+      this.leaderboardController.getOverallRanking,
+    );
   }
 }
