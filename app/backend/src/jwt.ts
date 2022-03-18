@@ -3,17 +3,24 @@ import { readFileSync } from 'fs';
 
 const jwtSecret = readFileSync('jwt.evaluation.key', { encoding: 'utf8' });
 
-const generateToken = (payload: string) => {
+export interface IJwtPayload {
+  id: number,
+  email: string,
+  role: string,
+  username: string
+}
+
+const generateToken = (payload: IJwtPayload) => {
   const token = sign(payload, jwtSecret);
   return token;
 };
 
 const validateToken = (token: string) => {
   try {
-    const id = verify(token, jwtSecret);
-    return id || false;
+    const payload = verify(token, jwtSecret) as IJwtPayload;
+    return payload || null;
   } catch (error) {
-    return false;
+    return null;
   }
 };
 

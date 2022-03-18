@@ -1,4 +1,8 @@
 import * as express from 'express';
+
+// import verifyToken from './middleware/token';
+
+import ClubsController from './controllers/ClubsControllers';
 import LoginController from './controllers/LoginControllers';
 import MatchsController from './controllers/MatchsControllers';
 
@@ -22,7 +26,12 @@ class App {
     this.app.use(express.json());
 
     this.app.post('/login', LoginController.login);
+
+    // this.app.use(verifyToken);
+    this.app.get('/login/validate', LoginController.validate);
     this.app.get('/matchs', MatchsController.all);
+    this.app.get('/clubs', ClubsController.all);
+    this.app.get('/clubs/:id', ClubsController.club);
   }
 
   public start(PORT: string | number):void {

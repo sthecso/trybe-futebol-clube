@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../database/models/User';
-import { generateToken } from '../jwt';
+import { generateToken, validateToken } from '../jwt';
 import { emailInvalide, passwordCompare, passwordInvalide } from '../utils/UserUtils';
 
 export default class LoginController {
@@ -17,10 +17,23 @@ export default class LoginController {
     if (user) {
       const passwordEqual = await passwordCompare(password, user.password);
       if (passwordEqual) return res.status(401).json({ message: passwordEqual });
-      const token = generateToken(`${user.id}`);
+
+      const { id, role, username } = user;
+      const token = generateToken({ id, email, role, username });
       const u = { id: user.id, username: user.username, role: user.role, email: user.email };
       return res.status(200).json({ user: u, token });
     }
     return res.status(401).json({ message: 'Incorrect email or password' });
+  }
+
+  static async validate(req: Request, res: Response) {
+    const token = req.headers.authorization;
+    console.log('authorization', token);
+
+    if (!token) return res.status(401).json({ message: 'Token not found' });
+    const payload = validateToken(token);
+
+    if (!payload) return;
+    return res.status(200).json(payload.role);
   }
 }

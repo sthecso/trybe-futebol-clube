@@ -121,4 +121,23 @@ describe('/POST Login', () => {
     const id = validateToken(result.body.token);
     expect(id).not.to.be.equal(false);
   });
+  describe('/GET Login/Validate', () => {
+    it('o retorno deve vir com o user role', async function () {
+      const login = {
+        email: userEmail,
+        password: userPassword,
+      };
+      const role = 'user';
+      const result = await chai.request(app)
+        .post('/login')
+        .set('content-type', 'application/json')
+        .send(login);
+      expect(result.body).to.haveOwnProperty('token');
+      const { token } = result.body;
+      const validate = await chai.request(app)
+        .get('/login/validate')
+        .set('Authorization', token);
+      expect(validate.body).to.be.equal(role);
+    });
+  });
 });
