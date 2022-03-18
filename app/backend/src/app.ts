@@ -1,4 +1,5 @@
 import * as express from 'express';
+import Login from './routes/login';
 
 class App {
   public app: express.Express = express();
@@ -25,6 +26,8 @@ class App {
   // ...
   public start(PORT: string | number):void {
     // ...
+    this.app.use(express.json());
+    this.app.use('/login', Login);
     this.app.listen(PORT, () => {
       console.log(`ouvindo na porta ${PORT}`);
     });
