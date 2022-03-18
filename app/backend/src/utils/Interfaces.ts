@@ -19,3 +19,18 @@ export interface TokenReturn {
   iat: number,
   exp: number,
 }
+
+export interface Match {
+  id: number,
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+  homeClub: ClubName,
+  awayClub: ClubName
+}
+
+interface ClubName {
+  clubName: string
+}
