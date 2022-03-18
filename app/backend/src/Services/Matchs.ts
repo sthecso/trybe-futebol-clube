@@ -1,3 +1,4 @@
+import InsertMatch from '../Types/insertMatch';
 import Match from '../database/models/Match';
 import Club from '../database/models/Club';
 
@@ -41,4 +42,18 @@ const getByProgress = async (inProgress: boolean) => {
   return matchs;
 };
 
-export { getAll, getById, getByProgress };
+const insertMatch = async (match: InsertMatch) => {
+  const newMatch = await Match.create(match);
+  return newMatch;
+};
+
+const finishMatch = async (id: string):Promise<boolean> => {
+  const match = await Match.findByPk(id);
+  if (!match) {
+    return false;
+  }
+  match.update({ inProgress: false });
+  return true;
+};
+
+export { getAll, getById, getByProgress, insertMatch, finishMatch };
