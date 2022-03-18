@@ -30,15 +30,15 @@ describe('Matchs', () => {
 
   describe('/POST Matchs', () => {
     it('deveria impedir adicionar partida com times iguais', async function () {
-      const homeTeamId = 1;
-      const awayTeamId = 1;
+      const homeTeam = 1;
+      const awayTeam = 1;
 
       const sameTeamError = 'It is not possible to create a match with two equal teams';
 
       const result = await chai.request(app)
         .post('/matchs')
         .set('content-type', 'application/json')
-        .send({ homeTeamId, awayTeamId });
+        .send({ homeTeam, awayTeam });
       expect(result.status).to.be.equals(401);
       expect(result.body).to.haveOwnProperty('message');
       expect(result.body.message).to.be.equals(sameTeamError);
@@ -75,6 +75,34 @@ describe('Matchs', () => {
       expect(result.status).to.be.equals(201);
       expect(result.body).to.haveOwnProperty('inProgress');
       expect(result.body.inProgress).to.be.equals(true);
+    });
+  });
+
+  describe('/PATCH Matchs/:id/finish', () => {
+    it('deveria permitir alterar o status inProgress da partida para false', async function () {
+      const newMatch = {
+        homeTeam: 1,
+        awayTeam: 2,
+        homeTeamGoals: 2,
+        awayTeamGoals: 2,
+      };
+
+      const message = 'Finished match';
+
+      const result = await chai.request(app)
+        .post('/matchs')
+        .set('content-type', 'application/json')
+        .send(newMatch);
+
+      expect(result.status).to.be.equals(201);
+      expect(result.body).to.haveOwnProperty('id');
+
+      const matchId = result.body.id;
+      const matchFinished = await chai.request(app)
+        .patch(`/matchs/${matchId}/finish`);
+      expect(matchFinished.status).to.be.equals(200);
+      expect(matchFinished.body).to.haveOwnProperty('message');
+      expect(matchFinished.body.message).to.be.equals(message);
     });
   });
 });

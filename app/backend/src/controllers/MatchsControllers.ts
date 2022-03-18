@@ -33,4 +33,17 @@ export default class MatchsController {
       return res.status(500).json({ erro: error });
     }
   }
+
+  static async finishMatch(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      const [ok] = await Matchs.update({ inProgress: false }, { where: { id } });
+      console.log('finishMatch', ok);
+
+      return res.status(200).json({ message: 'Finished match' });
+    } catch (error) {
+      return res.status(500).json({ erro: error });
+    }
+  }
 }

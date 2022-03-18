@@ -18,7 +18,7 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
@@ -32,6 +32,7 @@ class App {
     this.app.get('/login/validate', LoginController.validate);
     this.app.get('/matchs', MatchsController.all);
     this.app.post('/matchs', MatchsController.createMatch);
+    this.app.patch('/matchs/:id/finish', MatchsController.finishMatch);
     this.app.get('/clubs', ClubsController.all);
     this.app.get('/clubs/:id', ClubsController.club);
   }
