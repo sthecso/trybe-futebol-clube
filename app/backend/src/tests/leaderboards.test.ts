@@ -5,7 +5,8 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import {
-  leaderboardsNotInProgress,
+  leaderboardsHome,
+  leaderboardsAway,
 } from './mocks';
 
 chai.use(chaiHttp);
@@ -24,7 +25,7 @@ describe('GET \'/leaderboard/home\'', () => {
     const response = chaiHttpResponse.body;
 
     expect(chaiHttpResponse.status).to.be.eql(200);
-    expect(response).to.be.eql(leaderboardsNotInProgress);
+    expect(response).to.be.eql(leaderboardsHome);
   });
 });
 
@@ -38,6 +39,6 @@ describe('GET \'/leaderboard/away\'', () => {
     const response = chaiHttpResponse.body;
 
     expect(chaiHttpResponse.status).to.be.eql(200);
-    expect(response).to.be.eql(leaderboardsNotInProgress);
+    expect(response).to.be.eql(leaderboardsAway);
   });
 });

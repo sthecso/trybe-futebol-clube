@@ -1,2 +1,2 @@
 export { default as GetLeaderboardsHomeController } from './GetLeaderboardsHomeController';
-export const lint = () => {};
+export { default as GetLeaderboardsAwayController } from './GetLeaderboardsAwayController';

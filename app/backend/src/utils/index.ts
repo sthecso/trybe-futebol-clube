@@ -1,4 +1,5 @@
 export { default as ErrorCatcher } from './ErrorCatcher';
 export { default as HttpStatusCode } from './HttpStatusCode';
 export { default as createToken } from './createToken';
-export { lint, schemaUserRequest } from './schemasJoi';
+export { schemaUserRequest } from './schemasJoi';
+export { leaderboardsHomeQuery } from './queries';

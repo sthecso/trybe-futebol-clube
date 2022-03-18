@@ -1,10 +1,12 @@
 import { GetLeaderboardsModel } from '../../models/leaderboards';
 
+import { leaderboardsHomeQuery } from '../../utils';
+
 class GetLeaderboardsHomeService {
-  private getLeaderboardsHomeModel = new GetLeaderboardsModel();
+  private getLeaderboardsModel = new GetLeaderboardsModel(leaderboardsHomeQuery);
 
   async handle() {
-    const leaderboards = await this.getLeaderboardsHomeModel.handle();
+    const leaderboards = await this.getLeaderboardsModel.handle();
 
     return leaderboards;
   }
