@@ -24,5 +24,26 @@ describe('Testes da /matchs', () => {
       expect(chaiHttpResponse.status).to.be.equal(200);
     });
   });
+
+  describe('Quando o request é feito corretamente, na rota post', () => {
+    let chaiHttpResponse: Response;
+  
+    it('Retorna status 201', async () => {
+      chaiHttpResponse = await chai
+         .request(app)
+         .post('/matchs')
+         .send(
+          {
+            "homeTeam": 16,
+            "awayTeam": 8,
+            "homeTeamGoals": 2,
+            "awayTeamGoals": 2,
+            "inProgress": true
+          }
+         )
+  
+      expect(chaiHttpResponse.status).to.be.equal(201);
+    });
+  });
 });
 
