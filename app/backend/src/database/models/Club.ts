@@ -23,7 +23,7 @@ Club.init(
     tableName: 'clubs',
     timestamps: false,
     sequelize: db,
-    modelName: 'Club',
+    modelName: 'clubs',
     underscored: true,
   },
 );
