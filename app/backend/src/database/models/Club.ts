@@ -23,17 +23,12 @@ Clubs.hasOne(Matchs, {
 });
 
 Clubs.hasOne(Matchs, {
-  as: 'club a',
+  as: 'club b',
   foreignKey: 'away_team',
 });
 
-// Clubs.hasMany(Matchs, {
-//   as: 'club b',
-//   foreignKey: 'away_team',
-// });
 Matchs.belongsTo(Clubs, { as: 'match a', foreignKey: 'home_team' });
 
-// Matchs.belongsTo(Clubs, { as: 'match a', foreignKey: 'home_team' });
 Matchs.belongsTo(Clubs, { as: 'match b', foreignKey: 'away_team' });
 
 export default Clubs;

@@ -1,18 +1,13 @@
-export default class Login {
-  private _email: string;
+import LoginRegisted from '../interfaces/ILogin';
+import User from '../database/models/User';
 
-  private _password: string;
+class LoginService {
+  private ILogin: LoginRegisted;
 
-  constructor(email: string, password: string) {
-    this._email = email;
-    this._password = password;
-  }
-
-  get email() {
-    return this._email;
-  }
-
-  get password() {
-    return this._password;
-  }
+  create = async (value: LoginRegisted) => {
+    const createUser = await User.create(value);
+    return { code: 200, data: createUser };
+  };
 }
+
+export default new LoginService();

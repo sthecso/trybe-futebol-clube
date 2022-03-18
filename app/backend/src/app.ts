@@ -1,6 +1,8 @@
 import * as express from 'express';
+import validateJWT from './auth/validateJWT';
 import Clubs from './database/models/Club';
 import Matchs from './database/models/Match';
+import routesLogin from './routes';
 
 class App {
   public app: express.Express;
@@ -21,6 +23,8 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
+    this.app.use(routesLogin);
+    this.app.use(validateJWT);
   }
 
   hello() {
