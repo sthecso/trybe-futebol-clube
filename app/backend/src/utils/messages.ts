@@ -8,8 +8,8 @@ export const request = {
   },
 };
 
-export const login = {
-  empty: 'All fields must be filled',
+export const user = {
+  required: 'All fields must be filled',
   incorrect: 'Incorrect email or password',
   email: {
     base: 'Email must be a string',

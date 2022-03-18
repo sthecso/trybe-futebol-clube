@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import * as jwt from 'jsonwebtoken';
-import ITokenPayload from './interfaces';
+import { IUser } from './interfaces';
 
 const SECRET = readFileSync(
   'jwt.evaluation.key',
@@ -9,7 +9,7 @@ const SECRET = readFileSync(
   },
 );
 
-export const sign = (payload: ITokenPayload) => jwt.sign(
+export const sign = (payload: IUser) => jwt.sign(
   payload,
   SECRET,
   {
