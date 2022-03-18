@@ -1,5 +1,4 @@
 import { DataTypes, Model } from 'sequelize';
-import sequelize = require('sequelize');
 import Clubs from './clubs';
 import db from '.';
 
