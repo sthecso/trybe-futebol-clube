@@ -3,6 +3,7 @@ import getClubByIdController from './database/controllers/getClubByIdController'
 import getClubsController from './database/controllers/getClubsController';
 import getMatchsController from './database/controllers/getMatchsController';
 import loginController from './database/controllers/LoginController';
+import postMatchController from './database/controllers/postMatchController';
 import validateLoginController from './database/controllers/validateLoginController';
 
 class App {
@@ -31,6 +32,7 @@ class App {
     this.app.get('/clubs/:id', getClubByIdController);
 
     this.app.get('/matchs', getMatchsController);
+    this.app.post('/matchs', postMatchController);
   }
 
   public start(PORT: string | number):void {

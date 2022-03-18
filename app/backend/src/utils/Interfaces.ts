@@ -20,17 +20,23 @@ export interface TokenReturn {
   exp: number,
 }
 
-export interface Match {
-  id: number,
-  homeTeam: number,
-  homeTeamGoals: number,
-  awayTeam: number,
-  awayTeamGoals: number,
-  inProgress: boolean,
+export interface Match extends MatchData {
   homeClub: ClubName,
   awayClub: ClubName
 }
 
 interface ClubName {
   clubName: string
+}
+
+export interface UserSentMatchData {
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+}
+
+export interface MatchData extends UserSentMatchData {
+  id: number,
 }
