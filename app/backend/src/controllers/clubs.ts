@@ -6,7 +6,7 @@ const routerClubs = express.Router();
 
 routerClubs.get(
   '/',
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await findAllClubs();
       return res.status(200).json(result);
