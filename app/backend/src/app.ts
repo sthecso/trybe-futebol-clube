@@ -1,13 +1,17 @@
 import * as express from 'express';
 import Login from './routes/login';
+import domain from './controller/erros/joi';
 
 class App {
-  public app: express.Express = express();
+  public app: express.Express;
   // ...
 
   constructor() {
     // ...
+    this.app = express();
     this.config();
+
+    // this.app.use(express.json());
     // ...
   }
 
@@ -28,6 +32,7 @@ class App {
     // ...
     this.app.use(express.json());
     this.app.use('/login', Login);
+    this.app.use(domain);
     this.app.listen(PORT, () => {
       console.log(`ouvindo na porta ${PORT}`);
     });
