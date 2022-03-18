@@ -1,5 +1,5 @@
-import bodyParser = require('body-parser');
 import * as express from 'express';
+import appRoutes from './routes/appRoutes';
 
 class App {
   public app: express.Express;
@@ -20,7 +20,8 @@ class App {
     };
 
     this.app.use(accessControl);
-    this.app.use(bodyParser);
+    this.app.use(express.json());
+    this.app.use(appRoutes);
   }
 
   // ...
