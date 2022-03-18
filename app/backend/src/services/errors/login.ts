@@ -1,4 +1,4 @@
-import { StatusCodes } from 'http-status-codes';
+import StatusCodes from '../../utils/StatusCodes';
 
 export default class UnauthorizedError extends Error {
   message: string;

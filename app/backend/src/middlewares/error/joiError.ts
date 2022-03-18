@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import * as Joi from 'joi';
+import StatusCodes from '../../utils/StatusCodes';
 
 const joiError: ErrorRequestHandler = async (err, _req, res, next) => {
   if (Joi.isError(err)) {

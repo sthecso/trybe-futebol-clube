@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { StatusCodes } from 'http-status-codes';
+import StatusCodes from '../utils/StatusCodes';
 import LoginService from '../services';
 
 const loginController: RequestHandler = async (req, res, _next) => {
