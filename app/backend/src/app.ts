@@ -1,7 +1,5 @@
 import * as express from 'express';
 import controllerLogin from './controller/Login';
-import Club from './database/models/club';
-import Match from './database/models/matchs';
 
 class App {
   public app: express.Express;
