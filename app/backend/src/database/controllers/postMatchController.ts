@@ -28,13 +28,11 @@ async function verifyTeams(team1: number | string, team2: number | string) {
   if (!club1 || !club2) {
     return { code: 401, payload: { message: 'There is no team with such id!' } };
   }
-  console.log(club1, club2);
   return { code: 200 };
 }
 
 async function postMatchController(req: Request, res: Response) {
   const matchData = req.body as UserSentMatchData;
-  console.log(matchData);
   // const token = req.params.authorization;
   const verifiedData = verifyData(matchData);
   const verifiedTeams = await verifyTeams(matchData.awayTeam, matchData.homeTeam);

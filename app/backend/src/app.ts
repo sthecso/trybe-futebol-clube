@@ -1,4 +1,5 @@
 import * as express from 'express';
+import finishMatchController from './database/controllers/finishMatchController';
 import getClubByIdController from './database/controllers/getClubByIdController';
 import getClubsController from './database/controllers/getClubsController';
 import getMatchsController from './database/controllers/getMatchsController';
@@ -33,6 +34,8 @@ class App {
 
     this.app.get('/matchs', getMatchsController);
     this.app.post('/matchs', postMatchController);
+
+    this.app.patch('/matchs/:id/finish', finishMatchController);
   }
 
   public start(PORT: string | number):void {
