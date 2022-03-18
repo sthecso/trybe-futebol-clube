@@ -6,7 +6,7 @@ import { request } from '../utils/messages';
 import StatusCodes from '../utils/StatusCodes';
 
 const auth: RequestHandler = async (req, res, next) => {
-  const token: string = req.headers.authorization || '';
+  const token = req.headers.authorization;
 
   if (!token) {
     return res

@@ -1,15 +1,23 @@
 import { Router } from 'express';
-import { validate } from '../middlewares';
+import { auth, validate } from '../middlewares';
 import loginController from '../controllers';
 import loginSchema from '../utils/validations';
 
 const login = Router();
 
+login.get(
+  '/validate',
+  [
+    auth,
+    loginController.validate,
+  ],
+);
+
 login.post(
   '/',
   [
     validate(loginSchema),
-    loginController,
+    loginController.login,
   ],
 );
 

@@ -1,3 +1,3 @@
-import loginController from './login';
+import { login, validate } from './login';
 
-export default loginController;
+export default { login, validate };
