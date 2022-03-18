@@ -53,13 +53,21 @@ describe('Rotas login', () =>{
 })
 
 describe('Rotas club', () => {
-  describe('a requisiçã GET',() =>{
+  describe('a requisiçã GET/clubs',() =>{
     it('retorna o status 200 e um json com todos os clubes',async() =>{
-      let getClub = await chai.request(app)
+      let getClubs = await chai.request(app)
       .get('/clubs')
+      expect(getClubs).to.have.status(200);
+      expect(getClubs.body).length(16);
+    } )
+  })
+  describe('a requisiçã GET/clubs/:id',() =>{
+    it('retorna o status 200 e um json com um clube',async() =>{
+      let getClub = await chai.request(app)
+      .get('/clubs/2');
       expect(getClub).to.have.status(200);
-      console.log(getClub)
-      expect(getClub.body).length(16);
+      expect(getClub.body).to.have.property("clubName");
+      expect(getClub.body.id).to.be.deep.equal(2);
     } )
   })
 })
