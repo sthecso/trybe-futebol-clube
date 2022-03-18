@@ -4,7 +4,7 @@ import * as path from 'path';
 const filePath = path.join(__dirname, '../../jwt.evaluation.key');
 
 const readFileDocumentSecret = () => {
-  const token = readFileSync(filePath, 'utf-8');
-  return token;
+  const secret = readFileSync(filePath, 'utf-8');
+  return secret;
 };
 export default readFileDocumentSecret;
