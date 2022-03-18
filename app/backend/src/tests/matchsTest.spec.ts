@@ -1,4 +1,5 @@
 import * as chai from 'chai';
+import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 import { Response } from 'superagent';
 import { app } from '../app';
