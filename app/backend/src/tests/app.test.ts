@@ -78,4 +78,29 @@ describe('All tests', () => {
       expect(chaiHttpResponse2).have.status(200);
     });
   })
+
+  describe.only('Test endpoint /clubs', async () => {
+    let chaiHttpResponse: Response;
+
+    it('status = 200 and returns an array', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/clubs')
+      
+      expect(chaiHttpResponse).have.status(200);
+      expect(chaiHttpResponse.body).to.be.an('array');
+    });
+  });
+
+  describe.only('Test endpoint /clubs/:id', async () => {
+    let chaiHttpResponse: Response;
+
+    it('Check if it returns what was expected', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/clubs/1')
+      
+      expect(chaiHttpResponse).have.status(200);
+      expect(chaiHttpResponse.body).to.be.an('object');
+      expect(chaiHttpResponse.body.id).to.be.equal(1);
+    });
+  });
 });
