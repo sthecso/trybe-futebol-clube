@@ -1,9 +1,30 @@
-import { Request, Response } from 'express';
+import { Router } from 'express';
+import Token from '../auth/Token';
+import LoginService from '../service/Login';
 
 class Login {
-  static post(req: Request, res: Response) {
-    return res.status(200).json(req.body);
+  public router = Router();
+
+  public loginService: LoginService;
+
+  constructor() {
+    this.post();
+  }
+
+  post() {
+    this.router.post('/', async (req, res) => {
+      const { email, password } = req.body;
+      this.loginService = new LoginService(email, password);
+
+      const userFound = await this.loginService.findEmail();
+
+      const token = await Token.generate({ email, password });
+      return res.status(200).json({
+        user: userFound,
+        token,
+      });
+    });
   }
 }
 
-export default Login;
+export default new Login().router;
