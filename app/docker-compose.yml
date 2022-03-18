@@ -7,22 +7,19 @@ services:
     depends_on:
       backend:
         condition: service_healthy
-    # Os `healthcheck` devem garantir que a aplicação
-    # está operacional, antes de liberar o container
     healthcheck:
       test: [ "CMD", "lsof", "-t", "-i:3000" ]         
       timeout: 10s
       retries: 5
   backend:
     build: ./backend
-    # ...
+    ports:
+      - "3001:3001"
     depends_on:
       db:
         condition: service_healthy
     environment:
       - PORT=3001
-      # Os dados abaixo se referem ao container `db`
-      # Dica: Relembre aqui da comunicação interna entre containers
       - DB_USER=root
       - DB_PASS=123456
       - DB_HOST=db
