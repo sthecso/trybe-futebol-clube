@@ -20,6 +20,7 @@ class LoginService {
   public static response(user: IUserComplete, token: string) {
     const data = {
       user: {
+        id: user.id,
         username: user.username,
         role: user.role,
         email: user.email,
