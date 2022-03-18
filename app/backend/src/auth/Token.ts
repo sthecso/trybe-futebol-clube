@@ -17,7 +17,7 @@ class Token {
   }
 
   async verify(token: string): Promise<object> {
-    this.secretKey = await readFile('jwt.evaluation.key');
+    this.secretKey = (await readFile('jwt.evaluation.key')).trim();
     return this.jwt.verify(token, this.secretKey);
   }
 }

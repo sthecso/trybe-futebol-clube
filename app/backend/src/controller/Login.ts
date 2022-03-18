@@ -18,7 +18,7 @@ class Login {
 
       const userFound = await this.loginService.findEmail();
 
-      if (!undefined) {
+      if (!userFound) {
         return res.status(401).json({
           message: 'Incorrect email or password',
         });
