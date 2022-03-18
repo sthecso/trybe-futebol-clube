@@ -1,14 +1,13 @@
 import * as express from 'express';
+import Login from './routes/login';
 
 class App {
   public app: express.Express;
-  // ...
 
   constructor() {
-    // ...
     this.app = express();
     this.config();
-    // ...
+    this.routes();
   }
 
   private config(): void {
@@ -18,21 +17,22 @@ class App {
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
-
     this.app.use(accessControl);
     this.app.use(express.json());
-    // ...
   }
 
-  // ...
+
+  private routes(): void {
+    this.app.use('/login', Login)
+  }
+
   public start(PORT: string | number): void {
     this.app.listen(PORT, () => {
-      console.log(`bWV1IGFtaWdvIGNvbW8gZXUgb2RpbyBzZXF1ZWxpemU=${PORT}`)
+      console.log(`Online in ${PORT}`)
     })
   }
 }
 
 export { App };
 
-// A execução dos testes de cobertura depende dessa exportação
 export const { app } = new App();
