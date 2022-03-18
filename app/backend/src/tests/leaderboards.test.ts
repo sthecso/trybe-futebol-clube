@@ -7,6 +7,7 @@ import { app } from '../app';
 import {
   leaderboardsHome,
   leaderboardsAway,
+  leaderboards,
 } from './mocks';
 
 chai.use(chaiHttp);
@@ -40,5 +41,19 @@ describe('GET \'/leaderboard/away\'', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(200);
     expect(response).to.be.eql(leaderboardsAway);
+  });
+});
+
+describe('GET \'/leaderboard\'', () => {
+  it('on success', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .get('/leaderboard')
+      .set('content-type', 'application/json');
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(200);
+    expect(response).to.be.eql(leaderboards);
   });
 });
