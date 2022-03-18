@@ -1,6 +1,6 @@
 import { GetLeaderboardsModel } from '../../models/leaderboards';
 
-import { leaderboardsAwayQuery } from '../../utils/queries';
+import { leaderboardsAwayQuery } from '../../utils';
 
 class GetLeaderboardsAwayService {
   private getLeaderboardsModel = new GetLeaderboardsModel(leaderboardsAwayQuery);
