@@ -1,9 +1,9 @@
-import * as sinon from 'sinon';
+// import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+// import Example from '../database/models/ExampleModel';
 
 import { Response } from 'superagent';
 
@@ -16,7 +16,7 @@ describe('Seu teste', () => {
    * Exemplo do uso de stubs com tipos
    */
 
-  // let chaiHttpResponse: Response;
+  let chaiHttpResponse: Response;
 
   // before(async () => {
   //   sinon
@@ -30,15 +30,14 @@ describe('Seu teste', () => {
   //   (Example.findOne as sinon.SinonStub).restore();
   // })
 
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
+  it('Testando rota login', async () => {
+    chaiHttpResponse = await chai
+       .request(app).post('/login').send({ email: 'string', password: 'string'})
 
-  //   expect(...)
-  // });
-
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+    expect(chaiHttpResponse).to.status(200)
   });
+
+  // it('Seu sub-teste', () => {
+  //   expect(false).to.be.eq(true);
+  // });
 });
