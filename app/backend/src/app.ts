@@ -2,7 +2,7 @@ import * as express from 'express';
 
 import * as bodyParse from 'body-parser';
 
-import { Login, Club, Match } from './routers';
+import { Login, Club, Match, Leaderboards } from './routers';
 
 class App {
   public app: express.Express;
@@ -12,6 +12,8 @@ class App {
   private clubRouter = new Club();
 
   private matchRouter = new Match();
+
+  private leaderboardsRouter = new Leaderboards();
 
   private parseJson = bodyParse;
 
@@ -27,6 +29,8 @@ class App {
     this.app.use('/clubs', this.clubRouter.router);
 
     this.app.use('/matchs', this.matchRouter.router);
+
+    this.app.use('/leaderboard', this.leaderboardsRouter.router);
   }
 
   private config():void {
