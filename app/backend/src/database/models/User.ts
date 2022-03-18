@@ -1,7 +1,7 @@
-import { DataTypes, Model } from 'sequelize/types';
+import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-class User extends Model {}
+export default class User extends Model {}
 
 User.init(
   {
@@ -26,6 +26,7 @@ User.init(
   {
     sequelize: db,
     modelName: 'User',
+    tableName: 'users',
   },
 );
 

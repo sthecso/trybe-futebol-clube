@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize/types';
 import db from '.';
 
-class Match extends Model {}
+export default class Match extends Model {}
 
 Match.init(
   {

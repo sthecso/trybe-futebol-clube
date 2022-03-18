@@ -1,14 +1,15 @@
 import * as express from 'express';
+import routes from './app/routes';
 
 class App {
   public app: express.Express = express();
-  // ...
+
+  private route = routes;
 
   constructor() {
     this.app.use(express.json());
-    // ...
     this.config();
-    // ...
+    this.endpoints();
   }
 
   private config(): void {
@@ -20,16 +21,18 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
   }
 
-  // ...
+  private endpoints(): void {
+    console.log('oi');
+    this.app.use('/login', routes.login);
+  }
+
   public start(PORT: string | number): void {
-    this.app.listen(PORT, () => console.log('ouvindo porta 3001!'));
+    this.app.listen(PORT, () => console.log(`Listening to port ${PORT}!`));
   }
 }
 
 export { App };
 
-// A execução dos testes de cobertura depende dessa exportação
 export const { app } = new App();

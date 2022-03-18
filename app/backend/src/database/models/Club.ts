@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize/types';
 import db from '.';
 
-class Club extends Model {}
+export default class Club extends Model {}
 
 Club.init(
   {
