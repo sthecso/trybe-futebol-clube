@@ -6,8 +6,11 @@ import { sign, verify } from '../utils/jwt';
 
 const routerLogin = express.Router();
 
-interface IObjectWithRole {
+interface IUser {
+  id: number;
+  username: string;
   role: string;
+  email: string;
 }
 
 routerLogin.post(
@@ -16,7 +19,7 @@ routerLogin.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
-      const loggedUser = await loginUser({ email, password }) as IObjectWithRole;
+      const loggedUser = await loginUser({ email, password }) as IUser;
       const { role } = loggedUser;
       req.headers.authorization = sign({ role });
       const reqAuth = req.headers.authorization;
@@ -32,7 +35,7 @@ routerLogin.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const reqAuth = req.headers.authorization as string;
-      const { role } = verify(reqAuth) as IObjectWithRole;
+      const { role } = verify(reqAuth) as IUser;
       return res.status(200).json(role);
     } catch (error) {
       next(error);
