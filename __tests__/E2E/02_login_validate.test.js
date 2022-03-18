@@ -32,7 +32,7 @@ afterEach(async () => {
   await termBrowser(browser);
 });
 
-describe(getRequirement(5), () => {
+describe.only(getRequirement(5), () => {
   it('O avaliador verificará se é possível fazer o login com dados corretos e que após o acesso será redirecionado para a tela de jogos', async () => {
     await page.waitForTimeout(puppeteerDefs.pause.brief);
 
@@ -62,8 +62,9 @@ describe(getRequirement(5), () => {
     expect(user?.role).toBe(validAdmin.role);
     expect(user?.email).toBe(validAdmin.email);
     expect(user?.password).toBeUndefined();
+
     expect(
-      !!jwt.verify(token, jwtKey),
+      !!jwt.verify(token, jwtKey)
     ).toEqual(true);
 
     await page.waitForTimeout(puppeteerDefs.pause.brief);

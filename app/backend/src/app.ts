@@ -1,5 +1,5 @@
 import * as express from 'express';
-import Login from './controller/Login';
+import controllerLogin from './controller/Login';
 import Club from './database/models/club';
 import Match from './database/models/matchs';
 
@@ -23,11 +23,7 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
-    this.app.post('/login', Login.post);
-    this.app.get('/', async (req, res) => {
-      const r = await Club.findAll({ include: Match });
-      res.status(200).send(r);
-    });
+    this.app.use('/login', controllerLogin);
     // ...
   }
 
