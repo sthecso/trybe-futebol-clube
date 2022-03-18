@@ -4,11 +4,11 @@ import User from '../database/models/User';
 import auth from '../utils/auth';
 
 class LoginService {
-  _result: Model | User[];
+  _result: Model | User[] | null;
 
   constructor() {
     this.index = this.index.bind(this);
-    this.create = this.create.bind(this);
+    this.login = this.login.bind(this);
   }
 
   public async index(_req: Request, res: Response): Promise<Response> {
@@ -18,20 +18,19 @@ class LoginService {
     return res.json(this._result);
   }
 
-  public async create(req: Request, res: Response): Promise<Response> {
-    const { username, password, email, role = 'user' } = req.body;
+  public async login(req: Request, res: Response) {
+    const { email, password } = req.body;
     try {
-      this._result = await User.create({
-        username,
-        password,
-        email,
-        role,
+      this._result = await User.findOne({
+        where: { email, password },
+        attributes: ['id', 'username', 'role', 'email'],
       });
-      const token = await auth.sign({
-        id: this._result.getDataValue('id'),
-        username: this._result.getDataValue('username'),
-        role: this._result.getDataValue('role'),
-      }); return res.status(200).json({ user: this._result, token });
+      if (this._result) {
+        const token = await auth.sign({
+          email,
+        });
+        return res.json({ user: this._result, token });
+      }
     } catch (error) {
       return res.status(500).json({
         error,

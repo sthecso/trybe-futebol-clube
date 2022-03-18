@@ -10,7 +10,7 @@ class LoginController {
 
   Routes() {
     this.router.get('/', LoginService.index);
-    this.router.post('/', LoginService.create);
+    this.router.post('/', LoginService.login);
   }
 }
 
