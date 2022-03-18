@@ -1,4 +1,6 @@
 import * as express from 'express';
+import validateSchema from '../middlewares/index';
+import { loginSchema } from '../schemas';
 import LoginController from '../controllers';
 
 class LoginRouter {
@@ -8,6 +10,10 @@ class LoginRouter {
 
   constructor() {
     this.loginController = new LoginController();
+  }
+
+  login() {
+    this.router.post('/', validateSchema(loginSchema), this.loginController.login);
   }
 }
 

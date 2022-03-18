@@ -1,4 +1,4 @@
-import { IErrorStatus } from '../interfaces/errorStatus';
+import { IErrorStatus } from '../interfaces';
 
 const errorStatus:IErrorStatus = {
   'any.required': 400,

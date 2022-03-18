@@ -1,3 +1,3 @@
-export interface IErrorStatus {
+export default interface IErrorStatus {
   [key:string]: number;
 }
