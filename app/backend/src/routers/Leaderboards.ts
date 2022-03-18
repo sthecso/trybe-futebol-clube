@@ -1,13 +1,13 @@
 import { Router } from 'express';
 
 import {
-  GetLeaderboardsController,
+  GetLeaderboardsHomeController,
 } from '../controllers/leaderboards';
 
 class Leaderboards {
   public router: Router;
 
-  private getLeaderboardsController = new GetLeaderboardsController();
+  private getLeaderboardsHomeController = new GetLeaderboardsHomeController();
 
   constructor() {
     this.router = Router();
@@ -18,7 +18,7 @@ class Leaderboards {
   private start() {
     this.router.get(
       '/home',
-      this.getLeaderboardsController.handle,
+      this.getLeaderboardsHomeController.handle,
     );
   }
 }

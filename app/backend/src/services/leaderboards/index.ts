@@ -1,2 +1,2 @@
-export { default as GetLeaderboardsService } from './GetLeaderboardsService';
+export { default as GetLeaderboardsHomeService } from './GetLeaderboardsHomeService';
 export const lint = () => {};

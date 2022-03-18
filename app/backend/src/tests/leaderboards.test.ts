@@ -27,3 +27,17 @@ describe('GET \'/leaderboard/home\'', () => {
     expect(response).to.be.eql(leaderboardsNotInProgress);
   });
 });
+
+describe('GET \'/leaderboard/away\'', () => {
+  it('on success', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .get('/leaderboard/away')
+      .set('content-type', 'application/json');
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(200);
+    expect(response).to.be.eql(leaderboardsNotInProgress);
+  });
+});

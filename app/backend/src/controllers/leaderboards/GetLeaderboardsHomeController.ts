@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { GetLeaderboardsService } from '../../services/leaderboards';
+import { GetLeaderboardsHomeService } from '../../services/leaderboards';
 
 import { HttpStatusCode } from '../../utils';
 
-class GetLeaderboardsController {
-  private getLeaderboardsService = new GetLeaderboardsService();
+class GetLeaderboardsHomeController {
+  private getLeaderboardsHomeService = new GetLeaderboardsHomeService();
 
   private httpStatusCode = HttpStatusCode;
 
@@ -18,7 +18,7 @@ class GetLeaderboardsController {
     res: Response,
     _nextMiddleware: NextFunction,
   ) {
-    const leaderboards = await this.getLeaderboardsService.handle();
+    const leaderboards = await this.getLeaderboardsHomeService.handle();
 
     return res
       .status(this.httpStatusCode.Ok)
@@ -26,4 +26,4 @@ class GetLeaderboardsController {
   }
 }
 
-export default GetLeaderboardsController;
+export default GetLeaderboardsHomeController;
