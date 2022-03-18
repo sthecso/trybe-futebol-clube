@@ -1,3 +1,4 @@
+import * as express from 'express';
 import { Express, RequestHandler, Request, Response, NextFunction } from 'express';
 
 class App {
@@ -6,6 +7,7 @@ class App {
 
   constructor() {
     // ...
+    this.app = express();
     this.config();
     // ...
   }
