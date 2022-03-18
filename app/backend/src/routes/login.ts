@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Login from '../controller/login';
+import 'express-async-errors';
 
 class LoginRoute {
   public loginRoute:Router;
