@@ -1,6 +1,8 @@
 import * as express from 'express';
-
 import * as bodyParser from 'body-parser';
+// import route from './routes';
+import { Login } from './routes/LoginRoute';
+import domainError from './controllers/middlewares/domainError';
 
 class App {
   public app: express.Express;
@@ -24,6 +26,8 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.app.use('/login', Login);
+    this.app.use(domainError);
   }
 
   public start(PORT: string | number):void {
