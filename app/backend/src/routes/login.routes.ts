@@ -11,9 +11,9 @@ routesLogin.post(
   LoginController.getLogin,
 );
 
-routesLogin.use(validateJWT);
 routesLogin.get(
   '/login/validate',
+  validateJWT,
   LoginController.getUser,
 );
 

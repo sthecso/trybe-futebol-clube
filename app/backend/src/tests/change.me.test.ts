@@ -75,34 +75,36 @@ describe('Testa auth/validateJWT.ts,', () => {
 })
 
 
-describe('Testa endpoint /login', () => {
-  let chaiHttpResponse: Response;
-  const expectedResult = {
-    username: 'Admin',
-    role: 'admin',
-    email: 'admin@admin.com',
-    password: '123456'
-  }
+// describe('Testa endpoint /login', () => {
+//   let chaiHttpResponse: Response;
+//   const expectedResult = {
+//     user: {
+//       id: 1,
+//       username: 'Admin',
+//       role: 'admin',
+//       email: 'admin@admin.com',
+//     }
+//   }
 
-   before(async () => {
-    sinon
-      .stub(User, "findOne")
-      .resolves(expectedResult as User);
-  });
+//    before(async () => {
+//     sinon
+//       .stub(User, "findOne")
+//       .resolves(expectedResult as unknown as User);
+//   });
 
-  after(()=>{
-    (User.findOne as sinon.SinonStub).restore();
-  })
-   it('É retornado status 200 se o cadastro de usuario e feito com sucesso', async () => {
-    chaiHttpResponse = await chai
-       .request(app)
-       .post('/login')
-       .send(expectedResult)
-       .then((res) => {
-         expect(res.status).to.be.equal(200);
-       }).catch((err) => {
-         throw err
-       }) as unknown as Response;
-  });
-})
+//   after(()=>{
+//     (User.findOne as sinon.SinonStub).restore();
+//   })
+//    it('É retornado status 200 se o login do usuario e feito com sucesso', async () => {
+//     chaiHttpResponse = await chai
+//        .request(app)
+//        .post('/login')
+//        .send(expectedResult)
+//        .then((res) => {
+//          expect(res.status).to.be.equal(200);
+//        }).catch((err) => {
+//          throw err
+//        }) as unknown as Response;
+//   });
+// })
 
