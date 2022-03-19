@@ -25,6 +25,7 @@ class App {
     this.app.use(express.json());
     this.app.use('/login', router.login);
     this.app.use('/clubs', router.clubs);
+    this.app.use('/matchs', router.matchs);
     this.app.use(errorMiddleware);
     // ...
   }
