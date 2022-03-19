@@ -11,13 +11,10 @@ interface IUserWithPassDTO {
   username: string,
   role: string,
   email: string
-  password:string
+  password?:string
 }
 interface IUserWithTokenDTO {
-  id: number,
-  username: string,
-  role: string,
-  email: string
+  user:IUserWithPassDTO,
   token:string
 }
 class User {
@@ -33,16 +30,17 @@ class User {
 
   async validLogin(password:string) {
     if (!this._user) throw new Error('Incorrect email or password/Unauthorized');
-
-    const teste = await bcrypt.compare(password, this._user.password);
-    if (!teste) throw new Error('Incorrect email or password/Unauthorized');
+    if (this._user.password) {
+      const teste = await bcrypt.compare(password, this._user.password);
+      if (!teste) throw new Error('Incorrect email or password/Unauthorized');
+    }
     this._verifyUser = this._user;
   }
 
   async clear() {
     const { password, ...outros } = this._verifyUser;
-    this._token = await helpjwt.sign(outros);
-    this._userWithToken = { ...outros, token: this._token };
+    this._token = helpjwt.sign(outros);
+    this._userWithToken = { user: outros, token: this._token };
   }
 
   async getByEmail({ email, password }:IuserDT0) {
