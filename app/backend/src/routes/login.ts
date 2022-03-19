@@ -11,9 +11,12 @@ routes.get('/', async (_req, res) => {
 routes.post('/', inputValidation, async (req, res) => {
   const data = req.body
   console.log(data)
-  const test = new LoginController
-  const jaa = await test.create(data)
-  res.json(jaa)
+  const loginController = new LoginController
+  const result = await loginController.create(data)
+  if (result.code) {
+    return res.status(result.code).json({ message: result.message })
+  }
+  res.status(200).json(result)
 })
 
 export default routes
