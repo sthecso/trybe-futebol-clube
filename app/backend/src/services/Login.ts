@@ -1,17 +1,8 @@
+import CRUD from '../interfaces/CRUD';
 import { IEmailAndPasswordDTO, LoginDTO } from '../interfaces/ILogin';
 import User from '../database/models/User';
 
-class LoginService implements IEmailAndPasswordDTO, LoginDTO {
-  id: number;
-
-  username: string;
-
-  role: string;
-
-  email: string;
-
-  password: string;
-
+class LoginService implements CRUD {
   userReturnOnlogin = async (email: string) => {
     const attributesUser = await User.findAll() as LoginDTO[];
     const filteringEmailUser = attributesUser.filter((e) => e.email === email);
