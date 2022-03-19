@@ -3,8 +3,8 @@ import validateWithJoi from '../controllers/middlewares/validateWithJoi';
 import loginUserSchema from '../utils/joiSchemas';
 import UserController from '../controllers/userController';
 
-const appRoutes = Router();
+const loginRoutes = Router();
 
-appRoutes.post('/login', validateWithJoi(loginUserSchema), UserController.loginUser);
+loginRoutes.post('/login', validateWithJoi(loginUserSchema), UserController.loginUser);
 
-export default appRoutes;
+export default loginRoutes;

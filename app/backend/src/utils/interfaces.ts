@@ -6,3 +6,8 @@ export interface IUserLogin {
 export interface IErrorStatus {
   [key:string]: number;
 }
+
+export interface IJwtPayload {
+  role: string;
+  iat?: number;
+}

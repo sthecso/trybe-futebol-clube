@@ -1,17 +1,19 @@
-import { sign, SignOptions } from 'jsonwebtoken';
+import { sign, SignOptions, verify } from 'jsonwebtoken';
 import * as fs from 'fs';
 import path = require('path');
+import { IJwtPayload } from './interfaces';
 
 const jwtOptions: SignOptions = {
   algorithm: 'HS256',
 };
 
-const signToken = (role: string) => {
-  const secret = fs.readFileSync(path.join(__dirname, '../../jwt.evaluation.key'), 'utf8');
-  const token = sign({ role }, secret, jwtOptions);
+const secret = fs.readFileSync(path.join(__dirname, '../../jwt.evaluation.key'), 'utf8');
+
+const signToken = (payload: IJwtPayload) => {
+  const token = sign(payload, secret, jwtOptions);
   return token;
 };
 
 export default signToken;
 
-// export const verifyToken = (token:string) => verify(token, secret, jwtOptions);
+export const verifyToken = (token:string) => verify(token, secret, jwtOptions) as IJwtPayload;
