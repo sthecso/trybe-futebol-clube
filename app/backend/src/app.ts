@@ -10,9 +10,7 @@ class App {
     // ...
     this.app = express();
     this.config();
-
-    // this.app.use(express.json());
-    // ...
+    this.routes();
   }
 
   private config():void {
@@ -27,12 +25,16 @@ class App {
     // ...
   }
 
-  // ...
-  public start(PORT: string | number):void {
-    // ...
+  public routes() {
     this.app.use(express.json());
     this.app.use('/login', Login);
     this.app.use(domain);
+  }
+
+  // ...
+  public start(PORT: string | number):void {
+    // ...
+
     this.app.listen(PORT, () => {
       console.log(`ouvindo na porta ${PORT}`);
     });
