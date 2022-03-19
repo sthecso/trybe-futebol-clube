@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import * as bcrypt from 'bcrypt';
 import Token from '../auth/Token';
 import LoginService from '../service/Login';
 

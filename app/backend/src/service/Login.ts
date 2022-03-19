@@ -1,4 +1,3 @@
-import { Model } from 'sequelize/types';
 import User from '../database/models/users';
 
 class Login {
