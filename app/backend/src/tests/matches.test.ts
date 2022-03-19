@@ -19,6 +19,10 @@ const { expect } = chai;
 let chaiHttpResponse;
 
 describe('GET \'/matchs\'', () => {
+  before(() => {
+    shell.exec('npm run db:reset');
+  });
+
   it('with an invalid \'inProgress\' query string', async () => {
     chaiHttpResponse = await chai
       .request(app)

@@ -18,12 +18,6 @@ class ValidateTokenController {
   ): Response<string | IErrorMessage> {
     const { userDataDecoded: jwtDecoded } = req;
 
-    if (!jwtDecoded) {
-      return res
-        .status(this.httpStatusCode.NotAuthorized)
-        .json({ message: 'Has no token in the headers' });
-    }
-
     return res.status(this.httpStatusCode.Ok).json(jwtDecoded.role);
   }
 }

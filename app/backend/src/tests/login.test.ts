@@ -2,7 +2,10 @@ import * as chai from 'chai';
 
 import chaiHttp = require('chai-http');
 
+import * as shell from 'shelljs';
+
 import { app } from '../app';
+
 import { createToken } from '../utils';
 
 chai.use(chaiHttp);
@@ -22,6 +25,10 @@ describe('POST \'/login\'', () => {
   const INCORRECT_EMAIL_OR_PASSWORD_MESSAGE = 'Incorrect email or password';
 
   const HAS_NO_FIELD = 'All fields must be filled';
+
+  before(() => {
+    shell.exec('npm run db:reset');
+  });
 
   it('has an incorrect email in body request', async () => {
     chaiHttpResponse = await chai
@@ -113,17 +120,17 @@ describe('GET \'/login/validate\'', () => {
 
   const mockTokenValid = createToken(mockUserPost);
 
-  it('has a valid token in the header request', async () => {
+  it('has no token in the header request', async () => {
     chaiHttpResponse = await chai
       .request(app)
       .get('/login/validate')
       .set('content-type', 'application/json')
-      .set('authorization', mockTokenValid);
 
     const response = chaiHttpResponse.body;
 
-    expect(chaiHttpResponse.status).to.be.eql(200);
-    expect(response).to.be.eql(mockUserPost.role);
+    expect(chaiHttpResponse.status).to.be.eql(401);
+    expect(response).to.have.own.property('message');
+    expect(response.message).to.be.eql('Has no token in headers');
   });
 
   it('has an invalid token in the header request', async () => {
@@ -137,5 +144,19 @@ describe('GET \'/login/validate\'', () => {
 
     expect(chaiHttpResponse.status).to.be.eql(401);
     expect(response).to.have.own.property('message');
+    expect(response.message).to.be.eql('Something went wrong');
+  });
+
+  it('has a valid token in the header request', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .get('/login/validate')
+      .set('content-type', 'application/json')
+      .set('authorization', mockTokenValid);
+
+    const response = chaiHttpResponse.body;
+
+    expect(chaiHttpResponse.status).to.be.eql(200);
+    expect(response).to.be.eql(mockUserPost.role);
   });
 });

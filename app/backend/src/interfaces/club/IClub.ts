@@ -1,4 +1,6 @@
-interface IClub {
+import IClubRequest from './IClubRequest';
+
+interface IClub extends IClubRequest {
   id: number;
   clubName: string;
 }

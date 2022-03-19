@@ -2,6 +2,8 @@ import * as chai from 'chai';
 
 import chaiHttp = require('chai-http');
 
+import * as shell from 'shelljs';
+
 import { app } from '../app';
 
 import {
@@ -17,6 +19,10 @@ const { expect } = chai;
 let chaiHttpResponse;
 
 describe('GET \'/leaderboard/home\'', () => {
+  before(() => {
+    shell.exec('npm run db:reset');
+  });
+
   it('on success', async () => {
     chaiHttpResponse = await chai
       .request(app)
