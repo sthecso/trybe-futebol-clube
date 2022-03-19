@@ -6,6 +6,7 @@ import 'express-async-errors';
 import ClubsController from './controllers/ClubsControllers';
 import LoginController from './controllers/LoginControllers';
 import MatchsController from './controllers/MatchsControllers';
+import LeaderboardController from './controllers/LeaderboardControllers';
 
 class App {
   public app: express.Express;
@@ -36,6 +37,7 @@ class App {
     this.app.patch('/matchs/:id/finish', MatchsController.finishMatch);
     this.app.get('/clubs', ClubsController.all);
     this.app.get('/clubs/:id', ClubsController.club);
+    this.app.get('/leaderboard/home', LeaderboardController.all);
   }
 
   public start(PORT: string | number):void {
