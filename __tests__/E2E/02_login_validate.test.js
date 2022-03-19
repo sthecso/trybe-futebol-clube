@@ -73,7 +73,7 @@ describe.only(getRequirement(5), () => {
   });
 });
 
-describe(getRequirement(7), () => {
+describe.only(getRequirement(7), () => {
   it('O avaliador verificará se fazer o login com um email incorreto retornará status não-autorizado', async () => {
     await page.waitForTimeout(puppeteerDefs.pause.brief);
 

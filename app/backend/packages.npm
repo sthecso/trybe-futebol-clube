@@ -1,1 +1,2 @@
 bcrypt
+--save-dev @types/bcrypt

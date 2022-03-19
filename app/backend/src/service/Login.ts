@@ -1,3 +1,4 @@
+import { Model } from 'sequelize/types';
 import User from '../database/models/users';
 
 class Login {
@@ -7,15 +8,22 @@ class Login {
 
   private password: string;
 
+  private _userFound: User | null;
+
   constructor(email: string, password: string) {
     this.email = email;
     this.password = password;
   }
 
-  async findEmail() {
+  async findUser() {
     const resultQuery = await User.findOne({
-      where: { email: this.email }, attributes: { exclude: ['password'] } });
-    return resultQuery;
+      where: { email: this.email } });
+    this._userFound = resultQuery;
+    return this.userFound;
+  }
+
+  get userFound() {
+    return this._userFound;
   }
 }
 
