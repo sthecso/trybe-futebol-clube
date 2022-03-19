@@ -15,14 +15,17 @@ class Login {
   }
 
   async findUser() {
-    const resultQuery = await User.findOne({
+    this._userFound = await User.findOne({
       where: { email: this.email } });
-    this._userFound = resultQuery;
     return this.userFound;
   }
 
   get userFound() {
-    return this._userFound;
+    if (this._userFound) {
+      const { id, username, role, email } = this._userFound;
+      return { id, username, role, email };
+    }
+    return null;
   }
 }
 
