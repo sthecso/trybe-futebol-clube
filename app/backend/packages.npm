@@ -1,1 +1,1 @@
-zod bcryptjs express-async-errors
+zod bcryptjs express-async-errors @types/bcryptjs
