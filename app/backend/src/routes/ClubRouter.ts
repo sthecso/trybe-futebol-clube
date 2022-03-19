@@ -12,6 +12,7 @@ class ClubRouter extends Router {
 
     route() {
         this.router.get('/', this.ClubController.getAll);
+        this.router.get('/:id', this.ClubController.getById);
     }
 }
 
