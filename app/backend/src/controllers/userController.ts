@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { compareSync } from 'bcryptjs';
-import signToken from '../utils/tokenHelper';
+import { signToken, verifyToken } from '../utils/tokenHelper';
 import userServices from '../services/userServices';
 
 const userController = {
@@ -13,15 +13,26 @@ const userController = {
 
     if (isPasswordValid) {
       const token = signToken({ role: user.role });
-      return res.status(200).send({ user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-      },
-      token });
+      return res.status(200).send({
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
+        token
+      });
     }
     return res.status(401).json({ message: 'Incorrect email or password' });
+  },
+  validateLogin: async (req: express.Request, res: express.Response) => {
+    const { authorization } = req.headers;
+
+    if (authorization) {
+      const payload = verifyToken(authorization);
+      const { role } = payload;
+      return res.status(200).send(role);
+    }
   },
 };
 

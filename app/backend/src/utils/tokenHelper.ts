@@ -9,11 +9,9 @@ const jwtOptions: SignOptions = {
 
 const secret = fs.readFileSync(path.join(__dirname, '../../jwt.evaluation.key'), 'utf8');
 
-const signToken = (payload: IJwtPayload) => {
+export const signToken = (payload: IJwtPayload) => {
   const token = sign(payload, secret, jwtOptions);
   return token;
 };
-
-export default signToken;
 
 export const verifyToken = (token:string) => verify(token, secret, jwtOptions) as IJwtPayload;
