@@ -23,7 +23,7 @@ routerLogin.post(
       const { role } = loggedUser;
       req.headers.authorization = sign({ role });
       const reqAuth = req.headers.authorization;
-      return res.status(200).json({ ...loggedUser, token: reqAuth });
+      return res.status(200).json({ user: loggedUser, token: reqAuth });
     } catch (error) {
       next(error);
     }
