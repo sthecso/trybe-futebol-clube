@@ -1,5 +1,5 @@
 import * as express from 'express';
-import LoginRouter from './routers/LoginRouter';
+import LoginRouter from './routers';
 
 class App {
   public app: express.Express;

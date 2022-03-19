@@ -6,6 +6,7 @@ class LoginController {
 
   constructor() {
     this.loginService = new LoginService();
+    this.login = this.login.bind(this);
   }
 
   async login(req: Request, res: Response) {
