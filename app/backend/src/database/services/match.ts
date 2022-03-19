@@ -1,3 +1,4 @@
+import IMatchReq from '../interfaces/match/IMatchReq';
 import MatchModel from '../models/match';
 
 class MatchService {
@@ -16,6 +17,11 @@ class MatchService {
     const data: boolean | undefined = false;
     const trueMatchs = await this.modelMatch.getMatchsByProgress(data);
     return trueMatchs;
+  }
+
+  async saveMatchInProgress(match: IMatchReq) {
+    const saveProgressMatch = await this.modelMatch.saveMatchInProgress(match);
+    return saveProgressMatch;
   }
 }
 

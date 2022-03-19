@@ -1,6 +1,6 @@
-interface HomeClub {
+/* interface HomeClub {
   clubName: string;
-}
+} */
 
 interface IMatchRes {
 
@@ -10,8 +10,6 @@ interface IMatchRes {
   awayTeam: number,
   awayTeamGoals: number,
   inProgress: true,
-  homeClub: HomeClub,
-  awayClub: HomeClub,
 
 }
 
