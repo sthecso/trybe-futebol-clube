@@ -415,7 +415,7 @@ services:
     image: mysql:8.0.21
     container_name: db
     ports:
-      - 3002:3306
+      - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=123456
     restart: 'always'
