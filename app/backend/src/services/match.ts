@@ -31,7 +31,7 @@ class MatchService {
     if (homeTeamId === awayTeamId) throw conflictErr;
 
     const result = await MatchRepository
-      .create({ ...newMatch, inProgress: true });
+      .create(newMatch);
 
     return result;
   }
