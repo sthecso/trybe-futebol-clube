@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
+// describe('Seu teste', () => {
   /**
    * Exemplo do uso de stubs com tipos
    */
@@ -41,10 +41,10 @@ describe('Seu teste', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
-  });
-});
+//   it('Seu sub-teste', () => {
+//     expect(false).to.be.eq(true);
+//   });
+// });
 
 describe('Testa auth/validateJWT.ts,', () => {
   let chaiHttpResponse: Response;
@@ -75,36 +75,69 @@ describe('Testa auth/validateJWT.ts,', () => {
 })
 
 
-// describe('Testa endpoint /login', () => {
-//   let chaiHttpResponse: Response;
-//   const expectedResult = {
-//     user: {
-//       id: 1,
-//       username: 'Admin',
-//       role: 'admin',
-//       email: 'admin@admin.com',
-//     }
-//   }
+describe('Testa endpoint /login', () => {
+  let chaiHttpResponse: Response;
+  const expectedResult = {
+      id: 1,
+      username: 'Admin',
+      role: 'admin',
+      email: 'admin@admin.com',
+  }
 
-//    before(async () => {
-//     sinon
-//       .stub(User, "findOne")
-//       .resolves(expectedResult as unknown as User);
-//   });
+  // const notExpectedResultEmail = {
+  //   email: 'admin@admin',
+  //   password: '123456'
+  // }
 
-//   after(()=>{
-//     (User.findOne as sinon.SinonStub).restore();
-//   })
-//    it('É retornado status 200 se o login do usuario e feito com sucesso', async () => {
-//     chaiHttpResponse = await chai
-//        .request(app)
-//        .post('/login')
-//        .send(expectedResult)
-//        .then((res) => {
-//          expect(res.status).to.be.equal(200);
-//        }).catch((err) => {
-//          throw err
-//        }) as unknown as Response;
-//   });
-// })
+  // const notExpectedResultPassword = {
+  //   email: 'admin@admin',
+  //   password: '123456'
+  // }
+
+  before(async () => {
+   sinon
+     .stub(User, "findOne")
+     .resolves(expectedResult as User);
+  });
+
+  after(()=>{
+    (User.findOne as sinon.SinonStub).restore();
+  })
+  // Testar mais tarde
+  // it('É retornado status 401 se o email estiver incorreto', async () => {
+  //   chaiHttpResponse = await chai
+  //   .request(app)
+  //   .post('/login')
+  //   .send(notExpectedResultEmail)
+  //   .then((res) => {
+  //     expect(res.status).to.be.equal(401);
+  //   }).catch((err) => {
+  //     throw err
+  //   }) as unknown as Response;
+  // })
+
+  // it('É retornado status 401 se o password estiver incorreto', async () => {
+  //   chaiHttpResponse = await chai
+  //   .request(app)
+  //   .post('/login')
+  //   .send(notExpectedResultEmail)
+  //   .then((res) => {
+  //     expect(res.status).to.be.equal(401);
+  //   }).catch((err) => {
+  //     throw err
+  //   }) as unknown as Response;
+  // })
+
+  it('É retornado status 200 se o login do usuario e feito com sucesso', async () => {
+   chaiHttpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send(expectedResult)
+      .then((res) => {
+        expect(res.status).to.be.equal(200);
+      }).catch((err) => {
+        throw err
+      }) as unknown as Response;
+  });
+})
 

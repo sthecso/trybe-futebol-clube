@@ -28,7 +28,7 @@ class LoginService implements IEmailAndPasswordDTO, LoginDTO {
 
   getLogin = async (value: IEmailAndPasswordDTO) => {
     const { email, password } = value;
-    const searchUser = await User.findOne({ where: { email, password } });
+    const searchUser = await User.findOne({ where: { email, password } }) as User;
 
     if (!searchUser) {
       return { code: 401, data: { message: 'Incorrect email or password' } };

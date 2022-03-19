@@ -7,6 +7,11 @@ class LoginController {
   getLogin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const { code, data } = await LoginService.getLogin({ email, password });
+
+    if (data.message) {
+      return res.status(code).json(data.message);
+    }
+
     const dataEmail = data.email;
     const secret = jwtConfig.jwt.secret as unknown as string;
 

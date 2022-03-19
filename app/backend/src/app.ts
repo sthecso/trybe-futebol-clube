@@ -1,3 +1,4 @@
+import * as cors from 'cors';
 import * as express from 'express';
 import validateJWT from './auth/validateJWT';
 import Clubs from './database/models/Club';
@@ -23,6 +24,7 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
+    this.app.use(cors());
     this.app.use(routesLogin);
     this.app.use(validateJWT);
   }
