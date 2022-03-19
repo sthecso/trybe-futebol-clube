@@ -4,10 +4,15 @@ export interface IUserLogin {
 }
 
 export interface IErrorStatus {
-  [key:string]: number;
+  [key: string]: number;
 }
 
 export interface IJwtPayload {
   role: string;
   iat?: number;
+}
+
+export interface IClub {
+  id: number;
+  name: string;
 }

@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Tests /login route', () => {
+describe('Tests POST /login route', () => {
   describe('When no body is passed', () => {
     it('Return status 401 with error message', async () => {
       return chai
@@ -47,7 +47,7 @@ describe('Tests /login route', () => {
         });
     })
   });
-  describe('When invalid parameters are passed and no user is found', async () => {
+  describe('When no user is found', async () => {
     let chaiHttpResponse: Response;
     it('Return status 401 with error message', async () => {
       chaiHttpResponse = await chai
