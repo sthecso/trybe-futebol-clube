@@ -8,11 +8,10 @@ interface ILogin {
 }
 
 const verifyLogin = async (loginParams: ILogin) => {
-  const { email, password } = loginParams;
+  const { email, password: passwordBody } = loginParams;
   const userFound = await User.findOne({ where: { email } });
   if (!userFound) return throwError('Incorrect email or password', '401');
-  const hashFromBank = userFound.getDataValue('password');
-  const testBCrypt = bcrypt.compareSync(password, hashFromBank);
+  const testBCrypt = bcrypt.compareSync(passwordBody, userFound.password);
   if (!testBCrypt) return throwError('Incorrect email or password', '401');
   return {
     id: userFound.id,
