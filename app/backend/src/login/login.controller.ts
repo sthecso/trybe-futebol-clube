@@ -10,9 +10,9 @@ class LoginController {
     this.Routes();
   }
 
-  Routes() {
-    this.router.get('/validate', LoginService.validate);
-    this.router.post('/', LoginService.login);
+  async Routes() {
+    this.router.get('/validate', await LoginService.validate);
+    this.router.post('/', await LoginService.login);
   }
 }
 
