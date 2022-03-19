@@ -1,4 +1,4 @@
-import LoginController from '../controllers/LoginController';
+import { LoginController } from '../controllers';
 import Router from './Router';
 
 require('express-async-errors');
