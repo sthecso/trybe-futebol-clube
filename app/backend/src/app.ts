@@ -5,7 +5,7 @@ class App {
   // ...
 
   constructor() {
-    this.app = express()
+    this.app = express();
     this.config();
     // ...
   }

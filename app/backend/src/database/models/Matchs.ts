@@ -1,13 +1,17 @@
 import { DataTypes, Model } from 'sequelize';
-import Club from './Clubs';
-import sequelize from '.';
+import sequelize, { Club } from '.';
 
 class Match extends Model {
   public id: number;
+
   public homeTeam: number;
+
   public homeTeamGoals: number;
+
   public awayTeam: number;
+
   public awayTeamGoals: number;
+
   public inProgress: boolean;
 }
 
