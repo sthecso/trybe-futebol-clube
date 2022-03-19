@@ -1,6 +1,6 @@
 import * as LoginController from './login';
 import * as ClubController from './club';
-import MatchController from './match';
+import * as MatchController from './match';
 
 export {
   LoginController,

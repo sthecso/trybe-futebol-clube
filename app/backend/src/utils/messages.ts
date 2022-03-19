@@ -18,3 +18,26 @@ export const user = {
     base: 'Password must be a string',
   },
 };
+
+export const match = {
+  required: 'All fields must be filled',
+  teams: {
+    conflict: 'It is not possible to create a match with two equal teams',
+    notFound: 'Team not found',
+  },
+  homeTeam: {
+    base: 'homeTeam must be a number',
+  },
+  homeTeamGoals: {
+    base: 'homeTeamGoals must be a number',
+  },
+  awayTeam: {
+    base: 'awayTeam must be a number',
+  },
+  awayTeamGoals: {
+    base: 'awayTeamGoals must be a number',
+  },
+  inProgress: {
+    base: 'inProgress must be a boolean',
+  },
+};
