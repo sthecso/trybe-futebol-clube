@@ -36,7 +36,7 @@ describe('Tests GET /matchs route', () => {
 });
 describe('Tests GET /matchs?inProgress route', () => {
   describe('When inProgress is true', () => {
-    it('Return status 200 with an array containing all matches inProgress', async () => {
+    it('Return status 200 with an array containing all matches in progress', async () => {
       return chai
         .request(app)
         .get('/matchs')
