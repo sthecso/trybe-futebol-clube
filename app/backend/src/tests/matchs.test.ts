@@ -106,4 +106,19 @@ describe('Matchs', () => {
       expect(matchFinished.body.message).to.be.equals(message);
     });
   });
+
+  describe('/PATCH Matchs/:id', () => {
+    it('deveria permitir alterar uma partida', async function () {
+      const placar = {
+        homeTeamGoals: 3,
+        awayTeamGoals: 1,
+      };
+      const matchId = 1;
+      const result = await chai.request(app)
+        .patch(`/matchs/${matchId}`)
+        .set('content-type', 'application/json')
+        .send(placar);
+      expect(result.status).to.be.equals(204);
+    });
+  });
 });

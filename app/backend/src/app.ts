@@ -32,6 +32,7 @@ class App {
     this.app.get('/login/validate', LoginController.validate);
     this.app.get('/matchs', MatchsController.all);
     this.app.post('/matchs', MatchsController.createMatch);
+    this.app.patch('/matchs/:id', MatchsController.updateMatch);
     this.app.patch('/matchs/:id/finish', MatchsController.finishMatch);
     this.app.get('/clubs', ClubsController.all);
     this.app.get('/clubs/:id', ClubsController.club);

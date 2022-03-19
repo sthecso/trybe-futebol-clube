@@ -46,4 +46,18 @@ export default class MatchsController {
       return res.status(500).json({ erro: error });
     }
   }
+
+  static async updateMatch(req: Request, res: Response) {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+
+    try {
+      const [ok] = await Matchs.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+      console.log('updateMatch', ok);
+
+      return res.status(200).json({ message: 'Updated match' });
+    } catch (error) {
+      return res.status(500).json({ erro: error });
+    }
+  }
 }
