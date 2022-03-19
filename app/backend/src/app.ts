@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { Express, RequestHandler, Request, Response, NextFunction } from 'express';
+import router from './routes';
 
 class App {
   public app: Express;
@@ -21,7 +22,7 @@ class App {
     };
 
     this.app.use(accessControl);
-    // rotas
+    this.app.use(router);
     // ...
   }
 
@@ -34,5 +35,4 @@ class App {
 
 export { App };
 
-// A execução dos testes de cobertura depende dessa exportação
 export const { app } = new App();
