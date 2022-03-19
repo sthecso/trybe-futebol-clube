@@ -1,77 +1,46 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-
 import { app } from '../app';
-
-
 import { Response } from 'superagent';
-import User from '../database/models/user';
-import { ErrorRequestHandler } from 'express';
+import User from '../database/modelsSequelize/user';
+import LoginUserModel from '../database/models/userLogin';
+import { afterEach, beforeEach } from 'mocha';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-interface DBUser {
-  username: string,
-  role: string,
-  email: string,
-  password: string,
-}
+const login = {email: "s", password: "s"}
 
-const dataMock = {
-  user: {
-    id: 1,
-    username: "Admin",
-    role: "admin",
-    email: "admin@admin.com"
-  },
-  token: "123.456.789" 
-}
-
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe('Testa a class LoginUserModel', () => {
 
    let chaiHttpResponse: Response;
 
-   before(async () => {
-     await sinon
+   beforeEach(async () => {
+      sinon
        .stub(User, "findOne")
-       .resolves({
-         dataMock
-       } as any);
+       .resolves("" as any);
    });
 
-   after(()=>{
+   /* afterEach(()=>{
      (User.findOne as sinon.SinonStub).restore();
-   })
+   }) */
 
-   it('testa retorno do Response apos login com sucesso', async (done) => {
-     chaiHttpResponse = await chai
-        .request(app).post('/login').send({password: "12345678", email: "samuel@hotmail.com"})
-        .end((err: ErrorRequestHandler, res: Response) => {
-          expect(err).to.be.null;
-          expect(res).to.have.json.contain(dataMock);
-          (done)
-        })
-        
+   it('testa o retorno da classe com um usuario que nao existe', async () => {
+     const user = new LoginUserModel();
 
-     
+     expect(await user.findUser(login)).to.be.null;
    });
 
-   it('testa se usuario consegue logar', async (done) => {
+   /* it('testa se usuario consegue logar', async (done) => {
     chaiHttpResponse = await chai
-       .request(app).post('/login').send({password: "12345678", email: "samuel@hotmail.com"})
-       .end((err: ErrorRequestHandler, res: Response) => {
-         expect(err).to.be.null;
-         expect(res).to.have.status(201);
+       .request(app).post('/login').send({password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW", email: 'admin@admin.com'})
+         expect(chaiHttpResponse).to.have.status(201);
          (done)
-       })
+       
        
 
     
-  });
+  }); */
 });
