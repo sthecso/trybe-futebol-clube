@@ -1,3 +1,7 @@
-import { login, validate } from './login';
+import * as LoginController from './login';
+import * as ClubController from './club';
 
-export default { login, validate };
+export {
+  LoginController,
+  ClubController,
+};

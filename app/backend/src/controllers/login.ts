@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import StatusCodes from '../utils/StatusCodes';
-import LoginService from '../services';
+import { LoginService } from '../services';
 
 const login: RequestHandler = async (req, res, _next) => {
   const { email, password } = req.body;

@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcryptjs';
-import UserRepository from '../repositories';
+import { UserRepository } from '../repositories';
 import { IUserComplete } from '../utils/interfaces';
 import * as jwt from '../utils/jwt';
 import UnauthorizedError from './errors';
@@ -35,7 +35,7 @@ class LoginService {
     email: IUserComplete['email'],
     password: IUserComplete['password'],
   ) {
-    const user: IUserComplete = await UserRepository.getByEmail(email);
+    const user: IUserComplete = await UserRepository.findByEmail(email);
 
     const err = new UnauthorizedError(messages.user.incorrect);
 

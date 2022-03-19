@@ -1,3 +1,7 @@
 import UserRepository from './user';
+import ClubRepository from './club';
 
-export default UserRepository;
+export {
+  UserRepository,
+  ClubRepository,
+};

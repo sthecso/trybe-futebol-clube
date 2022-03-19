@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { auth, validate } from '../middlewares';
-import loginController from '../controllers';
+import { LoginController } from '../controllers';
 import loginSchema from '../utils/validations';
 
 const login = Router();
@@ -9,7 +9,7 @@ login.get(
   '/validate',
   [
     auth,
-    loginController.validate,
+    LoginController.validate,
   ],
 );
 
@@ -17,7 +17,7 @@ login.post(
   '/',
   [
     validate(loginSchema),
-    loginController.login,
+    LoginController.login,
   ],
 );
 

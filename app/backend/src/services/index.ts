@@ -1,3 +1,8 @@
 import LoginService from './login';
 
-export default LoginService;
+import ClubService from './club';
+
+export {
+  LoginService,
+  ClubService,
+};

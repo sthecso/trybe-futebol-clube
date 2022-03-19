@@ -3,6 +3,7 @@ import { Router } from 'express';
 import 'express-async-errors';
 
 import login from './login';
+import clubs from './club';
 
 import {
   domainError,
@@ -14,6 +15,7 @@ const router = Router();
 
 // routes
 router.use('/login', login);
+router.use('/clubs', clubs);
 
 // error middlewares
 router.use(joiError);
