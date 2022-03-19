@@ -8,16 +8,16 @@ export default class Login {
   ) {}
 
   async login(login: ILogin) {
-    const account = await this.user.findOne({
+    const user = await this.user.findOne({
       where: { email: login.email, password: login.password },
       attributes: ['id', 'username', 'role', 'email'],
       raw: true,
     });
 
-    if (!account) return { message: 'Incorrect email or password', code: 401 };
+    if (!user) return { message: 'Incorrect email or password', code: 401 };
 
-    const token = jwt.signToken(account);
+    const token = jwt.signToken(user);
 
-    return { code: 200, payload: { account, token } };
+    return { code: 200, payload: { user, token } };
   }
 }
