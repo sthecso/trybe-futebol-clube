@@ -1,4 +1,5 @@
 import IMatchReq from '../interfaces/match/IMatchReq';
+import IUpdateGoalsReq from '../interfaces/match/IUpdateGoals';
 import MatchModel from '../models/match';
 
 class MatchService {
@@ -19,9 +20,9 @@ class MatchService {
     return trueMatchs;
   }
 
-  async saveMatchInProgress(match: IMatchReq) {
-    const saveProgressMatch = await this.modelMatch.saveMatchInProgress(match);
-    return saveProgressMatch;
+  async updateResultsMatch(id: number, goalsMatch: IUpdateGoalsReq) {
+    /* const saveProgressMatch = */ await this.modelMatch.updateResultsMatch(id, goalsMatch);
+    /* return saveProgressMatch; */
   }
 }
 

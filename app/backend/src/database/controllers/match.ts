@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import IQuery from '../interfaces/express/IQuery';
 import IMatchReq from '../interfaces/match/IMatchReq';
+import IUpdateGoalsReq from '../interfaces/match/IUpdateGoals';
 import MatchService from '../services/match';
 import StatusCode from '../utils/statusCode';
 
@@ -24,10 +25,25 @@ class MatchController {
     return res.status(this.statusCode.Ok).json(matchs);
   }
 
-  async saveMatchInProgress(req: Request, res: Response) {
+  /*  async saveMatchInProgress(req: Request, res: Response) {
     const data = req.body as unknown as IMatchReq;
     const saveProgressMatch = await this.matchService.saveMatchInProgress(data);
+    if (saveProgressMatch === null) {
+      return res.status(this.statusCode.NotFound)
+        .json({ message: 'Team not found' });
+    }
     return res.status(this.statusCode.Ok).json(saveProgressMatch);
+  } */
+
+  async updateResultsMatch(req: Request, res: Response) {
+    const data = req.body as unknown as IUpdateGoalsReq;
+    const id = Number(req.params.id);
+    const saveProgressMatch = await this.matchService.updateResultsMatch(id, data);
+    if (saveProgressMatch === null) {
+      return res.status(this.statusCode.NotFound)
+        .json({ message: 'Team not found' });
+    }
+    return res.status(this.statusCode.Ok);
   }
 }
 
