@@ -18,7 +18,7 @@ class HelpJwt { // alterar o nome
     this.findSenha();
   }
 
-  async findSenha() {
+  private async findSenha() {
     this._senha = await fs.readFile(
       path.resolve(__dirname, '..', '..', 'jwt.evaluation.key'),
       'utf-8',
@@ -26,10 +26,11 @@ class HelpJwt { // alterar o nome
   }
 
   verify(token:string) {
-    Jwt.verify(token, this._senha);
+    const result = Jwt.verify(token, this._senha);
+    return result;
   }
 
-  async sign(payload:Payload) {
+  sign(payload:Payload) {
     const token = Jwt.sign(payload, this._senha, this._data);
     return token;
   }
