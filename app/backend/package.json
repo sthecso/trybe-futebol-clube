@@ -20,6 +20,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/chai": "4.3.0",
     "@types/chai-http": "4.2.0",
     "@types/cors": "2.8.12",
@@ -50,11 +51,13 @@
     "typescript": "4.4.4"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "2.8.5",
     "dotenv": "10.0.0",
     "express": "4.17.1",
     "jest": "27.4.3",
     "jsonwebtoken": "8.5.1",
+    "joi": "^17.6.0",
     "mysql2": "2.3.3",
     "sequelize": "6.9.0"
   }
