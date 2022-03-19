@@ -28,7 +28,6 @@ export default class LoginController {
 
   static async validate(req: Request, res: Response) {
     const token = req.headers.authorization;
-    console.log('authorization', token);
 
     if (!token) return res.status(401).json({ message: 'Token not found' });
     const payload = validateToken(token);

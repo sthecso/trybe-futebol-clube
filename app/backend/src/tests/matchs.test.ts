@@ -113,12 +113,16 @@ describe('Matchs', () => {
         homeTeamGoals: 3,
         awayTeamGoals: 1,
       };
-      const matchId = 1;
+      const matchs = await chai.request(app)
+        .get('/matchs');
+
+      const matchId = matchs.body[0].id;
+
       const result = await chai.request(app)
         .patch(`/matchs/${matchId}`)
         .set('content-type', 'application/json')
         .send(placar);
-      expect(result.status).to.be.equals(204);
+      expect(result.status).to.be.equals(200);
     });
   });
 });
