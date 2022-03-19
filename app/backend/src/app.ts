@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { Express, RequestHandler, Request, Response, NextFunction } from 'express';
 import router from './routes';
+import errorHandler from './middlewares/errorHandler';
 
 class App {
   public app: Express;
@@ -23,6 +24,7 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(router);
+    this.app.use(errorHandler);
     // ...
   }
 
