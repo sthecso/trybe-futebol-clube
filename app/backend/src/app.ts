@@ -5,6 +5,8 @@ import Clubs from './database/models/Club';
 import Matchs from './database/models/Match';
 import routesLogin from './routes';
 
+require('express-async-errors');
+
 class App {
   public app: express.Express;
 
