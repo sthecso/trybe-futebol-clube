@@ -1,0 +1,5 @@
+express-async-errors
+body-parser
+joi
+bcryptjs
+@types/bcryptjs

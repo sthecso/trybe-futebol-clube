@@ -1,14 +1,16 @@
 import * as express from 'express';
+import bodyParser = require('body-parser');
+import { LoginRouter } from './routes';
+import errorHandler from './controllers/middlewares/errorHandler';
+import joiError from './controllers/middlewares/joiError';
 
 class App {
   public app: express.Express;
-  // ...
 
   constructor() {
-    // ...
     this.app = express();
     this.config();
-    // ...
+    this.route();
   }
 
   private config():void {
@@ -20,14 +22,19 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
+    this.app.use(bodyParser.json());
   }
 
-  // ...
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
-      console.log(`app rodando na porta ${3000}`)
-    })
+      console.log(`app rodando na porta ${PORT}`);
+    });
+  }
+
+  private route() {
+    this.app.use('/login', new LoginRouter().router);
+    this.app.use(joiError);
+    this.app.use(errorHandler);
   }
 }
 
