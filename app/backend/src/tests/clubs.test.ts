@@ -26,7 +26,7 @@ describe('Tests GET /clubs route', () => {
       });
   })
 });
-describe('Tests GET /clubs:id route', () => {
+describe('Tests GET /clubs/:id route', () => {
   it('Return status 200 with the club', async () => {
     return chai
       .request(app)
@@ -37,5 +37,5 @@ describe('Tests GET /clubs:id route', () => {
         expect(res.body).to.have.property('id');
         expect(res.body).to.have.property('clubName');
       });
-  })
+  });
 })

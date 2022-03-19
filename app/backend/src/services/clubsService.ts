@@ -6,6 +6,11 @@ const clubsService = {
 
     return clubs;
   },
+  getById: async (id: string) => {
+    const club = await Club.findByPk(id);
+
+    return club;
+  },
 };
 
 export default clubsService;
