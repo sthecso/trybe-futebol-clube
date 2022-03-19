@@ -10,12 +10,16 @@ class LoginController {
     const dataEmail = data.email;
     const secret = jwtConfig.jwt.secret as unknown as string;
 
-    const token = jwt.sign({ data: dataEmail }, secret, {
+    const token = jwt.sign({}, secret, {
+      subject: dataEmail,
       expiresIn: '7d',
       algorithm: 'HS256',
     });
-
-    res.status(code).json({ user: data, token });
+    const { id, username, role } = data;
+    res.status(code).json({ user: {
+      id, username, role, email,
+    },
+    token });
   };
 
   getUser = async (_req: Request, res: Response) => {
