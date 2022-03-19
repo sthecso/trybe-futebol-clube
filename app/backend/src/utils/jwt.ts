@@ -4,9 +4,9 @@ import IUserResponse from '../interfaces/IUserResponse';
 
 const SECRET = readFileSync('jwt.evaluation.key', { encoding: 'utf-8' });
 
-export const signToken = (data: IUserResponse) => {
+export const signToken = (payload: IUserResponse) => {
   jwt.sign(
-    data,
+    payload,
     SECRET,
     { algorithm: 'HS256', expiresIn: '1h' },
   );
