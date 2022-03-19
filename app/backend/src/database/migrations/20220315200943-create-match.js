@@ -3,48 +3,52 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('matchs', {
-      id:{
+      id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      home_team: {
+      homeTeam: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        onUpdate:'CASCADE',
-        onDelete:'CASCADE',
-        references:{
-          model:'clubs',
-          key:'id',
+        field: 'home_team',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'clubs',
+          key: 'id',
         },
       },
-      home_team_goals: {
+      homeTeamGoals: {
         type: Sequelize.INTEGER,
+        field: 'home_team_goals',
         allowNull: false,
       },
-      away_team: {
+      awayTeam: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        onUpdate:'CASCADE',
-        onDelete:'CASCADE',
-        references:{
-          model:'clubs',
-          key:'id',
+        field: 'away_team',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'clubs',
+          key: 'id',
         },
       },
-      away_team_goals: {
+      awayTeamGoals: {
         type: Sequelize.INTEGER,
+        field: 'away_team_goals',
         allowNull: false,
       },
-      in_progress: {
+      inProgress: {
         type: Sequelize.BOOLEAN,
-        allowNull:false,
+        field: 'in_progress',
+        allowNull: false,
       },
-    })
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('matchs')
+    await queryInterface.dropTable('matchs');
   }
 };

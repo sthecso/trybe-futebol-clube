@@ -12,8 +12,8 @@ class ClubRouter {
   }
 
   routePath() {
-    this.router.get('/', this.controllerClub.getAllClubs);
     this.router.get('/:id', this.controllerClub.findOneClub);
+    this.router.get('/', this.controllerClub.getAllClubs);
   }
 }
 

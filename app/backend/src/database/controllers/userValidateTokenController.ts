@@ -14,7 +14,7 @@ class UserValidateTokenController {
       const message = 'Usuario nao authenticado';
       return res.status(this.statusCode.Unauthorized).json({ message });
     }
-    return res.status(this.statusCode.Ok).json(decodedUser.role);
+    return res.status(this.statusCode.Ok).send(`${decodedUser.role}`);
   }
 }
 

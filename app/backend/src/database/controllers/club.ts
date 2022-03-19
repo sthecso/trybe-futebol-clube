@@ -12,15 +12,15 @@ class ClubController {
     this.findOneClub = this.findOneClub.bind(this);
   }
 
-  getAllClubs(req: Request, res: Response) {
-    const clubs = this.clubService.getAllClubs;
+  async getAllClubs(req: Request, res: Response) {
+    const clubs = await this.clubService.getAllClubs();
 
     if (clubs === null) {
       return res.status(this.statusCode.NotFound)
         .json({ message: 'nenhum club encontrado' });
     }
 
-    return res.status(this.statusCode.Ok).json({ clubs });
+    return res.status(this.statusCode.Ok).json(clubs);
   }
 
   async findOneClub(req:Request, res: Response) {
@@ -31,7 +31,7 @@ class ClubController {
         .json({ message: 'club nao encontrado' });
     }
 
-    return res.status(this.statusCode.Ok).json({ club });
+    return res.status(this.statusCode.Ok).json(club);
   }
 }
 
