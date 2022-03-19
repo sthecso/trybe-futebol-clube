@@ -21,7 +21,10 @@ export default class ValidLogin {
         required_error: 'Email is required',
         invalid_type_error: 'Email must be a string' })
         .email('type email required'),
-      password: z.string().min(7, 'password must be longer than 6 characters'),
+      password: z.string({
+        required_error: 'Password is required',
+        invalid_type_error: 'Password must be a string',
+      }).min(7, 'password must be longer than 6 characters'),
     });
 
     myshema.parse({ email: this._email, password: this._password });
