@@ -2,6 +2,8 @@ import { IEmailAndPasswordDTO, LoginDTO } from '../interfaces/ILogin';
 import User from '../database/models/User';
 
 class LoginService implements IEmailAndPasswordDTO, LoginDTO {
+  id: number;
+
   username: string;
 
   role: string;
@@ -9,6 +11,20 @@ class LoginService implements IEmailAndPasswordDTO, LoginDTO {
   email: string;
 
   password: string;
+
+  userReturnOnlogin = async (email: string) => {
+    const attributesUser = await User.findAll() as LoginDTO[];
+    const filteringEmailUser = attributesUser.filter((e) => e.email === email);
+    const recoverAttributesUserLogged = filteringEmailUser.map((a) => {
+      const { id, username, role } = a;
+      return {
+        id,
+        username,
+        role,
+      };
+    });
+    return recoverAttributesUserLogged;
+  };
 
   getLogin = async (value: IEmailAndPasswordDTO) => {
     const { email, password } = value;
@@ -20,15 +36,15 @@ class LoginService implements IEmailAndPasswordDTO, LoginDTO {
     if (password !== searchUser.password) {
       return { code: 401, data: { message: 'Incorrect email or password' } };
     }
+    const userLogged = await this.userReturnOnlogin(email);
 
-    const atributtesUser = await User.findAll() as LoginDTO[];
     return { code: 200,
       data: {
-        username: atributtesUser[0].username,
-        role: atributtesUser[0].role,
+        id: String(userLogged[0].id),
+        username: userLogged[0].username,
+        role: userLogged[0].role,
         email: searchUser.email,
         password: searchUser.password,
-
       } };
   };
 
