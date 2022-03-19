@@ -104,7 +104,7 @@ describe('All tests', () => {
     });
   });
 
-  describe.only('Test endpoint /matchs', async () => {
+  describe('Test endpoint /matchs', async () => {
     let chaiHttpResponse: Response;
 
     it('status = 200 and returns an array', async () => {
