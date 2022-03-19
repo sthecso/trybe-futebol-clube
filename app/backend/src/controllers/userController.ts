@@ -33,6 +33,7 @@ const userController = {
       const { role } = payload;
       return res.status(200).send(role);
     }
+    return res.status(401).send('Unauthorized');
   },
 };
 

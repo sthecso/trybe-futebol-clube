@@ -83,3 +83,37 @@ describe('Tests /login route', () => {
     });
   });
 });
+
+describe('Tests /login/validate route', () => {
+  describe('When authorization header is passed', () => {
+    it('Return status 200 with user role', async () => {
+      let chaiHttpResponse: Response;
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send({ email: 'admin@admin.com', password: 'secret_admin' })
+
+      const { user: { role }, token } = chaiHttpResponse.body;
+
+      return chai
+        .request(app)
+        .get('/login/validate')
+        .set('authorization', token)
+        .then((res: Response) => {
+          expect(res.status).to.be.equal(200);
+          expect(res.text).to.be.equal(role);
+        });
+    });
+  });
+  describe('When no authorization header is passed', () => {
+    it('Return status 401 with error message', async () => {
+      return chai
+        .request(app)
+        .get('/login/validate')
+        .then((res: Response) => {
+          expect(res.status).to.be.equal(401);
+          expect(res.text).to.be.equal('Unauthorized');
+        });
+    });
+  })
+});
