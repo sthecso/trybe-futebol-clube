@@ -26,3 +26,16 @@ describe('Tests GET /clubs route', () => {
       });
   })
 });
+describe('Tests GET /clubs:id route', () => {
+  it('Return status 200 with the club', async () => {
+    return chai
+      .request(app)
+      .get('/clubs/1')
+      .then((res: Response) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('id');
+        expect(res.body).to.have.property('clubName');
+      });
+  })
+})
