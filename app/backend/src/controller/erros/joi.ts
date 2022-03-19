@@ -8,9 +8,17 @@ enum ListErros{
 class TypesErros {
   private list = ListErros;
 
+  zodErros(err:ZodError) {
+    const [message, code] = err.issues[0].message.split('/');
+    const statusCode = code as unknown as number;
+    const status = this.list[statusCode] as unknown as number;
+    return [status, message];
+  }
+
   public handleErros:ErrorRequestHandler = (err, _req, res, _next) => {
     if (err instanceof ZodError) {
-      return res.status(400).json({ message: err.issues[0].message });
+      const [code, message] = this.zodErros(err);
+      return res.status(+code).json({ message });
     }
     const [message, code] = err.message.split('/');
     if (code) {
