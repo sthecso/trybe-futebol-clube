@@ -1,4 +1,4 @@
-import IMatchReq from '../interfaces/match/IMatchReq';
+/* import IMatchReq from '../interfaces/match/IMatchReq'; */
 import IUpdateGoalsReq from '../interfaces/match/IUpdateGoals';
 import MatchModel from '../models/match';
 

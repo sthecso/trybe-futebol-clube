@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import IQuery from '../interfaces/express/IQuery';
-import IMatchReq from '../interfaces/match/IMatchReq';
+/* import IMatchReq from '../interfaces/match/IMatchReq'; */
 import IUpdateGoalsReq from '../interfaces/match/IUpdateGoals';
 import MatchService from '../services/match';
 import StatusCode from '../utils/statusCode';
@@ -12,7 +12,7 @@ class MatchController {
 
   constructor() {
     this.getMatchsByProgress = this.getMatchsByProgress.bind(this);
-    this.saveMatchInProgress = this.saveMatchInProgress.bind(this);
+    /* this.saveMatchInProgress = this.saveMatchInProgress.bind(this); */
   }
 
   async getMatchsByProgress(req: Request, res: Response) {
