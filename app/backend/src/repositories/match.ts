@@ -39,7 +39,7 @@ class MatchRepository {
   public static async create(newMatch: IMatchSimple) {
     const result = await Match.create(newMatch);
 
-    return result;
+    return result as unknown as IMatch;
   }
 }
 

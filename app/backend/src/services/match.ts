@@ -2,6 +2,7 @@ import { MatchRepository } from '../repositories';
 
 import {
   IMatchSimple,
+  IMatch,
   IMatchComplete,
 } from '../utils/interfaces';
 
@@ -30,7 +31,7 @@ class MatchService {
     if (!homeTeam || !awayTeam) throw notFoundErr;
     if (homeTeamId === awayTeamId) throw conflictErr;
 
-    const result = await MatchRepository
+    const result: IMatch = await MatchRepository
       .create(newMatch);
 
     return result;

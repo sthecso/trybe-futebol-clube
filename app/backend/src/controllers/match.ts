@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 
 import {
   IMatchSimple,
+  IMatch,
   IMatchComplete,
 } from '../utils/interfaces';
 
@@ -23,7 +24,7 @@ const findAll: RequestHandler = async (req, res, _next) => {
 const create: RequestHandler = async (req, res, _next) => {
   const newMatch: IMatchSimple = req.body;
 
-  const result = await MatchService
+  const result: IMatch = await MatchService
     .create(newMatch);
 
   return res
