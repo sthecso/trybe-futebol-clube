@@ -1,16 +1,19 @@
 import Users from '../models/users';
 
+interface IUserWithPassDTO {
+  id: number,
+  username: string,
+  role: string,
+  email: string
+  password:string
+}
 class User {
   private metodos = Users;
 
-  // constructor() {
+  async getByEmail(email:string):Promise<IUserWithPassDTO | null> {
+    const user = await this.metodos.findOne({ where: { email }, raw: true });
 
-  // }
-
-  async getByEmail(email:string):Promise<string> {
-    const user = await this.metodos.findOne({ where: { email } });
-    console.log(user);
-    return user as unknown as string;
+    return user as unknown as IUserWithPassDTO | null;
   }
 }
 export default User;
