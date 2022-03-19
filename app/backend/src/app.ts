@@ -1,6 +1,7 @@
 import * as express from 'express';
 import clubsRoutes from './routes/clubsRoutes';
 import loginRoutes from './routes/loginRoutes';
+import matchsRoutes from './routes/matchsRoutes';
 
 class App {
   public app: express.Express;
@@ -12,7 +13,7 @@ class App {
     // ...
   }
 
-  private config():void {
+  private config(): void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
@@ -24,10 +25,11 @@ class App {
     this.app.use(express.json());
     this.app.use(loginRoutes);
     this.app.use(clubsRoutes);
+    this.app.use(matchsRoutes);
   }
 
   // ...
-  public start(PORT: string | number):void {
+  public start(PORT: string | number): void {
     this.app.listen(PORT, () => {
       console.log(`Listening on ${PORT}`);
     });
