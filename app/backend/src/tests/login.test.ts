@@ -30,47 +30,47 @@ describe('Testando rota de login', () => {
   //   (Example.findOne as sinon.SinonStub).restore();
   // })
 
-  it('Testando se é possível fazer login com sucesso', async () => {
+  it('Testando que é possível fazer login com sucesso', async () => {
     chaiHttpResponse = await chai
        .request(app).post('/login')
        .send({ 
          email: 'admin@admin.com',
-         password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+         password: 'secret_admin'
         });
 
     expect(chaiHttpResponse).to.status(200)
   });
 
-  it('Testando se é possivel fazer login sem campo "email"', async () => {
+  it('Testando que não é possivel fazer login sem campo "email"', async () => {
     chaiHttpResponse = await chai.request(app).post('/login')
       .send({ 
-        password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+        password: 'secret_admin'
       });
 
-    expect(chaiHttpResponse).to.status(400);
+    expect(chaiHttpResponse).to.status(401);
   });
 
-  it('Testando se é possivel fazer login sem o campo "password"', async () => {
+  it('Testando que não é possivel fazer login sem o campo "password"', async () => {
     chaiHttpResponse = await chai.request(app).post('/login')
     .send({
       email: 'admin@admin.com'
     });
 
-  expect(chaiHttpResponse).to.status(400);
+  expect(chaiHttpResponse).to.status(401);
   });
 
-  it('Testando se é possível fazer login com o campo "email" em branco', async () => {
+  it('Testando que não é possível fazer login com o campo "email" em branco', async () => {
     chaiHttpResponse = await chai
     .request(app).post('/login')
     .send({ 
       email: '',
-      password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+      password: 'secret_admin'
      });
 
- expect(chaiHttpResponse).to.status(400)
+ expect(chaiHttpResponse).to.status(401)
   });
 
-  it('Testando se é possível fazer login com o campo "password" em branco', async () => {
+  it('Testando que não é possível fazer login com o campo "password" em branco', async () => {
     chaiHttpResponse = await chai
     .request(app).post('/login')
     .send({ 
@@ -78,18 +78,18 @@ describe('Testando rota de login', () => {
       password: ''
      });
 
- expect(chaiHttpResponse).to.status(400)
+ expect(chaiHttpResponse).to.status(401)
   });
 
-  it('Testando se é possível fazer login com um usuario que não existe', async () => {
+  it('Testando que não é possível fazer login com um usuario que não existe', async () => {
     chaiHttpResponse = await chai
     .request(app).post('/login')
     .send({ 
       email: 'email@email.com',
-      password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+      password: 'secret_admin'
      });
 
-    expect(chaiHttpResponse).to.status(400);
+    expect(chaiHttpResponse).to.status(401);
   });
 
   // it('Seu sub-teste', () => {
