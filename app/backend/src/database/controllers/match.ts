@@ -8,6 +8,10 @@ class MatchController {
 
   private statusCode = StatusCode;
 
+  constructor() {
+    this.getMatchsByProgress = this.getMatchsByProgress.bind(this);
+  }
+
   async getMatchsByProgress(req: Request, res: Response) {
     const { inProgress } = req.query as unknown as IQuery;
     const matchs = await this.matchService.getMatchsByProgress(inProgress);
@@ -15,7 +19,7 @@ class MatchController {
       return res.status(this.statusCode.NotFound)
         .json({ message: 'not found data' });
     }
-    return res.status(this.statusCode.Ok).json({ matchs });
+    return res.status(this.statusCode.Ok).json(matchs);
   }
 }
 

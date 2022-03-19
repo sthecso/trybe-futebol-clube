@@ -19,7 +19,7 @@ Match.init({
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  homeTeamgGoals: {
+  homeTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
