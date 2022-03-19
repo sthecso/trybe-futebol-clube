@@ -4,6 +4,7 @@ import 'express-async-errors';
 
 import login from './login';
 import clubs from './club';
+import matches from './match';
 
 import {
   domainError,
@@ -16,6 +17,7 @@ const router = Router();
 // routes
 router.use('/login', login);
 router.use('/clubs', clubs);
+router.use('/matchs', matches);
 
 // error middlewares
 router.use(joiError);

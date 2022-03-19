@@ -26,15 +26,4 @@ Club.init({
   tableName: 'clubs',
 });
 
-/**
-  * `Workaround` para aplicar as associations em TS:
-  * Associations 1:N devem ficar em uma das instâncias de modelo
-  * */
-
-// OtherModel.belongsTo(Club, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
-// OtherModel.belongsTo(Club, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
-
-// Club.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
-// Club.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
-
 export default Club;
