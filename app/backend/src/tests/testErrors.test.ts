@@ -10,6 +10,8 @@ import { after, before, afterEach, beforeEach } from 'mocha';
 import bcrypt = require('bcryptjs');
 import LoginUserController from '../database/controllers/user';
 import { Request } from 'express';
+import MatchModel from '../database/models/match';
+import Match from '../database/modelsSequelize/match';
 
 chai.use(chaiHttp);
 
@@ -30,9 +32,36 @@ describe('Testa os Erros da classe LoginUserModel', async () => {
     expect(await userModel.findUser(login)).to.be.null;
 
   });
+
+  /* describe('Testa os Erros da classe MatchModel', async () => {
+
+    const mocksAllmatch = [
+      {
+        id: 1,
+        homeTeam: 16,
+        homeTeamGoals: 1,
+        awayTeam: 8,
+        awayTeamGoals: 1,
+        inProgress: false,
+      }
+    ] as any
+
+    before(async () => {
+      sinon.stub(Match, "findAll").resolves(mocksAllmatch)
+    })
+  
+    const matchModel = new MatchModel();
+  
+        
+      it('testa o retorno da classe com um dado valido', async () => {
+      
+  
+      expect(await matchModel.getMatchsByProgress(true)).to.be.an("array");
+        
+    });*/
   
 
-});
+}); 
 /*===========================Service==========================*/
 describe('Testa os Erros da classe LoginUserService', async () => {
 
