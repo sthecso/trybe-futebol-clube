@@ -1,16 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-
 import db from '.';
 
-interface IUser {
-  id: number,
-  username: string,
-  role: string,
-  email: string,
-  password: string,
-};
-
-class User extends Model<IUser> {
+class User extends Model {
   public id: number;
 
   public username: string;
@@ -22,34 +13,49 @@ class User extends Model<IUser> {
   public password: string;
 }
 
-  User.init({
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
+User.init({
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notNull: { msg: '"email" is required' },
+      notEmpty: { msg: '"email" is required' },
+      isEmail: { msg: '"email" must be a valid email' },
     },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notNull: { msg: '"password" is required' },
+      notEmpty: { msg: '"password" is required' },
+      isEven(value: string) {
+        if (!value || value.length !== 6) {
+          throw new Error('"password" length must be 6 characters long');
+        }
+      },
     },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    }
-  }, {
-    sequelize: db,
-    modelName: 'User',
-    tableName: 'users',
-    timestamps: false,
-  });
+  },
+}, {
+  sequelize: db,
+  underscored: true,
+  timestamps: false,
+  modelName: 'User',
+  tableName: 'users',
+});
 
-  export default User;
+export default User;

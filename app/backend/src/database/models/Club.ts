@@ -1,13 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-
 import db from '.';
 
-interface IMatch {
-  id: number,
-  club_name: string
-};
-
-class Club extends Model<IMatch> {
+class Club extends Model {
   public id: number;
 
   public clubName: string;
@@ -16,13 +10,16 @@ class Club extends Model<IMatch> {
 Club.init({
   id: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     autoIncrement: true,
     primaryKey: true,
   },
-  club_name: {
+  clubName: {
     type: DataTypes.STRING,
-  }
+    allowNull: false,
+  },
 }, {
+  underscored: true,
   sequelize: db,
   modelName: 'Club',
   tableName: 'clubs',
