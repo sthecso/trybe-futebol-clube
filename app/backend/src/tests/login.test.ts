@@ -84,7 +84,7 @@ describe('Tests POST /login route', () => {
   });
 });
 
-describe('Tests /login/validate route', () => {
+describe('Tests GET /login/validate route', () => {
   describe('When authorization header is passed', () => {
     it('Return status 200 with user role', async () => {
       let chaiHttpResponse: Response;
