@@ -20,7 +20,7 @@ const userController = {
           email: user.email,
           role: user.role,
         },
-        token
+        token,
       });
     }
     return res.status(401).json({ message: 'Incorrect email or password' });
