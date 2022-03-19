@@ -5,7 +5,12 @@ import LoginService from '../service/Login';
 class Login {
   public router = Router();
 
-  public loginService: LoginService;
+  public loginService: {
+    id: number;
+    username: string;
+    role: string;
+    email: string;
+  } | null;
 
   constructor() {
     this.post();
@@ -14,12 +19,11 @@ class Login {
   post() {
     this.router.post('/', async (req, res) => {
       const { email, password } = req.body;
-      this.loginService = new LoginService(email, password);
+      this.loginService = await new LoginService(email, password).findUser();
 
-      await this.loginService.findUser();
       const token = await Token.generate({ email });
       return res.status(200).json({
-        user: this.loginService.userFound,
+        user: this.loginService,
         token,
       });
     });
