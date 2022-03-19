@@ -15,7 +15,7 @@ Club.init(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    club_name: {
+    clubName: {
       type: DataTypes.STRING,
       allowNull: false,
     },

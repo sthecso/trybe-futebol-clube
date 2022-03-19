@@ -24,7 +24,7 @@ Match.init(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    home_team: {
+    homeTeam: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
@@ -35,11 +35,11 @@ Match.init(
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    home_team_goals: {
+    homeTeamGoals: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    away_team: {
+    awayTeam: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
@@ -50,11 +50,11 @@ Match.init(
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    away_team_goals: {
+    awayTeamGoals: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    in_progress: {
+    inProgress: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
