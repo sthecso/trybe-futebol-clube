@@ -1,7 +1,7 @@
-import ClubService from "./ClubService";
-import LoginService from "./LoginService";
+import ClubService from './ClubService';
+import LoginService from './LoginService';
 
 export {
-    ClubService,
-    LoginService,
-}
+  ClubService,
+  LoginService,
+};

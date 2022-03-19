@@ -1,5 +1,5 @@
-import { ClubService } from "../services";
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
+import { ClubService } from '../services';
 
 class ClubController {
   private ClubService: ClubService;
@@ -16,13 +16,13 @@ class ClubController {
   getById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const clubId = Number(id);
-    
+
     if (clubId) {
       const club = await this.ClubService.getById(clubId);
       return res.status(200).json(club);
     }
 
-    res.status(400).json({ message: 'Id must be a number'});
+    res.status(400).json({ message: 'Id must be a number' });
   };
 }
 
