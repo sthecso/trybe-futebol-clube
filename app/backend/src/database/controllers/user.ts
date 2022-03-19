@@ -17,7 +17,8 @@ class LoginUserController {
     const requestData = req.body as IUserReq;
     const user = await this.loginService.findUser(requestData);
     if (user === null) {
-      return res.status(this.StatusCode.Unauthorized).json( { message: "Incorrect email or password" };
+      return res.status(this.StatusCode.Unauthorized)
+        .json({ message: 'Incorrect email or password' });
     }
 
     return res.status(this.StatusCode.Ok).json(user);
