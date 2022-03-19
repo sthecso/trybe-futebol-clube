@@ -5,7 +5,7 @@ import { app } from '../app';
 
 import { Response } from 'superagent';
 import { verifyToken } from '../utils/tokenHelper';
-import { IClub } from '../utils/interfaces';
+import { IClub, IMatch } from '../utils/interfaces';
 
 chai.use(chaiHttp);
 
@@ -19,7 +19,7 @@ describe('Tests GET /matchs route', () => {
       .then((res: Response) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
-        res.body.forEach((club: IClub) => {
+        res.body.forEach((club: IMatch) => {
           expect(club).to.have.property('id');
           expect(club).to.have.property('homeTeam');
           expect(club).to.have.property('homeTeamGoals');
@@ -27,7 +27,9 @@ describe('Tests GET /matchs route', () => {
           expect(club).to.have.property('awayTeamGoals');
           expect(club).to.have.property('inProgress');
           expect(club).to.have.property('homeClub');
+          expect(club.homeClub).to.have.property('clubName');
           expect(club).to.have.property('awayClub');
+          expect(club.awayClub).to.have.property('clubName');
         })
       });
   })
