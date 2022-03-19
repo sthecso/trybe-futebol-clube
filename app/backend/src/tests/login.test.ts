@@ -1,80 +1,145 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import ModelUser from '../database/fé/user'
-// import superagent from 'superagent';
-const PORT = process.env.PORT || 3001;
+import Model2User from '../database/models/users'
+import { Response } from 'superagent';
+import helpjwt from '../utils/helpjwt';
 import { app } from '../app';
+
 const User = {
   id:1,
-  username: 'User',
-  role: 'user',
-  email: 'user@user.com',
-  password: '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO'
+  username: "User",
+  role: "user",
+  email: "user@user.com",
+  password: "$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO"
 }
+// const notUser = {null}
+// const app = `http://localhost:${PORT}`
 
-const url = `http://localhost:${PORT}`
 chai.use(chaiHttp);
-// let chaiHttpResponse = Response
+
 const { expect } = chai
-// const rota = new App().start(3001)
+
+// const rota = app.listen(PORT)
 
 describe("testa o funcionamento da rota Login" ,() =>{
     describe("testa os tipos de dados recebidos no login" ,() =>{
+      let chaiHttpResponse: Response
+
       it("email espera o erro 400" ,async()=>{
-        const result =  await chai.request(url)
-          .post('/login').send({
+        chaiHttpResponse = await chai.request(app)
+          .post("/login").send({
            email: "batman",
            password: "1234567",
           })
-        expect(result).to.be.status(400)
-        expect(result.body).to.be.deep.equal({message: 'type email required'})
+        expect(chaiHttpResponse).to.be.status(400)
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "type email required"})
       })
       it("senha espera o erro 400" ,async()=>{
-        const result =  await chai.request(url)
-          .post('/login').send({
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
            email: "batman@hotmail.com",
            password: "12345",
           })
-        expect(result).to.be.status(400)
-        expect(result.body).to.be.deep.equal({message: 'password must be longer than 6 characters'})
+        expect(chaiHttpResponse).to.be.status(400)
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "password must be longer than 6 characters"})
       })
       it("email passado o tipo errado espera o erro 400 " ,async()=>{
-        const result =  await chai.request(url)
-          .post('/login').send({
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
            email: [1],
            password: "1234567",
           })
-        expect(result).to.be.status(400)
-        expect(result.body).to.be.deep.equal({message: "Email must be a string"})
+        expect(chaiHttpResponse).to.be.status(400)
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "Email must be a string"})
       })
       it("Password passado o tipo errado espera o erro 400 " ,async()=>{
-        const result =  await chai.request(url)
-          .post('/login').send({
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
            email: "batman@hotmail.com",
            password: ["123456"],
           })
-        expect(result).to.be.status(400)
-        expect(result.body).to.be.deep.equal({message: "Password must be a string"})
+        expect(chaiHttpResponse).to.be.status(400)
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "Password must be a string"})
+      })
+      it("Password passado o tipo errado espera o erro 400" ,async()=>{
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
+           email: "batman@hotmail.com",
+          })
+        expect(chaiHttpResponse).to.be.status(401)
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "All fields must be filled"})
       })
     })
     describe("Testa se há correspondêcia nos dados" ,()=>{
-      const model = new ModelUser()
-
-      before(() => {
-        sinon.stub(model,"getByEmail").resolves(User)
+      let chaiHttpResponse: Response
+      before(async () => {
+        return sinon.stub(Model2User, "findOne").resolves({
+            ...User
+          } as unknown as Model2User) // linter meu amigo apenas 
       })
       after(() => {
-        (model.getByEmail as sinon.SinonStub).restore()
+        (Model2User.findOne as sinon.SinonStub).restore()
       })
       it("senha errada esperando erro 401", async() => {
-        const result =  await chai.request(url)
-          .post('/login').send({
+       
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
            email:"user@user.com",
-           password:'secret_',
+           password:"secret_",
           })
-        expect(result).to.be.status(401)
-        expect(result.body.message).to.be.equal("Incorrect email or password")
+        expect(chaiHttpResponse).to.be.status(401)
+        expect(chaiHttpResponse.body.message).to.be.equal("Incorrect email or password")
+      })
+    })
+    describe("Testa se há o usuario" ,()=>{
+      let chaiHttpResponse: Response
+      before(async () => {
+        return sinon.stub(Model2User, "findOne").resolves(null as unknown as Model2User) // linter meu amigo apenas 
+      })
+      after(() => {
+        (Model2User.findOne as sinon.SinonStub).restore()
+      })
+      it("usuario não encontrado esperando", async() => {
+       
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
+           email:"batman@gmail.com",
+           password:"secret_",
+          })
+        expect(chaiHttpResponse).to.be.status(401)
+        expect(chaiHttpResponse.body.message).to.be.equal("Incorrect email or password")
+      })
+    })
+    describe("Caso de sucesso usuario" ,()=>{
+      let chaiHttpResponse: Response
+      before(async () => {
+        return sinon.stub(Model2User, "findOne").resolves(User as unknown as Model2User) // linter meu amigo apenas 
+      })
+      after(() => {
+        (Model2User.findOne as sinon.SinonStub).restore()
+      })
+      it("usuario encontrado", async() => {
+       
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
+           email:"user@user.com",
+           password:"secret_user",
+          })
+        expect(chaiHttpResponse).to.be.status(200)
+        expect(chaiHttpResponse.body.user).to.be.all.keys( "id","username","role","email")
+        expect(chaiHttpResponse.body.token).to.be.a.string
+      })
+      it("Token correto", async() => {
+       
+        chaiHttpResponse =  await chai.request(app)
+          .post("/login").send({
+           email:"user@user.com",
+           password:"secret_user",
+          })
+        const token = helpjwt.verify(chaiHttpResponse.body.token)
+        expect(token).to.be.all.keys("id","username","role","email","exp","iat")
+
       })
     })
 })
