@@ -27,11 +27,6 @@ class Login {
     }
     return null;
   }
-
-  get isNull() {
-    if (this._userFound) return true;
-    return false;
-  }
 }
 
 export default Login;
