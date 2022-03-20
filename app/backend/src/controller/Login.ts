@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { JwtPayload } from 'jsonwebtoken';
 import validateEmail from '../middleware/validate/email';
 import validatePassword from '../middleware/validate/password';
 import Token from '../auth/Token';
@@ -28,38 +29,32 @@ class Login {
 
       if (!this.loginService.userFound) {
         return res.status(StatusCodes.UNAUTHORIZED).json({
-          message: 'Incorrect email or password' });
+          message: 'Incorrect email or password',
+        });
       }
 
       if (!this.loginService.passwordIsValid) {
         return res.status(StatusCodes.UNAUTHORIZED).json({
-          message: 'Incorrect email or password' });
+          message: 'Incorrect email or password',
+        });
       }
 
       const token = await Token.generate({ email });
-      return res.status(200).json({
-        user: this.loginService.userFound,
-        token,
-      });
+      return res.status(200).json({ user: this.loginService.userFound, token });
     });
   }
 
   validate() {
     this.router.get('/validate', async (req: Request, res: Response) => {
-      const { authorization = '' } = req.headers;
-
       try {
-        const token = await Token.verify(authorization);
+        const token = await Token.verify(req.headers.authorization as string) as JwtPayload;
 
-        if (typeof token !== 'string') {
-          this.loginService = new LoginService(token.email, 'password');
-          await this.loginService.findUser();
+        this.loginService = new LoginService(token.email, 'password');
+        await this.loginService.findUser();
 
-          if (this.loginService.userFound) {
-            return res.status(StatusCodes.OK).send(this.loginService.userFound.role);
-          }
+        if (this.loginService.userFound) {
+          return res.status(StatusCodes.OK).send(this.loginService.userFound.role);
         }
-        return res.status(StatusCodes.UNAUTHORIZED).send();
       } catch (error) {
         return res.status(StatusCodes.UNAUTHORIZED).send();
       }
