@@ -12,21 +12,20 @@ class LoginUserModel {
   /* private StatusCode = statusCode; */
 
   async findUser({ email, password }: IUserReq) {
-    const user = await this.userModel.findOne({ where: { email, password } });
+    const user = await this.userModel.findOne({ where: { email } });
+    console.log(`linha 16${user}`);
 
-    if (!user) return null;
+    if (user === null) return null;
 
     const verifyPassword = await bcrypt.compare(password, user.password);
 
     if (!verifyPassword) return null;
 
     return {
-      data: {
-        id: user.id,
-        username: user.username,
-        role: user.role,
-        email: user.email,
-      },
+      id: user.id,
+      username: user.username,
+      role: user.role,
+      email: user.email,
     };
   }
 }

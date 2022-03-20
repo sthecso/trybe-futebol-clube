@@ -7,17 +7,23 @@ class MatchService {
 
   constructor() {
     this.getMatchsByProgress = this.getMatchsByProgress.bind(this);
+    this.updateResultsMatch = this.updateResultsMatch.bind(this);
   }
 
   async getMatchsByProgress(progressData: string) {
-    if (progressData === 'false') {
-      const data: boolean | undefined = false;
-      const falseMatch = await this.modelMatch.getMatchsByProgress(data);
-      return falseMatch;
+    let booleanQuery: boolean | undefined;
+
+    if (progressData && progressData === 'false') {
+      booleanQuery = false;
     }
-    const data: boolean | undefined = false;
-    const trueMatchs = await this.modelMatch.getMatchsByProgress(data);
-    return trueMatchs;
+
+    if (progressData && progressData === 'true') {
+      booleanQuery = true;
+    }
+
+    const allMatches = await this.modelMatch.getMatchsByProgress(booleanQuery);
+
+    return allMatches;
   }
 
   async updateResultsMatch(id: number, goalsMatch: IUpdateGoalsReq) {

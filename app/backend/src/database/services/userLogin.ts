@@ -1,6 +1,5 @@
 /* import bcrypt = require('bcryptjs'); */
 /* import { GenerateStatusError } from '../utils'; */
-import generateToken from '../utils/generateToken';
 import IUserReq from '../interfaces/login/IUserReq';
 
 import LoginUserModel from '../models/userLogin';
@@ -8,20 +7,13 @@ import LoginUserModel from '../models/userLogin';
 class LoginUserService {
   private loginModel = new LoginUserModel();
 
-  private token = generateToken;
+  constructor() {
+    this.findUser = this.findUser.bind(this);
+  }
 
   async findUser(loginData: IUserReq) {
     const user = await this.loginModel.findUser(loginData);
-
-    if (user === null) {
-      return user;
-    }
-
-    const token = await this.token(user.data);
-    return {
-      user: user.data,
-      token,
-    };
+    return user;
   }
 }
 

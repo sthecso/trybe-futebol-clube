@@ -9,9 +9,26 @@ class MatchModel {
 
   private clubEntity = Club;
 
-  async getMatchsByProgress(requestInprogress: boolean) {
-    const matchs = await this.matchEntity.findAll({ where: { inProgress: requestInprogress } });
-    if (!matchs || !matchs.length) return null;
+  async getMatchsByProgress(progressData: boolean | undefined = undefined) {
+    let matchs;
+
+    if (progressData === undefined) {
+      matchs = await this.matchEntity.findAll({
+        include: [
+          { model: this.clubEntity, as: 'homeClub' },
+          { model: this.clubEntity, as: 'awayClub' },
+        ],
+      });
+    } else {
+      matchs = await this.matchEntity.findAll({
+        where: { progressData },
+        include: [
+          { model: this.clubEntity, as: 'homeClub' },
+          { model: this.clubEntity, as: 'awayClub' },
+        ],
+      });
+    }
+
     return matchs;
   }
 

@@ -2,12 +2,15 @@ import { Request, Response } from 'express';
 import StatusCode from '../utils/statusCode';
 import { IUserReq } from '../interfaces/login';
 import LoginUserService from '../services/userLogin';
+import { generateToken } from '../utils';
 /* import { GenerateStatusError } from '../utils'; */
 
 class LoginUserController {
   private StatusCode = StatusCode;
 
   private loginService = new LoginUserService();
+
+  private createToken = generateToken;
 
   constructor() {
     this.findUser = this.findUser.bind(this);
@@ -21,7 +24,9 @@ class LoginUserController {
         .json({ message: 'Incorrect email or password' });
     }
 
-    return res.status(this.StatusCode.Ok).json(user);
+    const token = await this.createToken(user);
+
+    return res.status(this.StatusCode.Ok).json({ user: { ...user }, token });
   }
 }
 
