@@ -1,13 +1,15 @@
 import * as express from 'express';
+import 'express-async-errors';
+import { LoginRouter } from './routes';
+import { domainError, serverError, zodError } from './middlewares';
 
 class App {
   public app: express.Express;
-  // ...
 
   constructor() {
-    // ...
+    this.app = express();
     this.config();
-    // ...
+    this.route();
   }
 
   private config():void {
@@ -19,12 +21,19 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
+    this.app.use(express.json());
   }
 
-  // ...
+  private route(): void {
+    this.app.use('/login', new LoginRouter().router);
+
+    this.app.use(zodError);
+    this.app.use(domainError);
+    this.app.use(serverError);
+  }
+
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT, () => console.log(`Listening on ${PORT}`));
   }
 }
 
