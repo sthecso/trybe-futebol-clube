@@ -1,7 +1,14 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import validateEmail from '../middleware/validate/email';
+import validatePassword from '../middleware/validate/password';
 import Token from '../auth/Token';
 import LoginService from '../service/Login';
+
+const validLogin = [
+  validateEmail,
+  validatePassword,
+];
 
 class Login {
   public router = Router();
@@ -13,7 +20,7 @@ class Login {
   }
 
   post() {
-    this.router.post('/', async (req, res) => {
+    this.router.post('/', validLogin, async (req: Request, res: Response) => {
       const { email, password } = req.body;
       this.loginService = new LoginService(email, password);
       await this.loginService.findUser();
