@@ -120,12 +120,12 @@ describe('Tests POST /matchs route', () => {
         })
         .then((res: Response) => {
           expect(res.status).to.be.equal(401);
-          expect(res.body.message).to.equal('Team not found');
+          expect(res.body.message).to.equal('There is no team with such id!');
         });
     })
   })
   describe('When a match is created with success', () => {
-    it('Returns status 200 with error message', () => {
+    it('Returns status 201 with created match', () => {
       return chai
         .request(app)
         .post('/matchs')
@@ -137,7 +137,7 @@ describe('Tests POST /matchs route', () => {
           "inProgress": true
         })
         .then((res: Response) => {
-          expect(res.status).to.be.equal(200);
+          expect(res.status).to.be.equal(201);
           expect(res.body).to.have.property('id');
           expect(res.body.homeTeam).to.equal(16)
           expect(res.body.awayTeam).to.equal(8)

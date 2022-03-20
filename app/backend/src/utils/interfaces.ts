@@ -22,10 +22,10 @@ export interface IClubName {
 }
 
 export interface IMatch {
-  id: number;
-  homeTeam: number;
+  id?: number;
+  homeTeam: string;
   homeTeamGoals: number;
-  awayTeam: number;
+  awayTeam: string;
   awayTeamGoals: number;
   inProgress: boolean;
   homeClub: IClubName;
