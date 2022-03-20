@@ -2,16 +2,6 @@ export type Indexable = {
   id?: number
 };
 
-export type HomeTeam = Indexable & {
-  homeTeam: Indexable
-  homeTeamGoals: number
-};
-
-export type AwayTeam = Indexable & {
-  awayTeam: Indexable
-  awayTeamGoals: number
-};
-
 export interface IMatchDTO extends Indexable {
   inProgress: boolean
   homeClub: {
@@ -20,4 +10,12 @@ export interface IMatchDTO extends Indexable {
   awayClub: {
     clubName: string
   }
+}
+
+export interface IMatch extends Indexable {
+  awayTeam: Indexable
+  awayTeamGoals: number
+  homeTeam: Indexable
+  homeTeamGoals: number
+  inProgress: boolean
 }

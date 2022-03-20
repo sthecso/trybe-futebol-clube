@@ -34,7 +34,7 @@ afterEach(async () => {
 });
 
 describe(getRequirement(23), () => {
-  it('Será validado que é possível salvar um jogo no banco de dados e ver o jogo na página de jogos', async () => {
+  it.only('Será validado que é possível salvar um jogo no banco de dados e ver o jogo na página de jogos', async () => {
     const dadosInsert = {
       homeClub: clubs[3].clubName,
       awayClub: clubs[8].clubName,
@@ -63,7 +63,7 @@ describe(getRequirement(23), () => {
 });
 
 describe(getRequirement(24), () => {
-  it('Será validado que ao finalizar uma partida é alterado no banco de dados e na página', async () => {
+  it.only('Será validado que ao finalizar uma partida é alterado no banco de dados e na página', async () => {
 
     const dadosInsert = {
       homeClub: clubs[3].clubName,

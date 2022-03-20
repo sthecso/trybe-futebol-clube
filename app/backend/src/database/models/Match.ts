@@ -1,17 +1,9 @@
 import { DataTypes, Model } from 'sequelize';
+import { IMatch } from '../../interfaces/IMatchDTO';
 import db from '.';
 import Club from './Club';
 
-interface MatchAttributes {
-  id?: number;
-  homeTeam: number;
-  homeTeamGoals: number;
-  awayTeam: number;
-  awayTeamGoals: number;
-  inProgress: boolean;
-}
-
-export default class Match extends Model<MatchAttributes> {}
+export default class Match extends Model<IMatch> {}
 
 Match.init(
   {
