@@ -13,8 +13,7 @@ services:
       timeout: 10s
       retries: 5
     ports:
-      - "3000:3000"
-    restart: always
+      - 3000:3000
   backend:
     build: ./backend
     # ...
@@ -35,8 +34,7 @@ services:
       timeout: 10s
       retries: 5
     ports:
-      - "3001:3001"
-    restart: always
+      - 3001:3001
   db:
     image: mysql:8.0.21
     container_name: db
