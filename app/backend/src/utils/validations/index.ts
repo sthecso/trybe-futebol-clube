@@ -1,5 +1,5 @@
 import loginSchema from './login';
-import * as matchSchema from './match';
+import matchSchema from './match';
 
 export {
   loginSchema,

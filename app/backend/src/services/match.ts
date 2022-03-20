@@ -1,6 +1,7 @@
-import { MatchRepository } from '../repositories';
-
-import ClubService from './club';
+import {
+  MatchRepository,
+  ClubRepository,
+} from '../repositories';
 
 import {
   IMatchScore,
@@ -12,7 +13,7 @@ import {
 import * as messages from '../utils/messages';
 
 import ConflictError from './errors/Conflict';
-import NotFoundError from './errors/NotFound';
+import UnauthorizedError from './errors';
 
 class MatchService {
   public static async findAll(inProgress: boolean) {
@@ -25,15 +26,13 @@ class MatchService {
   public static async create(newMatch: IMatchCreate) {
     const { homeTeam: homeTeamId, awayTeam: awayTeamId } = newMatch;
 
-    const notFoundErr = new NotFoundError(messages.match.teams.notFound);
     const conflictErr = new ConflictError(messages.match.teams.conflict);
+    const unauthErr = new UnauthorizedError(messages.match.teams.notFound);
 
     if (homeTeamId === awayTeamId) throw conflictErr;
 
-    const homeTeam = await ClubService.findById(homeTeamId);
-    const awayTeam = await ClubService.findById(awayTeamId);
-
-    if (!homeTeam || !awayTeam) throw notFoundErr;
+    const clubsExist = await ClubRepository.checkClubs(newMatch);
+    if (!clubsExist) throw unauthErr;
 
     const result: IMatch = await MatchRepository.create(newMatch);
 
@@ -43,9 +42,9 @@ class MatchService {
   public static async finish(matchId: IMatch['id']) {
     const match = await MatchRepository.findById(matchId);
 
-    const notFoundErr = new NotFoundError(messages.match.notFound);
+    const unauthErr = new UnauthorizedError(messages.match.notFound);
 
-    if (!match) throw notFoundErr;
+    if (!match) throw unauthErr;
 
     const result = await MatchRepository.finish(matchId);
 
@@ -58,9 +57,9 @@ class MatchService {
   ) {
     const match = await MatchRepository.findById(matchId);
 
-    const notFoundErr = new NotFoundError(messages.match.notFound);
+    const unauthErr = new UnauthorizedError(messages.match.notFound);
 
-    if (!match) throw notFoundErr;
+    if (!match) throw unauthErr;
 
     const result = await MatchRepository.edit(matchId, updatedScore);
 

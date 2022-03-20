@@ -2,37 +2,39 @@ import * as Joi from 'joi';
 import { match } from '../messages';
 
 const create = Joi.object({
-  homeTeam: Joi.number().required().messages({
+  homeTeam: Joi.number().positive().required().messages({
     'any.required': match.required,
-    'string.base': match.homeTeam.base,
+    'number.positive': match.homeTeam.positive,
+    'number.base': match.homeTeam.base,
   }),
-  homeTeamGoals: Joi.number().required().messages({
+  homeTeamGoals: Joi.number().positive().required().messages({
     'any.required': match.required,
-    'string.base': match.homeTeamGoals.base,
+    'number.positive': match.homeTeamGoals.positive,
+    'number.base': match.homeTeamGoals.base,
   }),
-  awayTeam: Joi.number().required().messages({
+  awayTeam: Joi.number().positive().required().messages({
     'any.required': match.required,
-    'string.base': match.awayTeam.base,
+    'number.positive': match.awayTeam.positive,
+    'number.base': match.awayTeam.base,
   }),
-  awayTeamGoals: Joi.number().required().messages({
+  awayTeamGoals: Joi.number().positive().required().messages({
     'any.required': match.required,
-    'string.base': match.awayTeamGoals.base,
-  }),
-  inProgress: Joi.boolean().required().messages({
-    'any.required': match.required,
-    'string.base': match.inProgress.base,
-  }),
-});
-
-const edit = Joi.object({
-  homeTeamGoals: Joi.number().required().messages({
-    'any.required': match.required,
-    'string.base': match.homeTeamGoals.base,
-  }),
-  awayTeamGoals: Joi.number().required().messages({
-    'any.required': match.required,
-    'string.base': match.awayTeamGoals.base,
+    'number.positive': match.awayTeamGoals.positive,
+    'number.base': match.awayTeamGoals.base,
   }),
 });
 
-export { create, edit };
+// const edit = Joi.object({
+//   homeTeamGoals: Joi.number().positive().required().messages({
+//     'any.required': match.required,
+//     'number.positive': match.homeTeamGoals.positive,
+//     'number.base': match.homeTeamGoals.base,
+//   }),
+//   awayTeamGoals: Joi.number().positive().required().messages({
+//     'any.required': match.required,
+//     'number.positive': match.awayTeamGoals.positive,
+//     'number.base': match.awayTeamGoals.base,
+//   }),
+// });
+
+export default create;

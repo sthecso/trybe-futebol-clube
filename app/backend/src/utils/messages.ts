@@ -27,18 +27,23 @@ export const match = {
     notFound: 'There is no team with such id!',
   },
   homeTeam: {
+    positive: 'homeTeam must be a positive integer',
     base: 'homeTeam must be a number',
   },
   homeTeamGoals: {
+    positive: 'homeTeamGoals must be a positive integer',
     base: 'homeTeamGoals must be a number',
   },
   awayTeam: {
+    positive: 'awayTeam must be a positive integer',
     base: 'awayTeam must be a number',
   },
   awayTeamGoals: {
+    positive: 'awayTeamGoals must be a positive integer',
     base: 'awayTeamGoals must be a number',
   },
   inProgress: {
+    true: 'inProgress must be true',
     base: 'inProgress must be a boolean',
   },
 };

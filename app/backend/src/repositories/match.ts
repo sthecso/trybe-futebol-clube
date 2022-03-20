@@ -46,7 +46,7 @@ class MatchRepository {
   public static async finish(matchId: IMatch['id']) {
     const [result] = await Match.update(
       { inProgress: false },
-      { where: { id: matchId } },
+      { where: { id: matchId.toString() } },
     );
 
     return result;
@@ -58,7 +58,7 @@ class MatchRepository {
   ) {
     const [result] = await Match.update(
       updatedScore, // values = { homeTeamGoals, awayTeamGoals }
-      { where: { id: matchId, inProgress: true } },
+      { where: { id: matchId.toString(), inProgress: true } },
     );
 
     return result;
