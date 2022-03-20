@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express';
 
 import {
-  ITeamGoals,
-  IMatchSimple,
+  IMatchScore,
+  IMatchCreate,
   IMatch,
   IMatchComplete,
 } from '../utils/interfaces';
@@ -23,10 +23,9 @@ const findAll: RequestHandler = async (req, res, _next) => {
 };
 
 const create: RequestHandler = async (req, res, _next) => {
-  const newMatch: IMatchSimple = req.body;
+  const newMatch: IMatchCreate = req.body;
 
-  const result: IMatch = await MatchService
-    .create(newMatch);
+  const result: IMatch = await MatchService.create(newMatch);
 
   return res
     .status(StatusCodes.CREATED)
@@ -45,10 +44,9 @@ const finish: RequestHandler = async (req, res, _next) => {
 
 const edit: RequestHandler = async (req, res, _next) => {
   const { id: matchId } = req.params;
-  const updatedScore: ITeamGoals = req.body;
+  const updatedScore: IMatchScore = req.body;
 
-  const result = await MatchService
-    .edit(Number(matchId), updatedScore);
+  const result = await MatchService.edit(Number(matchId), updatedScore);
 
   return res
     .status(StatusCodes.OK)

@@ -1,8 +1,8 @@
 import { IUser, IUserComplete } from './User';
 import IClub from './Club';
 import {
-  ITeamGoals,
-  IMatchSimple,
+  IMatchScore,
+  IMatchCreate,
   IMatch,
   IMatchComplete,
 } from './Match';
@@ -11,8 +11,8 @@ export {
   IUser,
   IUserComplete,
   IClub,
-  ITeamGoals,
-  IMatchSimple,
+  IMatchScore,
+  IMatchCreate,
   IMatch,
   IMatchComplete,
 };

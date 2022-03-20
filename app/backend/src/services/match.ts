@@ -3,8 +3,8 @@ import { MatchRepository } from '../repositories';
 import ClubService from './club';
 
 import {
-  ITeamGoals,
-  IMatchSimple,
+  IMatchScore,
+  IMatchCreate,
   IMatch,
   IMatchComplete,
 } from '../utils/interfaces';
@@ -22,7 +22,7 @@ class MatchService {
     return result;
   }
 
-  public static async create(newMatch: IMatchSimple) {
+  public static async create(newMatch: IMatchCreate) {
     const { homeTeam: homeTeamId, awayTeam: awayTeamId } = newMatch;
 
     const notFoundErr = new NotFoundError(messages.match.teams.notFound);
@@ -35,8 +35,7 @@ class MatchService {
 
     if (!homeTeam || !awayTeam) throw notFoundErr;
 
-    const result: IMatch = await MatchRepository
-      .create(newMatch);
+    const result: IMatch = await MatchRepository.create(newMatch);
 
     return result;
   }
@@ -53,15 +52,17 @@ class MatchService {
     return result;
   }
 
-  public static async edit(matchId: IMatch['id'], updatedScore: ITeamGoals) {
+  public static async edit(
+    matchId: IMatch['id'],
+    updatedScore: IMatchScore,
+  ) {
     const match = await MatchRepository.findById(matchId);
 
     const notFoundErr = new NotFoundError(messages.match.notFound);
 
     if (!match) throw notFoundErr;
 
-    const result = await MatchRepository
-      .edit(matchId, updatedScore);
+    const result = await MatchRepository.edit(matchId, updatedScore);
 
     return result;
   }

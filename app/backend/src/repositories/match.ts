@@ -1,8 +1,8 @@
 import Match from '../database/models/Match';
 import Club from '../database/models/Club';
 import {
-  ITeamGoals,
-  IMatchSimple,
+  IMatchScore,
+  IMatchCreate,
   IMatch,
   IMatchComplete,
 } from '../utils/interfaces';
@@ -37,7 +37,7 @@ class MatchRepository {
     return result as unknown as IMatchComplete;
   }
 
-  public static async create(newMatch: IMatchSimple) {
+  public static async create(newMatch: IMatchCreate) {
     const result = await Match.create(newMatch);
 
     return result as unknown as IMatch;
@@ -52,7 +52,10 @@ class MatchRepository {
     return result;
   }
 
-  public static async edit(matchId: IMatch['id'], updatedScore: ITeamGoals) {
+  public static async edit(
+    matchId: IMatch['id'],
+    updatedScore: IMatchScore,
+  ) {
     const [result] = await Match.update(
       updatedScore, // values = { homeTeamGoals, awayTeamGoals }
       { where: { id: matchId, inProgress: true } },

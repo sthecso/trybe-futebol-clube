@@ -1,16 +1,21 @@
-export interface ITeamGoals {
+export interface IMatchScore {
   homeTeamGoals: number;
   awayTeamGoals: number;
 }
 
-export interface IMatchSimple extends ITeamGoals {
+export interface IMatchCreate extends IMatchScore {
+  homeTeam: number;
+  awayTeam: number;
+  inProgress: true;
+}
+
+export interface IMatch {
+  id: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
   homeTeam: number;
   awayTeam: number;
   inProgress: boolean;
-}
-
-export interface IMatch extends IMatchSimple {
-  id: number;
 }
 
 export interface IMatchComplete extends IMatch {
