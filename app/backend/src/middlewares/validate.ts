@@ -8,8 +8,8 @@ class Validate {
   ) {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({
-        error: 'All fields must be filled',
+      return res.status(401).json({
+        message: 'All fields must be filled',
       });
     }
     next();

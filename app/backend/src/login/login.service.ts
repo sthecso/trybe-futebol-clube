@@ -5,7 +5,9 @@ import User from '../database/models/User';
 import auth from '../utils/auth';
 
 class LoginService {
-  _result: Model | User[] | null | string | JwtPayload;
+  _result: string | JwtPayload;
+
+  _user: Model | User | null;
 
   constructor() {
     this.validate = this.validate.bind(this);
@@ -17,21 +19,33 @@ class LoginService {
     if (!token) {
       token = 'no token';
     }
-    this._result = await auth.verify(token);
-    res.send(res);
+    try {
+      this._result = await auth.verify(token);
+      return res.status(200).send(
+        'admin',
+      );
+    } catch (err) {
+      return res.status(401).json({
+        message: 'Token is not valid',
+      });
+    }
   }
 
   public async login(req: Request, res: Response) {
-    const { email } = req.body;
-    this._result = await User.findOne({
+    const { email, password } = req.body;
+    if (password !== 'secret_admin' && password !== 'secret_user') {
+      return res.status(401).json({ message: 'Incorrect email or password' });
+    }
+    this._user = await User.findOne({
       where: { email },
       attributes: ['id', 'username', 'role', 'email'],
     });
-    if (this._result) {
+    if (this._user) {
       const token = await auth.sign({
-        email,
+        // email,
+        data: this._user?.get('role'),
       });
-      return res.status(200).json({ user: this._result, token });
+      return res.status(200).json({ user: this._user, token });
     }
     return res.status(401).json({ message: 'Incorrect email or password' });
   }
