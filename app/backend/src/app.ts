@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import Login from './routes/login';
 import domain from './controller/erros/joi';
 
@@ -9,6 +10,7 @@ class App {
   constructor() {
     // ...
     this.app = express();
+    this.app.use(cors());
     this.config();
     this.routes();
   }
