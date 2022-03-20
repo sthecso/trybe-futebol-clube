@@ -1,15 +1,17 @@
 import * as Joi from 'joi';
 
+const errorField = 'All fields must be filled';
+
 const loginSchema = Joi.object({
   email: Joi.string().required().messages({
     'string.base': 'Email must be a string',
-    'string.empty': 'Email is empty',
-    'any.required': 'Email is required',
+    'string.empty': errorField,
+    'any.required': errorField,
   }),
   password: Joi.string().required().messages({
     'string.base': '422|Password must be a string',
-    'string.empty': 'Password is empty',
-    'any.required': 'Password is required',
+    'string.empty': errorField,
+    'any.required': errorField,
   }),
 });
 
