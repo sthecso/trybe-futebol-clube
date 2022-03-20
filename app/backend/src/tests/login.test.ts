@@ -53,7 +53,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
         expect(chaiHttpResponse).to.be.status(401)
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "Email must be a string"})
       })
-      it("Password passado o tipo errado espera o erro 400 " ,async()=>{
+      it("Password passado o tipo errado" ,async()=>{
         chaiHttpResponse =  await chai.request(app)
           .post("/login").send({
            email: "batman@hotmail.com",
@@ -62,10 +62,11 @@ describe("testa o funcionamento da rota Login" ,() =>{
         expect(chaiHttpResponse).to.be.status(401)
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "Password must be a string"})
       })
-      it("Password passado o tipo errado espera o erro 400" ,async()=>{
+      it("Password campo vazio" ,async()=>{
         chaiHttpResponse =  await chai.request(app)
           .post("/login").send({
            email: "batman@hotmail.com",
+           password:""
           })
         expect(chaiHttpResponse).to.be.status(401)
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "All fields must be filled"})
