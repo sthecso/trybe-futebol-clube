@@ -26,23 +26,23 @@ describe("testa o funcionamento da rota Login" ,() =>{
     describe("testa os tipos de dados recebidos no login" ,() =>{
       let chaiHttpResponse: Response
 
-      it("email espera o erro 400" ,async()=>{
+      it("formato do email invalido espera um erro" ,async()=>{
         chaiHttpResponse = await chai.request(app)
           .post("/login").send({
            email: "batman",
            password: "1234567",
           })
-        expect(chaiHttpResponse).to.be.status(400)
-        expect(chaiHttpResponse.body).to.be.deep.equal({message: "type email required"})
+        expect(chaiHttpResponse).to.be.status(401)
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "Incorrect email or password"})
       })
-      it("senha espera o erro 400" ,async()=>{
+      it("tamanho da senha inferior ao requerido espera um erro" ,async()=>{
         chaiHttpResponse =  await chai.request(app)
           .post("/login").send({
            email: "batman@hotmail.com",
            password: "12345",
           })
-        expect(chaiHttpResponse).to.be.status(400)
-        expect(chaiHttpResponse.body).to.be.deep.equal({message: "password must be longer than 6 characters"})
+        expect(chaiHttpResponse).to.be.status(401)
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "Incorrect email or password"})
       })
       it("email passado o tipo errado espera o erro 400 " ,async()=>{
         chaiHttpResponse =  await chai.request(app)
@@ -50,7 +50,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
            email: [1],
            password: "1234567",
           })
-        expect(chaiHttpResponse).to.be.status(400)
+        expect(chaiHttpResponse).to.be.status(401)
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "Email must be a string"})
       })
       it("Password passado o tipo errado espera o erro 400 " ,async()=>{
@@ -59,7 +59,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
            email: "batman@hotmail.com",
            password: ["123456"],
           })
-        expect(chaiHttpResponse).to.be.status(400)
+        expect(chaiHttpResponse).to.be.status(401)
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "Password must be a string"})
       })
       it("Password passado o tipo errado espera o erro 400" ,async()=>{

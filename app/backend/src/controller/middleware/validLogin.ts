@@ -19,12 +19,12 @@ export default class ValidLogin {
     const myshema = z.object({
       email: z.string({
         required_error: 'All fields must be filled/Unauthorized',
-        invalid_type_error: 'Email must be a string/BADREQUEST' })
-        .email('type email required/BADREQUEST'),
+        invalid_type_error: 'Email must be a string/Unauthorized' })
+        .email('Incorrect email or password/Unauthorized'),
       password: z.string({
         required_error: 'All fields must be filled/Unauthorized',
-        invalid_type_error: 'Password must be a string/BADREQUEST',
-      }).min(7, 'password must be longer than 6 characters/BADREQUEST'),
+        invalid_type_error: 'Password must be a string/Unauthorized',
+      }).min(7, 'Incorrect email or password/Unauthorized'),
     });
 
     myshema.parse({ email: this._email, password: this._password });
