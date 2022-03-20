@@ -22,7 +22,6 @@ matches.post(
 matches.patch(
   '/:id',
   [
-    auth,
     validate(matchSchema.edit),
     MatchController.edit,
   ],

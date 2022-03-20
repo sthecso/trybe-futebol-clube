@@ -24,7 +24,7 @@ export const match = {
   required: 'All fields must be filled',
   teams: {
     conflict: 'It is not possible to create a match with two equal teams',
-    notFound: 'Team not found',
+    notFound: 'There is no team with such id!',
   },
   homeTeam: {
     base: 'homeTeam must be a number',

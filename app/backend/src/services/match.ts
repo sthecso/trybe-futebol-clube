@@ -1,7 +1,6 @@
-import {
-  MatchRepository,
-  ClubRepository,
-} from '../repositories';
+import { MatchRepository } from '../repositories';
+
+import ClubService from './club';
 
 import {
   ITeamGoals,
@@ -31,8 +30,8 @@ class MatchService {
 
     if (homeTeamId === awayTeamId) throw conflictErr;
 
-    const homeTeam = await ClubRepository.findById(homeTeamId);
-    const awayTeam = await ClubRepository.findById(awayTeamId);
+    const homeTeam = await ClubService.findById(homeTeamId);
+    const awayTeam = await ClubService.findById(awayTeamId);
 
     if (!homeTeam || !awayTeam) throw notFoundErr;
 
