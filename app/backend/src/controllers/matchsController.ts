@@ -12,7 +12,7 @@ const matchsController = {
     return res.status(200).send(matchs);
   },
   create: async (req: express.Request, res: express.Response) => {
-    const { inProgress, homeTeam, awayTeam } = req.body;
+    const { inProgress = 'true', homeTeam, awayTeam } = req.body;
     const inProgressBool = inProgress === 'true';
     try {
       if (homeTeam === awayTeam) {
@@ -27,6 +27,11 @@ const matchsController = {
       const { message } = error as Error;
       return res.status(401).json({ message });
     }
+  },
+  finishMatch: async (req: express.Request, res: express.Response) => {
+    const { id } = req.params;
+    await matchsService.finishMatch(id);
+    return res.status(200).send({ message: 'Finished match' });
   },
 };
 
