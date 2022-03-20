@@ -1,0 +1,5 @@
+bcryptjs
+@types/bcryptjs
+shelljs
+@types/shelljs
+express-async-errors 
