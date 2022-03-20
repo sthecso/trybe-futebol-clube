@@ -149,7 +149,7 @@ describe('Tests POST /matchs route', () => {
   })
 })
 
-describe('Tests PATCH /match/:id/finish route', () => {
+describe('Tests PATCH /matchs/:id/finish route', () => {
   it('Returns status 200 with ok message', () => {
     return chai
       .request(app)
@@ -157,6 +157,22 @@ describe('Tests PATCH /match/:id/finish route', () => {
       .then((res: Response) => {
         expect(res.status).to.be.equal(200);
         expect(res.body.message).to.equal('Finished match');
+      });
+  });
+});
+
+describe('Tests PATCH /matchs/:id route', () => {
+  it('Returns status 200 with ok message', () => {
+    return chai
+      .request(app)
+      .patch('/matchs/1')
+      .send({
+        "homeTeamGoals": 3,
+        "awayTeamGoals": 1
+      })
+      .then((res: Response) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body.message).to.equal('Updated match');
       });
   });
 });
