@@ -1,6 +1,6 @@
 import * as express from 'express';
 import bodyParser = require('body-parser');
-import { ClubRouter, LoginRouter } from './routes';
+import { ClubRouter, LoginRouter, MatchRouter } from './routes';
 import errorHandler from './controllers/middlewares/errorHandler';
 import joiError from './controllers/middlewares/joiError';
 
@@ -34,6 +34,7 @@ class App {
   private route() {
     this.app.use('/login', new LoginRouter().router);
     this.app.use('/clubs', new ClubRouter().router);
+    this.app.use('/matchs', new MatchRouter().router);
     this.app.use(joiError);
     this.app.use(errorHandler);
   }
