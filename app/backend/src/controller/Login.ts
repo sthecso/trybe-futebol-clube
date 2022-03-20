@@ -6,12 +6,7 @@ import LoginService from '../service/Login';
 class Login {
   public router = Router();
 
-  public loginService: {
-    id: number;
-    username: string;
-    role: string;
-    email: string;
-  } | null;
+  public loginService: LoginService;
 
   constructor() {
     this.post();
@@ -20,16 +15,22 @@ class Login {
   post() {
     this.router.post('/', async (req, res) => {
       const { email, password } = req.body;
-      this.loginService = await new LoginService(email, password).findUser();
+      this.loginService = new LoginService(email, password);
+      await this.loginService.findUser();
 
-      if (!this.loginService) {
+      if (!this.loginService.userFound) {
+        return res.status(StatusCodes.UNAUTHORIZED).json({
+          message: 'Incorrect email or password' });
+      }
+
+      if (!this.loginService.passwordIsValid) {
         return res.status(StatusCodes.UNAUTHORIZED).json({
           message: 'Incorrect email or password' });
       }
 
       const token = await Token.generate({ email });
       return res.status(200).json({
-        user: this.loginService,
+        user: this.loginService.userFound,
         token,
       });
     });
