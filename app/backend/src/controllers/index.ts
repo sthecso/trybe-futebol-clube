@@ -1,3 +1,4 @@
 import LoginController from './LoginController';
+import ClubController from './ClubController';
 
-export default LoginController;
+export { LoginController, ClubController };

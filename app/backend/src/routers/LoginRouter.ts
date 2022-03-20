@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import StatusCode from '../enums';
 import { validateSchema, validateJWT } from '../middlewares';
 import { loginSchema } from '../schemas';
-import LoginController from '../controllers';
+import { LoginController } from '../controllers';
 
 class LoginRouter {
   public router: Router;

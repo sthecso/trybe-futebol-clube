@@ -1,3 +1,4 @@
 import LoginRouter from './LoginRouter';
+import ClubRouter from './ClubRouter';
 
-export default LoginRouter;
+export { LoginRouter, ClubRouter };
