@@ -5,8 +5,8 @@ import loginRouter from './login';
 
 const router = Router();
 
-router.use(clubRouter);
-router.use(matchRouter);
-router.use(loginRouter);
+router.use('/clubs', clubRouter);
+router.use('/matchs', matchRouter);
+router.use('/login', loginRouter);
 
 export default router;
