@@ -7,13 +7,13 @@ class Match extends Model {
 
   public homeTeam: number;
 
-  public homeTeamGgoals: number;
+  public homeTeamGoals: number;
 
   public awayTeam: number;
 
   public awayTeamGoals: number;
 
-  public inProgress: number;
+  public inProgress: boolean;
 }
 
 Match.init(
@@ -26,14 +26,7 @@ Match.init(
     },
     homeTeam: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       allowNull: false,
-      references: {
-        model: 'clubs',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
     },
     homeTeamGoals: {
       type: DataTypes.INTEGER,
@@ -41,21 +34,14 @@ Match.init(
     },
     awayTeam: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       allowNull: false,
-      references: {
-        model: 'clubs',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
     },
     awayTeamGoals: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     inProgress: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
   },
@@ -68,10 +54,10 @@ Match.init(
   },
 );
 
-Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
-Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
+Club.hasMany(Match, { foreignKey: 'homeTeam', as: 'homeMatchs' });
+Club.hasMany(Match, { foreignKey: 'awayTeam', as: 'awayMatchs' });
 
-Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'homeTeam' });
-Match.hasMany(Club, { foreignKey: 'awayTeam', as: 'awayTeam' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
 
 export default Match;

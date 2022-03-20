@@ -10,7 +10,6 @@ module.exports = {
       },
       home_team: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
         allowNull: false,
         references: {
           model: 'clubs',
@@ -25,7 +24,6 @@ module.exports = {
       },
       away_team: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
         allowNull: false,
         references: {
           model: 'clubs',
@@ -39,7 +37,7 @@ module.exports = {
         allowNull: false,
       },
       in_progress: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
     });
