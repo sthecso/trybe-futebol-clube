@@ -33,6 +33,16 @@ const create: RequestHandler = async (req, res, _next) => {
     .json(result);
 };
 
+const finish: RequestHandler = async (req, res, _next) => {
+  const { id: matchId } = req.params;
+
+  const result = await MatchService.finish(Number(matchId));
+
+  return res
+    .status(StatusCodes.OK)
+    .json({ result });
+};
+
 const edit: RequestHandler = async (req, res, _next) => {
   const { id: matchId } = req.params;
   const updatedScore: ITeamGoals = req.body;
@@ -45,4 +55,4 @@ const edit: RequestHandler = async (req, res, _next) => {
     .json({ result });
 };
 
-export { findAll, create, edit };
+export { findAll, create, finish, edit };

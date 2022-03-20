@@ -41,6 +41,18 @@ class MatchService {
     return result;
   }
 
+  public static async finish(matchId: IMatch['id']) {
+    const match = await MatchRepository.findById(matchId);
+
+    const notFoundErr = new NotFoundError(messages.match.notFound);
+
+    if (!match) throw notFoundErr;
+
+    const result = await MatchRepository.finish(matchId);
+
+    return result;
+  }
+
   public static async edit(matchId: IMatch['id'], updatedScore: ITeamGoals) {
     const match = await MatchRepository.findById(matchId);
 

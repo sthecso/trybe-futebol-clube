@@ -43,6 +43,15 @@ class MatchRepository {
     return result as unknown as IMatch;
   }
 
+  public static async finish(matchId: IMatch['id']) {
+    const [result] = await Match.update(
+      { inProgress: false },
+      { where: { id: matchId } },
+    );
+
+    return result;
+  }
+
   public static async edit(matchId: IMatch['id'], updatedScore: ITeamGoals) {
     const [result] = await Match.update(
       updatedScore, // values = { homeTeamGoals, awayTeamGoals }

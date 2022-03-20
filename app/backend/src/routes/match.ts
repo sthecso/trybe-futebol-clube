@@ -20,6 +20,11 @@ matches.post(
 );
 
 matches.patch(
+  '/:id/finish',
+  MatchController.finish,
+);
+
+matches.patch(
   '/:id',
   [
     validate(matchSchema.edit),
