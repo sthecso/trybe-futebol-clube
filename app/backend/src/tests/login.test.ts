@@ -42,7 +42,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
            password: "12345",
           })
         expect(chaiHttpResponse).to.be.status(401)
-        expect(chaiHttpResponse.body).to.be.deep.equal({message: "Incorrect email or password"})
+        expect(chaiHttpResponse.body).to.be.deep.equal({message: "All fields must be filled"})
       })
       it("email passado o tipo errado espera o erro 400 " ,async()=>{
         chaiHttpResponse =  await chai.request(app)
