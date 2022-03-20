@@ -1,4 +1,4 @@
-export interface IMatch {
+export default interface IMatch {
   id?: number;
   homeTeam: number;
   homeTeamGoals: number;

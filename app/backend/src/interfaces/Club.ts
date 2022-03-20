@@ -1,4 +1,4 @@
-export interface IClub {
+export default interface IClub {
   id?: number;
   clubName: string;
 }
