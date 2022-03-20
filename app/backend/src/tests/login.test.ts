@@ -10,15 +10,15 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('A requisição POST/login deve retornar os dados esperados ',() => {
-  it('espero que tenha os status 200 e que tenha um token ',async () => {
+describe('Request POST Login',() => {
+  it('On Incorrect email or password results in Response 401 with message',async () => {
     let loginResponse = await chai.request(app)
      .post('/login')
      .send({
-       email: 'user@user.com',
-       password:'$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO',
+       email: 'wrongTest@user.com',
+       password:'123213213',
      });
-     expect(loginResponse).to.have.status(200);
-     expect(loginResponse.body).to.have.property("token")
+     expect(loginResponse).to.have.status(401);
+     expect(loginResponse.body).to.have.property("message");
   });
 });

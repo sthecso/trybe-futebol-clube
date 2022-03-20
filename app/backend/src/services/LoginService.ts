@@ -15,14 +15,6 @@ class LoginService {
       where: { email: login.email },
     });
 
-    console.log(user);
-
-    if (!user) {
-      return { code: 401, data: { message: 'Incorrect email or password' } };
-    }
-
-    console.log(!(await compare(login.password, user.password)));
-
     if (!user || !(await compare(login.password, user.password))) {
       return { code: 401, data: { message: 'Incorrect email or password' } };
     }
