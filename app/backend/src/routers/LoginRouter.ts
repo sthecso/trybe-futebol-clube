@@ -1,5 +1,5 @@
 import * as express from 'express';
-import validateSchema from '../middlewares/index';
+import { validateSchema, validateJWT } from '../middlewares';
 import { loginSchema } from '../schemas';
 import LoginController from '../controllers';
 
@@ -15,6 +15,7 @@ class LoginRouter {
   }
 
   private route(): void {
+    this.router.get('/validate', validateJWT, this.loginController.validate);
     this.router.post('/', validateSchema(loginSchema), this.loginController.login);
   }
 }

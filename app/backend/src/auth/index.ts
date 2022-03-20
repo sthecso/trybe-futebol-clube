@@ -1,3 +1,3 @@
-import tokenGenerator from './tokenGenerator';
+import { signToken, verifyToken } from './token';
 
-export default tokenGenerator;
+export { signToken, verifyToken };
