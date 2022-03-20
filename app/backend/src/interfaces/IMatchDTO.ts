@@ -12,10 +12,13 @@ export interface IMatchDTO extends Indexable {
   }
 }
 
-export interface IMatch extends Indexable {
-  awayTeam: Indexable
-  awayTeamGoals: number
-  homeTeam: Indexable
+export type Score = {
   homeTeamGoals: number
+  awayTeamGoals: number
+};
+
+export interface IMatch extends Indexable, Score {
+  awayTeam: Indexable
+  homeTeam: Indexable
   inProgress: boolean
 }

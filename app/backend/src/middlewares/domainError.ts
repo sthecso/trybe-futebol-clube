@@ -8,6 +8,7 @@ const errorMap: ErrorMap = {
   notFound: 404,
   badRequest: 400,
   unauthorized: 401,
+  unprocessableEntity: 422,
 };
 
 const domainError = (err: Error, req: Request, res: Response, next: NextFunction) => {

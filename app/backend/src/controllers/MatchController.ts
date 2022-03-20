@@ -1,4 +1,5 @@
-import { IMatch } from '../interfaces/IMatchDTO';
+import { createError } from '../utils';
+import { IMatch, Score } from '../interfaces/IMatchDTO';
 import { MatchService } from '../services';
 
 export default class MatchController {
@@ -13,7 +14,20 @@ export default class MatchController {
   }
 
   public async add(match: IMatch) {
+    if (match.awayTeam === match.homeTeam) {
+      throw createError(
+        'unauthorized',
+        'It is not possible to create a match with two equal teams',
+      );
+    }
+
     const result = await this.matchService.add(match);
+
+    return result;
+  }
+
+  public async update(id: string, newScore: Score) {
+    const result = await this.matchService.update(id, newScore);
 
     return result;
   }

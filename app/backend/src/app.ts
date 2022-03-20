@@ -14,7 +14,8 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
+      /// 2 HORAS PROCURANDO O ERRO, TIVE QUE LIGAR O FRONT END NO LOCAL PRA DESCOBRIR QUE FALTAVA POR O PATCH
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };

@@ -40,6 +40,15 @@ matchRoute.post(
 );
 
 matchRoute.patch(
+  '/:id',
+  async (req: Request, res: Response): Promise<Response> => {
+    const result = await matchController.update(req.params.id, req.body);
+
+    return res.status(200).json({ message: result });
+  },
+);
+
+matchRoute.patch(
   '/:id/finish',
   async (req: Request, res: Response): Promise<Response> => {
     const match = await matchController.finish(req.params.id);
