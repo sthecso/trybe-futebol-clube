@@ -16,15 +16,17 @@ export default class ValidLogin {
   }
 
   private verify():void {
+    const fields = 'All fields must be filled/Unauthorized';
     const myshema = z.object({
       email: z.string({
-        required_error: 'All fields must be filled/Unauthorized',
+        required_error: fields,
         invalid_type_error: 'Email must be a string/Unauthorized' })
+        .min(1, fields)
         .email('Incorrect email or password/Unauthorized'),
       password: z.string({
-        required_error: 'All fields must be filled/Unauthorized',
+        required_error: fields,
         invalid_type_error: 'Password must be a string/Unauthorized',
-      }).min(7, 'Incorrect email or password/Unauthorized'),
+      }).min(7, fields),
     });
 
     myshema.parse({ email: this._email, password: this._password });
