@@ -9,7 +9,7 @@ const loginSchema = Joi.object({
     'any.required': errorField,
   }),
   password: Joi.string().required().messages({
-    'string.base': '422|Password must be a string',
+    'string.base': 'Password must be a string',
     'string.empty': errorField,
     'any.required': errorField,
   }),

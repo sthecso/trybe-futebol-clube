@@ -26,19 +26,6 @@ class LoginService {
 
     return { code: StatusCode.OK, data: { user: { id, email, role, username }, token } };
   }
-
-  async validate(userId: number) {
-    const user = await this.userModel.findOne({
-      where: { id: userId },
-    });
-    if (!user) {
-      return { code: StatusCode.UNAUTHORIZED, data: { error: 'Invalid token' } };
-    }
-
-    const { role } = user;
-
-    return { code: StatusCode.OK, data: role };
-  }
 }
 
 export default LoginService;

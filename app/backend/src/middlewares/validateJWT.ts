@@ -19,9 +19,9 @@ const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
 
     const decoded = verifyToken(token) as JwtPayload;
 
-    const { id } = decoded;
+    const { id, email, role, username } = decoded;
 
-    res.locals.userId = id;
+    res.locals.tokenData = { id, email, role, username };
 
     next();
   } catch (e) {
