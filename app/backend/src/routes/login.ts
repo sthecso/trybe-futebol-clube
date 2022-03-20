@@ -2,7 +2,7 @@ import { Router } from 'express';
 import Login from '../controller/login';
 import 'express-async-errors';
 import { IUserWithIdDTO } from '../interface/user';
-import validToken from '../controller/middleware/validToken';
+// import validToken from '../controller/middleware/validToken';
 
 declare module 'express-serve-static-core'{
   interface Request {
@@ -24,7 +24,7 @@ class LoginRoute {
 
   Routes() {
     this.loginRoute.post('/', this.controllerLogin.post.bind(this.controllerLogin));
-    this.loginRoute.use(validToken);
+    // this.loginRoute.use(validToken);
     this.loginRoute.get('/validate', this.controllerLogin.validUser.bind(this.controllerLogin));
   }
 }
