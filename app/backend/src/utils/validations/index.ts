@@ -1,3 +1,7 @@
 import loginSchema from './login';
+import * as matchSchema from './match';
 
-export default loginSchema;
+export {
+  loginSchema,
+  matchSchema,
+};

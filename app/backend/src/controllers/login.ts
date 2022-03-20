@@ -25,11 +25,11 @@ const login: RequestHandler = async (req, res, _next) => {
 */
 
 const validate: RequestHandler = async (req, res, _next) => {
-  const { user } = req.body;
+  const { role } = req.user;
 
   return res
     .status(StatusCodes.OK)
-    .json(user.role);
+    .json(role);
 };
 
 export { login, validate };

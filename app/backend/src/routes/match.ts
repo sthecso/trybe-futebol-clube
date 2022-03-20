@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { auth } from '../middlewares';
+import { auth, validate } from '../middlewares';
 import { MatchController } from '../controllers';
+import { matchSchema } from '../utils/validations';
 
 const matches = Router();
 
@@ -13,6 +14,7 @@ matches.post(
   '/',
   [
     auth,
+    validate(matchSchema.create),
     MatchController.create,
   ],
 );
@@ -21,6 +23,7 @@ matches.patch(
   '/:id',
   [
     auth,
+    validate(matchSchema.edit),
     MatchController.edit,
   ],
 );

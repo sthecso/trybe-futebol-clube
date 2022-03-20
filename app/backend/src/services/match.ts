@@ -42,15 +42,15 @@ class MatchService {
     return result;
   }
 
-  public static async edit(id: IMatch['id'], updatedScore: ITeamGoals) {
-    const team = await ClubRepository.findById(id);
+  public static async edit(matchId: IMatch['id'], updatedScore: ITeamGoals) {
+    const match = await MatchRepository.findById(matchId);
 
-    const notFoundErr = new NotFoundError(messages.match.teams.notFound);
+    const notFoundErr = new NotFoundError(messages.match.notFound);
 
-    if (!team) throw notFoundErr;
+    if (!match) throw notFoundErr;
 
     const result = await MatchRepository
-      .edit(id, updatedScore);
+      .edit(matchId, updatedScore);
 
     return result;
   }

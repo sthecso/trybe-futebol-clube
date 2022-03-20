@@ -20,6 +20,7 @@ export const user = {
 };
 
 export const match = {
+  notFound: 'Match not found',
   required: 'All fields must be filled',
   teams: {
     conflict: 'It is not possible to create a match with two equal teams',

@@ -34,14 +34,15 @@ const create: RequestHandler = async (req, res, _next) => {
 };
 
 const edit: RequestHandler = async (req, res, _next) => {
-  const { id } = req.params;
+  const { id: matchId } = req.params;
   const updatedScore: ITeamGoals = req.body;
 
-  const result = await MatchService.edit(Number(id), updatedScore);
+  const result = await MatchService
+    .edit(Number(matchId), updatedScore);
 
   return res
     .status(StatusCodes.OK)
-    .json(result);
+    .json({ result });
 };
 
 export { findAll, create, edit };
