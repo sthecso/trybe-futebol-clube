@@ -1,4 +1,4 @@
-import { JwtPayload, SignOptions, sign } from 'jsonwebtoken';
+import { JwtPayload, SignOptions, sign, verify } from 'jsonwebtoken';
 
 import getFileData from '../../utils/getFileData';
 
@@ -15,6 +15,15 @@ const createToken = (data: JwtPayload) => {
     config,
   );
   return token;
+};
+
+export const validateToken = (token: string) => {
+  try {
+    const payload = verify(token, secret) as JwtPayload;
+    return payload || null;
+  } catch (error) {
+    return null;
+  }
 };
 
 export default createToken;

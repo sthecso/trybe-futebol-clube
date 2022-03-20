@@ -29,7 +29,7 @@ describe('POST /login', () => {
       // eslint-disable-next-line sonarjs/no-duplicate-string
       .set('content-type', 'application/json')
       .send(loginData);
-    expect(JSON.parse(response.text)).to.equals('Incorrect email or password');
+    expect((response.body.message)).to.equals('Incorrect email or password');
     expect(response.status).to.equals(401);
   });
   it('returns http code 401 when not passed a  email and a message "All fields must be filled" ', async () => {
@@ -41,7 +41,7 @@ describe('POST /login', () => {
       .post('/login')
       .set('content-type', 'application/json')
       .send(loginData);
-    expect(JSON.parse(response.text)).to.equals('All fields must be filled');
+    expect((response.body.message)).to.equals('All fields must be filled');
     expect(response.status).to.equals(401);
   });
   it('returns http code 401 when not passed a password and a message "All fields must be filled" ', async () => {
@@ -54,7 +54,7 @@ describe('POST /login', () => {
       .set('content-type', 'application/json')
       .send(loginData);
     expect(response.status).to.equals(401);
-    expect(JSON.parse(response.text)).to.equals('All fields must be filled');
+    expect((response.body.message)).to.equals('All fields must be filled');
   });
   it('returns http code 401 when passed a incorrect password and a message "Incorrect email or password" ', async () => {
     const loginData = {
@@ -67,7 +67,7 @@ describe('POST /login', () => {
       .set('content-type', 'application/json')
       .send(loginData);
     expect(response.status).to.equals(401);
-    expect(JSON.parse(response.text)).to.equals('Incorrect email or password');
+    expect((response.body.message)).to.equals('Incorrect email or password');
   });
   it('returns http code 200 when passed a correct body and a token in the body with correct encrypted data', async () => {
     const jwtKey = readFileSync('jwt.evaluation.key', { encoding: 'utf-8' })
