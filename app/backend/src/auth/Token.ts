@@ -2,24 +2,19 @@ import * as jwt from 'jsonwebtoken';
 import readFile from '../tools/readFile';
 
 class Token {
-  private jwt;
-
   private secretKey: string;
-
-  constructor(webtoken: any) {
-    this.jwt = webtoken;
-  }
 
   async generate(payload: object): Promise<string> {
     this.secretKey = (await readFile('jwt.evaluation.key')).trim();
 
-    return this.jwt.sign(payload, this.secretKey);
+    return jwt.sign(payload, this.secretKey);
   }
 
-  async verify(token: string): Promise<object> {
+  async verify(token: string): Promise<string | jwt.JwtPayload> {
     this.secretKey = (await readFile('jwt.evaluation.key')).trim();
-    return this.jwt.verify(token, this.secretKey);
+    const tokenVerify = jwt.verify(token, this.secretKey);
+    return tokenVerify;
   }
 }
 
-export default new Token(jwt);
+export default new Token();
