@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { loginValidation } from '../middlewares';
 import { LoginController } from '../controllers';
 
 export default class LoginRoute {
@@ -15,6 +16,7 @@ export default class LoginRoute {
   private routes(): void {
     this.login.post(
       '/',
+      loginValidation,
       this.loginController.login,
     );
   }
