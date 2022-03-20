@@ -32,7 +32,7 @@ afterEach(async () => {
   await termBrowser(browser);
 });
 
-describe.only(getRequirement(5), () => {
+describe(getRequirement(5), () => {
   it('O avaliador verificará se é possível fazer o login com dados corretos e que após o acesso será redirecionado para a tela de jogos', async () => {
     await page.waitForTimeout(puppeteerDefs.pause.brief);
 
@@ -73,7 +73,7 @@ describe.only(getRequirement(5), () => {
   });
 });
 
-describe.only(getRequirement(7), () => {
+describe(getRequirement(7), () => {
   it('O avaliador verificará se fazer o login com um email incorreto retornará status não-autorizado', async () => {
     await page.waitForTimeout(puppeteerDefs.pause.brief);
 
@@ -105,7 +105,7 @@ describe.only(getRequirement(7), () => {
   });
 });
 
-describe.only(getRequirement(9), () => {
+describe(getRequirement(9), () => {
   it('O avaliador verificará se fazer o login com uma senha incorreta retornará status não-autorizado', async () => {
     await page.waitForTimeout(puppeteerDefs.pause.brief);
 
