@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import User from '../database/models/users';
 
 class Login {
@@ -6,6 +7,8 @@ class Login {
   private email: string;
 
   private password: string;
+
+  private _passwordIsValid: boolean;
 
   private _userFound: User | null;
 
@@ -26,6 +29,12 @@ class Login {
       return { id, username, role, email };
     }
     return null;
+  }
+
+  get passwordIsValid() {
+    this._passwordIsValid = bcrypt
+      .compareSync(this.password, String(this._userFound?.password));
+    return this._passwordIsValid;
   }
 }
 
