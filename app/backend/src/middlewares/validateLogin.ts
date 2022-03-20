@@ -17,7 +17,11 @@ class ValidateLogin {
     if (!existingAllFields) {
       return res.status(StatusCode.UNAUTHORIZED).json({ message: NO_EMPTY_FIELD });
     }
-    const { email } = loginData;
+    const { email, password } = loginData;
+    if ((email === '' || email === undefined)
+      || (password === '' || password === undefined)) {
+      return res.status(StatusCode.UNAUTHORIZED).json({ message: NO_EMPTY_FIELD });
+    }
     const isValidEmail: boolean = EMAIL_REGEX.test(email);
     if (!isValidEmail) {
       return res.status(StatusCode.UNAUTHORIZED).json({ message: INVALID_FIELD });
