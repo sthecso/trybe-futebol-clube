@@ -7,9 +7,24 @@ const matchController = MatchControllerFactory();
 matchRoute.get(
   '/',
   async (req: Request, res: Response): Promise<Response> => {
-    const result = await matchController.get();
+    const { inProgress } = req.query as unknown as { inProgress: string };
+    let inProg: boolean | undefined;
 
-    return res.status(200).json(result);
+    switch (inProgress) {
+      case 'true':
+        inProg = true;
+        break;
+      case 'false':
+        inProg = false;
+        break;
+      default:
+        inProg = undefined;
+        break;
+    }
+
+    const matches = await matchController.get(inProg);
+
+    return res.status(200).json(matches);
   },
 );
 

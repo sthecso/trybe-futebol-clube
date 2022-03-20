@@ -1,4 +1,3 @@
-import { IMatchDTO } from '../interfaces/IMatchDTO';
 import { MatchService } from '../services';
 
 export default class MatchController {
@@ -6,9 +5,9 @@ export default class MatchController {
     private matchService: MatchService,
   ) {}
 
-  public async get(): Promise<IMatchDTO[]> {
-    const result = await this.matchService.getAll();
+  public async get(inProgress: boolean | undefined) {
+    const result = await this.matchService.getAll(inProgress);
 
-    return result as IMatchDTO[];
+    return result;
   }
 }
