@@ -1,16 +1,17 @@
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
-import fs = require('fs');
 
-export default interface Payload {
+export interface Payload {
   role: string;
 }
 
-const secret = fs.readFileSync('jwt.evaluation.key', 'utf8');
+export default class Jwt {
+  constructor(private secret: string) { }
 
-export const generateToken = (payload: Payload) => sign(payload, secret, {
-  algorithm: 'HS256',
-  expiresIn: '1d',
-});
+  public generateToken = (payload: Payload) => sign(payload, this.secret, {
+    algorithm: 'HS256',
+    expiresIn: '1d',
+  });
 
-export const verifyToken = (token: string): JwtPayload =>
-  verify(token, secret, { algorithms: ['HS256'] }) as JwtPayload;
+  public verifyToken = (token: string): JwtPayload =>
+    verify(token, this.secret, { algorithms: ['HS256'] }) as JwtPayload;
+}

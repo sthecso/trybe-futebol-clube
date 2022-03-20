@@ -1,10 +1,14 @@
 import bcrypt = require('bcryptjs');
-import { createError, generateToken } from '../utils';
+import { createError, Jwt } from '../utils';
 import UserModel from '../database/models/User';
 import { IUserDTO, IUserDTOwithToken } from '../interfaces/IUserDTO';
 
 export default class LoginService {
   userModel = UserModel;
+
+  constructor(
+    private jwt: Jwt,
+  ) {}
 
   private async getByEmail(email: string): Promise<IUserDTO> {
     const result = await this.userModel.findOne({ where: { email }, raw: true });
@@ -21,7 +25,7 @@ export default class LoginService {
 
     const { role, id, username } = result;
 
-    const token = generateToken({ role });
+    const token = this.jwt.generateToken({ role });
 
     return {
       user: {
@@ -32,5 +36,11 @@ export default class LoginService {
       },
       token,
     };
+  }
+
+  public async validate(token: string): Promise<string> {
+    const { role } = this.jwt.verifyToken(token);
+
+    return role;
   }
 }

@@ -1,11 +1,8 @@
-import { verifyToken } from '../utils';
 import { LoginService } from '../services';
 import UserValidation from '../validations';
 import { IUserDTOwithToken, LoginBody } from '../interfaces/IUserDTO';
 
 export default class LoginController {
-  readonly verifyToken = verifyToken;
-
   constructor(
     private userValidator: UserValidation,
     private loginService: LoginService,
@@ -21,7 +18,8 @@ export default class LoginController {
   }
 
   public validate(token: string): Promise<string> {
-    const { role } = this.verifyToken(token);
-    return role;
+    const result = this.loginService.validate(token);
+
+    return result;
   }
 }
