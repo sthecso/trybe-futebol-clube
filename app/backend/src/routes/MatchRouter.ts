@@ -1,6 +1,8 @@
 import { MatchController } from '../controllers';
 import Router from './Router';
 
+require('express-async-errors');
+
 class MatchRouter extends Router {
   private MatchController: MatchController;
 
