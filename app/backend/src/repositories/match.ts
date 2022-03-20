@@ -1,6 +1,7 @@
 import Match from '../database/models/Match';
 import Club from '../database/models/Club';
 import {
+  ITeamGoals,
   IMatchSimple,
   IMatch,
   IMatchComplete,
@@ -40,6 +41,15 @@ class MatchRepository {
     const result = await Match.create(newMatch);
 
     return result as unknown as IMatch;
+  }
+
+  public static async edit(id: IMatch['id'], updatedScore: ITeamGoals) {
+    const [result] = await Match.update(
+      updatedScore, // values = { homeTeamGoals, awayTeamGoals }
+      { where: { id, inProgress: true } },
+    );
+
+    return result;
   }
 }
 

@@ -17,4 +17,12 @@ matches.post(
   ],
 );
 
+matches.patch(
+  '/:id',
+  [
+    auth,
+    MatchController.edit,
+  ],
+);
+
 export default matches;

@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 
 import {
+  ITeamGoals,
   IMatchSimple,
   IMatch,
   IMatchComplete,
@@ -32,4 +33,15 @@ const create: RequestHandler = async (req, res, _next) => {
     .json(result);
 };
 
-export { findAll, create };
+const edit: RequestHandler = async (req, res, _next) => {
+  const { id } = req.params;
+  const updatedScore: ITeamGoals = req.body;
+
+  const result = await MatchService.edit(Number(id), updatedScore);
+
+  return res
+    .status(StatusCodes.OK)
+    .json(result);
+};
+
+export { findAll, create, edit };

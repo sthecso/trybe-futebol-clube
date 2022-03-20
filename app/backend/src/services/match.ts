@@ -1,6 +1,10 @@
-import { MatchRepository } from '../repositories';
+import {
+  MatchRepository,
+  ClubRepository,
+} from '../repositories';
 
 import {
+  ITeamGoals,
   IMatchSimple,
   IMatch,
   IMatchComplete,
@@ -25,14 +29,28 @@ class MatchService {
     const notFoundErr = new NotFoundError(messages.match.teams.notFound);
     const conflictErr = new ConflictError(messages.match.teams.conflict);
 
-    const homeTeam = await MatchRepository.findById(homeTeamId);
-    const awayTeam = await MatchRepository.findById(awayTeamId);
+    if (homeTeamId === awayTeamId) throw conflictErr;
+
+    const homeTeam = await ClubRepository.findById(homeTeamId);
+    const awayTeam = await ClubRepository.findById(awayTeamId);
 
     if (!homeTeam || !awayTeam) throw notFoundErr;
-    if (homeTeamId === awayTeamId) throw conflictErr;
 
     const result: IMatch = await MatchRepository
       .create(newMatch);
+
+    return result;
+  }
+
+  public static async edit(id: IMatch['id'], updatedScore: ITeamGoals) {
+    const team = await ClubRepository.findById(id);
+
+    const notFoundErr = new NotFoundError(messages.match.teams.notFound);
+
+    if (!team) throw notFoundErr;
+
+    const result = await MatchRepository
+      .edit(id, updatedScore);
 
     return result;
   }
