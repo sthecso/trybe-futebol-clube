@@ -86,3 +86,65 @@ describe('Tests GET /matchs?inProgress route', () => {
     })
   })
 });
+
+describe('Tests POST /matchs route', () => {
+  describe('When teams are the same', () => {
+    it('Returns status 401 with error message', () => {
+      return chai
+        .request(app)
+        .post('/matchs')
+        .send({
+          "homeTeam": 8,
+          "awayTeam": 8,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2,
+          "inProgress": true
+        })
+        .then((res: Response) => {
+          expect(res.status).to.be.equal(401);
+          expect(res.body.message).to.equal('It is not possible to create a match with two equal teams');
+        });
+    })
+  })
+  describe('When a team is not found', () => {
+    it('Returns status 401 with error message', () => {
+      return chai
+        .request(app)
+        .post('/matchs')
+        .send({
+          "homeTeam": 99,
+          "awayTeam": 8,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2,
+          "inProgress": true
+        })
+        .then((res: Response) => {
+          expect(res.status).to.be.equal(401);
+          expect(res.body.message).to.equal('Team not found');
+        });
+    })
+  })
+  describe('When a match is created with success', () => {
+    it('Returns status 200 with error message', () => {
+      return chai
+        .request(app)
+        .post('/matchs')
+        .send({
+          "homeTeam": 16,
+          "awayTeam": 8,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2,
+          "inProgress": true
+        })
+        .then((res: Response) => {
+          expect(res.status).to.be.equal(200);
+          expect(res.body).to.have.property('id');
+          expect(res.body.homeTeam).to.equal(16)
+          expect(res.body.awayTeam).to.equal(8)
+          expect(res.body.homeTeamGoals).to.equal(2)
+          expect(res.body.awayTeamGoals).to.equal(2)
+          expect(res.body.inProgress).to.be.true
+        });
+    })
+  })
+})
