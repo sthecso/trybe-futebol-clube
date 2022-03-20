@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import matchsValidation from '../middlewares/validation/matchsValidation';
-import { findAllMatchs, createMatch, updateInProgress } from '../service/matchs';
+import { findAllMatchs, createMatch, updateInProgress, updateMatchResult } from '../service/matchs';
 
 const routerMatchs = express.Router();
 
@@ -24,6 +24,20 @@ routerMatchs.post(
     try {
       const result = await createMatch(req.body);
       return res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+routerMatchs.patch(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { homeTeamGoals, awayTeamGoals } = req.body;
+      const updated = await updateMatchResult(Number(id), homeTeamGoals, awayTeamGoals);
+      return res.status(200).json(updated);
     } catch (error) {
       next(error);
     }
