@@ -5,7 +5,6 @@ import * as jwt from 'jsonwebtoken';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-// import Example from '../database/models/ExampleModel';
 import LoginController from '../controllers';
 
 import { Response } from 'superagent';
@@ -14,37 +13,45 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-// describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
 
-  // let chaiHttpResponse: Response;
+describe('Testa endpoint /login', () => {
+  let chaiHttpResponse: Response;
+  let expectedResult = {
+      id: 1,
+      username: 'Admin',
+      role: 'admin',
+      email: 'admin@admin.com',
+  }
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
+  before(async () => {
+   sinon
+     .stub(User, "findOne")
+     .resolves(expectedResult as User);
+  });
 
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
+  after(()=>{
+    (User.findOne as sinon.SinonStub).restore();
+  })
+  // com a validação do joi, o teste quebra.
+  it('Deve permitir um POST para /login com a resposta 200', async () => {
+   chaiHttpResponse = await chai
+      .request(app)
+      .post('/login')
+      // .type('form') // quando e o metodo post de criação, deve ter o tipo form. como e a filtragem de login não e necessário
+      // .set('content-type', 'application/json') Para fins de estudos deixar aqui
+      .send(expectedResult)
+      .then((res) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body).not.to.be.empty;
+        expect(res.body).to.be.an('object');
+        // expect(res.body.id).to.be.a('string'); /* Dá um erro de undefined no body.id, verificar */
+        // expectedResult = res.body.id;
+      }).catch((err) => {
+        throw err
+      }) as unknown as Response;
+  });
+})
 
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
-
-//   it('Seu sub-teste', () => {
-//     expect(false).to.be.eq(true);
-//   });
-// });
 
 describe('Testa auth/validateJWT.ts,', () => {
   let chaiHttpResponse: Response;
@@ -63,7 +70,7 @@ describe('Testa auth/validateJWT.ts,', () => {
   it('E verificado se o token não existir a reposta de status e 401', async () => {
     chaiHttpResponse = await chai
        .request(app)
-       .get('/login')
+       .get('/login/validate')
        .set('authorization', 'algumTokenJwtAleatório')
        .send({})
        .then((res) => {
@@ -73,71 +80,3 @@ describe('Testa auth/validateJWT.ts,', () => {
        }) as unknown as Response;
   });
 })
-
-
-describe('Testa endpoint /login', () => {
-  let chaiHttpResponse: Response;
-  const expectedResult = {
-      id: 1,
-      username: 'Admin',
-      role: 'admin',
-      email: 'admin@admin.com',
-  }
-
-  // const notExpectedResultEmail = {
-  //   email: 'admin@admin',
-  //   password: '123456'
-  // }
-
-  // const notExpectedResultPassword = {
-  //   email: 'admin@admin',
-  //   password: '123456'
-  // }
-
-  before(async () => {
-   sinon
-     .stub(User, "findOne")
-     .resolves(expectedResult as User);
-  });
-
-  after(()=>{
-    (User.findOne as sinon.SinonStub).restore();
-  })
-  // Testar mais tarde
-  // it('É retornado status 401 se o email estiver incorreto', async () => {
-  //   chaiHttpResponse = await chai
-  //   .request(app)
-  //   .post('/login')
-  //   .send(notExpectedResultEmail)
-  //   .then((res) => {
-  //     expect(res.status).to.be.equal(401);
-  //   }).catch((err) => {
-  //     throw err
-  //   }) as unknown as Response;
-  // })
-
-  // it('É retornado status 401 se o password estiver incorreto', async () => {
-  //   chaiHttpResponse = await chai
-  //   .request(app)
-  //   .post('/login')
-  //   .send(notExpectedResultEmail)
-  //   .then((res) => {
-  //     expect(res.status).to.be.equal(401);
-  //   }).catch((err) => {
-  //     throw err
-  //   }) as unknown as Response;
-  // })
-
-  it('É retornado status 200 se o login do usuario e feito com sucesso', async () => {
-   chaiHttpResponse = await chai
-      .request(app)
-      .post('/login')
-      .send(expectedResult)
-      .then((res) => {
-        expect(res.status).to.be.equal(200);
-      }).catch((err) => {
-        throw err
-      }) as unknown as Response;
-  });
-})
-
