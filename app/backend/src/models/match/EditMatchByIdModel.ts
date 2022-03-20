@@ -1,17 +1,17 @@
 import { IMatchPatchRequest } from '../../interfaces/match';
 
-import Match from '../../database/models/Matchs';
+import { MatchRepository } from '../../database/repositories';
 
 class EditMatchByIdModel {
-  private matchEntity = Match;
+  private matchRepository = new MatchRepository();
 
   async handle(
     matchData: IMatchPatchRequest,
     id: number,
   ) {
-    await this.matchEntity.update(
+    await this.matchRepository.updateOne(
       matchData,
-      { where: { id } },
+      { id },
     );
   }
 }

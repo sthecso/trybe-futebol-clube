@@ -1,12 +1,12 @@
-import Match from '../../database/models/Matchs';
+import { MatchRepository } from '../../database/repositories';
 
 class FinishMatchModel {
-  private matchEntity = Match;
+  private matchRepository = new MatchRepository();
 
   async handle(id: number): Promise<void> {
-    await this.matchEntity.update(
+    this.matchRepository.updateOne(
       { inProgress: false },
-      { where: { id } },
+      { id },
     );
   }
 }

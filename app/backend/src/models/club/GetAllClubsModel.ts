@@ -1,10 +1,10 @@
-import Club from '../../database/models/Club';
+import { ClubRepository } from '../../database/repositories';
 
 class GetAllClubsModel {
-  private clubEntity = Club;
+  private clubRepository = new ClubRepository();
 
   async handle() {
-    const allClubs = await this.clubEntity.findAll();
+    const allClubs = await this.clubRepository.findAll();
 
     return allClubs;
   }

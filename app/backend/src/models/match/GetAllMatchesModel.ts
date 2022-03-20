@@ -1,9 +1,9 @@
-import Match from '../../database/models/Matchs';
-
 import Club from '../../database/models/Club';
 
+import { MatchRepository } from '../../database/repositories';
+
 class GetAllMatchesModel {
-  private matchEntity = Match;
+  private matchRepository = new MatchRepository();
 
   private clubEntity = Club;
 
@@ -11,14 +11,14 @@ class GetAllMatchesModel {
     let matches;
 
     if (inProgress === undefined) {
-      matches = await this.matchEntity.findAll({
+      matches = await this.matchRepository.findAll({
         include: [
           { model: this.clubEntity, as: 'homeClub' },
           { model: this.clubEntity, as: 'awayClub' },
         ],
       });
     } else {
-      matches = await this.matchEntity.findAll({
+      matches = await this.matchRepository.findAll({
         where: { inProgress },
         include: [
           { model: this.clubEntity, as: 'homeClub' },

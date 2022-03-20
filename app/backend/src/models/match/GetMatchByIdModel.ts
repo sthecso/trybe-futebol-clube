@@ -1,18 +1,18 @@
-import Match from '../../database/models/Matchs';
+import { MatchRepository } from '../../database/repositories';
 
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
 import { IMatchResponse } from '../../interfaces/match';
 
 class GetMatchByIdModel {
-  private matchEntity = Match;
+  private matchRepository = new MatchRepository();
 
   private ErrorCatcher = ErrorCatcher;
 
   private httpStatusCode = HttpStatusCode;
 
   async handle(id: number): Promise<IMatchResponse | ErrorCatcher> {
-    const match = await this.matchEntity.findByPk(id);
+    const match = await this.matchRepository.findOne({ where: { id } });
 
     if (!match) {
       return new this.ErrorCatcher(
@@ -21,7 +21,7 @@ class GetMatchByIdModel {
       );
     }
 
-    return match.get({ plain: true });
+    return match;
   }
 }
 

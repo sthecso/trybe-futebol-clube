@@ -1,16 +1,16 @@
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
-import Club from '../../database/models/Club';
+import { ClubRepository } from '../../database/repositories';
 
 class GetClubByIdModel {
-  private clubEntity = Club;
+  private clubRepository = new ClubRepository();
 
   private httpStatusCode = HttpStatusCode;
 
   private ErrorCatcher = ErrorCatcher;
 
   async handle(id: number) {
-    const club = await this.clubEntity.findByPk(id);
+    const club = await this.clubRepository.findById(id);
 
     if (!club) {
       return new this.ErrorCatcher(

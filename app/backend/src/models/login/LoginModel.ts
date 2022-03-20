@@ -1,20 +1,20 @@
 import { compare } from 'bcryptjs';
 
-import { ErrorCatcher, HttpStatusCode } from '../../utils';
-
-import User from '../../database/models/User';
+import { UserRepository } from '../../database/repositories';
 
 import { IUserRequest } from '../../interfaces/login';
 
+import { ErrorCatcher, HttpStatusCode } from '../../utils';
+
 class LoginModel {
-  private userEntity = User;
+  private userRepository = new UserRepository();
 
   private ErrorCatcher = ErrorCatcher;
 
   private httpStatusCode = HttpStatusCode;
 
   async handle({ email, password }: IUserRequest) {
-    const user = await this.userEntity.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({ email });
 
     if (!user) {
       const message = 'Incorrect email or password';
