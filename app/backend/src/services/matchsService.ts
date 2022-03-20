@@ -41,14 +41,7 @@ const matchsService = {
     const matchCreated = await Match.create(match);
     return matchCreated;
   },
-  finishMatch: async (id: string) => {
-    const match = await Match.findByPk(id);
-    if (match) {
-      match.inProgress = false;
-      await match.save();
-      return match;
-    }
-  },
+  finishMatch: (id: string) => Match.update({ inProgress: false }, { where: { id } }),
 };
 
 export default matchsService;

@@ -12,7 +12,7 @@ const matchsController = {
     return res.status(200).send(matchs);
   },
   create: async (req: express.Request, res: express.Response) => {
-    const { inProgress = 'true', homeTeam, awayTeam } = req.body;
+    const { inProgress, homeTeam, awayTeam } = req.body;
     const inProgressBool = inProgress === 'true';
     try {
       if (homeTeam === awayTeam) {

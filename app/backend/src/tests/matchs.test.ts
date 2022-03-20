@@ -148,3 +148,15 @@ describe('Tests POST /matchs route', () => {
     })
   })
 })
+
+describe('Tests PATCH /match/:id/finish route', () => {
+  it('Returns status 200 with ok message', () => {
+    return chai
+      .request(app)
+      .patch('/matchs/1/finish')
+      .then((res: Response) => {
+        expect(res.status).to.be.equal(200);
+        expect(res.body.message).to.equal('Finished match');
+      });
+  });
+});
