@@ -7,7 +7,6 @@ class ClubService {
     this.getClubById = this.getClubById.bind(this);
   }
 
-  // typeof club object | null
   _club: Club[] | null | Club;
 
   public async getAllClubs(req: Request, res: Response) {

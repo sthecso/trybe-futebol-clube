@@ -12,23 +12,23 @@ Match.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  home_team: {
+  homeTeam: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  away_team: {
+  awayTeam: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  home_team_goals: {
+  homeTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  away_team_goals: {
+  awayTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  in_progress: {
+  inProgress: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
@@ -39,8 +39,8 @@ Match.init({
   modelName: 'matchs', // We need to choose the model name
 });
 
-Match.belongsTo(Club, { foreignKey: 'home_team', as: 'homeClub' });
-Match.belongsTo(Club, { foreignKey: 'away_team', as: 'awayClub' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
 
-Club.hasMany(Match, { foreignKey: 'home_team', as: 'homeMatchs' });
-Club.hasMany(Match, { foreignKey: 'away_team', as: 'awayMatchs' });
+Club.hasMany(Match, { foreignKey: 'homeTeam', as: 'homeMatchs' });
+Club.hasMany(Match, { foreignKey: 'awayTeam', as: 'awayMatchs' });

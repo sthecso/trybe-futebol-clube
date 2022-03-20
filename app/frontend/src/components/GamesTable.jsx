@@ -18,15 +18,15 @@ const GamesTable = ({ currentFilter, isAdm }) => {
     const endpoint = '/matchs';
 
     switch (currentFilter) {
-    case 'Em andamento':
-      getGames(`${endpoint}?inProgress=true`);
-      break;
-    case 'Finalizado':
-      getGames(`${endpoint}?inProgress=false`);
-      break;
-    default:
-      getGames(endpoint);
-      break;
+      case 'Em andamento':
+        getGames(`${endpoint}?inProgress=true`);
+        break;
+      case 'Finalizado':
+        getGames(`${endpoint}?inProgress=false`);
+        break;
+      default:
+        getGames(endpoint);
+        break;
     }
   }, [currentFilter]);
 
@@ -48,10 +48,10 @@ const GamesTable = ({ currentFilter, isAdm }) => {
         <tr>
           <th className="games-table-thead-home-team">Time Mandante</th>
           <th className="games-table-thead-goals">Gols</th>
-          <th className="games-table-thead-versus">{ ' ' }</th>
+          <th className="games-table-thead-versus">{' '}</th>
           <th className="games-table-thead-goals">Gols</th>
           <th className="games-table-thead-away-team">Time Visitante</th>
-          <th className="games-table-thead-empty-space">{ ' ' }</th>
+          <th className="games-table-thead-empty-space">{' '}</th>
           <th className="games-table-thead-status">Status</th>
         </tr>
       </thead>
@@ -67,33 +67,33 @@ const GamesTable = ({ currentFilter, isAdm }) => {
               awayTeamGoals,
               inProgress,
             }) => (
-              <tr key={ id }>
+              <tr key={id}>
                 <td
                   className="games-table-tbody-home-team"
-                  data-testid={ `matchs__home_team_${id}` }
+                  data-testid={`matchs__home_team_${id}`}
                 >
-                  { homeClub.clubName }
+                  {homeClub.clubName}
                 </td>
                 <td
                   className="games-table-tbody-home-team-goals"
-                  data-testid={ `matchs__home_team_goals_${id}` }
+                  data-testid={`matchs__home_team_goals_${id}`}
                 >
-                  { homeTeamGoals }
+                  {homeTeamGoals}
                 </td>
                 <td className="games-table-tbody-versus">X</td>
                 <td
                   className="games-table-tbody-away-team-goals"
-                  data-testid={ `matchs__away_team_goals_${id}` }
+                  data-testid={`matchs__away_team_goals_${id}`}
                 >
-                  { awayTeamGoals }
+                  {awayTeamGoals}
                 </td>
                 <td
                   className="games-table-tbody-away-team"
-                  data-testid={ `matchs__away_team_${id}` }
+                  data-testid={`matchs__away_team_${id}`}
                 >
-                  { awayClub.clubName }
+                  {awayClub.clubName}
                 </td>
-                <td className="games-table-tbody-empty-space">{ ' ' }</td>
+                <td className="games-table-tbody-empty-space">{' '}</td>
                 <td className="games-table-tbody-status">
                   <div>
                     {
@@ -101,7 +101,7 @@ const GamesTable = ({ currentFilter, isAdm }) => {
                         ? (
                           <p
                             className="game-status in-progress"
-                            data-testid={ `matchs__match_status_${id}` }
+                            data-testid={`matchs__match_status_${id}`}
                           >
                             Em andamento
                           </p>
@@ -109,7 +109,7 @@ const GamesTable = ({ currentFilter, isAdm }) => {
                         : (
                           <p
                             className="game-status finished-game"
-                            data-testid={ `matchs__match_status_${id}` }
+                            data-testid={`matchs__match_status_${id}`}
                           >
                             Finalizado
                           </p>
@@ -121,27 +121,29 @@ const GamesTable = ({ currentFilter, isAdm }) => {
                       ? (
                         <button
                           type="button"
-                          data-testid={ `matchs__match_status_btn_${id}` }
-                          disabled={ !inProgress }
-                          onClick={ () => {
+                          data-testid={`matchs__match_status_btn_${id}`}
+                          disabled={!inProgress}
+                          onClick={() => {
                             navigate(
                               '/matchs/settings',
-                              { state: {
-                                id,
-                                homeClub,
-                                homeTeamGoals,
-                                awayClub,
-                                awayTeamGoals,
-                                inProgress,
-                              } },
+                              {
+                                state: {
+                                  id,
+                                  homeClub,
+                                  homeTeamGoals,
+                                  awayClub,
+                                  awayTeamGoals,
+                                  inProgress,
+                                }
+                              },
                             );
                             localStorage.setItem('game', 'editar');
-                          } }
+                          }}
                         >
                           {
                             (inProgress)
-                              ? <img src={ editIcon } alt="Jogo em andamento" />
-                              : <img src={ check } alt="Jogo finalizado" />
+                              ? <img src={editIcon} alt="Jogo em andamento" />
+                              : <img src={check} alt="Jogo finalizado" />
                           }
                         </button>
                       )
