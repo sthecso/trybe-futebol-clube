@@ -1,19 +1,21 @@
 import * as cors from 'cors';
 import * as express from 'express';
-import validateJWT from './auth/validateJWT';
-import Clubs from './database/models/Club';
-import Matchs from './database/models/Match';
-import routesLogin from './routes';
+import debug from 'debug';
+import CommonRoutesConfig from './routes/common.routes.config';
+import LoginRoutes from './routes/login.routes';
 
 require('express-async-errors');
 
 class App {
-  public app: express.Express;
+  public app: express.Application = express();
+
+  public routes: Array<CommonRoutesConfig> = [];
+
+  public debugLog: debug.IDebugger = debug('app');
 
   constructor() {
-    this.app = express();
     this.config();
-    this.hello();
+    this.routesConfig();
   }
 
   private config():void {
@@ -27,22 +29,17 @@ class App {
     this.app.use(accessControl);
     this.app.use(express.json());
     this.app.use(cors());
-    this.app.use(routesLogin);
-    this.app.use(validateJWT);
   }
 
-  hello() {
-    return this.app.get('/', async (_req, res) => {
-      const club = await Clubs.findAll({
-        include: { model: Matchs, as: 'club a' },
-      });
-
-      res.send(JSON.stringify(club));
-    });
+  routesConfig() {
+    this.routes.push(new LoginRoutes(this.app));
   }
 
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
+      this.routes.forEach((route: CommonRoutesConfig) => {
+        this.debugLog(`Routes configured for ${route.getName()}`);
+      });
       console.log('iniciado porta:', PORT);
     });
   }
