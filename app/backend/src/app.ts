@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import Login from './routes/login';
+import Clubs from './routes/clubs';
 import domain from './controller/erros/joi';
 
 class App {
@@ -30,6 +31,7 @@ class App {
   public routes() {
     this.app.use(express.json());
     this.app.use('/login', Login);
+    this.app.use('/clubs', Clubs);
     this.app.use(domain);
   }
 

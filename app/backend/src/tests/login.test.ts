@@ -23,8 +23,9 @@ const { expect } = chai
 // const rota = app.listen(PORT)
 
 describe("testa o funcionamento da rota Login" ,() =>{
+  let chaiHttpResponse: Response
+
     describe("testa os tipos de dados recebidos no login" ,() =>{
-      let chaiHttpResponse: Response
 
       it("formato do email invalido espera um erro" ,async()=>{
         chaiHttpResponse = await chai.request(app)
@@ -96,7 +97,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
     describe("Testa se há o usuario" ,()=>{
       let chaiHttpResponse: Response
       before(async () => {
-        return sinon.stub(Model2User, "findOne").resolves(null as unknown as Model2User) // linter meu amigo apenas 
+        sinon.stub(Model2User, "findOne").resolves(null as unknown as Model2User) // linter meu amigo apenas 
       })
       after(() => {
         (Model2User.findOne as sinon.SinonStub).restore()
