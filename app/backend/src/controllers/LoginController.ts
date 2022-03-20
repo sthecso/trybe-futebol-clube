@@ -17,9 +17,9 @@ export default class LoginController {
     return result as IUserDTOwithToken;
   }
 
-  public validate(token: string): Promise<string> {
-    const result = this.loginService.validate(token);
+  public validate(role: string) {
+    if (!this) console.log('need role');
 
-    return result;
+    return role;
   }
 }

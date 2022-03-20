@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
+import auth from '../middlewares/auth';
 import { loginControllerFactory } from '../factories';
-import { createError } from '../utils';
 
 const loginRoute = Router();
 const loginController = loginControllerFactory();
@@ -16,14 +16,11 @@ loginRoute.post(
 
 loginRoute.get(
   '/validate',
+  auth,
   async (req: Request, res: Response): Promise<Response> => {
-    const { authorization } = req.headers;
+    const { userRole } = req as unknown as { userRole: string };
 
-    if (!authorization) {
-      throw createError('unauthorized', 'Token not found');
-    }
-
-    const result = await loginController.validate(authorization);
+    const result = loginController.validate(userRole);
 
     return res.status(200).json(result);
   },

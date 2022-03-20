@@ -37,10 +37,4 @@ export default class LoginService {
       token,
     };
   }
-
-  public async validate(token: string): Promise<string> {
-    const { role } = this.jwt.verifyToken(token);
-
-    return role;
-  }
 }

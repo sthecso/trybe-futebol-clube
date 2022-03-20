@@ -1,11 +1,14 @@
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
+import fs = require('fs');
+
+const secret = fs.readFileSync('jwt.evaluation.key', 'utf8');
 
 export interface Payload {
   role: string;
 }
 
 export default class Jwt {
-  constructor(private secret: string) { }
+  private secret = secret;
 
   public generateToken = (payload: Payload) => sign(payload, this.secret, {
     algorithm: 'HS256',
