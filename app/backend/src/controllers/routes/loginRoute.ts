@@ -6,7 +6,7 @@ import LoginController from '../Login';
 const loginRouter = Router({ mergeParams: true });
 
 loginRouter.post(
-  '/login',
+  '/',
   ValidateLogin.emptyFields,
   ValidateLogin.email,
   ValidateLogin.password,
@@ -14,7 +14,7 @@ loginRouter.post(
 );
 
 loginRouter.get(
-  '/login/validate',
+  '/validate',
   Auth.validate,
 );
 

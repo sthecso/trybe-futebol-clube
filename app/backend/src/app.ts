@@ -1,6 +1,6 @@
 import * as express from 'express';
 
-import { loginRouter } from './controllers/routes';
+import { loginRouter, clubRouter, matchRouter } from './controllers/routes';
 import { error } from './middlewares';
 
 class App {
@@ -23,7 +23,9 @@ class App {
 
     this.app.use(express.json());
 
-    this.app.use('/', loginRouter);
+    this.app.use('/login', loginRouter);
+    this.app.use('/clubs', clubRouter);
+    this.app.use('/matchs', matchRouter);
 
     this.app.use(error);
   }

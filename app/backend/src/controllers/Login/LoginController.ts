@@ -22,7 +22,7 @@ export default class LoginController {
       const loginData: JwtPayload = { email, password, role, username };
       const token = createToken(loginData);
       const data = { id, username, role, email };
-      return res.status(200).json({ user: data, token });
+      return res.status(StatusCode.OK).json({ user: data, token });
     } catch (err) {
       next(err);
     }
