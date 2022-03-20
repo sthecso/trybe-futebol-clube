@@ -74,6 +74,13 @@ const updateInProgress = async (id: number) => {
   return updated;
 };
 
+const updateMatchResult = async (id: number, homeTeamGoals: number, awayTeamGoals: number) => {
+  await Matchs.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+  const updated = await findMatchById(id);
+
+  return updated;
+};
+
 const findClubById = async (id: number) => {
   const result = await Clubs.findOne({ where: { id } });
 
@@ -84,5 +91,6 @@ export {
   findAllMatchs,
   createMatch,
   updateInProgress,
+  updateMatchResult,
   findClubById,
 };
