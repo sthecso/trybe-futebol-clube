@@ -1,8 +1,10 @@
 FROM node:16-alpine
 
-WORKDIR /frontend
+WORKDIR /backend
 
 COPY package.json .
+
+COPY packages.npm .
 
 RUN npm install
 

@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import LoginController from './login/login.controller';
 
 class App {
@@ -8,32 +9,18 @@ class App {
   constructor() {
     // ...
     this.app = express();
-    // this.middlewares();
-    this.config();
-    // this.routes();
+    this.middlewares();
+    this.routes();
     // ...
   }
 
   private middlewares(): void {
     this.app.use(express.json());
+    this.app.use(cors());
   }
 
   private routes(): void {
     this.app.use('/login', LoginController.router);
-  }
-
-  private config(): void {
-    this.middlewares();
-    this.routes();
-    const accessControl: express.RequestHandler = (_req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
-      res.header('Access-Control-Allow-Headers', '*');
-      next();
-    };
-
-    this.app.use(accessControl);
-    // ...
   }
 
   // ...

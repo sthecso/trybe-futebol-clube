@@ -22,9 +22,9 @@ class LoginService {
   }
 
   public async login(req: Request, res: Response) {
-    const { email, password } = req.body;
+    const { email } = req.body;
     this._result = await User.findOne({
-      where: { email, password },
+      where: { email },
       attributes: ['id', 'username', 'role', 'email'],
     });
     if (this._result) {
