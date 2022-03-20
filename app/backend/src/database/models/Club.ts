@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-export default class Club extends Model {}
+export default class Club extends Model { }
 
 Club.init({
   // Model attributes are defined here
@@ -11,7 +11,7 @@ Club.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  club_name: {
+  clubName: {
     type: DataTypes.STRING,
     allowNull: false,
   },

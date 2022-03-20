@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import Club from './Club';
 
-export default class Match extends Model {}
+export default class Match extends Model { }
 
 Match.init({
   // Model attributes are defined here
@@ -39,8 +39,8 @@ Match.init({
   modelName: 'matchs', // We need to choose the model name
 });
 
-Match.hasMany(Club, { foreignKey: 'home_team', as: 'home' });
-Match.hasMany(Club, { foreignKey: 'away_team', as: 'away' });
+Match.belongsTo(Club, { foreignKey: 'home_team', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'away_team', as: 'awayClub' });
 
-Club.belongsTo(Match, { foreignKey: 'home_team', as: 'home' });
-Club.belongsTo(Match, { foreignKey: 'away_team', as: 'away' });
+Club.hasMany(Match, { foreignKey: 'home_team', as: 'homeMatchs' });
+Club.hasMany(Match, { foreignKey: 'away_team', as: 'awayMatchs' });

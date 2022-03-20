@@ -42,7 +42,6 @@ class LoginService {
     });
     if (this._user) {
       const token = await auth.sign({
-        // email,
         data: this._user?.get('role'),
       });
       return res.status(200).json({ user: this._user, token });

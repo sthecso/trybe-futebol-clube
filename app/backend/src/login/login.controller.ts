@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import LoginService from './login.service';
-// import auth from '../utils/auth';
 import validateEmailandPass from '../middlewares/validate';
 
 class LoginController {
