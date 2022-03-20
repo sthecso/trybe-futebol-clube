@@ -1,5 +1,5 @@
-import User from '../database/models/User';
 import { compareSync } from 'bcryptjs';
+import User from '../database/models/User';
 import { generateToken } from '../utils/jwt';
 
 const login = async (emailParam: string, passwordParam: string) => {
@@ -7,7 +7,7 @@ const login = async (emailParam: string, passwordParam: string) => {
 
   const user = result?.get();
   const { id, username, role, email, password } = user;
-  
+
   const validPassword = user && compareSync(passwordParam, password);
   if (!validPassword) return null;
 
