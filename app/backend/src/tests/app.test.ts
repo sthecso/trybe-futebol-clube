@@ -4,6 +4,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
+import { verify } from '../utils/jwt';
 
 chai.use(chaiHttp);
 
@@ -16,7 +17,7 @@ describe('All tests', () => {
       chaiHttpResponse = await chai.request(app)
         .post('/login')
         .send({ email: "admin@admin.com",
-        password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW" })
+        password: "secret_admin" })
       
       expect(chaiHttpResponse).have.status(200);
       expect(chaiHttpResponse.body).to.be.an('object');
@@ -25,7 +26,7 @@ describe('All tests', () => {
     it('can not login without email', async () => {
       chaiHttpResponse = await chai.request(app)
         .post('/login')
-        .send({ password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW" })
+        .send({ password: "secret_admin" })
       
       expect(chaiHttpResponse).have.status(401);
       expect(chaiHttpResponse.body).to.deep.equal({ message: 'All fields must be filled' });
@@ -57,7 +58,7 @@ describe('All tests', () => {
       chaiHttpResponse1 = await chai.request(app)
           .post('/login')
           .send({ email: "admin@admin.com",
-          password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW" })
+          password: "secret_admin" })
       chaiHttpResponse2 = await chai.request(app)
         .get('/login/validate')
         .set('Authorization', 'anyToken')
@@ -69,7 +70,7 @@ describe('All tests', () => {
       chaiHttpResponse1 = await chai.request(app)
         .post('/login')
         .send({ email: "admin@admin.com",
-        password: "$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW" })
+        password: "secret_admin" })
 
       chaiHttpResponse2 = await chai.request(app)
         .get('/login/validate')
@@ -106,6 +107,7 @@ describe('All tests', () => {
 
   describe('Test endpoint /matchs', async () => {
     let chaiHttpResponse: Response;
+    let chaiHttpResponse1: Response;
 
     it('status = 200 and returns an array', async () => {
       chaiHttpResponse = await chai.request(app)
@@ -149,6 +151,53 @@ describe('All tests', () => {
 
       expect(arr[0].inProgress).to.be.equal(false);
       expect(arr[arr.length-1].inProgress).to.be.equal(false);
+    });
+
+    it('checks if authorization token is valid', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send({ email: "admin@admin.com",
+        password: "secret_admin" })
+
+      chaiHttpResponse1 = await chai.request(app)
+        .post('/matchs')
+        .set('Authorization', chaiHttpResponse.body.token)
+
+      const verifiedToken = verify(chaiHttpResponse.body.token);
+      expect(verifiedToken).to.haveOwnProperty('role');
+    });
+
+    it('check if it is possible to save a game in the database', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send({ email: "admin@admin.com",
+        password: "secret_admin" })
+      
+      chaiHttpResponse1 = await chai.request(app)
+        .post('/matchs')
+        .send({
+          "homeTeam": 16,
+          "awayTeam": 8,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2,
+          "inProgress": true
+        })
+        .set('Authorization', chaiHttpResponse.body.token)
+
+      expect(chaiHttpResponse1.body).to.haveOwnProperty('id');
+      expect(chaiHttpResponse1.body).to.haveOwnProperty('homeTeam').equal(16);
+      expect(chaiHttpResponse1.body).to.haveOwnProperty('homeTeamGoals').equal(2);
+      expect(chaiHttpResponse1.body).to.haveOwnProperty('awayTeam').equal(8);
+      expect(chaiHttpResponse1.body).to.haveOwnProperty('awayTeamGoals').equal(2);
+      expect(chaiHttpResponse1.body).to.haveOwnProperty('inProgress').equal(true);
+    });
+
+    it('checks if authorization token is valid', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .patch('/matchs/1/finish')
+
+      expect(chaiHttpResponse).have.status(200)
+      expect(chaiHttpResponse.body.inProgress).to.be.equal(false);
     });
   });
 });
