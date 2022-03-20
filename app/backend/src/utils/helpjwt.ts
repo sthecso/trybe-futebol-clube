@@ -1,6 +1,7 @@
 import * as Jwt from 'jsonwebtoken';
 import * as fs from 'fs/promises';
 import path = require('path');
+import { IUserJwt } from '../interface/user';
 
 interface Payload {
   id: number,
@@ -27,7 +28,7 @@ class HelpJwt { // alterar o nome
 
   verify(token:string) {
     const result = Jwt.verify(token, this._senha);
-    return result;
+    return result as unknown as IUserJwt;
   }
 
   sign(payload:Payload) {

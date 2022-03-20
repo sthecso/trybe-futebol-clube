@@ -1,28 +1,14 @@
 import * as bcrypt from 'bcryptjs';
 import helpjwt from '../utils/helpjwt';
 import ModelUser from '../database/fé/user';
+import { IuserDT0, IUserWithIdDTO, IUserWithTokenDTO } from '../interface/user';
 
-interface IuserDT0 {
-  email:string,
-  password:string
-}
-interface IUserWithPassDTO {
-  id: number,
-  username: string,
-  role: string,
-  email: string
-  password?:string
-}
-interface IUserWithTokenDTO {
-  user:IUserWithPassDTO,
-  token:string
-}
 class User {
   private _ModelUser:ModelUser = new ModelUser();
 
-  private _user:IUserWithPassDTO | null;
+  private _user:IUserWithIdDTO | null;
 
-  private _verifyUser:IUserWithPassDTO;
+  private _verifyUser:IUserWithIdDTO;
 
   private _token:string;
 
