@@ -1,21 +1,32 @@
 import * as express from 'express';
-// import validateJWT from '../auth/validateJWT';
+import validateJWT from '../auth/validateJWT';
 import { validateEmail, validatePassword } from '../middlewares/validate.login';
 import LoginController from '../controllers';
+import CommonRoutesConfig from './common.routes.config';
 
-const routesLogin = express.Router();
+class LoginRoutes extends CommonRoutesConfig {
+  constructor(app: express.Application) {
+    super(app, 'LoginRoutes');
+  }
 
-routesLogin.post(
-  '/login',
-  validateEmail,
-  validatePassword,
-  LoginController.getLogin,
-);
+  configureRoutes(): express.Application {
+    this.app
+      .route('/login')
+      .post(
+        validateEmail,
+        validatePassword,
+        LoginController.getLogin,
+      );
 
-routesLogin.get(
-  '/login/validate',
-  // validateJWT,
-  LoginController.getUser,
-);
+    this.app
+      .route('/login/validate')
+      .get(
+        validateJWT,
+        LoginController.getLogin,
+      );
 
-export default routesLogin;
+    return this.app;
+  }
+}
+
+export default LoginRoutes;
