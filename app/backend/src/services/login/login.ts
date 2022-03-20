@@ -9,7 +9,7 @@ export default class Login {
 
   async login(login: ILogin) {
     const user = await this.user.findOne({
-      where: { email: login.email, password: login.password },
+      where: { email: login.email },
       attributes: ['id', 'username', 'role', 'email'],
       raw: true,
     });

@@ -52,7 +52,7 @@ describe('testes da rota login', () => {
   expect(user.email).to.be.equal('admin@admin.com');
   expect(user.id).to.be.equal(1);
   });
-  /* it('Seu sub-teste', () => {
+  /* it('testa o retorno não esperado', () => {
     expect(false).to.be.eq(true);
   }); */
 });
