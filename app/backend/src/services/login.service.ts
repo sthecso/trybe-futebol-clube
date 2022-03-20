@@ -1,11 +1,10 @@
-import { ICredentials, ITokenData } from '../interfaces';
-import { UsersRepository } from '../repositories';
+import { ICredentials, ITokenData, IUserRepository, ILoginService } from '../interfaces';
 
-export default class LoginService {
+export default class LoginService implements ILoginService {
   constructor(
-    private usersRepository: typeof UsersRepository,
-    private compare: (p1: string, p2: string) => Promise<boolean>,
-    private jwtGenerator: (param: ITokenData) => string,
+    private usersRepository: IUserRepository,
+    private compare: (plain: string, hash: string) => Promise<boolean>,
+    private jwtGenerator: (tokenData: ITokenData) => string,
   ) {}
 
   async login(credentials: ICredentials) {

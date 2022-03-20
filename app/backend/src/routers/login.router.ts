@@ -1,9 +1,10 @@
 import * as express from 'express';
+import { ILoginController } from '../interfaces';
 import loginControllerFactory from '../factories/login.controller.factory';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
 
-const loginController = loginControllerFactory();
+const loginController: ILoginController = loginControllerFactory();
 
 export default class Login {
   public router: express.Router;

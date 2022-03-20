@@ -1,9 +1,8 @@
-import { ITokenData, ICredentials } from '../interfaces';
-import { LoginService } from '../services';
+import { ITokenData, ICredentials, ILoginService, ILoginController } from '../interfaces';
 
-export default class LoginController {
+export default class LoginController implements ILoginController {
   constructor(
-    private loginService: LoginService,
+    private loginService: ILoginService,
   ) {}
 
   async login(credentials: ICredentials) {
