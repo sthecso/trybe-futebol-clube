@@ -19,7 +19,7 @@ describe('Request GET Clubs',() => {
   before(() => {
     exec('npm run db:reset');
   });
-  it('On /clubs Response is all clubs',async () => {
+  it('On /clubs Response is all clubs', async () => {
     let clubResponse = await chai.request(app)
      .get('/clubs');
      
@@ -28,4 +28,16 @@ describe('Request GET Clubs',() => {
      expect(status).to.be.equal(200);
      expect(body).to.be.deep.equal(clubsList);
   });
+
+  it('On /clubs/:id Response is club with corresponded id', async () => {
+    const id = 1;
+    const club = clubsList[id - 1];
+    let clubResponse = await chai.request(app)
+    .get(`/clubs/${id}`);
+
+    const { status, body } = clubResponse;
+
+    expect(status).to.be.equal(200);
+    expect(body).to.be.deep.equal(club);
+  })
 });

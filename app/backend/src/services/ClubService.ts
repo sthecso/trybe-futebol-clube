@@ -12,6 +12,14 @@ class ClubService {
     const clubs = await this.clubModel.findAll();
     return { code: StatusCode.OK, data: clubs };
   }
+
+  async getById(id: number) {
+    const club = await this.clubModel.findByPk(id);
+    if (!club) {
+      return { code: StatusCode.BAD_REQUEST, data: { message: 'Club Not Found' } };
+    }
+    return { code: StatusCode.OK, data: club };
+  }
 }
 
 export default ClubService;
