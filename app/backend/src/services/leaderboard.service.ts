@@ -1,9 +1,9 @@
 import sortArray = require('sort-array');
-import { IClubHistory, IClubStats, ILeaderboardMatchGoals } from '../interfaces';
+import { IClubHistory, IClubStats, IMatchGoals } from '../interfaces';
 import { ClubModel, MatchModel } from '../database/models';
 
 export default class LeaderboardService {
-  private static calcTotalPoints(matchs: ILeaderboardMatchGoals[]) {
+  private static calcTotalPoints(matchs: IMatchGoals[]) {
     return matchs.reduce((totalPoints, match) => {
       if (match.goalsFavor > match.goalsOwn) return totalPoints + 3;
       if (match.goalsFavor === match.goalsOwn) return totalPoints + 1;
@@ -11,32 +11,32 @@ export default class LeaderboardService {
     }, 0);
   }
 
-  private static calcTotalVictories(matchs: ILeaderboardMatchGoals[]) {
+  private static calcTotalVictories(matchs: IMatchGoals[]) {
     return matchs.reduce((totalVictories, match) => {
       if (match.goalsFavor > match.goalsOwn) return totalVictories + 1;
       return totalVictories;
     }, 0);
   }
 
-  private static calcTotalDraws(matchs: ILeaderboardMatchGoals[]) {
+  private static calcTotalDraws(matchs: IMatchGoals[]) {
     return matchs.reduce((totalDraws, match) => {
       if (match.goalsFavor === match.goalsOwn) return totalDraws + 1;
       return totalDraws;
     }, 0);
   }
 
-  private static calcTotalLosses(matchs: ILeaderboardMatchGoals[]) {
+  private static calcTotalLosses(matchs: IMatchGoals[]) {
     return matchs.reduce((totalLosses, match) => {
       if (match.goalsFavor < match.goalsOwn) return totalLosses + 1;
       return totalLosses;
     }, 0);
   }
 
-  private static calcGoalsFavor(matchs: ILeaderboardMatchGoals[]) {
+  private static calcGoalsFavor(matchs: IMatchGoals[]) {
     return matchs.reduce((goalsFavor, match) => goalsFavor + match.goalsFavor, 0);
   }
 
-  private static calcGoalsOwn(matchs: ILeaderboardMatchGoals[]) {
+  private static calcGoalsOwn(matchs: IMatchGoals[]) {
     return matchs.reduce((goalsOwn, match) => goalsOwn + match.goalsOwn, 0);
   }
 

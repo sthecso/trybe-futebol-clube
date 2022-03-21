@@ -1,4 +1,4 @@
-import { ICredentials } from './Credentials';
+import { ICredentials } from '../User/Credentials';
 
 interface ILoginResponse {
   code: number;

@@ -1,4 +1,4 @@
-export interface ILeaderboardMatchGoals {
+export interface IMatchGoals {
   goalsFavor: number;
   goalsOwn: number
 }
