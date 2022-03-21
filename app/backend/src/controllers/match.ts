@@ -46,22 +46,24 @@ const create: RequestHandler = async (req, res, _next) => {
 const finish: RequestHandler = async (req, res, _next) => {
   const { id: matchId } = req.params;
 
-  const result = await MatchService.finish(Number(matchId));
+  const message: string = await MatchService
+    .finish(Number(matchId));
 
   return res
     .status(StatusCodes.OK)
-    .json({ result });
+    .json({ message });
 };
 
 const edit: RequestHandler = async (req, res, _next) => {
   const { id: matchId } = req.params;
   const updatedScore: IMatchScore = req.body;
 
-  const result = await MatchService.edit(Number(matchId), updatedScore);
+  const message: string = await MatchService
+    .edit(Number(matchId), updatedScore);
 
   return res
     .status(StatusCodes.OK)
-    .json({ result });
+    .json({ message });
 };
 
 export {

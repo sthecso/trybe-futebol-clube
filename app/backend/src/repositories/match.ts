@@ -44,24 +44,24 @@ class MatchRepository {
   }
 
   public static async finish(matchId: IMatch['id']) {
-    const [result] = await Match.update(
+    const [affectedRows] = await Match.update(
       { inProgress: false },
       { where: { id: matchId.toString() } },
     );
 
-    return result;
+    return affectedRows !== 0;
   }
 
   public static async edit(
     matchId: IMatch['id'],
     updatedScore: IMatchScore,
   ) {
-    const [result] = await Match.update(
+    const [affectedRows] = await Match.update(
       updatedScore, // values = { homeTeamGoals, awayTeamGoals }
       { where: { id: matchId.toString(), inProgress: true } },
     );
 
-    return result;
+    return affectedRows !== 0;
   }
 }
 

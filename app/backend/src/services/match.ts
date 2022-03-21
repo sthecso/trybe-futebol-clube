@@ -14,6 +14,7 @@ import * as messages from '../utils/messages';
 
 import ConflictError from './errors/Conflict';
 import NotFoundError from './errors/NotFound';
+import UnprocessableError from './errors/Unprocessable';
 import UnauthorizedError from './errors';
 
 class MatchService {
@@ -58,9 +59,13 @@ class MatchService {
 
     if (!match) throw unauthErr;
 
-    const result = await MatchRepository.finish(matchId);
+    const result: boolean = await MatchRepository.finish(matchId);
 
-    return result;
+    const unprocessErr = new UnprocessableError(messages.match.patchFail);
+
+    if (!result) throw unprocessErr;
+
+    return messages.match.finished;
   }
 
   public static async edit(
@@ -73,9 +78,14 @@ class MatchService {
 
     if (!match) throw unauthErr;
 
-    const result = await MatchRepository.edit(matchId, updatedScore);
+    const result: boolean = await MatchRepository
+      .edit(matchId, updatedScore);
 
-    return result;
+    const unprocessErr = new UnprocessableError(messages.match.patchFail);
+
+    if (!result) throw unprocessErr;
+
+    return messages.match.updated;
   }
 }
 

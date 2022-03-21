@@ -4,6 +4,16 @@ import { MatchController } from '../controllers';
 
 const matches = Router();
 
+matches.patch(
+  '/:id/finish',
+  MatchController.finish,
+);
+
+matches.patch(
+  '/:id',
+  MatchController.edit,
+);
+
 matches.get(
   '/:id',
   MatchController.findAll,
@@ -20,16 +30,6 @@ matches.post(
     auth,
     MatchController.create,
   ],
-);
-
-matches.patch(
-  '/:id/finish',
-  MatchController.finish,
-);
-
-matches.patch(
-  '/:id',
-  MatchController.edit,
 );
 
 export default matches;
