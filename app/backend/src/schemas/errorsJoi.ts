@@ -1,8 +1,8 @@
 import { IErrorStatus } from '../interfaces';
 
 const errorStatus:IErrorStatus = {
-  'any.required': 400,
-  'string.empty': 400,
+  'any.required': 401,
+  'string.empty': 401,
   'string.min': 422,
   'string.base': 422,
   'number.empty': 400,
