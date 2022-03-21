@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe.only('Login endpoints', () => {
+describe('Login endpoints', () => {
   let chaiHttpResponse: Response;
   let loginToken: string;
 
