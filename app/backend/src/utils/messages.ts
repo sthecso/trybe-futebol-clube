@@ -19,9 +19,16 @@ export const user = {
   },
 };
 
+export const club = {
+  notFound: 'Club not found',
+};
+
 export const match = {
   notFound: 'Match not found',
   required: 'All fields must be filled',
+  finished: 'Finished match',
+  updated: 'Match score updated',
+  patchFail: 'Match already over or does not exist',
   teams: {
     conflict: 'It is not possible to create a match with two equal teams',
     notFound: 'There is no team with such id!',
