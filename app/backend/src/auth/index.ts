@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import { resolve } from 'path';
 import { Response, NextFunction } from 'express';
 import { sign, decode, verify, JwtPayload } from 'jsonwebtoken';
 import { User } from '../database/models';
@@ -5,7 +7,8 @@ import { IRequest } from '../utils/interfaces';
 import { Authorization } from '../utils/types';
 import HttpException from '../classes/httpException';
 
-const JWT_SECRET = 'SA9D8JASD98HYAF9SFN89ash008yh08H808yh9SC8GH9ASCA987C';
+const jwtFile = resolve(__dirname, '../..', 'jwt.evaluation.key');
+const JWT_SECRET = fs.readFileSync(jwtFile, 'utf-8');
 
 const verifyTokenPresence = (token: Authorization): void => {
   if (!token) {
