@@ -7,7 +7,7 @@ class Club extends Model {}
 
 Club.init(
   {
-    club_name: DataTypes.STRING,
+    clubName: DataTypes.STRING,
   },
   {
     underscored: true,

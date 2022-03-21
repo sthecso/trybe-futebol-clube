@@ -6,11 +6,11 @@ class Match extends Model {}
 
 Match.init(
   {
-    home_team: DataTypes.NUMBER,
-    home_team_goals: DataTypes.NUMBER,
-    away_team: DataTypes.NUMBER,
-    away_team_goals: DataTypes.NUMBER,
-    in_progress: DataTypes.NUMBER,
+    homeTeam: DataTypes.NUMBER,
+    homeTeam_goals: DataTypes.NUMBER,
+    awayTeam: DataTypes.NUMBER,
+    awayTeam_goals: DataTypes.NUMBER,
+    inProgress: DataTypes.NUMBER,
   },
   {
     underscored: true,
