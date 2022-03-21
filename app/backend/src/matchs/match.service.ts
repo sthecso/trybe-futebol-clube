@@ -8,9 +8,10 @@ class MatchService {
     this.createMatch = this.createMatch.bind(this);
     this.updateMatchProgress = this.updateMatchProgress.bind(this);
     this.updateMatchGoals = this.updateMatchGoals.bind(this);
+    this.getMatchsByInProgress = this.getMatchsByInProgress.bind(this);
   }
 
-  _matches: Match[];
+  _matches: Match[] | Match | null;
 
   _createdMatch: Match;
 
@@ -62,6 +63,26 @@ class MatchService {
       { where: { id } },
     );
     return res.status(200).json(this._updatedMatchGoals);
+  }
+
+  public async getMatchsByInProgress(req: Request, res: Response) {
+    const { inProgress } = req.query;
+    if (!inProgress) {
+      this._matches = await Match.findAll({
+        include: [
+          { model: Club, as: 'homeClub', attributes: ['clubName'] },
+          { model: Club, as: 'awayClub', attributes: ['clubName'] }],
+      });
+      return res.status(200).json(this._matches);
+    }
+    const result = inProgress === 'true' ? 1 : 0;
+    this._matches = await Match.findAll({
+      where: { inProgress: result },
+      include: [
+        { model: Club, as: 'homeClub', attributes: ['clubName'] },
+        { model: Club, as: 'awayClub', attributes: ['clubName'] }],
+    });
+    return res.status(200).json(this._matches);
   }
 }
 

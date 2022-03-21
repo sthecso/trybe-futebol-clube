@@ -10,7 +10,8 @@ class MatchController {
   }
 
   Routes() {
-    this.router.get('/', MatchService.getAllMatches);
+    this.router.get('/:inProgress?', MatchService.getMatchsByInProgress);
+    // this.router.get('/', MatchService.getAllMatches);
     this.router.post('/', validateClub, MatchService.createMatch);
     this.router.patch('/:id/finish', MatchService.updateMatchProgress);
     this.router.patch('/:id', MatchService.updateMatchGoals);
