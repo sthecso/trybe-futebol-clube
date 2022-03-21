@@ -22,5 +22,26 @@ describe('Request Get Match',() => {
 
     expect(status).to.be.equal(200);
     expect(body).to.be.deep.equal(matchs);
+  });
+
+  it('On /matchs?inProgress=true returns all inProgress matchs', async () => {
+    matchResponse = await chai.request(app)
+    .get('/matchs?inProgress=true');
+
+    const { status, body } = matchResponse;
+    const filteredMatchs = matchs.filter((match) => match.inProgress);
+    expect(status).to.be.equal(200);
+    expect(body).to.be.deep.equal(filteredMatchs);
+  });
+
+  it('On /matchs?inProgress=false returns all matchs', async () => {
+    matchResponse = await chai.request(app)
+    .get('/matchs?inProgress=true');
+
+    const { status, body } = matchResponse;
+    const filteredMatchs = matchs.filter((match) => match.inProgress);
+    expect(status).to.be.equal(200);
+    expect(body).to.be.deep.equal(filteredMatchs);
   })
+
 });

@@ -13,7 +13,7 @@ class MatchRouter {
   }
 
   private route(): void {
-    this.router.get('/', this.matchController.getAll);
+    this.router.get('/', this.matchController.getMatchs);
   }
 }
 

@@ -8,21 +8,20 @@ class MatchService {
     this.matchModel = MatchModel;
   }
 
-  async getAll(inProgress: boolean) {
-    let matchs;
-    console.log(inProgress);
-    if (inProgress) {
-      matchs = await this.matchModel.findAll({ include: [
-        { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
-        { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
-      ],
-      where: { inProgress } });
-    } else {
-      matchs = await this.matchModel.findAll({ include: [
-        { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
-        { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
-      ] });
-    }
+  async getAll() {
+    const matchs = await this.matchModel.findAll({ include: [
+      { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
+      { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
+    ] });
+    return { code: StatusCode.OK, data: matchs };
+  }
+
+  async getInProgress(inProgress: boolean) {
+    const matchs = await this.matchModel.findAll({ include: [
+      { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
+      { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
+    ],
+    where: { inProgress } });
     return { code: StatusCode.OK, data: matchs };
   }
 }

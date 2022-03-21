@@ -6,12 +6,16 @@ class MatchController {
 
   constructor() {
     this.matchService = new MatchService();
-    this.getAll = this.getAll.bind(this);
+    this.getMatchs = this.getMatchs.bind(this);
   }
 
-  async getAll(req: Request, res: Response) {
+  async getMatchs(req: Request, res: Response) {
     const { inProgress } = req.query;
-    const { code, data } = await this.matchService.getAll((inProgress === 'true'));
+    if (inProgress === undefined) {
+      const { code, data } = await this.matchService.getAll();
+      return res.status(code).json(data);
+    }
+    const { code, data } = await this.matchService.getInProgress((inProgress === 'true'));
     return res.status(code).json(data);
   }
 }
