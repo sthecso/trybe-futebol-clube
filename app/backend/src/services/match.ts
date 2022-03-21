@@ -36,7 +36,7 @@ class MatchService {
     return result;
   }
 
-  public static async create(newMatch: IMatchCreate) {
+  public static async validateNewMatch(newMatch: IMatchCreate) {
     const { homeTeam: homeTeamId, awayTeam: awayTeamId } = newMatch;
 
     const conflictErr = new ConflictError(messages.match.teams.conflict);
@@ -46,6 +46,10 @@ class MatchService {
 
     const clubsExist = await ClubRepository.checkClubs(newMatch);
     if (!clubsExist) throw unauthErr;
+  }
+
+  public static async create(newMatch: IMatchCreate) {
+    await this.validateNewMatch(newMatch);
 
     const result: IMatch = await MatchRepository.create(newMatch);
 

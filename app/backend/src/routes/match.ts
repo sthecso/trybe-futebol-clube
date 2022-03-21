@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { auth } from '../middlewares';
+import auth from '../middlewares';
 import { MatchController } from '../controllers';
 
 const matches = Router();
