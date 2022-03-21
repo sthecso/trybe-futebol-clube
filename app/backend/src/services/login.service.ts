@@ -5,35 +5,34 @@ import Bcrypt from '../utils/bcryptjs';
 
 export default class LoginService {
   async login(data: ICredentials): Promise<any> {
-    const user = await User.findOne({
+    const dataUser = await User.findOne({
       where: { email: data.email },
     });
-    return user
+    return dataUser
   }
   async create(data: ICredentials): Promise<any> {
-    const { email, password } = data;
-    const user = await User.findOne({
-      where: { email: email },
+    const dataUser = await User.findOne({
+      where: { email: data.email },
     });
-    if (!user) {
+    if (!dataUser) {
       const error = {
         code: 401,
         message: "Incorrect email or password",
       };
       return error;
     }
-    const bcrypt = new Bcrypt(password, user.password);
+    const bcrypt = new Bcrypt(data.password, dataUser.password);
     const test = await bcrypt.decrypt()
     if (!test) {
-      console.log("entrou ")
       const error = {
         code: 401,
         message: "Incorrect email or password",
       };
       return error;
     }
-    const { id } = user;
-    const token = jwt.sign({ email, id });
+    const { id, username, role, email } = dataUser;
+    const user = { id, username, role, email }
+    const token = jwt.sign({ id, username, role, email });
     return { user, token };
   }
 }
