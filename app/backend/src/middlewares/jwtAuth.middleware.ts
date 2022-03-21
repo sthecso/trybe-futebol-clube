@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { readFileSync } from 'fs';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 export default (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;

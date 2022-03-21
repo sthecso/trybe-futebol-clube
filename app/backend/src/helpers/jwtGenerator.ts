@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { ITokenData } from '../interfaces';
 
 const jwtConfig = { expiresIn: '1d' };

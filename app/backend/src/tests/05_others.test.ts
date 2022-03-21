@@ -1,6 +1,6 @@
-import * as sinon from 'sinon';
-import * as chai from 'chai';
-import * as jwt from 'jsonwebtoken';
+import sinon from 'sinon';
+import chai from 'chai';
+import jwt from 'jsonwebtoken';
 import { exec } from 'shelljs';
 import chaiHttp = require('chai-http');
 

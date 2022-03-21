@@ -1,4 +1,4 @@
-import * as chai from 'chai';
+import chai from 'chai';
 import { exec } from 'shelljs';
 import chaiHttp = require('chai-http');
 
@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Login endpoints', () => {
+describe.only('Login endpoints', () => {
   let chaiHttpResponse: Response;
   let loginToken: string;
 
