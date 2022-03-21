@@ -1,4 +1,7 @@
 import * as express from 'express';
+import 'express-async-errors';
+import { ClubRouter, LoginRouter } from './controller/routes';
+import { handleErrors } from './controller/middlewares';
 
 class App {
   public app: express.Express;
@@ -18,6 +21,12 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
+  }
+
+  private route(): void {
+    this.app.use('/login', new LoginRouter().router);
+    this.app.use('/clubs', new ClubRouter().router);
+    this.app.use(handleErrors);
   }
 
   public start(PORT: string | number):void {
