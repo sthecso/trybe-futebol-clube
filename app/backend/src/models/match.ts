@@ -42,12 +42,12 @@ class MatchModel {
     return saveProgressMatch;
   }
 
-  async updateResultsMatch(id: number, { homeTeam, awayTeam }: IUpdateGoalsReq) {
-    /* const saveProgressMatch = */ await this.matchEntity.update(
-      { homeTeam, awayTeam },
+  async updateResultsMatch(id: number, { homeTeamGoals, awayTeamGoals }: IUpdateGoalsReq) {
+    const saveProgressMatch = await this.matchEntity.update(
+      { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
-    /* return saveProgressMatch; */
+    return saveProgressMatch;
   }
 }
 

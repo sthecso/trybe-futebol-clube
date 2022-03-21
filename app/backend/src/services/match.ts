@@ -33,8 +33,8 @@ class MatchService {
   }
 
   async updateResultsMatch(id: number, goalsMatch: IUpdateGoalsReq) {
-    /* const saveProgressMatch = */ await this.modelMatch.updateResultsMatch(id, goalsMatch);
-    /* return saveProgressMatch; */
+    const saveProgressMatch = await this.modelMatch.updateResultsMatch(id, goalsMatch);
+    return saveProgressMatch;
   }
 }
 

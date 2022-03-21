@@ -13,7 +13,7 @@ class MatchController {
 
   constructor() {
     this.getMatchsByProgress = this.getMatchsByProgress.bind(this);
-    /* this.saveMatchInProgress = this.saveMatchInProgress.bind(this); */
+    this.saveMatchInProgress = this.saveMatchInProgress.bind(this);
   }
 
   async getMatchsByProgress(req: Request, res: Response) {

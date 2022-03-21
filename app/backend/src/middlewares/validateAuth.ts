@@ -14,7 +14,7 @@ class ValidateAuth {
     this.decoded = this.decoded.bind(this);
   }
 
-  decoded(token: string): string | IUserRes {
+  decoded(token: string): string | IUserRes | null {
     try {
       const SECRET = this.readFile('jwt.evaluation.key');
 
@@ -24,7 +24,7 @@ class ValidateAuth {
 
       return userDecoded;
     } catch (err) {
-      return `Error ${err}`;
+      return null;
     }
   }
 
@@ -36,7 +36,7 @@ class ValidateAuth {
 
     const dataDecoded = this.decoded(authorization);
 
-    if (typeof dataDecoded === 'string') {
+    if (typeof dataDecoded === null) {
       return res.status(this.StatusCode.Unauthorized).json({ message: 'usuario nao authenticado' });
     }
 
