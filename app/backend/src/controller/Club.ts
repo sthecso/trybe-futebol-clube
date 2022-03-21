@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import ClubService from '../service/Club';
 
 class Club {
   public router = Router();
@@ -8,8 +9,9 @@ class Club {
   }
 
   get() {
-    this.router.get('/', (req: Request, res: Response) => {
-      res.status(200).json({ message: 'em construção' });
+    this.router.get('/', async (req: Request, res: Response) => {
+      const allTeams = await ClubService.findAll();
+      res.status(200).json(allTeams);
     });
   }
 }
