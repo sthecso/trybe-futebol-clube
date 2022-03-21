@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { resolve } from 'path';
 import { Response, NextFunction } from 'express';
-import { sign, decode, verify, JwtPayload } from 'jsonwebtoken';
+import { sign, decode, verify, JwtPayload, SignOptions } from 'jsonwebtoken';
 import { User } from '../database/models';
 import { IRequest } from '../utils/interfaces';
 import { Authorization } from '../utils/types';
@@ -9,6 +9,10 @@ import HttpException from '../classes/httpException';
 
 const jwtFile = resolve(__dirname, '../..', 'jwt.evaluation.key');
 const JWT_SECRET = fs.readFileSync(jwtFile, 'utf-8');
+const jwtConfig: SignOptions = {
+  expiresIn: '30d',
+  algorithm: 'HS256',
+};
 
 const verifyTokenPresence = (authorization: Authorization): void => {
   if (!authorization) {
@@ -29,7 +33,7 @@ const verifyTokenValidity = (token: string): void => {
 export function createToken(inputData: User): string {
   const { id, username, role, email } = inputData;
   const userData = { id, username, role, email };
-  return sign(userData, JWT_SECRET);
+  return sign(userData, JWT_SECRET, jwtConfig);
 }
 
 export function readToken(authorization: Authorization): JwtPayload {
