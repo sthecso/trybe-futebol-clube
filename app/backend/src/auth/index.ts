@@ -10,17 +10,16 @@ import HttpException from '../classes/httpException';
 const jwtFile = resolve(__dirname, '../..', 'jwt.evaluation.key');
 const JWT_SECRET = fs.readFileSync(jwtFile, 'utf-8');
 
-const verifyTokenPresence = (token: Authorization): void => {
-  if (!token) {
+const verifyTokenPresence = (authorization: Authorization): void => {
+  if (!authorization) {
     const error = new HttpException(401, 'Token not found');
     throw error;
   }
 };
 
-const verifyTokenValidity = (authorization: Authorization): JwtPayload => {
+const verifyTokenValidity = (token: string): void => {
   try {
-    const token = authorization || '';
-    return verify(token, JWT_SECRET) as JwtPayload;
+    verify(token, JWT_SECRET);
   } catch (err) {
     const error = new HttpException(401, 'Expired or invalid token');
     throw error;
@@ -38,10 +37,11 @@ export function readToken(authorization: Authorization): JwtPayload {
   return decode(token) as JwtPayload;
 }
 
-export function validateToken(req: IRequest, _res: Response, next: NextFunction) {
-  const { authorization: token } = req.headers;
-  verifyTokenPresence(token);
-  const payload = verifyTokenValidity(token);
-  req.user = payload;
+export function validateToken(req: IRequest, _res: Response, next: NextFunction): void {
+  const { authorization } = req.headers;
+  const token = authorization || '';
+  verifyTokenPresence(authorization);
+  verifyTokenValidity(token);
+  req.user = decode(token) as JwtPayload;
   next();
 }
