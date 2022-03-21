@@ -11,6 +11,7 @@ class MatchController {
   Routes() {
     this.router.get('/', MatchService.getAllMatches);
     this.router.post('/', MatchService.createMatch);
+    this.router.patch('/:id/finish', MatchService.updateMatch);
   }
 }
 

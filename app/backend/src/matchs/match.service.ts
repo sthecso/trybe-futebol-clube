@@ -6,11 +6,14 @@ class MatchService {
   constructor() {
     this.getAllMatches = this.getAllMatches.bind(this);
     this.createMatch = this.createMatch.bind(this);
+    this.updateMatch = this.updateMatch.bind(this);
   }
 
   _matches: Match[];
 
   _createdMatch: Match;
+
+  _updatedMatch: [number, Match[]];
 
   public async getAllMatches(req: Request, res: Response) {
     this._matches = await Match.findAll({
@@ -32,6 +35,18 @@ class MatchService {
       inProgress,
     });
     return res.status(201).json(this._createdMatch);
+  }
+
+  public async updateMatch(req: Request, res: Response) {
+    const { id } = req.params;
+    this._updatedMatch = await Match.update(
+      {
+        inProgress: 0,
+      },
+      { where: { id } },
+    );
+    console.log(this._updatedMatch);
+    return res.status(200).json(this._updatedMatch);
   }
 }
 
