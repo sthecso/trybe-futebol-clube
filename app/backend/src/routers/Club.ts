@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 
 import {
   GetAllClubsController,
@@ -18,16 +18,46 @@ class Club {
     this.start();
   }
 
-  private start() {
+  private getAllClubs() {
     this.router.get(
       '/',
-      this.getAllClubsController.handle,
-    );
+      async (_req: Request, res: Response, nextMiddleware: NextFunction) => {
+        try {
+          const { httpStatusCode, result } = await this.getAllClubsController.handle();
 
+          return res
+            .status(httpStatusCode)
+            .json(result);
+        } catch (error) {
+          nextMiddleware(error);
+        }
+      },
+    );
+  }
+
+  private getClubById() {
     this.router.get(
       '/:id',
-      this.getClubByIdController.handle,
+      async (req: Request, res: Response, nextMiddleware: NextFunction) => {
+        try {
+          const { id } = req.params;
+
+          const { httpStatusCode, result } = await this.getClubByIdController.handle(id);
+
+          return res
+            .status(httpStatusCode)
+            .json(result);
+        } catch (error) {
+          nextMiddleware(error);
+        }
+      },
     );
+  }
+
+  private start() {
+    this.getAllClubs();
+
+    this.getClubById();
   }
 }
 

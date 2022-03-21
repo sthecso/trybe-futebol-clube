@@ -1,9 +1,3 @@
-import { NextFunction, Request, Response } from 'express';
-
-import { IClub } from '../../interfaces/club';
-
-import { IErrorMessage } from '../../interfaces';
-
 import { GetClubByIdService } from '../../services/club';
 
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
@@ -19,24 +13,20 @@ class GetClubByIdController {
     this.handle = this.handle.bind(this);
   }
 
-  async handle(
-    req: Request,
-    res: Response,
-    _nextMiddleware: NextFunction,
-  ): Promise<Response<IErrorMessage> | IClub> {
-    const { id } = req.params;
-
+  async handle(id: string) {
     const club = await this.getClubByIdService.handle(id);
 
     if (club instanceof this.ErrorCatcher) {
-      return res
-        .status(club.httpStatusCode)
-        .json({ message: club.message });
+      return {
+        httpStatusCode: club.httpStatusCode,
+        result: { message: club.message },
+      };
     }
 
-    return res
-      .status(this.httpStatusCode.Ok)
-      .json(club);
+    return {
+      httpStatusCode: this.httpStatusCode.Ok,
+      result: club,
+    };
   }
 }
 

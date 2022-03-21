@@ -71,7 +71,7 @@ class MatchRepository {
   async updateOne(
     matchData: IMatchOptions,
     { where }: { where: WhereOptions<IMatchResponse> },
-  ): Promise<void> {
+  ) {
     await this.Match.update({ ...matchData }, { where });
   }
 }
