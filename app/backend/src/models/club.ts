@@ -1,4 +1,4 @@
-import Club from '../modelsSequelize/club';
+import Club from '../database/modelsSequelize/club';
 
 class ClubsModels {
   private clubeEntity = Club;

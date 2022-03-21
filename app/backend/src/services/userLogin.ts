@@ -1,5 +1,3 @@
-/* import bcrypt = require('bcryptjs'); */
-/* import { GenerateStatusError } from '../utils'; */
 import IUserReq from '../interfaces/login/IUserReq';
 
 import LoginUserModel from '../models/userLogin';

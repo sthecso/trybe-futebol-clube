@@ -1,8 +1,8 @@
+import Club from '../database/modelsSequelize/club';
 import IMatchReq from '../interfaces/match/IMatchReq';
 import IUpdateGoalsReq from '../interfaces/match/IUpdateGoals';
-import Club from '../modelsSequelize/club';
 /* import IMatchRes from '../interfaces/match/IMatchRes'; */
-import Match from '../modelsSequelize/match';
+import Match from '../database/modelsSequelize/match';
 
 class MatchModel {
   private matchEntity = Match;
@@ -36,6 +36,7 @@ class MatchModel {
     const verifyExistTeam1 = await this.clubEntity.findByPk(match.homeTeam);
     const verifyExistTeam2 = await this.clubEntity.findByPk(match.awayTeam);
     if (verifyExistTeam1 === null || verifyExistTeam2 === null) return null;
+    if (verifyExistTeam1 === verifyExistTeam2) return null;
     const saveProgressMatch = await this.matchEntity.create(match);
 
     return saveProgressMatch;

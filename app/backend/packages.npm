@@ -1,2 +1,2 @@
-bcryptjs
--D @types/bcryptjs
+npm install bcryptjs
+npm install -D @types/bcryptjs
