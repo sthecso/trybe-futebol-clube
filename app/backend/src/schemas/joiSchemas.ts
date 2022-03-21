@@ -38,8 +38,9 @@ const matchSchema = Joi.object({
     'number.positive': errorPositve,
     'any.required': errorField,
   }),
-  inProgress: Joi.boolean().required().messages({
-    'boolean.base': 'inProgess must be a boolean',
+  inProgress: Joi.boolean().invalid(false).required().messages({
+    'boolean.base': 'inProgress must be a boolean',
+    'any.invalid': 'inProgress must be true',
     'any.required': errorField,
   }),
 });
