@@ -85,7 +85,6 @@ export default class MatchController {
   ) {
     try {
       const { id } = req.params;
-      console.log(id);
       await Match.update(
         { inProgress: false },
         { where: { id } },
