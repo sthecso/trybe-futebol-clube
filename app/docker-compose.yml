@@ -27,8 +27,6 @@ services:
       test: ["CMD", "lsof", "-t", "-i:3001"]
       timeout: 10s
       retries: 5
-    ports:
-      - "3001:3001"
     restart: always
 
   db:
