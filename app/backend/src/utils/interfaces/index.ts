@@ -44,7 +44,7 @@ export interface ILoginResponse {
 }
 
 export interface ILoginService {
-  login(credentials: ICredential): Promise<ILoginResponse>
+  login(credential: ICredential): Promise<ILoginResponse>
 }
 
 export interface ILoginController extends ILoginService {
