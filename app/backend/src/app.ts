@@ -9,6 +9,7 @@ class App {
   constructor() {
     this.app = express();
     this.config();
+    this.route();
   }
 
   private config(): void {
@@ -36,5 +37,4 @@ class App {
 
 export { App };
 
-// A execução dos testes de cobertura depende dessa exportação
 export const { app } = new App();
