@@ -11,7 +11,7 @@ const ROUTE_CLUBS = '/clubs';
 const ROUTE_CLUBS_ID = '/clubs/1';
 
 describe('Clubs Test', () => {
-  describe('When request is ok', () => {
+  describe('When the request is ok', () => {
     let chaiHttpResponse: Response;
     it('Return status code 200', async () => {
       chaiHttpResponse = await chai.request(app).get(ROUTE_CLUBS)
