@@ -13,6 +13,12 @@ class Club {
       const allTeams = await ClubService.findAll();
       res.status(200).json(allTeams);
     });
+
+    this.router.get('/:id', async (req: Request, res: Response) => {
+      const { id } = req.params;
+      const oneTeam = await ClubService.findOneById(id);
+      res.status(200).json(oneTeam);
+    });
   }
 }
 
