@@ -36,18 +36,18 @@ class MatchModel {
     const verifyExistTeam1 = await this.clubEntity.findByPk(match.homeTeam);
     const verifyExistTeam2 = await this.clubEntity.findByPk(match.awayTeam);
     if (verifyExistTeam1 === null || verifyExistTeam2 === null) return null;
-    if (verifyExistTeam1 === verifyExistTeam2) return null;
+    if (verifyExistTeam1.clubName === verifyExistTeam2.clubName) return 'equals';
     const saveProgressMatch = await this.matchEntity.create(match);
 
     return saveProgressMatch;
   }
 
   async updateResultsMatch(id: number, { homeTeamGoals, awayTeamGoals }: IUpdateGoalsReq) {
-    const saveProgressMatch = await this.matchEntity.update(
+    await this.matchEntity.update(
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
-    return saveProgressMatch;
+    return { homeTeamGoals, awayTeamGoals };
   }
 }
 

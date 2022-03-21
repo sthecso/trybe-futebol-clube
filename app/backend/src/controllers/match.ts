@@ -14,6 +14,7 @@ class MatchController {
   constructor() {
     this.getMatchsByProgress = this.getMatchsByProgress.bind(this);
     this.saveMatchInProgress = this.saveMatchInProgress.bind(this);
+    this.updateResultsMatch = this.updateResultsMatch.bind(this);
   }
 
   async getMatchsByProgress(req: Request, res: Response) {
@@ -28,18 +29,22 @@ class MatchController {
     if (saveMatch === null) {
       return res.status(this.statusCode.Unauthorized).json({ message: 'team not found' });
     }
+    if (saveMatch === 'equals') {
+      return res.status(this.statusCode.Unauthorized)
+        .json({ message: 'It is not possible to create a match with two equal teams' });
+    }
     return res.status(this.statusCode.Created).json(saveMatch);
   }
 
   async updateResultsMatch(req: Request, res: Response) {
-    const data = req.body as unknown as IUpdateGoalsReq;
+    const goalsMatch = req.body as unknown as IUpdateGoalsReq;
     const id = Number(req.params.id);
-    const saveProgressMatch = await this.matchService.updateResultsMatch(id, data);
+    const saveProgressMatch = await this.matchService.updateResultsMatch(id, goalsMatch);
     if (saveProgressMatch === null) {
       return res.status(this.statusCode.NotFound)
         .json({ message: 'Team not found' });
     }
-    return res.status(this.statusCode.Ok);
+    return res.status(this.statusCode.Ok).json(saveProgressMatch);
   }
 }
 
