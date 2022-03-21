@@ -15,7 +15,7 @@ describe('/login', () => {
     describe('Login com sucesso: ', () => {
       it('retorna um token', async () => {
         const user = {
-          "email": "hello@word.com",
+          "email": "admin@admin.com",
           "password": "secret_admin"
         }
 
@@ -29,7 +29,7 @@ describe('/login', () => {
             expect(token).to.be.a('string');
             expect(user).to.be.a('object');
             expect(token).not.to.be.undefined;
-            expect(user.email).to.be.equal("hello@word.com");
+            expect(user.email).to.be.equal("admin@admin.com");
           });
       });
 
@@ -53,7 +53,7 @@ describe('/login', () => {
 
         it('quando o email está incorreto', async () => {
           const user = {
-            email: 'hello',
+            email: 'email',
             password: ''
             };
 
@@ -99,7 +99,7 @@ describe('/login', () => {
     describe('Password: ', () => {
       it('quando está vazio', async () => {
         const user = {
-          email: 'hello@word.com',
+          email: 'admin@admin.com',
           password: ''
         };
 
@@ -114,8 +114,8 @@ describe('/login', () => {
 
         it('quando password é incorreta', async () => {
           const user = {
-            "email": "hello@word.com",
-            "password": ""
+            email: 'admin@admin.com',
+            password: '123456'
           };
 
           await chai.request(app)
@@ -129,7 +129,7 @@ describe('/login', () => {
 
         it('quando não existe o campo password', async () => {
           const user = {
-            email: 'hello@word.com',
+            email: 'admin@admin.com',
           };
 
           await chai.request(app)
@@ -143,7 +143,7 @@ describe('/login', () => {
 
         it('quando é menor que 6 caracteres'), async () => {
           const user = {
-            "email": "hello@word.com",
+            "email": "admin@admin.com",
             "password": "senha"
           };
 

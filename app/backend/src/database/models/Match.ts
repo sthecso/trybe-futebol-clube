@@ -1,9 +1,20 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import Club from './Club';
-import { IMatch } from '../../interfaces/Match';
 
-export default class Match extends Model<IMatch> {}
+export default class Match extends Model {
+  public id: number;
+
+  public homeTeam: number;
+
+  public homeTeamGoals: number;
+
+  public awayTeam: number;
+
+  public awayTeamGoals: number;
+  
+  public inProgress: boolean;
+}
 
 Match.init(
   {
@@ -43,8 +54,8 @@ Match.init(
   },
 );
 
-Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
-Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
+Club.hasMany(Match, { foreignKey: 'homeTeam', as: 'homeMatchs' });
+Club.hasMany(Match, { foreignKey: 'awayTeam', as: 'awayMatchs' });
 
-Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'homeTeam' });
-Match.hasMany(Club, { foreignKey: 'awayTeam', as: 'awayTeam' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
