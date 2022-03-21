@@ -11,21 +11,29 @@ class ValidateAuth {
     this.verifyToken = this.verifyToken.bind(this);
   }
 
-  verifyToken(req: Request, res:Response, next: NextFunction): Response <string> | void {
+  async verifyToken(req: Request, res:Response, next: NextFunction):
+  Promise <Response <string> | void> {
     const { authorization } = req.headers;
+    console.log(authorization);
+
     if (!authorization || !authorization.length) {
-      return res.status(this.StatusCode.Unauthorized).json({ message: 'usuario nao authenticado' });
+      return res.status(this.StatusCode.Unauthorized)
+        .json({ message: 'usuario nao authenticado' });
     }
 
-    const dataDecoded = this.jwtUtils.verifyToken(authorization);
+    try {
+      const dataDecoded = this.jwtUtils.verifyToken(authorization);
+      if (dataDecoded === null) {
+        return res.status(this.StatusCode.Unauthorized)
+          .json({ message: 'usuario nao authenticado' });
+      }
 
-    if (dataDecoded === null) {
-      return res.status(this.StatusCode.Unauthorized).json({ message: 'usuario nao authenticado' });
+      req.decodedUser = dataDecoded;
+
+      next();
+    } catch (err) {
+      console.log(`usuario nao authencitado${err}`);
     }
-
-    req.decodedUser = dataDecoded;
-
-    next();
   }
 }
 
