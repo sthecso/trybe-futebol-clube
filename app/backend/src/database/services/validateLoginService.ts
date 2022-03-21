@@ -1,5 +1,5 @@
-import { TokenReturn } from '../../utils/Interfaces';
-import { verifyToken } from '../../utils/token';
+import { TokenReturn } from '../../helpers/Interfaces';
+import { verifyToken } from '../../helpers/token';
 import Users from '../models/Users';
 
 async function validateLoginService(token: string) {
