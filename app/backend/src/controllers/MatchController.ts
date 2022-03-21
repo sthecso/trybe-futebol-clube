@@ -8,6 +8,7 @@ class MatchController {
     this.matchService = new MatchService();
     this.getMatchs = this.getMatchs.bind(this);
     this.postMatch = this.postMatch.bind(this);
+    this.finishMatch = this.finishMatch.bind(this);
   }
 
   async getMatchs(req: Request, res: Response) {
@@ -22,6 +23,12 @@ class MatchController {
 
   async postMatch(req: Request, res: Response) {
     const { code, data } = await this.matchService.postMatch(req.body);
+    return res.status(code).json(data);
+  }
+
+  async finishMatch(req: Request, res: Response) {
+    const { id } = req.params;
+    const { code, data } = await this.matchService.finishMatch(parseInt(id, 10));
     return res.status(code).json(data);
   }
 }

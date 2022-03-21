@@ -69,7 +69,7 @@ describe('Request Post Match',() => {
     lastId = matchs[matchs.length - 1].id;
   });
 
-  it('On /matchs with correct Body and Token', async () => {
+  it('On /matchs with correct correct Body and correct Token', async () => {
     matchResponse = await chai.request(app)
     .post('/matchs')
     .set('authorization', token)
@@ -91,4 +91,48 @@ describe('Request Post Match',() => {
       "inProgress": true,
     });
   });
+
+  it('On /matchs with correct Body and Missing Token', async () => {
+    matchResponse = await chai.request(app)
+    .post('/matchs')
+    .send({
+        "homeTeam": 16,
+        "awayTeam": 8,
+        "homeTeamGoals": 2,
+        "awayTeamGoals": 2,
+        "inProgress": true
+      });
+    const { status, body: { error } } = matchResponse;
+    expect(status).to.be.equal(401);
+    expect(error).to.be.equal('Token not found');
+  });
+
+  it('On /matchs with correct Body and invalid Token', async () => {
+    matchResponse = await chai.request(app)
+    .post('/matchs')
+    .set('authorization', 'invalidToken')
+    .send({
+        "homeTeam": 16,
+        "awayTeam": 8,
+        "homeTeamGoals": 2,
+        "awayTeamGoals": 2,
+        "inProgress": true
+      });
+    const { status, body: { error } } = matchResponse;
+    expect(status).to.be.equal(401);
+    expect(error).to.be.equal('Invalid token');
+  });
+
+  it('On /matchs with incorrect Body and correct Token', async () => {
+    matchResponse = await chai.request(app)
+    .post('/matchs')
+    .set('authorization', token)
+    .send({
+        "homeTeam": 16,
+        "awayTeam": 8,
+      });
+    const { status, body: { message } } = matchResponse;
+    expect(status).to.be.equal(401);
+    expect(message).to.be.equal('All fields must be filled');
+  })
 });

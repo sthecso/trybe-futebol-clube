@@ -38,6 +38,16 @@ class MatchService {
     };
     return { code: StatusCode.CREATED, data };
   }
+
+  async finishMatch(id: number) {
+    await this.matchModel.update(
+      { inProgress: false },
+      {
+        where: { id },
+      },
+    );
+    return { code: StatusCode.NO_CONTENT, data: 'Updated' };
+  }
 }
 
 export default MatchService;

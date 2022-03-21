@@ -22,6 +22,11 @@ class MatchRouter {
       validateSchema(matchSchema),
       this.matchController.postMatch,
     );
+    this.router.patch(
+      '/:id/finish',
+      validateJWT,
+      this.matchController.finishMatch,
+    );
   }
 }
 
