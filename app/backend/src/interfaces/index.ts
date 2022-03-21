@@ -1,3 +1,3 @@
-import { ILogin, IJwtPayload } from './login';
+import { ILogin, IJwtPayload, Authorization, IId } from './login';
 
-export { ILogin, IJwtPayload };
+export { ILogin, IJwtPayload, Authorization, IId };

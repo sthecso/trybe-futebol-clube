@@ -1,14 +1,14 @@
-import { Router } from 'express';
-import { loginValidation } from '../middlewares';
+import * as express from 'express';
+import { loginValidation, authToken } from '../middlewares';
 import { LoginController } from '../controllers';
 
 export default class LoginRoute {
-  public login: Router; // public para declarar no app.ts
+  public login: express.Router; // public para declarar no app.ts
 
   private loginController: LoginController;
 
   constructor() {
-    this.login = Router(); // minha rota
+    this.login = express.Router(); // minha rota
     this.loginController = new LoginController(); // instanciação do controller
     this.routes(); // declarando o método
   }
@@ -18,6 +18,12 @@ export default class LoginRoute {
       '/',
       loginValidation,
       this.loginController.login,
+    );
+
+    this.login.get(
+      '/validate',
+      authToken,
+      this.loginController.loginValidate,
     );
   }
 }

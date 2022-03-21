@@ -20,4 +20,14 @@ export default class Login {
 
     return { code: 200, payload: { user, token } };
   }
+
+  async validate(id: number) {
+    const role = await this.user.findOne({
+      where: { id },
+      attributes: ['role'],
+      raw: true,
+    });
+
+    return { code: 200, role: role?.role };
+  }
 }

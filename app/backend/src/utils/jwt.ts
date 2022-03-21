@@ -17,7 +17,7 @@ const verifyToken = (token: string) => verify(
   token,
   SECRET_KEY,
   { algorithms: ['HS256'] },
-);
+) as IJwtPayload;
 
 export default {
   signToken,

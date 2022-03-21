@@ -9,3 +9,11 @@ export interface IJwtPayload {
   role: string,
   email: string
 }
+
+export interface Authorization {
+  authorization: string
+}
+
+export interface IId {
+  id: number
+}

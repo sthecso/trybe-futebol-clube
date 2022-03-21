@@ -1,12 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import * as Joi from 'joi';
 
+const message = 'All fields must be filled'; // temporário
+
 const schema = Joi.object({
-  email: Joi.string().required().messages({
-    'any.required': 'All fields must be filled',
+  email: Joi.string().empty().required().messages({
+    'any.required': message,
+    'any.empty': message,
   }),
-  password: Joi.string().required().messages({
-    'any.required': 'All fields must be filled',
+  password: Joi.string().empty().required().messages({
+    'any.required': message,
+    'any.empty': message,
   }),
 });
 

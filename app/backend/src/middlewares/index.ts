@@ -1,5 +1,5 @@
 import loginValidation from './joi/login';
+import tokenValidation from './joi/token';
+import authToken from './jwt/validate';
 
-const a = '';
-
-export { loginValidation, a };
+export { loginValidation, tokenValidation, authToken };
