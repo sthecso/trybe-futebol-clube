@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { verifyToken } from '../../utils/jwt';
 
 interface Role {
   role: string;
 }
 
-const validateJwt = async (req: Request, res: Response) => {
+const validateJwt = async (req: Request, res: Response, next: NextFunction) => {
   const token: string | undefined = req.headers.authorization;
 
   if (!token) return res.status(401).send('Token not found');
@@ -13,7 +13,7 @@ const validateJwt = async (req: Request, res: Response) => {
     const { role } = verifyToken(token) as Role;
     res.locals.jwt = role;
 
-    return res.status(200).send(role);
+    next();
   } catch (err) {
     console.error(err);
     return res.status(401).send('Expired or invalid token');

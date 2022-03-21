@@ -3,26 +3,25 @@ import User from '../database/models/User';
 import { generateToken } from '../utils/jwt';
 
 const login = async (emailParam: string, passwordParam: string) => {
-  const result = await User.findOne({ where: { email: emailParam } });
+  const user = await User.findOne({ where: { email: emailParam } });
 
-  const user = result?.get();
+  if (!user) return null;
+
   const { id, username, role, email, password } = user;
 
   const validPassword = user && compareSync(passwordParam, password);
   if (!validPassword) return null;
 
-  if (user) {
-    const token = generateToken({ role });
-    return {
-      user: {
-        id,
-        username,
-        role,
-        email,
-      },
-      token,
-    };
-  }
+  const token = generateToken({ role });
+  return {
+    user: {
+      id,
+      username,
+      role,
+      email,
+    },
+    token,
+  };
 };
 
 export default login;

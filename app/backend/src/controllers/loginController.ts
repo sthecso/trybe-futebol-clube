@@ -23,4 +23,13 @@ const loginController = async (req: Request, res: Response) => {
   return res.status(200).json(user);
 };
 
-export default loginController;
+const validateLogin = async (req: Request, res: Response) => {
+  const role = res.locals.jwt;
+
+  return res.status(200).send(role);
+};
+
+export {
+  loginController,
+  validateLogin,
+};
