@@ -1,20 +1,20 @@
-import { ErrorRequestHandler } from 'express';
-import * as Joi from 'joi';
-import StatusCodes from '../../utils/StatusCodes';
+// import { ErrorRequestHandler } from 'express';
+// import * as Joi from 'joi';
+// import StatusCodes from '../../utils/StatusCodes';
 
-const joiError: ErrorRequestHandler = async (err, _req, res, next) => {
-  if (Joi.isError(err)) {
-    const { type, message } = err.details[0];
+// const joiError: ErrorRequestHandler = async (err, _req, res, next) => {
+//   if (Joi.isError(err)) {
+//     const { type, message } = err.details[0];
 
-    const status = type === 'any.required'
-      ? (StatusCodes.UNAUTHORIZED) : (StatusCodes.UNPROCESSABLE_ENTITY);
+//     const status = type === 'any.required'
+//       ? (StatusCodes.UNAUTHORIZED) : (StatusCodes.UNPROCESSABLE_ENTITY);
 
-    return res
-      .status(status)
-      .json({ message });
-  }
+//     return res
+//       .status(status)
+//       .json({ message });
+//   }
 
-  next(err);
-};
+//   next(err);
+// };
 
-export default joiError;
+// export default joiError;

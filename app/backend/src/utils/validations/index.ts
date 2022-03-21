@@ -1,4 +1,4 @@
-import loginSchema from './login';
+// import loginSchema from './login';
 // import matchSchema from './match';
 
-export default loginSchema;
+// export { loginSchema, matchSchema };

@@ -1,5 +1,5 @@
 import auth from './auth';
 
-import validate from './validate';
+// import validate from './validate';
 
-export { auth, validate };
+export default auth;

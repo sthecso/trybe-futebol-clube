@@ -1,5 +1,5 @@
-import { RequestHandler } from 'express';
-import { ObjectSchema } from 'joi'; // any schema
+// import { RequestHandler } from 'express';
+// import { ObjectSchema } from 'joi'; // any schema
 
 /*
   Curried Function:
@@ -7,14 +7,14 @@ import { ObjectSchema } from 'joi'; // any schema
 
   validate(schema)();
 */
-const validate = (schema: ObjectSchema): RequestHandler =>
-  (req, _res, next) => {
-    const { body } = req;
-    const { error } = schema.validate(body);
+// const validate = (schema: ObjectSchema): RequestHandler =>
+//   (req, _res, next) => {
+//     const { body } = req;
+//     const { error } = schema.validate(body);
 
-    if (error) next(error);
+//     if (error) next(error);
 
-    next();
-  };
+//     next();
+//   };
 
-export default validate;
+// export default validate;

@@ -8,7 +8,6 @@ import matches from './match';
 
 import {
   domainError,
-  joiError,
   serverError,
 } from '../middlewares/error';
 
@@ -20,7 +19,6 @@ router.use('/clubs', clubs);
 router.use('/matchs', matches);
 
 // error middlewares
-router.use(joiError);
 router.use(domainError);
 router.use(serverError);
 
