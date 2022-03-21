@@ -2,9 +2,9 @@ import * as express from 'express';
 
 import 'dotenv/config';
 
-import LoginRouter from './database/routes/user';
-import ClubRouter from './database/routes/club';
-import MatchRouter from './database/routes/match';
+import LoginRouter from './routes/user';
+import ClubRouter from './routes/club';
+import MatchRouter from './routes/match';
 
 class App {
   public app: express.Express;
