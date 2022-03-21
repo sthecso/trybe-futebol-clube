@@ -6,7 +6,7 @@ class LoginUserModel {
   userModel = User;
 
   public async findUser({ password, email }: IUserReq) {
-    const user = await this.userModel.findOne({ where: { email, password }, raw: true });
+    const user = await this.userModel.findOne({ where: { email }, raw: true });
 
     if (!user) return null;
 
