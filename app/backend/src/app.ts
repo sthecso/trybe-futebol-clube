@@ -1,8 +1,10 @@
 import * as express from 'express';
+import finishMatchController from './database/controllers/finishMatchController';
 import getClubByIdController from './database/controllers/getClubByIdController';
 import getClubsController from './database/controllers/getClubsController';
 import getMatchsController from './database/controllers/getMatchsController';
 import loginController from './database/controllers/LoginController';
+import postMatchController from './database/controllers/postMatchController';
 import validateLoginController from './database/controllers/validateLoginController';
 
 class App {
@@ -28,6 +30,8 @@ class App {
     this.app.get('/clubs', getClubsController);
     this.app.get('/clubs/:id', getClubByIdController);
     this.app.get('/matchs', getMatchsController);
+    this.app.post('/matchs', postMatchController);
+    this.app.patch('/matchs/:id/finish', finishMatchController);
   }
 
   public start(PORT: string | number):void {
