@@ -9,7 +9,8 @@ class App {
   constructor() {
     this.app = express();
     this.config();
-    this.route();
+    this.routes();
+    this.errorHandler();
   }
 
   private config():void {
@@ -24,11 +25,14 @@ class App {
     this.app.use(express.json());
   }
 
-  private route(): void {
+  private routes(): void {
     this.app.use('/login', new LoginRouter().router);
     this.app.use('/clubs', new ClubsRouter().router);
     this.app.use('/matchs', new MatchsRouter().router);
     this.app.use('/leaderboard', new LeaderboardRouter().router);
+  }
+
+  private errorHandler(): void {
     this.app.use(errorHandler);
   }
 

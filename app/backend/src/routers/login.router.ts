@@ -1,36 +1,36 @@
 import { Router, Request, Response } from 'express';
-import { ILoginController } from '../interfaces';
-import loginControllerFactory from '../factories/login.controller.factory';
+import { loginFactory } from '../factories';
+import { ILoginService } from '../interfaces';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
 
-const loginController: ILoginController = loginControllerFactory();
+const LoginService: ILoginService = loginFactory();
 
 export default class Login {
   public router: Router;
 
   constructor() {
     this.router = Router();
-    this.route();
+    this.login();
+    this.validateLogin();
   }
 
-  private route(): void {
+  private login(): void {
     this.router.post(
       '/',
       middlewares.validateBody(joiSchemas.login),
       async (req: Request, res: Response) => {
-        const { code, data } = await loginController.login(req.body);
+        const { code, data } = await LoginService.login(req.body);
         return res.status(code).json(data);
       },
     );
+  };
 
+  private validateLogin(): void {
     this.router.get(
       '/validate',
       middlewares.jwtAuth,
-      async (req: Request, res: Response) => {
-        const { code, data } = loginController.validate(req.tokenData!);
-        return res.status(code).send(data);
-      },
+      async (req: Request, res: Response) => res.status(200).send(req.tokenData!.role),
     );
   }
 }

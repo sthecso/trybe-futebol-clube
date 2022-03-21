@@ -1,29 +1,33 @@
 import { Request, Response, Router } from 'express';
-import { clubsControllerFactory } from '../factories';
+import { IClubsService } from '../interfaces';
+import { clubsFactory } from '../factories';
 
-const clubsController = clubsControllerFactory();
+const ClubsService: IClubsService = clubsFactory();
 
-export default class Login {
+export default class Clubs {
   public router: Router;
 
   constructor() {
     this.router = Router();
-    this.route();
+    this.getAllClubs();
+    this.getClubById();
   }
 
-  private route(): void {
+  private getAllClubs(): void {
     this.router.get(
       '/',
       async (req: Request, res: Response) => {
-        const { code, data } = await clubsController.getAllClubs();
+        const { code, data } = await ClubsService.getAllClubs();
         return res.status(code).json(data);
       },
     );
+  }
 
+  private getClubById(): void {
     this.router.get(
       '/:id',
       async (req: Request, res: Response) => {
-        const { code, data } = await clubsController.getClubById(req.params.id);
+        const { code, data } = await ClubsService.getClubById(req.params.id);
         return res.status(code).json(data);
       },
     );

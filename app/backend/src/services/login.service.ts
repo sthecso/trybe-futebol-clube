@@ -1,8 +1,8 @@
-import { ICredentials, ITokenData, IUserRepository, ILoginService } from '../interfaces';
+import { ICredentials, ITokenData, IUsersRepository, ILoginService } from '../interfaces';
 
 export default class LoginService implements ILoginService {
   constructor(
-    private usersRepository: IUserRepository,
+    private usersRepository: IUsersRepository,
     private compare: (plain: string, hash: string) => Promise<boolean>,
     private jwtGenerator: (tokenData: ITokenData) => string,
   ) {}

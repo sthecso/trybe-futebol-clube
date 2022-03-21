@@ -1,31 +1,46 @@
-import { Router } from 'express';
-import { LeaderboardController } from '../controllers';
+import { Router, Request, Response } from 'express';
+import { LeaderboardService } from '../services';
 
 export default class Login {
   public router: Router;
 
-  private leaderboardController: LeaderboardController;
+  private LeaderboardService: LeaderboardService;
 
   constructor() {
-    this.leaderboardController = new LeaderboardController();
+    this.LeaderboardService = new LeaderboardService();
     this.router = Router();
-    this.route();
+    this.getHomeRanking();
+    this.getAwayRanking();
+    this.getOverallRanking();
   }
 
-  private route(): void {
+  private getHomeRanking(): void {
     this.router.get(
       '/home',
-      this.leaderboardController.getHomeRanking,
+      async (_req: Request, res: Response) => {
+        const { code, data } = await this.LeaderboardService.getHomeRanking();
+        return res.status(code).json(data);
+      },
     );
+  }
 
+  private getAwayRanking(): void {
     this.router.get(
       '/away',
-      this.leaderboardController.getAwayRanking,
+      async (_req: Request, res: Response) => {
+        const { code, data } = await this.LeaderboardService.getAwayRanking();
+        return res.status(code).json(data);
+      },
     );
+  }
 
+  private getOverallRanking(): void {
     this.router.get(
       '/',
-      this.leaderboardController.getOverallRanking,
+      async (_req: Request, res: Response) => {
+        const { code, data } = await this.LeaderboardService.getOverallRanking();
+        return res.status(code).json(data);
+      },
     );
   }
 }

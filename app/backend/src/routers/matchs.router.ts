@@ -1,33 +1,89 @@
-import { Router } from 'express';
-import { MatchsController } from '../controllers';
+import { Request, Response, Router } from 'express';
+import { MatchsService } from '../services';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
 
-export default class Login {
+export default class Matchs {
   public router: Router;
 
-  private matchsController: MatchsController;
+  private MatchsService: MatchsService;
 
   constructor() {
-    this.matchsController = new MatchsController();
+    this.MatchsService = new MatchsService();
     this.router = Router();
-    this.route();
+    this.getAllMatches();
+    this.getMatchById();
+    this.saveMatchInProgress();
+    this.finisMatch();
+    this.updateScore();
   }
 
-  private route(): void {
-    this.router.get('/', this.matchsController.findAll);
+  private getAllMatches(): void {
+    this.router.get(
+      '/',
+      async (req: Request, res: Response) => {
+        const { inProgress } = req.query;
+        let inProgBool: boolean | undefined;
+        // look for a way to improve this 👇
+        if (inProgress === 'true') inProgBool = true;
+        if (inProgress === 'false') inProgBool = false;
 
-    this.router.get('/:id', this.matchsController.findById);
+        const { code, data } = await this.MatchsService.findAll(inProgBool);
+        return res.status(code).json(data);
+      },
+    );
+  }
 
+  private getMatchById(): void {
+    this.router.get(
+      '/:id',
+      async (req: Request, res: Response) => {
+        const { code, data } = await this.MatchsService.findById(req.params.id);
+
+        return res.status(code).json(data);
+      },
+    );
+  }
+
+  private saveMatchInProgress(): void {
     this.router.post(
       '/',
       middlewares.jwtAuth,
       middlewares.validateBody(joiSchemas.newMatch),
-      this.matchsController.saveMatchInProgress,
+      async (req: Request, res: Response) => {
+        const { homeTeam, awayTeam } = req.body;
+        // Try to move this validation to Joi
+        if (homeTeam === awayTeam) {
+          return res.status(401) // 401 ???
+            .json({ message: 'It is not possible to create a match with two equal teams' });
+        }
+
+        const { code, data } = await this.MatchsService.saveMatchInProgress(req.body);
+
+        return res.status(code).json(data);
+      },
     );
+  }
 
-    this.router.patch('/:id/finish', this.matchsController.finishMatch);
+  private finisMatch(): void {
+    this.router.patch(
+      '/:id/finish',
+      async (req: Request, res: Response) => {
+        const { code, data } = await this.MatchsService.finishMatch(req.params.id);
 
-    this.router.patch('/:id', this.matchsController.updateScore);
+        return res.status(code).json(data);
+      },
+    );
+  }
+
+  private updateScore(): void {
+    this.router.patch(
+      '/:id',
+      async (req: Request, res: Response) => {
+        const { code, data } = await this.MatchsService.updateScore(req.params.id, req.body);
+
+        return res.status(code).json(data);
+      },
+    );
   }
 }
