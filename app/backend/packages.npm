@@ -1,0 +1,6 @@
+bcryptjs
+express-async-errors
+-D @types/bcryptjs
+express-rescue
+http-status-codes
+zod
