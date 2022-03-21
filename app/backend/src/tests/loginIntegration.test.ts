@@ -25,7 +25,7 @@ describe('Testa a rota /login ', () => {
 
   it('Testa se passando o email invalido é retorna um status 401.', async () => {
     chaiHttpResponse = await chai.request(app).post('/login').send({
-      email: "admin@admin.co",
+      email: "euaoea@gmeuaoe.com",
       password: "secret_admin"
     })
 
@@ -36,7 +36,7 @@ describe('Testa a rota /login ', () => {
   it('Testa se passando o password invalido é retorna um status 401', async () => {
     chaiHttpResponse = await chai.request(app).post('/login').send({
       email: "admin@admin.com",
-      password: "secret_admn"
+      password: "secret"
     })
 
     expect(chaiHttpResponse).have.status(401)
