@@ -7,7 +7,7 @@ export default (schema: ObjectSchema) =>
 
     if (error) {
       const [code, message] = error.message.split('|');
-      return res.status(Number(code)).json({ message });
+      return res.status(+code).json({ message });
     }
 
     next();
