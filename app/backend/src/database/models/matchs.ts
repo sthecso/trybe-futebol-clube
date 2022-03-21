@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import Club from './club';
 import db from '.';
 // import OtherModel from './OtherModel';
 
@@ -7,10 +8,10 @@ class Match extends Model {}
 Match.init(
   {
     homeTeam: DataTypes.NUMBER,
-    homeTeam_goals: DataTypes.NUMBER,
+    homeTeamGoals: DataTypes.NUMBER,
     awayTeam: DataTypes.NUMBER,
-    awayTeam_goals: DataTypes.NUMBER,
-    inProgress: DataTypes.NUMBER,
+    awayTeamGoals: DataTypes.NUMBER,
+    inProgress: DataTypes.BOOLEAN,
   },
   {
     underscored: true,
@@ -29,5 +30,8 @@ Match.init(
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
+
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
 
 export default Match;
