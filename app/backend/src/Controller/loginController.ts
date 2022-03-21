@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs';
-import User from '../database/models/Users';
+import findUser from '../Services/userService';
 import validateEmail, { validateLogin, validatePassword }
   from './Middlewares/validateLogin';
 import tokenValidation from './Middlewares/tokenValidation';
@@ -16,8 +16,7 @@ login.post(
   validateLogin,
   async (req: Request, res: Response) => {
     const { email } = req.body;
-    const user = await User.findOne({ where: { email },
-      attributes: { exclude: ['password'] } });
+    const user = await findUser(email);
     const codToken = jwt.sign({ token: user?.get('role') }, jwtSecret);
     return res.status(200).json({ user, token: codToken });
   },

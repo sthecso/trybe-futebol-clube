@@ -1,5 +1,6 @@
 import * as express from 'express';
 import loginController from './Controller/loginController';
+import clubsController from './Controller/clubsController';
 
 class App {
   public app: express.Express;
@@ -23,6 +24,7 @@ class App {
     this.app.use(accessControl);
     this.app.use(express.json());
     this.app.use('/login', loginController);
+    this.app.use('/clubs', clubsController);
     // ...
   }
 
