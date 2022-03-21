@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { matchSchema } from '../schemas/joiSchemas';
 import { validateJWT, validateSchema } from '../middlewares';
 import { MatchController } from '../controllers';
+import validateMatch from '../middlewares/validateMatch';
 
 class MatchRouter {
   public router: Router;
@@ -20,6 +21,7 @@ class MatchRouter {
       '/',
       validateJWT,
       validateSchema(matchSchema),
+      validateMatch,
       this.matchController.postMatch,
     );
     this.router.patch(

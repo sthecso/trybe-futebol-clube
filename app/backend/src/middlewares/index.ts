@@ -1,4 +1,5 @@
 import validateSchema from './validateWithJoi';
 import validateJWT from './validateJWT';
+import validateMatch from './validateMatch';
 
-export { validateSchema, validateJWT };
+export { validateSchema, validateJWT, validateMatch };
