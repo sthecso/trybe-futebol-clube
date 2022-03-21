@@ -3,11 +3,11 @@ import IQuery from '../interfaces/express/IQuery';
 import IMatchReq from '../interfaces/match/IMatchReq';
 /* import IMatchReq from '../interfaces/match/IMatchReq'; */
 import IUpdateGoalsReq from '../interfaces/match/IUpdateGoals';
-import MatchService from '../services/match';
+import MatchModel from '../models/match';
 import StatusCode from '../utils/statusCode';
 
 class MatchController {
-  private matchService = new MatchService();
+  private matchmodel = new MatchModel();
 
   private statusCode = StatusCode;
 
@@ -19,13 +19,23 @@ class MatchController {
 
   async getMatchsByProgress(req: Request, res: Response) {
     const { inProgress } = req.query as unknown as IQuery;
-    const matchs = await this.matchService.getMatchsByProgress(inProgress);
+    let booleanQuery: boolean | undefined;
+
+    if (inProgress && inProgress === false) {
+      booleanQuery = false;
+    }
+
+    if (inProgress && inProgress === 'true') {
+      booleanQuery = true;
+    }
+
+    const matchs = await this.matchmodel.getMatchsByProgress(booleanQuery);
     return res.status(this.statusCode.Ok).json(matchs);
   }
 
   async saveMatchInProgress(req: Request, res: Response) {
     const datasaveMatch = req.body as unknown as IMatchReq;
-    const saveMatch = await this.matchService.saveMatchInProgress(datasaveMatch);
+    const saveMatch = await this.matchmodel.saveMatchInProgress(datasaveMatch);
     if (saveMatch === null) {
       return res.status(this.statusCode.Unauthorized).json({ message: 'team not found' });
     }
@@ -39,7 +49,7 @@ class MatchController {
   async updateResultsMatch(req: Request, res: Response) {
     const goalsMatch = req.body as unknown as IUpdateGoalsReq;
     const id = Number(req.params.id);
-    const saveProgressMatch = await this.matchService.updateResultsMatch(id, goalsMatch);
+    const saveProgressMatch = await this.matchmodel.updateResultsMatch(id, goalsMatch);
     if (saveProgressMatch === null) {
       return res.status(this.statusCode.NotFound)
         .json({ message: 'Team not found' });

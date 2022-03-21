@@ -2,15 +2,16 @@ import { Request, Response } from 'express';
 import StatusCode from '../utils/statusCode';
 import { IUserReq } from '../interfaces/login';
 import LoginUserService from '../services/userLogin';
-import { generateToken } from '../utils';
+import JwtMethods from '../utils/jwtMethods';
+import LoginUserModel from '../models/userLogin';
 /* import { GenerateStatusError } from '../utils'; */
 
 class LoginUserController {
   private StatusCode = StatusCode;
 
-  private loginService = new LoginUserService();
+  private jwtUtils = new JwtMethods();
 
-  private createToken = generateToken;
+  private loginModel = new LoginUserModel();
 
   constructor() {
     this.findUser = this.findUser.bind(this);
@@ -18,13 +19,13 @@ class LoginUserController {
 
   async findUser(req: Request, res: Response): Promise<Response> {
     const requestData = req.body as IUserReq;
-    const user = await this.loginService.findUser(requestData);
+    const user = await this.loginModel.findUser(requestData);
     if (user === null) {
       return res.status(this.StatusCode.Unauthorized)
         .json({ message: 'Incorrect email or password' });
     }
 
-    const token = await this.createToken(user);
+    const token = this.jwtUtils.generateToken(user);
 
     return res.status(this.StatusCode.Ok).json({ user: { ...user }, token });
   }

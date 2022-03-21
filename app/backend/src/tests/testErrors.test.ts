@@ -4,13 +4,12 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import { Response } from 'superagent';
 import User from '../database/modelsSequelize/user';
-import LoginUserModel from '../database/models/userLogin';
-import LoginUserService from '../database/services/userLogin';
+import LoginUserModel from '../models/userLogin';
 import { after, before, afterEach, beforeEach } from 'mocha';
 import bcrypt = require('bcryptjs');
-import LoginUserController from '../database/controllers/user';
+import LoginUserController from '../controllers/user';
 import { Request } from 'express';
-import MatchModel from '../database/models/match';
+import MatchModel from '../models/match';
 import Match from '../database/modelsSequelize/match';
 
 chai.use(chaiHttp);
@@ -62,20 +61,6 @@ describe('Testa os Erros da classe LoginUserModel', async () => {
   
 
 }); 
-/*===========================Service==========================*/
-describe('Testa os Erros da classe LoginUserService', async () => {
-
-    const userService = new LoginUserService();
-
-    it('testa o retorno com usuario invalido', async () => {
-    
-
-        expect(await userService.findUser(login)).to.be.null;
-    
-      });
-
-    
-})
 /*===========================Controller==========================*/
 
 describe('Testa os erros da classe LoginUserController', () => {

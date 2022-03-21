@@ -4,13 +4,12 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import { Response } from 'superagent';
 import User from '../database/modelsSequelize/user';
-import LoginUserModel from '../database/models/userLogin';
-import { after, before, afterEach, beforeEach } from 'mocha';
+import LoginUserModel from '../models/userLogin';
+import { before } from 'mocha';
 import bcrypt = require('bcryptjs');
-import LoginUserService from '../database/services/userLogin';
-import MatchModel from '../database/models/match';
+import MatchModel from '../models/match';
 import Match from '../database/modelsSequelize/match';
-import MatchService from '../database/services/match';
+
 
 chai.use(chaiHttp);
 
@@ -82,34 +81,7 @@ describe('Testa a classe MatchModel', async () => {
 
 
 });
-/*===========================Services==========================*/
-describe('Testa a classe LoginUserService', () => {
-  const userService = new LoginUserService();
-  it('Testa a instancia da classe', async () => {
-    
-    expect(userService).to.be.instanceOf(LoginUserService);
-  })
 
-  it('O retorno deve ser um objeto', async () => {
-    expect(await userService.findUser(login)).to.be.an('Object');
-  });
-
-  it('O objeto deve ter a chave user e token', async () => {
-    expect(await userService.findUser(login)).to.have.keys('token', 'user');
-  });
-
-})
-
-describe('Testa a classe MatchService', () => {
-  const matchService = new MatchService();
-
-  it('testa o retorno da classe', async () => {
-    expect(matchService).to.be.instanceOf(MatchService);
-    expect(await matchService.getMatchsByProgress("true")).to.be.an("array");
-    expect(await matchService.getMatchsByProgress("false")).to.have.length(40);
-  })
-
-})
 /*===========================Controller==========================*/
 describe('Testa a classe LoginUserController', () => {
   it('testa o retorno com um request valido', async () => {

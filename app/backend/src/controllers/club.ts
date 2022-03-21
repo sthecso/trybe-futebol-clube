@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import ClubService from '../services/club';
+import ClubModel from '../models/club';
 import StatusCode from '../utils/statusCode';
 
 class ClubController {
-  private clubService = new ClubService();
+  private clubModel = new ClubModel();
 
   private statusCode = StatusCode;
 
@@ -13,7 +13,7 @@ class ClubController {
   }
 
   async getAllClubs(req: Request, res: Response) {
-    const clubs = await this.clubService.getAllClubs();
+    const clubs = await this.clubModel.getAllClubs();
 
     if (clubs === null) {
       return res.status(this.statusCode.NotFound)
@@ -25,7 +25,7 @@ class ClubController {
 
   async findOneClub(req:Request, res: Response) {
     const id = Number(req.params.id);
-    const club = await this.clubService.findOneClub(id);
+    const club = await this.clubModel.findOneClub(id);
     if (club === null) {
       return res.status(this.statusCode.NotFound)
         .json({ message: 'club nao encontrado' });
