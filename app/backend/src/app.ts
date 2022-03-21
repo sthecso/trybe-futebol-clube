@@ -1,10 +1,10 @@
-import * as express from 'express';
+import express, { Express } from 'express';
 import 'express-async-errors';
 import { errorHandler } from './middlewares';
 import { ClubsRouter, LeaderboardRouter, LoginRouter, MatchsRouter } from './routers';
 
 class App {
-  public app: express.Express;
+  public app: Express;
 
   constructor() {
     this.app = express();

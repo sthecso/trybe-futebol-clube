@@ -1,16 +1,16 @@
-import * as express from 'express';
+import { Router } from 'express';
 import { MatchsController } from '../controllers';
 import * as middlewares from '../middlewares';
-// import * as joiSchemas from '../utils/joi.schemas';
+import * as joiSchemas from '../utils/joi.schemas';
 
 export default class Login {
-  public router: express.Router;
+  public router: Router;
 
   private matchsController: MatchsController;
 
   constructor() {
     this.matchsController = new MatchsController();
-    this.router = express.Router();
+    this.router = Router();
     this.route();
   }
 
@@ -22,7 +22,7 @@ export default class Login {
     this.router.post(
       '/',
       middlewares.jwtAuth,
-      // middlewares.validateBody(joiSchemas.newMatch),
+      middlewares.validateBody(joiSchemas.newMatch),
       this.matchsController.saveMatchInProgress,
     );
 

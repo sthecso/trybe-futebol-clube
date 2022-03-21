@@ -1,14 +1,14 @@
-import * as express from 'express';
+import { Router } from 'express';
 import { LeaderboardController } from '../controllers';
 
 export default class Login {
-  public router: express.Router;
+  public router: Router;
 
   private leaderboardController: LeaderboardController;
 
   constructor() {
     this.leaderboardController = new LeaderboardController();
-    this.router = express.Router();
+    this.router = Router();
     this.route();
   }
 

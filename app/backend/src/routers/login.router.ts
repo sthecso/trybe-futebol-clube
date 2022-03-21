@@ -1,4 +1,4 @@
-import * as express from 'express';
+import { Router, Request, Response } from 'express';
 import { ILoginController } from '../interfaces';
 import loginControllerFactory from '../factories/login.controller.factory';
 import * as middlewares from '../middlewares';
@@ -7,10 +7,10 @@ import * as joiSchemas from '../utils/joi.schemas';
 const loginController: ILoginController = loginControllerFactory();
 
 export default class Login {
-  public router: express.Router;
+  public router: Router;
 
   constructor() {
-    this.router = express.Router();
+    this.router = Router();
     this.route();
   }
 
@@ -18,7 +18,7 @@ export default class Login {
     this.router.post(
       '/',
       middlewares.validateBody(joiSchemas.login),
-      async (req: express.Request, res: express.Response) => {
+      async (req: Request, res: Response) => {
         const { code, data } = await loginController.login(req.body);
         return res.status(code).json(data);
       },
@@ -27,7 +27,7 @@ export default class Login {
     this.router.get(
       '/validate',
       middlewares.jwtAuth,
-      async (req: express.Request, res: express.Response) => {
+      async (req: Request, res: Response) => {
         const { code, data } = loginController.validate(req.tokenData!);
         return res.status(code).send(data);
       },
