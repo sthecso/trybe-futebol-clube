@@ -9,7 +9,7 @@ const LoginController = async (req: Request, res: Response) => {
     return res.status(401).json({ error: 'Username or password invalid' });
   }
 
-  res.status(200).json({ token });
+  res.status(200).json(token);
 };
 
 export default LoginController;
