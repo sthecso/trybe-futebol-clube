@@ -45,7 +45,6 @@ class MatchService {
       },
       { where: { id } },
     );
-    console.log(this._updatedMatch);
     return res.status(200).json(this._updatedMatch);
   }
 }

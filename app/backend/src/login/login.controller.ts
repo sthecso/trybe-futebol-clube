@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import LoginService from './login.service';
-import validateEmailandPass from '../middlewares/validate';
+import { validateEmail } from '../middlewares/validate';
 
 class LoginController {
   router = Router();
@@ -11,7 +11,7 @@ class LoginController {
 
   Routes() {
     this.router.get('/validate', LoginService.validate);
-    this.router.post('/', validateEmailandPass, LoginService.login);
+    this.router.post('/', validateEmail, LoginService.login);
   }
 }
 
