@@ -45,9 +45,6 @@ describe('Testing Login Route', () => {
         email: 'admin@admin.com',
         password: 'secret_admin',
       };
-      const jsonResponse = {
-        message: 'Incorrect email or password',
-      };
 
       chaiHttpResponse = await chai.request(app).post('/login').send(payload);
 
@@ -56,6 +53,34 @@ describe('Testing Login Route', () => {
         'user',
         'token',
       );
+    });
+
+    it('If the login info is without email', async () => {
+      const payload = {
+        password: 'secret_admin',
+      };
+      const jsonResponse = {
+        message: 'All fields must be filled',
+      };
+
+      chaiHttpResponse = await chai.request(app).post('/login').send(payload);
+
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(chaiHttpResponse.text).to.be.equal(JSON.stringify(jsonResponse));
+    });
+
+    it('If the login info is without password', async () => {
+      const payload = {
+        email: 'admin@admin.com',
+      };
+      const jsonResponse = {
+        message: 'All fields must be filled',
+      };
+
+      chaiHttpResponse = await chai.request(app).post('/login').send(payload);
+
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(chaiHttpResponse.text).to.be.equal(JSON.stringify(jsonResponse));
     });
   });
 });
