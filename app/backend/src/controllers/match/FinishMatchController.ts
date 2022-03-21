@@ -11,6 +11,8 @@ class FinishMatchController {
 
   private httpStatusCode = HttpStatusCode;
 
+  private ErrorCatcher = ErrorCatcher;
+
   constructor() {
     this.handle = this.handle.bind(this);
   }
@@ -24,7 +26,7 @@ class FinishMatchController {
 
     const error = await this.finishMatchService.handle(id);
 
-    if (error instanceof ErrorCatcher) {
+    if (error instanceof this.ErrorCatcher) {
       return res
         .status(error.httpStatusCode)
         .json({ message: error.message });

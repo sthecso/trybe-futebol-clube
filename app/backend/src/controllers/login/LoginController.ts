@@ -7,11 +7,13 @@ import { IUserRequest, ILoginResponse } from '../../interfaces/login';
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
 class LoginController {
+  private loginService = new LoginService();
+
   private httpStatusCode = HttpStatusCode;
 
-  constructor(
-    private loginService: LoginService = new LoginService(),
-  ) {
+  private ErrorCatcher = ErrorCatcher;
+
+  constructor() {
     this.handle = this.handle.bind(this);
   }
 
@@ -24,7 +26,7 @@ class LoginController {
 
     const user = await this.loginService.handle(userData);
 
-    if (user instanceof ErrorCatcher) {
+    if (user instanceof this.ErrorCatcher) {
       return res
         .status(user.httpStatusCode)
         .json({ message: user.message });

@@ -13,6 +13,8 @@ class CreateMatchController {
 
   private httpStatusCode = HttpStatusCode;
 
+  private ErrorCatcher = ErrorCatcher;
+
   constructor() {
     this.handle = this.handle.bind(this);
   }
@@ -26,7 +28,7 @@ class CreateMatchController {
 
     const createdMatch = await this.createMatchService.handle(matchData);
 
-    if (createdMatch instanceof ErrorCatcher) {
+    if (createdMatch instanceof this.ErrorCatcher) {
       return res
         .status(createdMatch.httpStatusCode)
         .json({ message: createdMatch.message });

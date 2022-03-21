@@ -26,11 +26,11 @@ class FinishMatchService {
   async handle(id: string) {
     const verifyId = this.validateId(id);
 
-    if (verifyId instanceof ErrorCatcher) return verifyId;
+    if (verifyId instanceof this.ErrorCatcher) return verifyId;
 
     const match = await this.getMatchByIdModel.handle(Number(id));
 
-    if (match instanceof ErrorCatcher) {
+    if (match instanceof this.ErrorCatcher) {
       return match;
     }
 

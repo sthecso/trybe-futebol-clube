@@ -13,6 +13,8 @@ class EditMatchByIdController {
 
   private httpStatusCode = HttpStatusCode;
 
+  private ErrorCatcher = ErrorCatcher;
+
   constructor() {
     this.handle = this.handle.bind(this);
   }
@@ -27,7 +29,7 @@ class EditMatchByIdController {
 
     const editedMatch = await this.editMatchByIdService.handle(matchData, id);
 
-    if (editedMatch instanceof ErrorCatcher) {
+    if (editedMatch instanceof this.ErrorCatcher) {
       return res
         .status(editedMatch.httpStatusCode)
         .json({ message: editedMatch.message });

@@ -35,12 +35,12 @@ class EditMatchByIdService {
 
     Object.entries({ ...matchData, id }).forEach((entries) => {
       const verify = this.verifyIsNumber(entries[1], entries[0]);
-      if (verify instanceof ErrorCatcher) {
+      if (verify instanceof this.ErrorCatcher) {
         error = verify;
       }
     });
 
-    if (error instanceof ErrorCatcher) {
+    if (error instanceof this.ErrorCatcher) {
       return error;
     }
 

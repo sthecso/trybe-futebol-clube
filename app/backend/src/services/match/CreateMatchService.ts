@@ -20,7 +20,7 @@ class CreateMatchService {
 
     const awayClub = await this.getClubByIdModel.handle(matchData.awayTeam);
 
-    if (homeClub instanceof ErrorCatcher || awayClub instanceof ErrorCatcher) {
+    if (homeClub instanceof this.ErrorCatcher || awayClub instanceof this.ErrorCatcher) {
       return new this.ErrorCatcher(
         this.httpStatusCode.NotAuthorized,
         'There is no team with such id!',

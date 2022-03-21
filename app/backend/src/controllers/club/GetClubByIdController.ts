@@ -13,6 +13,8 @@ class GetClubByIdController {
 
   private httpStatusCode = HttpStatusCode;
 
+  private ErrorCatcher = ErrorCatcher;
+
   constructor() {
     this.handle = this.handle.bind(this);
   }
@@ -26,7 +28,7 @@ class GetClubByIdController {
 
     const club = await this.getClubByIdService.handle(id);
 
-    if (club instanceof ErrorCatcher) {
+    if (club instanceof this.ErrorCatcher) {
       return res
         .status(club.httpStatusCode)
         .json({ message: club.message });
