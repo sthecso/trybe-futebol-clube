@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ControllerMatchs from '../controller/matchs';
 import ValidToken from '../controller/middleware/validToken';
+import 'express-async-errors';
 
 class Matchs {
   public matchRoute = Router();
