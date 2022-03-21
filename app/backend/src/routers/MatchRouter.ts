@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { matchSchema } from '../schemas/joiSchemas';
+import { validateJWT, validateSchema } from '../middlewares';
 import { MatchController } from '../controllers';
 
 class MatchRouter {
@@ -14,7 +16,12 @@ class MatchRouter {
 
   private route(): void {
     this.router.get('/', this.matchController.getMatchs);
-    this.router.post('/', this.matchController.postMatch);
+    this.router.post(
+      '/',
+      validateJWT,
+      validateSchema(matchSchema),
+      this.matchController.postMatch,
+    );
   }
 }
 
