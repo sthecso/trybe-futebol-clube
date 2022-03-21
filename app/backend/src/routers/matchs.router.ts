@@ -1,15 +1,15 @@
 import { Request, Response, Router } from 'express';
-import { MatchsService } from '../services';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
+import { IMatchsService } from '../interfaces';
+import { matchsFactory } from '../factories';
+
+const matchsService: IMatchsService = matchsFactory();
 
 export class MatchsRouter {
   public router: Router;
 
-  private MatchsService: MatchsService;
-
   constructor() {
-    this.MatchsService = new MatchsService();
     this.router = Router();
     this.getAllMatches();
     this.getMatchById();
@@ -28,7 +28,7 @@ export class MatchsRouter {
         if (inProgress === 'true') inProgBool = true;
         if (inProgress === 'false') inProgBool = false;
 
-        const { code, data } = await this.MatchsService.findAll(inProgBool);
+        const { code, data } = await matchsService.getAllMatchs(inProgBool);
         return res.status(code).json(data);
       },
     );
@@ -38,7 +38,7 @@ export class MatchsRouter {
     this.router.get(
       '/:id',
       async (req: Request, res: Response) => {
-        const { code, data } = await this.MatchsService.findById(req.params.id);
+        const { code, data } = await matchsService.getMatchById(req.params.id);
 
         return res.status(code).json(data);
       },
@@ -58,7 +58,7 @@ export class MatchsRouter {
             .json({ message: 'It is not possible to create a match with two equal teams' });
         }
 
-        const { code, data } = await this.MatchsService.saveMatchInProgress(req.body);
+        const { code, data } = await matchsService.saveMatch(req.body);
 
         return res.status(code).json(data);
       },
@@ -69,7 +69,7 @@ export class MatchsRouter {
     this.router.patch(
       '/:id/finish',
       async (req: Request, res: Response) => {
-        const { code, data } = await this.MatchsService.finishMatch(req.params.id);
+        const { code, data } = await matchsService.finishMatch(req.params.id);
 
         return res.status(code).json(data);
       },
@@ -80,7 +80,7 @@ export class MatchsRouter {
     this.router.patch(
       '/:id',
       async (req: Request, res: Response) => {
-        const { code, data } = await this.MatchsService.updateScore(req.params.id, req.body);
+        const { code, data } = await matchsService.updateScore(req.params.id, req.body);
 
         return res.status(code).json(data);
       },

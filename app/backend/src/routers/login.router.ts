@@ -4,7 +4,7 @@ import { ILoginService } from '../interfaces';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
 
-const LoginService: ILoginService = loginFactory();
+const loginService: ILoginService = loginFactory();
 
 export class LoginRouter {
   public router: Router;
@@ -20,11 +20,11 @@ export class LoginRouter {
       '/',
       middlewares.validateBody(joiSchemas.login),
       async (req: Request, res: Response) => {
-        const { code, data } = await LoginService.login(req.body);
+        const { code, data } = await loginService.login(req.body);
         return res.status(code).json(data);
       },
     );
-  };
+  }
 
   private validateLogin(): void {
     this.router.get(

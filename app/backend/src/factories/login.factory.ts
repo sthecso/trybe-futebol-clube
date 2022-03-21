@@ -3,6 +3,4 @@ import { LoginService } from '../services';
 import { UsersRepository } from '../repositories';
 import { jwtGenerator } from '../helpers';
 
-export const loginFactory = (): LoginService => (
-  new LoginService(new UsersRepository(), compare, jwtGenerator)
-);
+export const loginFactory = () => new LoginService(new UsersRepository(), compare, jwtGenerator);

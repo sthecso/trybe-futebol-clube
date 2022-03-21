@@ -1,74 +1,63 @@
-import { Op } from 'sequelize';
-import { INewMatch, IScore } from '../interfaces';
-import { MatchModel, ClubModel } from '../database/models';
+import {
+  INewMatch,
+  IScore,
+  IClubsRepository,
+  IMatchsRepository,
+  IMatch,
+  IMatchsService,
+} from '../interfaces';
 
-export class MatchsService {
-  private matchModel: typeof MatchModel;
+export class MatchsService implements IMatchsService {
+  constructor(
+    private matchsRepository: IMatchsRepository,
+    private clubsRepository: IClubsRepository,
+  ) {}
 
-  private clubModel: typeof ClubModel;
-
-  constructor() {
-    this.matchModel = MatchModel;
-    this.clubModel = ClubModel;
-  }
-
-  async findAll(inProgress: boolean | undefined = undefined) {
-    let matchList: MatchModel[];
+  async getAllMatchs(inProgress: boolean | undefined = undefined) {
+    let matchList: IMatch[];
 
     if (inProgress === undefined) {
-      matchList = await this.matchModel.findAll({
-        include: [
-          { model: this.clubModel, as: 'homeClub', attributes: ['clubName'] },
-          { model: this.clubModel, as: 'awayClub', attributes: ['clubName'] },
-        ],
-      });
+      matchList = await this.matchsRepository.getAllMatches();
     } else {
-      matchList = await this.matchModel.findAll({
-        where: { inProgress },
-        include: [
-          { model: this.clubModel, as: 'homeClub', attributes: ['clubName'] },
-          { model: this.clubModel, as: 'awayClub', attributes: ['clubName'] },
-        ],
-      });
+      matchList = inProgress ? await this.matchsRepository.getAllInProgressMatches()
+        : await this.matchsRepository.getAllFinishedMatches();
     }
 
     return { code: 200, data: matchList };
   }
 
-  async findById(id: string) {
-    const match = await this.matchModel.findByPk(id, {
-      include: [
-        { model: this.clubModel, as: 'homeClub', attributes: ['clubName'] },
-        { model: this.clubModel, as: 'awayClub', attributes: ['clubName'] },
-      ],
-    });
+  async getMatchById(id: string) {
+    const match = await this.matchsRepository.getMatchById(id);
 
     return match ? { code: 200, data: match } : { code: 404, data: { message: 'Match not found' } };
   }
 
-  async saveMatchInProgress(data: INewMatch) {
-    const teams = await this.clubModel.count({
-      where: { id: { [Op.in]: [data.homeTeam, data.awayTeam] } },
-    });
+  async saveMatch(data: INewMatch) {
+    const teams = await Promise.all([
+      this.clubsRepository.getClubById(data.homeTeam.toString()),
+      this.clubsRepository.getClubById(data.awayTeam.toString()),
+    ]);
 
-    if (teams < 2) return { code: 401, data: { message: 'There is no team with such id!' } };
+    if (teams.includes(undefined)) {
+      return { code: 401, data: { message: 'There is no team with such id!' } };
+    }
 
-    const newMatch = await this.matchModel.create(data);
+    const newMatch = await this.matchsRepository.saveMatch(data);
 
     return { code: 201, data: newMatch };
   }
 
   async finishMatch(id: string) {
-    const [success] = await this.matchModel.update({ inProgress: false }, { where: { id } });
+    const status = await this.matchsRepository.finishMatch(id);
 
-    return success ? { code: 200, data: { message: 'Finished match' } }
+    return status ? { code: 200, data: { message: 'Finished match' } }
       : { code: 422, data: { message: 'Match already over or does not exist' } };
   }
 
   async updateScore(id: string, newScore: IScore) {
-    const [success] = await this.matchModel.update(newScore, { where: { id, inProgress: true } });
+    const status = await this.matchsRepository.updateScore(id, newScore);
 
-    return success ? { code: 200, data: { message: 'Match score updated' } }
+    return status ? { code: 200, data: { message: 'Match score updated' } }
       : { code: 422, data: { message: 'Match already over or does not exist' } };
   }
 }

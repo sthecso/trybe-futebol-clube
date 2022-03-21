@@ -5,6 +5,7 @@ export class UsersRepository implements IUsersRepository {
   async getUserByEmail(email: string): Promise<IUser | null> {
     return (await UserModel.findOne({
       where: { email },
-    }))?.get({ plain: true });
+    }))
+      ?.get({ plain: true });
   }
 }

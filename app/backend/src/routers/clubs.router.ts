@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { IClubsService } from '../interfaces';
 import { clubsFactory } from '../factories';
 
-const ClubsService: IClubsService = clubsFactory();
+const clubsService: IClubsService = clubsFactory();
 
 export class ClubsRouter {
   public router: Router;
@@ -17,7 +17,7 @@ export class ClubsRouter {
     this.router.get(
       '/',
       async (req: Request, res: Response) => {
-        const { code, data } = await ClubsService.getAllClubs();
+        const { code, data } = await clubsService.getAllClubs();
         return res.status(code).json(data);
       },
     );
@@ -27,7 +27,7 @@ export class ClubsRouter {
     this.router.get(
       '/:id',
       async (req: Request, res: Response) => {
-        const { code, data } = await ClubsService.getClubById(req.params.id);
+        const { code, data } = await clubsService.getClubById(req.params.id);
         return res.status(code).json(data);
       },
     );

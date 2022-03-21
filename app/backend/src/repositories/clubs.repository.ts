@@ -7,7 +7,8 @@ export class ClubsRepository implements IClubsRepository {
       .map((club) => club.get({ plain: true }));
   }
 
-  async getClubById(id: string): Promise<IClub | null> {
-    return (await ClubModel.findByPk(id))?.get({ plain: true });
+  async getClubById(id: string): Promise<IClub | undefined> {
+    return (await ClubModel.findByPk(id))
+      ?.get({ plain: true });
   }
 }
