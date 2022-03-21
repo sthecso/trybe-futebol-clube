@@ -13,12 +13,24 @@ import {
 import * as messages from '../utils/messages';
 
 import ConflictError from './errors/Conflict';
+import NotFoundError from './errors/NotFound';
 import UnauthorizedError from './errors';
 
 class MatchService {
   public static async findAll(inProgress: boolean) {
     const result: IMatchComplete[] = await MatchRepository
       .findAll(inProgress);
+
+    return result;
+  }
+
+  public static async findById(id: IMatch['id']) {
+    const result: IMatchComplete = await MatchRepository
+      .findById(id);
+
+    const err = new NotFoundError(messages.match.notFound);
+
+    if (!result) throw err;
 
     return result;
   }

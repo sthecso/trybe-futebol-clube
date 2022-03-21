@@ -1,3 +1,3 @@
-import UnauthorizedError from './login';
+import UnauthorizedError from './Unauthorized';
 
 export default UnauthorizedError;

@@ -22,6 +22,17 @@ const findAll: RequestHandler = async (req, res, _next) => {
     .json(result);
 };
 
+const findById: RequestHandler = async (req, res, _next) => {
+  const { id } = req.params;
+
+  const result: IMatchComplete = await MatchService
+    .findById(Number(id));
+
+  return res
+    .status(StatusCodes.OK)
+    .json(result);
+};
+
 const create: RequestHandler = async (req, res, _next) => {
   const newMatch: IMatchCreate = req.body;
 
@@ -53,4 +64,10 @@ const edit: RequestHandler = async (req, res, _next) => {
     .json({ result });
 };
 
-export { findAll, create, finish, edit };
+export {
+  findAll,
+  findById,
+  create,
+  finish,
+  edit,
+};
