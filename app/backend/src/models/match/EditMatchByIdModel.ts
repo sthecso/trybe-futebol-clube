@@ -11,7 +11,7 @@ class EditMatchByIdModel {
   ) {
     await this.matchRepository.updateOne(
       matchData,
-      { id },
+      { where: { id } },
     );
   }
 }

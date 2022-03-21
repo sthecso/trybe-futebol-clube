@@ -2,7 +2,7 @@ import { WhereOptions } from 'sequelize';
 
 import Match from '../models/Matchs';
 
-import { IOptionsRepository } from '../../interfaces';
+import { IOptionsRepository } from './interfaces';
 
 import { IMatchPostRequest, IMatchResponse } from '../../interfaces/match';
 
@@ -70,9 +70,9 @@ class MatchRepository {
 
   async updateOne(
     matchData: IMatchOptions,
-    options: WhereOptions<IMatchResponse>,
+    { where }: { where: WhereOptions<IMatchResponse> },
   ): Promise<void> {
-    await this.Match.update({ ...matchData }, { where: { ...options } });
+    await this.Match.update({ ...matchData }, { where });
   }
 }
 

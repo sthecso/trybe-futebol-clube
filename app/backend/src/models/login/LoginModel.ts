@@ -14,7 +14,7 @@ class LoginModel {
   private httpStatusCode = HttpStatusCode;
 
   async handle({ email, password }: IUserRequest) {
-    const user = await this.userRepository.findOne({ email });
+    const user = await this.userRepository.findOne({ where: { email } });
 
     if (!user) {
       const message = 'Incorrect email or password';

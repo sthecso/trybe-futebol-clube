@@ -17,8 +17,8 @@ class ClubRepository {
     return justDataValuesOfClub;
   }
 
-  async findById(id: number) {
-    const club = await this.Club.findByPk(id);
+  async findOne({ where }: { where: WhereOptions<IClub> }) {
+    const club = await this.Club.findOne({ where });
 
     const justDataValuesOfClub = club?.get({ plain: true });
 

@@ -6,7 +6,7 @@ class FinishMatchModel {
   async handle(id: number): Promise<void> {
     this.matchRepository.updateOne(
       { inProgress: false },
-      { id },
+      { where: { id } },
     );
   }
 }

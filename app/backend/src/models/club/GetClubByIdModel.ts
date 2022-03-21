@@ -10,7 +10,7 @@ class GetClubByIdModel {
   private ErrorCatcher = ErrorCatcher;
 
   async handle(id: number) {
-    const club = await this.clubRepository.findById(id);
+    const club = await this.clubRepository.findOne({ where: { id } });
 
     if (!club) {
       return new this.ErrorCatcher(
