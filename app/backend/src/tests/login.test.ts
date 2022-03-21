@@ -27,7 +27,7 @@ describe('Request POST Login',() => {
     expect(token).not.to.be.undefined;
     expect(user.username).to.be.equal('Admin');
   })
-  it('On Incorrect email or password results in Response 401 with message',async () => {
+  it('On Incorrect email or password results in Response 401 with message', async () => {
     loginResponse = await chai.request(app)
      .post('/login')
      .send({
@@ -40,3 +40,24 @@ describe('Request POST Login',() => {
      expect(message).to.be.equal('Incorrect email or password');
   });
 });
+
+describe('Request GET Validate', () => {
+  let loginResponse: Response;
+  let validateResponse: Response;
+
+  it('On Correct Token results in Response 200 and User Role', async () => {
+    loginResponse = await chai.request(app)
+    .post('/login')
+    .send({
+      email: 'admin@admin.com',
+      password: 'secret_admin'
+    });
+    const { token } = loginResponse.body;
+    validateResponse = await chai.request(app)
+    .get('/login/validate')
+    .set('authorization', token);
+    const { status, text } = validateResponse;
+    expect(status).to.be.equal(200);
+    expect(text).to.be.equal('admin');
+  });
+})

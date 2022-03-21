@@ -14,6 +14,7 @@ class MatchRouter {
 
   private route(): void {
     this.router.get('/', this.matchController.getMatchs);
+    this.router.post('/', this.matchController.postMatch);
   }
 }
 
