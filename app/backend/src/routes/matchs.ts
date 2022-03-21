@@ -24,7 +24,7 @@ class Matchs {
     );
     this.matchRoute.use(this._checkToken.VerifyToken.bind(this._checkToken));
 
-    this.matchRoute.post('/', this._controllerMatchs.crete.bind(this._controllerMatchs));
+    this.matchRoute.post('/', this._controllerMatchs.create.bind(this._controllerMatchs));
 
     this.matchRoute.patch(
       '/:id/finish',

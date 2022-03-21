@@ -21,10 +21,10 @@ class ClubsMetodos {
     return res.status(200).json(data);
   };
 
-  crete:RequestHandler = async (req, res) => {
+  create:RequestHandler = async (req, res) => {
     this._IsValidMatch = new ValidMatch(req.body);
     const data = await this.ServiceMatchs.create(req.body);
-    return res.status(200).json(data);
+    return res.status(201).json(data);
   };
 
   finish:RequestHandler = async (req, res) => {
