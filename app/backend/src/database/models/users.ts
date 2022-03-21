@@ -2,30 +2,41 @@ import { Model, STRING, NUMBER } from 'sequelize';
 import db from '.';
 // import OtherModel from './OtherModel';
 
-class users extends Model {
+class Users extends Model {
   public id: number;
+
   public username: string;
+
   public role: string;
+
   public email: string;
+
   public password: string;
 }
 
-users.init({
+Users.init({
   id: {
-    type: NUMBER
+    type: NUMBER,
+    primaryKey: true,
+    allowNull: false,
+    autoIncrement: true,
   },
   username: {
-    type: STRING
+    allowNull: false,
+    type: STRING,
   },
   role: {
-    type: STRING
+    allowNull: false,
+    type: STRING,
   },
   email: {
-    type: STRING
+    allowNull: false,
+    type: STRING,
   },
   password: {
-    type: STRING
-  }
+    allowNull: false,
+    type: STRING,
+  },
 }, {
   underscored: true,
   sequelize: db,
@@ -34,7 +45,7 @@ users.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
@@ -44,4 +55,4 @@ users.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default users;
+export default Users;

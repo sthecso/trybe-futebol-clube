@@ -15,16 +15,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Testes de Migration e Model da tabela clubs', () => {
-  const teams = [{
-    id: 1,
-    club_name: 'Bahia'
-  }, {
-    id: 2,
-    club_name: 'Cruzeiro'
-  }
-]
-  
+describe('Testes de Migration e Model da tabela clubs', () => {  
   before( async () => {
     sinon.stub(clubs, 'getAll').resolves(teams);
   });

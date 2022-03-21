@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import loginValidations from '../middlewares/loginValidations';
+import loginController from '../controllers/loginController';
 
 const routes = Router();
 
@@ -7,7 +8,9 @@ const routes = Router();
 
 routes.post(
   '/login',
-  loginValidations.validateEmail, 
+  loginValidations.validateEmail,
   loginValidations.validatePassword,
-  
-)
+  loginController,
+);
+
+export default routes;

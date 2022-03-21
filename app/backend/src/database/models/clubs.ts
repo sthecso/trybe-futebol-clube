@@ -2,12 +2,13 @@ import { Model, STRING, INTEGER } from 'sequelize';
 import db from '.';
 // import OtherModel from './OtherModel';
 
-class clubs extends Model {
+class Clubs extends Model {
   public id: number;
-  public club_name: string;
+
+  public clubName: string;
 }
 
-clubs.init({
+Clubs.init({
   id: {
     type: INTEGER,
     allowNull: false,
@@ -17,16 +18,16 @@ clubs.init({
   club_name: {
     type: STRING,
     allowNull: false,
-  }
+  },
 }, {
   underscored: true,
   sequelize: db,
-  modelName: 'clubs',
+  modelName: 'Clubs',
   timestamps: false,
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
@@ -36,4 +37,4 @@ clubs.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default clubs;
+export default Clubs;
