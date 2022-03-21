@@ -9,12 +9,15 @@ export default class UserService {
     this.jwt = new Jwt();
   }
 
-  async login(loginInfo: IUserLogin): Promise<ILoginResponse> {
+  async login(loginInfo: IUserLogin): Promise<ILoginResponse | false> {
     const userInfo = await userRepo.login(loginInfo);
-    return {
-      user: userInfo,
-      token: this.jwt.generateToken(userInfo),
-    };
+    if (userInfo) {
+      return {
+        user: userInfo,
+        token: this.jwt.generateToken(userInfo),
+      };
+    }
+    return false;
   }
 }
 

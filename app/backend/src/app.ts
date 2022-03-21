@@ -4,8 +4,6 @@ import routes from './app/routes';
 class App {
   public app: express.Express = express();
 
-  private route = routes;
-
   constructor() {
     this.app.use(express.json());
     this.config();
@@ -24,7 +22,6 @@ class App {
   }
 
   private endpoints(): void {
-    console.log('oi');
     this.app.use('/login', routes.login);
   }
 

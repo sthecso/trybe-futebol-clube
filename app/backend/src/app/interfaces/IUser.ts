@@ -10,6 +10,10 @@ export interface IUser {
   email: string;
 }
 
+export interface IUserSequelizeResult extends IUser {
+  password: string;
+}
+
 export interface ILoginResponse {
   user: IUser;
   token: string;

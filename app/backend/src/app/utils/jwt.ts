@@ -6,11 +6,13 @@ export default class Jwt {
   private JWT_SECRET: string;
 
   constructor() {
-    this.JWT_SECRET = readFileSync('jwt.evaluation.key', { encoding: 'utf8' });
+    this.JWT_SECRET = readFileSync('./jwt.evaluation.key', {
+      encoding: 'utf8',
+    });
   }
 
-  public generateToken(payload: IUser): string {
-    const token = sign(JSON.parse(JSON.stringify(payload)), this.JWT_SECRET, {
+  public generateToken(user: IUser): string {
+    const token = sign(user, this.JWT_SECRET, {
       algorithm: 'HS256',
       expiresIn: '3h',
     });
