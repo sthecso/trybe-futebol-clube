@@ -9,10 +9,6 @@ class GetClubByIdController {
 
   private ErrorCatcher = ErrorCatcher;
 
-  constructor() {
-    this.handle = this.handle.bind(this);
-  }
-
   async handle(id: string) {
     const club = await this.getClubByIdService.handle(id);
 

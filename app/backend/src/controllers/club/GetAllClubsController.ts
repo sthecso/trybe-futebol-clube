@@ -7,10 +7,6 @@ class GetAllClubsController {
 
   private httpStatusCode = HttpStatusCode;
 
-  constructor() {
-    this.handle = this.handle.bind(this);
-  }
-
   async handle() {
     const allClubs = await this.getAllClubsService.handle();
 

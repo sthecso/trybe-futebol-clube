@@ -23,19 +23,26 @@ class Login {
     this.start();
   }
 
-  private start() {
+  private login() {
     this.router.post(
       '/',
       this.validateLoginRequest.handle,
       this.loginController.handle,
     );
+  }
 
+  private validateToken() {
     this.router.get(
       '/validate',
       this.validateTokenMiddleware.handle,
       this.validateTokenController.handle,
-
     );
+  }
+
+  private start() {
+    this.login();
+
+    this.validateToken();
   }
 }
 
