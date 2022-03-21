@@ -8,9 +8,12 @@ export default class LoginService {
     const user = await UserRepository.findByEmail(login.email);
 
     // verify if exist a user registred or password is correct
-    if (!user || user.password !== login.password) {
+    if (!user) {
       throw new ErrorHandler(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
     }
+
+    // compare passowrd
+    await UserRepository.comparePassword(login.password, user.password);
 
     const userReturn = {
       id: user.id,

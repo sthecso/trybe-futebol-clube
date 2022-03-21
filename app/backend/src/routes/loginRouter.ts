@@ -11,7 +11,7 @@ export default class Login {
   }
 
   private route(): void {
-    this.router.get(
+    this.router.post(
       '/',
       async (req: Request, res: Response) => {
         const { email, password } = req.body;
