@@ -14,8 +14,20 @@ export default class LoginService implements ILoginService {
       return { code: 401, data: { message: 'Incorrect email or password' } };
     }
 
-    const token = sign(user);
+    const { id, email, role, username } = user;
 
-    return { code: 200, data: { user, token } };
+    const token = sign({ id, email, role, username });
+
+    const data = {
+      user: {
+        id,
+        email,
+        role,
+        username,
+      },
+      token,
+    };
+
+    return { code: 200, data };
   }
 }
