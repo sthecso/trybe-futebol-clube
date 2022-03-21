@@ -1,5 +1,5 @@
 interface IQuery{
-  inProgress: boolean;
+  inProgress: string;
 }
 
 export default IQuery;

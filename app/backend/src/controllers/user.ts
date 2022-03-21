@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
 import StatusCode from '../utils/statusCode';
 import { IUserReq } from '../interfaces/login';
-import LoginUserService from '../services/userLogin';
 import JwtMethods from '../utils/jwtMethods';
 import LoginUserModel from '../models/userLogin';
-/* import { GenerateStatusError } from '../utils'; */
 
 class LoginUserController {
   private StatusCode = StatusCode;

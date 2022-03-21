@@ -21,11 +21,11 @@ class MatchController {
     const { inProgress } = req.query as unknown as IQuery;
     let booleanQuery: boolean | undefined;
 
-    if (inProgress && inProgress === false) {
+    if (inProgress && inProgress.toString() === 'false') {
       booleanQuery = false;
     }
 
-    if (inProgress && inProgress === 'true') {
+    if (inProgress && inProgress.toString() === 'true') {
       booleanQuery = true;
     }
 
