@@ -12,7 +12,6 @@ import {
 
 import * as messages from '../utils/messages';
 
-import ConflictError from './errors/Conflict';
 import NotFoundError from './errors/NotFound';
 import UnprocessableError from './errors/Unprocessable';
 import UnauthorizedError from './errors';
@@ -39,13 +38,18 @@ class MatchService {
   public static async validateNewMatch(newMatch: IMatchCreate) {
     const { homeTeam: homeTeamId, awayTeam: awayTeamId } = newMatch;
 
-    const conflictErr = new ConflictError(messages.match.teams.conflict);
-    const unauthErr = new UnauthorizedError(messages.match.teams.notFound);
+    const conflictErr = new UnauthorizedError(messages.match.teams.conflict);
 
     if (homeTeamId === awayTeamId) throw conflictErr;
 
-    const clubsExist = await ClubRepository.checkClubs(newMatch);
-    if (!clubsExist) throw unauthErr;
+    const notFoundErr = new UnauthorizedError(
+      messages.match.teams.notFound,
+    );
+
+    const homeTeam = await ClubRepository.findById(homeTeamId);
+    const awayTeam = await ClubRepository.findById(awayTeamId);
+
+    if (!homeTeam || !awayTeam) throw notFoundErr;
   }
 
   public static async create(newMatch: IMatchCreate) {

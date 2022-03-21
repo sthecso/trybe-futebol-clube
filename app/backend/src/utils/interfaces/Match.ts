@@ -6,7 +6,7 @@ export interface IMatchScore {
 export interface IMatchCreate extends IMatchScore {
   homeTeam: number;
   awayTeam: number;
-  inProgress: true;
+  inProgress?: boolean;
 }
 
 export interface IMatch {

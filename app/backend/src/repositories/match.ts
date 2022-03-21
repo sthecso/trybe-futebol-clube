@@ -38,7 +38,10 @@ class MatchRepository {
   }
 
   public static async create(newMatch: IMatchCreate) {
-    const result = await Match.create(newMatch);
+    const result = await Match.create({
+      ...newMatch,
+      inProgress: true,
+    });
 
     return result as unknown as IMatch;
   }
