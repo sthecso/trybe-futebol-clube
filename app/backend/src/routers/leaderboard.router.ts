@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { LeaderboardService } from '../services';
 
-export default class Login {
+export class LeaderboardRouter {
   public router: Router;
 
   private LeaderboardService: LeaderboardService;

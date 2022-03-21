@@ -1,6 +1,6 @@
 import { ClubsRepository } from '../repositories';
 
-export default class ClubsServices {
+export class ClubsService {
   constructor(
     private clubsRepository: ClubsRepository,
   ) {}

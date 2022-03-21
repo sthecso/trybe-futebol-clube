@@ -2,7 +2,7 @@ import sortArray = require('sort-array');
 import { IClubHistory, IClubStats, IMatchGoals } from '../interfaces';
 import { ClubModel, MatchModel } from '../database/models';
 
-export default class LeaderboardService {
+export class LeaderboardService {
   private static calcTotalPoints(matchs: IMatchGoals[]) {
     return matchs.reduce((totalPoints, match) => {
       if (match.goalsFavor > match.goalsOwn) return totalPoints + 3;

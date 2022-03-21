@@ -1,4 +1,4 @@
-export { default as LoginRouter } from './login.router';
-export { default as ClubsRouter } from './clubs.router';
-export { default as MatchsRouter } from './matchs.router';
-export { default as LeaderboardRouter } from './leaderboard.router';
+export * from './clubs.router';
+export * from './leaderboard.router';
+export * from './login.router';
+export * from './matchs.router';

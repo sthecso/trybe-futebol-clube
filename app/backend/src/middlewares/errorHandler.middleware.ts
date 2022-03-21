@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-export default (error: unknown, _req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (error: unknown, _req: Request, res: Response, _next: NextFunction) => {
   console.log(error);
 
   if (error instanceof SyntaxError && error.message.includes('Unexpected string in JSON')) {

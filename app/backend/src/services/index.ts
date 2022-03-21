@@ -1,4 +1,4 @@
-export { default as LoginService } from './login.service';
-export { default as ClubsService } from './clubs.service';
-export { default as MatchsService } from './matchs.service';
-export { default as LeaderboardService } from './leaderboard.service';
+export * from './clubs.service';
+export * from './leaderboard.service';
+export * from './login.service';
+export * from './matchs.service';

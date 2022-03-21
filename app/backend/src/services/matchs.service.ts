@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import { INewMatch, IScore } from '../interfaces';
 import { MatchModel, ClubModel } from '../database/models';
 
-export default class MatchService {
+export class MatchsService {
   private matchModel: typeof MatchModel;
 
   private clubModel: typeof ClubModel;

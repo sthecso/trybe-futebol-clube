@@ -1,6 +1,6 @@
 import { ICredentials, ITokenData, IUsersRepository, ILoginService } from '../interfaces';
 
-export default class LoginService implements ILoginService {
+export class LoginService implements ILoginService {
   constructor(
     private usersRepository: IUsersRepository,
     private compare: (plain: string, hash: string) => Promise<boolean>,

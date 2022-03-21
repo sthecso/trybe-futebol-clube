@@ -6,7 +6,7 @@ import * as joiSchemas from '../utils/joi.schemas';
 
 const LoginService: ILoginService = loginFactory();
 
-export default class Login {
+export class LoginRouter {
   public router: Router;
 
   constructor() {

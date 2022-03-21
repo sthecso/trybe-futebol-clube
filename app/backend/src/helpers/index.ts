@@ -1,1 +1,1 @@
-export { default as jwtGenerator } from './jwtGenerator';
+export * from './jwtGenerator';

@@ -3,7 +3,7 @@ import { MatchsService } from '../services';
 import * as middlewares from '../middlewares';
 import * as joiSchemas from '../utils/joi.schemas';
 
-export default class Matchs {
+export class MatchsRouter {
   public router: Router;
 
   private MatchsService: MatchsService;

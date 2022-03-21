@@ -4,7 +4,7 @@ import { clubsFactory } from '../factories';
 
 const ClubsService: IClubsService = clubsFactory();
 
-export default class Clubs {
+export class ClubsRouter {
   public router: Router;
 
   constructor() {

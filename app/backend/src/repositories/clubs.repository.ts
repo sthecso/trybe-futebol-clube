@@ -1,7 +1,7 @@
 import { ClubModel } from '../database/models';
 import { IClubsRepository, IClub } from '../interfaces';
 
-export default class ClubsRepository implements IClubsRepository {
+export class ClubsRepository implements IClubsRepository {
   async getAllClubs(): Promise<IClub[]> {
     return (await ClubModel.findAll())
       .map((club) => club.get({ plain: true }));
