@@ -30,11 +30,11 @@ Club.init({
   timestamps: false,
 });
 
-Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
-Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
+Club.hasMany(Match, { foreignKey: 'homeTeam', as: 'home' });
+Club.hasMany(Match, { foreignKey: 'awayTeam', as: 'away' });
 
-Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'homeTeam' });
-Match.hasMany(Club, { foreignKey: 'awayTeam', as: 'awayTeam' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
 
 /**
   * `Workaround` para aplicar as associations em TS:

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import LoginRoute from './routes/login';
+import { ClubsRoute, LoginRoute } from './routes';
 
 class App {
   public app: express.Express;
@@ -20,6 +20,7 @@ class App {
     this.app.use(accessControl);
     this.app.use(express.json());
     this.app.use('/login', new LoginRoute().login);
+    this.app.use('/clubs', new ClubsRoute().clubs);
     // falta implementar handlers de erro
   }
 
