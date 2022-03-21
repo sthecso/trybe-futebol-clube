@@ -21,6 +21,7 @@ class App {
     this.app.use(express.json());
 
     this.app.post('/login', LoginController.login);
+    this.app.get('/login/validate', LoginController.validate);
   }
 
   public start(PORT: string | number):void {

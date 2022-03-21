@@ -28,7 +28,7 @@ class LoginController {
   static async validate(req: Request, res: Response) {
     const token = req.headers.authorization;
 
-    if (!token) return res.status(Status.UNAUTHORIZED).json({ message: 'Token not found' });
+    if (!token) return res.status(401).json({ message: 'Token not found' });
     const payload = validateToken(token);
 
     if (!payload) return;

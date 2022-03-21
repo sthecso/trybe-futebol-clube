@@ -85,52 +85,7 @@ describe('/POST Login', () => {
         expect(result.body).to.have.a.property('message');
         expect(result.body.message).to.be.equal('Incorrect email or password')
   });
-//   it ('Deve retornar um token quando todas as informações estiverem corretas', async () => {
-//     const login = {
-//       email: userEmail,
-//       password: userPassword,
-//     };
-//     const result = await chai.request(app)
-//       .post('/login')
-//       .set('content-type', 'application/json')
-//       .send(login);
-//       expect(result.body).to.haveOwnProperty('user');
-//       expect(result.status).to.haveOwnProperty('token');
-//   });
-//   it ('Deve retornar um token válido', async () => {
-//     const login = {
-//       email: userEmail,
-//       password: userPassword,
-//     };
-//     const result = await chai.request(app)
-//       .post('/login')
-//       .set('content-type', 'application/json')
-//       .send(login);
-//       expect(result.status).to.haveOwnProperty('token');
-//     const id = validateToken(result.body.token);
-//     expect(id).not.to.be.equal(false);
-//   });
-//   describe('/GET Login/Validate', () => {
-//     it('Deve constar user role', async () => {
-//       const login = {
-//           email: userEmail,
-//           password: userPassword,
-//         };
-//         const role = 'user';
-//         const result = await chai.request(app)
-//           .post('/login')
-//           .set('content-type', 'application/json')
-//           .send(login);
-//           expect(result.body).to.haveOwnProperty('token');
-
-//           const { token } = result.body;
-//           const validate = await chai.request(app)
-//             .get('/login/validate')
-//             .set('Authorization', token);
-//             expect(validate.body).to.be.equal(role);
-//     });
-//   });
-it('Deve retornar um token quando todas as informações estiverem corretas', async () => {
+  it('Deve retornar um token quando todas as informações estiverem corretas', async () => {
     const login = {
       email: userEmail,
       password: userPassword,
@@ -143,7 +98,7 @@ it('Deve retornar um token quando todas as informações estiverem corretas', as
     expect(result.body).to.haveOwnProperty('token');
   });
 
-  it('o retorno deve vir com um token valido', async function () {
+  it('Deve retornar um token válido', async function () {
     const login = {
       email: userEmail,
       password: userPassword,
@@ -155,5 +110,25 @@ it('Deve retornar um token quando todas as informações estiverem corretas', as
     expect(result.body).to.haveOwnProperty('token');
     const id = validateToken(result.body.token);
     expect(id).not.to.be.equal(false);
+  });
+
+  describe('GET /login/validate', () => {
+    it('Deve retornar com o role', async () => {
+      const login = {
+        email: userEmail,
+        password: userPassword,
+      };
+      const role = 'user';
+      const result = await chai.request(app)
+        .post('/login')
+        .set('content-type', 'application/json')
+        .send(login);
+        expect(result.body).to.haveOwnProperty('token');
+      const { token } = result.body;
+      const validate = await chai.request(app)
+        .get('/login/validate')
+        .set('Authorization', token);
+      expect(validate.body).to.be.equal(role);
+    });
   });
 });
