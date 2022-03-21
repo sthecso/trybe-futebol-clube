@@ -2,11 +2,13 @@ import { readFileSync } from 'fs'
 import * as jwt from 'jsonwebtoken';
 
 interface IPayload {
-  email: string;
   id: number;
+  username: string;
+  role: string;
+  email: string;
 }
 
-const JWT_SECRET = readFileSync('./jwt.evaluation.key', { encoding: 'utf-8' });
+const JWT_SECRET = readFileSync('./jwt.evaluation.key', { encoding: 'utf-8' }).trim();
 
 const sign = (payload: IPayload, duration = '7d') => jwt.sign(
   payload, JWT_SECRET, {
