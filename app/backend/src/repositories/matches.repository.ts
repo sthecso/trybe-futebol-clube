@@ -1,7 +1,7 @@
-import { IMatchsRepository, INewMatch, IScore, IMatch, INewMatchResponse } from '../interfaces';
+import { IMatchesRepository, INewMatch, IScore, IMatch, INewMatchResponse } from '../interfaces';
 import { MatchModel, ClubModel } from '../database/models';
 
-export class MatchsRepository implements IMatchsRepository {
+export class MatchesRepository implements IMatchesRepository {
   async getAllInProgressMatches(): Promise<IMatch[]> {
     return (await MatchModel.findAll({
       where: { inProgress: true },

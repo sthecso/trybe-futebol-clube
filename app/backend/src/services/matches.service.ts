@@ -2,32 +2,32 @@ import {
   INewMatch,
   IScore,
   IClubsRepository,
-  IMatchsRepository,
+  IMatchesRepository,
   IMatch,
-  IMatchsService,
+  IMatchesService,
 } from '../interfaces';
 
-export class MatchsService implements IMatchsService {
+export class MatchesService implements IMatchesService {
   constructor(
-    private matchsRepository: IMatchsRepository,
+    private matchesRepository: IMatchesRepository,
     private clubsRepository: IClubsRepository,
   ) {}
 
-  async getAllMatchs(inProgress: boolean | undefined = undefined) {
+  async getAllMatches(inProgress: boolean | undefined = undefined) {
     let matchList: IMatch[];
 
     if (inProgress === undefined) {
-      matchList = await this.matchsRepository.getAllMatches();
+      matchList = await this.matchesRepository.getAllMatches();
     } else {
-      matchList = inProgress ? await this.matchsRepository.getAllInProgressMatches()
-        : await this.matchsRepository.getAllFinishedMatches();
+      matchList = inProgress ? await this.matchesRepository.getAllInProgressMatches()
+        : await this.matchesRepository.getAllFinishedMatches();
     }
 
     return { code: 200, data: matchList };
   }
 
   async getMatchById(id: string) {
-    const match = await this.matchsRepository.getMatchById(id);
+    const match = await this.matchesRepository.getMatchById(id);
 
     return match ? { code: 200, data: match } : { code: 404, data: { message: 'Match not found' } };
   }
@@ -42,20 +42,20 @@ export class MatchsService implements IMatchsService {
       return { code: 401, data: { message: 'There is no team with such id!' } };
     }
 
-    const newMatch = await this.matchsRepository.saveMatch(data);
+    const newMatch = await this.matchesRepository.saveMatch(data);
 
     return { code: 201, data: newMatch };
   }
 
   async finishMatch(id: string) {
-    const status = await this.matchsRepository.finishMatch(id);
+    const status = await this.matchesRepository.finishMatch(id);
 
     return status ? { code: 200, data: { message: 'Finished match' } }
       : { code: 422, data: { message: 'Match already over or does not exist' } };
   }
 
   async updateScore(id: string, newScore: IScore) {
-    const status = await this.matchsRepository.updateScore(id, newScore);
+    const status = await this.matchesRepository.updateScore(id, newScore);
 
     return status ? { code: 200, data: { message: 'Match score updated' } }
       : { code: 422, data: { message: 'Match already over or does not exist' } };

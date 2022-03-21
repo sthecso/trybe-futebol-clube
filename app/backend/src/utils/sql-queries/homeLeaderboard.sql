@@ -20,7 +20,7 @@ SELECT
 FROM
     clubs AS c
         JOIN
-    matchs AS m ON m.home_team = c.id
+    matches AS m ON m.home_team = c.id
     WHERE m.in_progress = FALSE
 GROUP BY name
 ORDER BY totalPoints DESC , totalVictories DESC , goalsBalance DESC , goalsFavor DESC , goalsOwn DESC

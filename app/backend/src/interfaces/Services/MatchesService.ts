@@ -1,7 +1,7 @@
 import { IMatch, INewMatch, INewMatchResponse, IScore } from '../Match';
 
-export interface IMatchsService {
-  getAllMatchs(inProgress: boolean | undefined): Promise<{
+export interface IMatchesService {
+  getAllMatches(inProgress: boolean | undefined): Promise<{
     code: number,
     data: IMatch[]
   }>;

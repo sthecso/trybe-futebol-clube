@@ -1,3 +1,3 @@
 export * from './ClubsService';
 export * from './LoginService';
-export * from './MatchsService';
+export * from './MatchesService';

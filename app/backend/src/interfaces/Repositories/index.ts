@@ -1,3 +1,3 @@
 export * from './ClubsRepository';
-export * from './MatchsRepository';
+export * from './MatchesRepository';
 export * from './UsersRepository';

@@ -1,6 +1,6 @@
 import { IMatch, INewMatch, INewMatchResponse, IScore } from '../Match';
 
-export interface IMatchsRepository {
+export interface IMatchesRepository {
   getAllInProgressMatches(): Promise<IMatch[]>;
   getAllFinishedMatches(): Promise<IMatch[]>;
   getAllMatches(): Promise<IMatch[]>;

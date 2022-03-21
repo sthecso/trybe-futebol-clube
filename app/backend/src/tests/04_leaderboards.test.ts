@@ -44,13 +44,13 @@ describe('Leaderboard endpoints', () => {
     it('After adding a new match: API responds with status 200 and ordered ranking of clubs', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send({ homeTeam: 4, awayTeam: 9, homeTeamGoals: 2, awayTeamGoals: 1, inProgress: true });
 
       chaiHttpResponse = await chai
         .request(app)
-        .patch(`/matchs/${chaiHttpResponse.body.id}/finish`);
+        .patch(`/matches/${chaiHttpResponse.body.id}/finish`);
 
       chaiHttpResponse = await chai
         .request(app)
@@ -82,13 +82,13 @@ describe('Leaderboard endpoints', () => {
     it('After adding a new match: API responds with status 200 and ordered ranking of clubs', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send({ homeTeam: 4, awayTeam: 9, homeTeamGoals: 2, awayTeamGoals: 1, inProgress: true });
 
       chaiHttpResponse = await chai
         .request(app)
-        .patch(`/matchs/${chaiHttpResponse.body.id}/finish`);
+        .patch(`/matches/${chaiHttpResponse.body.id}/finish`);
 
       chaiHttpResponse = await chai
         .request(app)
@@ -120,13 +120,13 @@ describe('Leaderboard endpoints', () => {
     it('After adding a new match: API responds with status 200 and ordered ranking of clubs', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send({ homeTeam: 7, awayTeam: 11, homeTeamGoals: 3, awayTeamGoals: 0, inProgress: true });
 
       chaiHttpResponse = await chai
         .request(app)
-        .patch(`/matchs/${chaiHttpResponse.body.id}/finish`);
+        .patch(`/matches/${chaiHttpResponse.body.id}/finish`);
 
       chaiHttpResponse = await chai
         .request(app)

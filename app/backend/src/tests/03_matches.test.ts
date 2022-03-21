@@ -5,13 +5,13 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
-import { allMatchs, finishedMatchs, inProgressMatchs, invalidNewMatch, validNewMatch } from './assets/matchs';
+import { allMatches, finishedMatches, inProgressMatches, invalidNewMatch, validNewMatch } from './assets/matches';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Matchs endpoints', () => {
+describe('Matches endpoints', () => {
   let chaiHttpResponse: Response;
   let loginToken: string;
 
@@ -26,62 +26,62 @@ describe('Matchs endpoints', () => {
     loginToken = chaiHttpResponse.body.token
   });
 
-  describe('When making GET request to /matchs with', () => {
+  describe('When making GET request to /matches with', () => {
     it('no filter: API responds with status 200 and list of all matches and relevant data', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/matchs');
+        .get('/matches');
 
       const { status, body } = chaiHttpResponse;
 
       expect(status).to.be.equal(200);
       expect(body.length).to.be.equal(48);
-      expect(body).to.deep.include.members(allMatchs); // ft. Murilo
+      expect(body).to.deep.include.members(allMatches); // ft. Murilo
     });
 
-    it('inProgress true: API responds with status 200 and list of matchs in progress and relevant data', async () => {
+    it('inProgress true: API responds with status 200 and list of matches in progress and relevant data', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/matchs')
+        .get('/matches')
         .query({ inProgress: true });
   
       const { status, body } = chaiHttpResponse;
   
       expect(status).to.be.equal(200);
       expect(body.length).to.be.equal(8);
-      expect(body).to.deep.include.members(inProgressMatchs); // ft. Murilo
+      expect(body).to.deep.include.members(inProgressMatches); // ft. Murilo
     });
 
-    it('inProgress false: API responds with status 200 and list of finished matchs and relevant data', async () => {
+    it('inProgress false: API responds with status 200 and list of finished matches and relevant data', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/matchs')
+        .get('/matches')
         .query({ inProgress: false });
   
       const { status, body } = chaiHttpResponse;
   
       expect(status).to.be.equal(200);
       expect(body.length).to.be.equal(40);
-      expect(body).to.deep.include.members(finishedMatchs); // ft. Murilo
+      expect(body).to.deep.include.members(finishedMatches); // ft. Murilo
     });
   });
 
-  describe('When making GET request to /matchs/:id', () => {
+  describe('When making GET request to /matches/:id', () => {
     it('And match exists: API responds with status 200 and match data based on id', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/matchs/1');
+        .get('/matches/1');
 
       const { status, body } = chaiHttpResponse;
 
       expect(status).to.be.equal(200);
-      expect(body).to.be.deep.equal(allMatchs[0]);
+      expect(body).to.be.deep.equal(allMatches[0]);
     });
 
     it('And match does not exists: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/matchs/447');
+        .get('/matches/447');
 
       const { status, body } = chaiHttpResponse;
 
@@ -90,13 +90,13 @@ describe('Matchs endpoints', () => {
     });
   });
 
-  describe('When saving a new match with a POST request to /matchs', () => {
+  describe('When saving a new match with a POST request to /matches', () => {
     let newMatchId: number;
 
     it('API responds with status 201 and new entry data', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(validNewMatch);
 
@@ -112,7 +112,7 @@ describe('Matchs endpoints', () => {
     it('API saves new match in the database', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get(`/matchs/${newMatchId}`);
+        .get(`/matches/${newMatchId}`);
 
       const { status, body } = chaiHttpResponse;
 
@@ -123,11 +123,11 @@ describe('Matchs endpoints', () => {
     });
   });
 
-  describe('When failing to save a new match with a POST request to /matchs because', () => {
+  describe('When failing to save a new match with a POST request to /matches because', () => {
     it('token is invalid: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', 'big mac');
   
       const { message } = chaiHttpResponse.body;
@@ -139,7 +139,7 @@ describe('Matchs endpoints', () => {
     it('token is not provided: API responds with status 401 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs');
+        .post('/matches');
   
       const { message } = chaiHttpResponse.body;
   
@@ -150,7 +150,7 @@ describe('Matchs endpoints', () => {
     it('home team is not provided: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.noHT);
   
@@ -163,7 +163,7 @@ describe('Matchs endpoints', () => {
     it('home team is not a number: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.stringHT);
   
@@ -176,7 +176,7 @@ describe('Matchs endpoints', () => {
     it('home team is negative: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.negativeHT);
   
@@ -189,7 +189,7 @@ describe('Matchs endpoints', () => {
     it('away team is not provided: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.noAT);
   
@@ -202,7 +202,7 @@ describe('Matchs endpoints', () => {
     it('away team is not a number: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.stringAT);
   
@@ -215,7 +215,7 @@ describe('Matchs endpoints', () => {
     it('away team is negative: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.negativeAT);
   
@@ -228,7 +228,7 @@ describe('Matchs endpoints', () => {
     it('home team goals is not provided: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.noHTG);
   
@@ -241,7 +241,7 @@ describe('Matchs endpoints', () => {
     it('home team goals is not a number: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.stringHTG);
   
@@ -254,7 +254,7 @@ describe('Matchs endpoints', () => {
     it('home team goals is negative: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.negativeHTG);
   
@@ -267,7 +267,7 @@ describe('Matchs endpoints', () => {
     it('away team goals is not provided: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.noATG);
   
@@ -280,7 +280,7 @@ describe('Matchs endpoints', () => {
     it('away team goals is not a number: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.stringATG);
   
@@ -293,7 +293,7 @@ describe('Matchs endpoints', () => {
     it('away team goals is negative: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.negativeATG);
   
@@ -306,7 +306,7 @@ describe('Matchs endpoints', () => {
     it('in progress is not provided: API responds with status 400 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.noIP);
   
@@ -319,7 +319,7 @@ describe('Matchs endpoints', () => {
     it('in progress is not a boolean: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.stringIP);
   
@@ -332,7 +332,7 @@ describe('Matchs endpoints', () => {
     it('in progress is false: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.falseIP);
   
@@ -345,7 +345,7 @@ describe('Matchs endpoints', () => {
     it('teams are the same: API responds with status 409 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.sameTeam);
   
@@ -358,7 +358,7 @@ describe('Matchs endpoints', () => {
     it('team does not exist in database: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .post('/matchs')
+        .post('/matches')
         .set('authorization', loginToken)
         .send(invalidNewMatch.unknownTeam);
   
@@ -369,11 +369,11 @@ describe('Matchs endpoints', () => {
     });
   });
 
-  describe('When finishing a match with a PATCH request to /matchs/:id/finish', () => {
+  describe('When finishing a match with a PATCH request to /matches/:id/finish', () => {
     it('API responds with status 200 and finished game message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .patch('/matchs/41/finish');
+        .patch('/matches/41/finish');
 
         const { status, body } = chaiHttpResponse;
 
@@ -384,7 +384,7 @@ describe('Matchs endpoints', () => {
     it('API updates the match in the database', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/matchs/41');
+        .get('/matches/41');
 
       const { status, body } = chaiHttpResponse;
 
@@ -393,11 +393,11 @@ describe('Matchs endpoints', () => {
     });
   });
 
-  describe('When fail to finish a match with a PATCH request to /matchs/:id/finish because', () => {
+  describe('When fail to finish a match with a PATCH request to /matches/:id/finish because', () => {
     it('match is already over: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .patch('/matchs/1/finish');
+        .patch('/matches/1/finish');
 
         const { status, body } = chaiHttpResponse;
 
@@ -408,7 +408,7 @@ describe('Matchs endpoints', () => {
     it('match does not exist: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .patch('/matchs/447/finish');
+        .patch('/matches/447/finish');
 
         const { status, body } = chaiHttpResponse;
 
@@ -417,11 +417,11 @@ describe('Matchs endpoints', () => {
     });
   });
 
-  describe('When updating a match score with a PATCH request to /matchs/:id', () => {
+  describe('When updating a match score with a PATCH request to /matches/:id', () => {
     it('API responds with status 200 and updated score message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .patch('/matchs/42')
+        .patch('/matches/42')
         .send({ homeTeamGoals: 3, awayTeamGoals: 1});
 
         const { status, body } = chaiHttpResponse;
@@ -433,7 +433,7 @@ describe('Matchs endpoints', () => {
     it('API updates the match in the database', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/matchs/42');
+        .get('/matches/42');
 
       const { status, body } = chaiHttpResponse;
 
@@ -443,11 +443,11 @@ describe('Matchs endpoints', () => {
     });
   });
 
-  describe('When fail to update a match score with a PATCH request to /matchs/:id because', () => {
+  describe('When fail to update a match score with a PATCH request to /matches/:id because', () => {
     it('match is already over: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .patch('/matchs/1')
+        .patch('/matches/1')
         .send({ homeTeamGoals: 3, awayTeamGoals: 1});;
 
         const { status, body } = chaiHttpResponse;
@@ -459,7 +459,7 @@ describe('Matchs endpoints', () => {
     it('match does not exist: API responds with status 422 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .patch('/matchs/447')
+        .patch('/matches/447')
         .send({ homeTeamGoals: 3, awayTeamGoals: 1});;
 
         const { status, body } = chaiHttpResponse;
