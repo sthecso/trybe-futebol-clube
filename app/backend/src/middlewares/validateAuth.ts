@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import IAuth from '../interfaces/express/IAuth';
 import JwtMethods from '../utils/jwtMethods';
 import StatusCode from '../utils/statusCode';
 
@@ -11,10 +12,9 @@ class ValidateAuth {
     this.verifyToken = this.verifyToken.bind(this);
   }
 
-  async verifyToken(req: Request, res:Response, next: NextFunction):
-  Promise <Response <string> | void> {
-    const { authorization } = req.headers;
-    console.log(authorization);
+  async verifyToken(req: Request, res:Response, next: NextFunction) {
+    const { authorization } = req.headers as unknown as IAuth;
+    const token = authorization.split(' ')[1];
 
     if (!authorization || !authorization.length) {
       return res.status(this.StatusCode.Unauthorized)
@@ -22,7 +22,7 @@ class ValidateAuth {
     }
 
     try {
-      const dataDecoded = this.jwtUtils.verifyToken(authorization);
+      const dataDecoded = this.jwtUtils.verifyToken(token);
       if (dataDecoded === null) {
         return res.status(this.StatusCode.Unauthorized)
           .json({ message: 'usuario nao authenticado' });
