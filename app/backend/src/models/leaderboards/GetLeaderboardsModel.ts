@@ -1,14 +1,14 @@
-import db from '../../database/models';
+import { ORMRepository } from '../../database/repositories';
 
 import { ILeaderboardsResponse } from '../../interfaces/leaderboards';
 
 class GetLeaderboardsModel {
-  private queryORM = async (query: string) => db.query(query);
+  private ORM = new ORMRepository();
 
   constructor(private queryString: string) {}
 
   async handle(): Promise<ILeaderboardsResponse[]> {
-    const [leaderBoards] = await this.queryORM(this.queryString) as ILeaderboardsResponse[][];
+    const leaderBoards = await this.ORM.query(this.queryString);
 
     return leaderBoards;
   }
