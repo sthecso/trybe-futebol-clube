@@ -7,6 +7,12 @@ export default class UserController {
   async login(req: Request, res: Response) {
     const loginInfo = req.body as IUserLogin;
     const loginRes = await userService.login(loginInfo);
+
+    if (!loginRes) {
+      return res
+        .status(StatusCode.UNAUTHORIZED)
+        .json({ message: 'Incorrect email or password' });
+    }
     res.status(StatusCode.OK).json(loginRes);
     return this;
   }
