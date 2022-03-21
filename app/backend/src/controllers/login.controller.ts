@@ -10,7 +10,6 @@ export default class LoginController implements ILoginController {
   }
 
   validate(tokenData: ITokenData) {
-    if (!this) { console.log('lint chato'); }
     return { code: 200, data: tokenData.role };
   }
 }
