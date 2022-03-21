@@ -54,7 +54,7 @@ export default class Matchs {
         const { homeTeam, awayTeam } = req.body;
         // Try to move this validation to Joi
         if (homeTeam === awayTeam) {
-          return res.status(401) // 401 ???
+          return res.status(409)
             .json({ message: 'It is not possible to create a match with two equal teams' });
         }
 

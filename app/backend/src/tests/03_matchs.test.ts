@@ -342,7 +342,7 @@ describe('Matchs endpoints', () => {
     //   expect(message).to.be.equal('In Progress must be provided as true');
     // });
 
-    it('teams are the same: API responds with status 422 and correct message', async () => {
+    it('teams are the same: API responds with status 409 and correct message', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/matchs')
@@ -351,7 +351,7 @@ describe('Matchs endpoints', () => {
   
       const { message } = chaiHttpResponse.body;
 
-      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(chaiHttpResponse.status).to.be.equal(409);
       expect(message).to.be.equal('It is not possible to create a match with two equal teams');
     });
 
