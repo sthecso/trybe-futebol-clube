@@ -5,13 +5,23 @@ import MatchController from '../Matches';
 const matchRouter = Router({ mergeParams: true });
 
 matchRouter.get(
-  '/:matchs?',
-  MatchController.getById,
+  '/:?',
+  MatchController.getMatches,
 );
 
-matchRouter.get(
+matchRouter.post(
   '/',
-  MatchController.getAll,
+  MatchController.saveMatch,
+);
+
+matchRouter.patch(
+  '/:id/finish',
+  MatchController.updateFinishedMatch,
+);
+
+matchRouter.patch(
+  '/:id',
+  MatchController.updateInProgressMatch,
 );
 
 export default matchRouter;

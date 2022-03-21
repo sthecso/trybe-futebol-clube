@@ -1,5 +1,7 @@
 import * as express from 'express';
 
+import * as cors from 'cors';
+
 import { loginRouter, clubRouter, matchRouter } from './controllers/routes';
 import { error } from './middlewares';
 
@@ -12,7 +14,7 @@ class App {
     this.config();
   }
 
-  private config():void {
+  private config(): void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
@@ -20,6 +22,8 @@ class App {
       next();
     };
     this.app.use(accessControl);
+
+    this.app.use(cors());
 
     this.app.use(express.json());
 
@@ -31,7 +35,7 @@ class App {
   }
 
   // ...
-  public start(PORT: string | number):void {
+  public start(PORT: string | number): void {
     this.app.listen(PORT, () => {
       console.log('Running on port', PORT);
     });
