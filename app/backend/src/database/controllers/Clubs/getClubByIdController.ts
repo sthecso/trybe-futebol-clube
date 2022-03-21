@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import getClubByIdService from '../services/getClubByIdService';
+import getClubByIdService from '../../services/Clubs/getClubByIdService';
 
 async function getClubByIdController(req: Request, res: Response) {
   const { id } = req.params;

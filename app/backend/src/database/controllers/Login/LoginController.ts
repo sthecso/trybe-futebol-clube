@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import loginService from '../services/LoginService';
+import loginService from '../../services/LoginService';
 
 async function loginController(req: Request, res: Response) {
   const { email, password } = req.body;

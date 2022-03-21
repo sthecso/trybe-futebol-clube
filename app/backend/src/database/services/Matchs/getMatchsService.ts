@@ -1,6 +1,6 @@
-import { Match } from '../../utils/Interfaces';
-import Clubs from '../models/Clubs';
-import Matchs from '../models/Matchs';
+import { Match } from '../../../helpers/Interfaces';
+import Clubs from '../../models/Clubs';
+import Matchs from '../../models/Matchs';
 
 async function getMatchsService() {
   const matchs = await Matchs.findAll({

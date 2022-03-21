@@ -1,4 +1,4 @@
-import Clubs from '../models/Clubs';
+import Clubs from '../../models/Clubs';
 
 async function getClubsService() {
   const clubs = await Clubs.findAll();

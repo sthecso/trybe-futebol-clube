@@ -1,4 +1,4 @@
-import Matchs from '../models/Matchs';
+import Matchs from '../../models/Matchs';
 
 async function finishMatchService(id: string) {
   const matchGottenById = await Matchs.findByPk(id);

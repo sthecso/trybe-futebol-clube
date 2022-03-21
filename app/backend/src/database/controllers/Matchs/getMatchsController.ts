@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import getMatchsService from '../services/getMatchsService';
+import getMatchsService from '../../services/Matchs/getMatchsService';
 
 async function getMatchsController(_req: Request, res: Response) {
   const matchs = await getMatchsService();
