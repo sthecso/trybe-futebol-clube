@@ -2,7 +2,7 @@ import { ClubsRepository } from '../repositories';
 
 export default class ClubsServices {
   constructor(
-    private clubsRepository: typeof ClubsRepository,
+    private clubsRepository: ClubsRepository,
   ) {}
 
   async getAllClubs() {

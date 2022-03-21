@@ -1,5 +1,5 @@
 import { IUser } from '../User/User';
 
-export interface IUserRepository {
+export interface IUsersRepository {
   getUserByEmail(email: string): Promise<IUser | null>
 }

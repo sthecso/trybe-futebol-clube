@@ -3,6 +3,6 @@ import { ClubsController } from '../controllers';
 import { ClubsRepository } from '../repositories';
 
 export default (): ClubsController => {
-  const clubsService = new ClubsService(ClubsRepository);
+  const clubsService = new ClubsService(new ClubsRepository());
   return new ClubsController(clubsService);
 };
