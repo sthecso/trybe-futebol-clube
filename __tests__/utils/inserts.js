@@ -71,6 +71,7 @@ const insertFinished = async (page, { homeClub = 'Corinthias', awayClub = 'inter
 
   const match = await insertInProgress(page, {homeClub, awayClub, homeGoals, awayGoals})
   const finishMatchButton = await page.$(pageMatchSettings.finishMatchButton);
+  
 
   const { body } = await waitForResponse({
     page,

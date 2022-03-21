@@ -40,3 +40,19 @@ export interface UserSentMatchData {
 export interface MatchData extends UserSentMatchData {
   id: number,
 }
+
+export interface UserSentNewScores {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
+
+interface ClubGols {
+  golsFeitos: number,
+  golsTomados: number,
+}
+
+export interface ClubsAndMatchs {
+  id: number,
+  clubName: string,
+  Matchs: ClubGols[]
+}

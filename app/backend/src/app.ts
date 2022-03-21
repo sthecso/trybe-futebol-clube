@@ -2,9 +2,11 @@ import * as express from 'express';
 import finishMatchController from './database/controllers/finishMatchController';
 import getClubByIdController from './database/controllers/getClubByIdController';
 import getClubsController from './database/controllers/getClubsController';
+// import getLeaderboardController from './database/controllers/getLeaderboardController';
 import getMatchsController from './database/controllers/getMatchsController';
 import loginController from './database/controllers/LoginController';
 import postMatchController from './database/controllers/postMatchController';
+import updateMatchController from './database/controllers/updateMatchController';
 import validateLoginController from './database/controllers/validateLoginController';
 
 class App {
@@ -18,7 +20,7 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
@@ -36,6 +38,9 @@ class App {
     this.app.post('/matchs', postMatchController);
 
     this.app.patch('/matchs/:id/finish', finishMatchController);
+    this.app.patch('/matchs/:id', updateMatchController);
+
+    // this.app.get('/leaderboard/home', getLeaderboardController);
   }
 
   public start(PORT: string | number):void {

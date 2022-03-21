@@ -74,6 +74,7 @@ describe.only(getRequirement(24), () => {
 
     await insertFinished(page, dadosInsert)
 
+
     const rows = await database.query(select.all.matchs, { type: 'SELECT' });
     const [matchInserted] = normalize([lastInsert(rows)])
 

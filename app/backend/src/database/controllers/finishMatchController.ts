@@ -5,8 +5,6 @@ import finishMatchService from '../services/finishMatchService';
 
 async function finishMatchController(req: Request, res: Response) {
   const { id } = req.params;
-  console.log('Logando o body abaixo!!');
-  console.log(req.body);
   await finishMatchService(id);
 
   return res.status(200).json({ message: 'Partida finalizada!' });
