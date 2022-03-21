@@ -12,4 +12,3 @@ module.exports = {
   },
   logging: false,
 };
-require("dotenv").config();
