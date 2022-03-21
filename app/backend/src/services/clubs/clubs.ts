@@ -6,7 +6,7 @@ export default class ClubsService {
   ) {}
 
   async clubsRequest() {
-    const clubs = await this.clubs.findAll({});
+    const clubs = await this.clubs.findAll();
     console.log(clubs);
 
     return { code: 200, clubs };
@@ -18,7 +18,7 @@ export default class ClubsService {
       raw: true,
     });
 
-    if (!club) return { message: '', code: 404 };
+    if (!club) return { message: 'Club not found', code: 404 };
 
     return { code: 200, club };
   }
