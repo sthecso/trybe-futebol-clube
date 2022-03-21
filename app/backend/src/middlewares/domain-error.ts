@@ -5,7 +5,7 @@ const domainError: ErrorRequestHandler = (err, _req, res, next) => {
   if (err instanceof ErrorHandler) {
     return res
       .status(err.code)
-      .json({ error: err.message });
+      .json({ message: err.message });
   }
 
   next(err);

@@ -4,7 +4,7 @@ import { ZodError } from 'zod';
 const zodError: ErrorRequestHandler = (err: ZodError, _req, res, next) => {
   if (err.name === 'ZodError') {
     const status = err.issues[0].code === 'invalid_type'
-      && err.issues[0].received === 'undefined' ? 400 : 422;
+      && err.issues[0].received === 'undefined' ? 401 : 401;
 
     return res
       .status(status)
