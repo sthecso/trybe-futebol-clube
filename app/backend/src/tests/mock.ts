@@ -22,7 +22,7 @@ export interface IClubDTO {
   clubName: string
 }
 
-export const allMatchs = [
+const allMatchs = [
   {
     id: 1,
     homeTeam: 16,
@@ -67,7 +67,7 @@ export const allMatchs = [
   },
 ]
 
-export const matchsTrue = [
+const matchsTrue = [
   {
 		id: 43,
 		homeTeam: 11,
@@ -127,10 +127,36 @@ export interface IMatchsDT0 {
   }
 }
 
-export const MockSequlize =[{
-  dataValues:matchsTrue[0]
+export const MockSequlizeAllMatchs =[{
+  dataValues:allMatchs[0]
 },{
-  dataValues:matchsTrue[1]
+  dataValues:allMatchs[1]
 },{
-  dataValues:matchsTrue[2]
+  dataValues:allMatchs[2]
 }]
+
+export const MockSequlizeTrueMatchs = [{
+  dataValues:matchsTrue[0]
+},{dataValues:matchsTrue[1]},
+{dataValues:matchsTrue[2]}
+]
+
+export const MockSequlizeClubs = [
+  {
+  dataValues:allClubs[0]
+  },
+  {
+  dataValues:allClubs[1]
+  },
+]
+
+export const MockSequlizeCreatMatchs = {
+  dataValues: {
+    id: 1,
+    homeTeam: 1,
+    homeTeamGoals: 2,
+    awayTeam: 2,
+    awayTeamGoals: 2,
+    inProgress: true,
+  }
+}

@@ -1,5 +1,5 @@
 import { Request, RequestHandler, Response } from 'express';
-import ValidLogin from './middleware/validLogin';
+import ValidLogin from './utils/validLogin';
 import ServiceUser from '../services/user';
 // import helpjwt from '../utils/helpjwt';
 import { IUserJwt } from '../interface/user';

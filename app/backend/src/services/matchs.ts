@@ -1,11 +1,23 @@
+import ICreateMatchDTO from '../interface/match';
 import ModelMatchs from '../database/fé/match';
+import ModelClubs from '../database/fé/clubs';
 
 class ServiceMatchs {
-  private ModelClub = new ModelMatchs();
+  private ModelMatchs = new ModelMatchs();
 
-  public findAll = async () => this.ModelClub.findAll();
+  private ModelClubs = new ModelClubs();
 
-  public findSearch = async (progress:boolean) => this.ModelClub.findSearch(progress);
+  public findAll = async () => this.ModelMatchs.findAll();
+
+  public findSearch = async (progress:boolean) => this.ModelMatchs.findSearch(progress);
+
+  public create = async (match:ICreateMatchDTO) => {
+    const clubs = await this.ModelClubs.findAllIds(match.homeTeam, match.awayTeam);
+    if (clubs.length !== 2) throw new Error('Team not found/Unauthorized');
+    return this.ModelMatchs.create(match);
+  };
+
+  public finish = async (id:number) => this.ModelMatchs.update(id);
 }
 
 export default ServiceMatchs;

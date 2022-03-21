@@ -19,6 +19,12 @@ class ClearClubs {
     const club = result as unknown as IClubsCamelDTO | null;
     return club;
   }
+
+  async findAllIds(id1:number, id2:number) {
+    const result = await this._metodos.findAll({ where: { id: [id1, id2] }, raw: true });
+    const club = result as unknown as IClubsCamelDTO[];
+    return club;
+  }
 }
 
 export default ClearClubs;

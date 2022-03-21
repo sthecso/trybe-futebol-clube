@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import Login from './routes/login';
 import Clubs from './routes/clubs';
-import domain from './controller/erros/joi';
+import domain from './controller/erros/handleErros';
 import Matchs from './routes/matchs';
 
 class App {

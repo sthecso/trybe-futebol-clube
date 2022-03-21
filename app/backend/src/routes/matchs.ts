@@ -1,13 +1,17 @@
 import { Router } from 'express';
 import ControllerMatchs from '../controller/matchs';
+import ValidToken from '../controller/middleware/validToken';
 
 class Matchs {
   public matchRoute = Router();
 
   private _controllerMatchs:ControllerMatchs;
 
+  private _checkToken: ValidToken;
+
   constructor() {
     this._controllerMatchs = new ControllerMatchs();
+    this._checkToken = new ValidToken();
     this.Routes();
   }
 
@@ -16,6 +20,14 @@ class Matchs {
     this.matchRoute.get(
       '/',
       this._controllerMatchs.findProgres.bind(this._controllerMatchs),
+    );
+    this.matchRoute.use(this._checkToken.VerifyToken.bind(this._checkToken));
+
+    this.matchRoute.post('/', this._controllerMatchs.crete.bind(this._controllerMatchs));
+
+    this.matchRoute.patch(
+      '/:id/finish',
+      this._controllerMatchs.finish.bind(this._controllerMatchs),
     );
   }
 }
