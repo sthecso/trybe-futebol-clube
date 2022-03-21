@@ -15,7 +15,6 @@ loginRouter.post(
 
 loginRouter.get(
   '/validate',
-  Auth.validate,
   Auth.retrieveUserRole,
 );
 
