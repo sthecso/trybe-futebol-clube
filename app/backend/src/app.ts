@@ -1,20 +1,21 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 // import route from './routes';
+import 'express-async-errors';
 import { Login } from './routes/LoginRoute';
 import domainError from './controllers/middlewares/domainError';
 
 class App {
   public app: express.Express;
 
-  private parseJson = bodyParser;
+  // private parseJson = bodyParser;
 
   constructor() {
     this.app = express();
 
     this.config();
 
-    this.app.use(this.parseJson.json());
+    // this.app.use(bodyParser.json());
   }
 
   private config():void {
@@ -25,6 +26,7 @@ class App {
       next();
     };
 
+    this.app.use(bodyParser.json());
     this.app.use(accessControl);
     this.app.use('/login', Login);
     this.app.use(domainError);
