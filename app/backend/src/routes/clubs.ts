@@ -17,5 +17,10 @@ export default class ClubsRoute {
       '/',
       this.clubsControler.getClubs,
     );
+
+    this.clubs.get(
+      '/:id',
+      this.clubsControler.getClubsById,
+    );
   }
 }

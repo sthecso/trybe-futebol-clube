@@ -7,11 +7,19 @@ export default class ClubsController {
   constructor() {
     this.service = new ClubsService();
     this.getClubs = this.getClubs.bind(this);
+    this.getClubsById = this.getClubsById.bind(this);
   }
 
   async getClubs(req: Request, res: Response) {
     const { code, clubs } = await this.service.clubsRequest();
 
     return res.status(code).json(clubs);
+  }
+
+  async getClubsById(req: Request, res: Response) {
+    const { id } = req.params;
+    const { code, club } = await this.service.clubsRequestById(id);
+
+    return res.status(code).json(club);
   }
 }

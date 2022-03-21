@@ -11,4 +11,15 @@ export default class ClubsService {
 
     return { code: 200, clubs };
   }
+
+  async clubsRequestById(id: string) {
+    const club = await this.clubs.findOne({
+      where: { id },
+      raw: true,
+    });
+
+    if (!club) return { message: '', code: 404 };
+
+    return { code: 200, club };
+  }
 }
