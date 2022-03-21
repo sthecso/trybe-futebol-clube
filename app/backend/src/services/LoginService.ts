@@ -7,11 +7,11 @@ export default class LoginService {
   public static async login(email: string, password: string) {
     const user = await User.findOne({ where: { email } });
 
-    if (!user) throw new Error('Incorrect email or password. Try again!');
+    if (!user) throw new Error('Incorrect email or password');
 
     const comparePass = await bcrypt.compare(password, user.password);
 
-    if (!comparePass) throw new Error('Incorrect email or password. Try again!');
+    if (!comparePass) throw new Error('Incorrect email or password');
 
     const payload: IUserResponse = {
       id: user.id,
@@ -20,10 +20,10 @@ export default class LoginService {
       role: user.role,
     };
 
-    const token = signToken(payload);
+    const tokenCreate = signToken(payload);
 
     const { id, username, role } = user;
 
-    return { user: { id, username, role, email }, token };
+    return { user: { id, username, role, email }, token: tokenCreate };
   }
 }
