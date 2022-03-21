@@ -4,8 +4,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
-import { verifyToken } from '../utils/tokenHelper';
-import { IClub, IMatch } from '../utils/interfaces';
+import { IMatch } from '../utils/interfaces';
 
 chai.use(chaiHttp);
 
