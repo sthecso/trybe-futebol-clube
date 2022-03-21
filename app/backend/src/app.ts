@@ -1,11 +1,11 @@
 import * as express from 'express';
-import finishMatchController from './database/controllers/finishMatchController';
-import getClubByIdController from './database/controllers/getClubByIdController';
-import getClubsController from './database/controllers/getClubsController';
-import getMatchsController from './database/controllers/getMatchsController';
-import loginController from './database/controllers/LoginController';
-import postMatchController from './database/controllers/postMatchController';
-import validateLoginController from './database/controllers/validateLoginController';
+import finishMatchController from './database/controllers/Matchs/finishMatchController';
+import getClubByIdController from './database/controllers/Clubs/getClubByIdController';
+import getClubsController from './database/controllers/Clubs/getClubsController';
+import getMatchsController from './database/controllers/Matchs/getMatchsController';
+import loginController from './database/controllers/Login/LoginController';
+import postMatchController from './database/controllers/Matchs/postMatchController';
+import validateLoginController from './database/controllers/Middlewares/validateLoginController';
 
 class App {
   public app: express.Express;
@@ -35,9 +35,7 @@ class App {
   }
 
   public start(PORT: string | number):void {
-    this.app.listen(PORT, () => {
-      console.log(`Listening on ${PORT}`);
-    });
+    this.app.listen(PORT, () => { console.log(`Listening on ${PORT}`); });
   }
 }
 
