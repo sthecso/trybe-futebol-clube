@@ -6,14 +6,17 @@ class MatchService {
   constructor() {
     this.getAllMatches = this.getAllMatches.bind(this);
     this.createMatch = this.createMatch.bind(this);
-    this.updateMatch = this.updateMatch.bind(this);
+    this.updateMatchProgress = this.updateMatchProgress.bind(this);
+    this.updateMatchGoals = this.updateMatchGoals.bind(this);
   }
 
   _matches: Match[];
 
   _createdMatch: Match;
 
-  _updatedMatch: [number, Match[]];
+  _updatedMatchProgress: [number, Match[]];
+
+  _updatedMatchGoals: [number, Match[]];
 
   public async getAllMatches(req: Request, res: Response) {
     this._matches = await Match.findAll({
@@ -37,15 +40,28 @@ class MatchService {
     return res.status(201).json(this._createdMatch);
   }
 
-  public async updateMatch(req: Request, res: Response) {
+  public async updateMatchProgress(req: Request, res: Response) {
     const { id } = req.params;
-    this._updatedMatch = await Match.update(
+    this._updatedMatchProgress = await Match.update(
       {
         inProgress: 0,
       },
       { where: { id } },
     );
-    return res.status(200).json(this._updatedMatch);
+    return res.status(200).json(this._updatedMatchProgress);
+  }
+
+  public async updateMatchGoals(req: Request, res: Response) {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    this._updatedMatchGoals = await Match.update(
+      {
+        homeTeamGoals,
+        awayTeamGoals,
+      },
+      { where: { id } },
+    );
+    return res.status(200).json(this._updatedMatchGoals);
   }
 }
 
