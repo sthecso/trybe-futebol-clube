@@ -20,10 +20,7 @@ class App {
     // ...
     this.app = express();
     this.config();
-    this.app.use(express.json());
-    this.app.use('/login', this.loginRouter.router);
-    this.app.use('/clubs', this.clubRouter.router);
-    this.app.use('/matchs', this.matchRouter.router);
+
     // ...
   }
 
@@ -36,6 +33,10 @@ class App {
     };
 
     this.app.use(accessControl);
+    this.app.use(express.json());
+    this.app.use('/login', this.loginRouter.router);
+    this.app.use('/clubs', this.clubRouter.router);
+    this.app.use('/matchs', this.matchRouter.router);
 
     // ...
   }

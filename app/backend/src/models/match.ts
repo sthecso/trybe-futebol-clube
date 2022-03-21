@@ -9,27 +9,25 @@ class MatchModel {
 
   private clubEntity = Club;
 
-  async getMatchsByProgress(progressData: boolean | undefined = undefined) {
-    let matchs;
+  public async getMatchsByProgress(inProgress: boolean | undefined): Promise<Match[]> {
+    if (inProgress === undefined) {
+      const result = await this.matchEntity.findAll({
+        include: [
+          { model: this.clubEntity, as: 'homeClub', attributes: ['clubName'] },
+          { model: this.clubEntity, as: 'awayClub', attributes: ['clubName'] },
+        ],
+      });
 
-    if (progressData === undefined) {
-      matchs = await this.matchEntity.findAll({
-        include: [
-          { model: this.clubEntity, as: 'homeClub' },
-          { model: this.clubEntity, as: 'awayClub' },
-        ],
-      });
-    } else {
-      matchs = await this.matchEntity.findAll({
-        where: { progressData },
-        include: [
-          { model: this.clubEntity, as: 'homeClub' },
-          { model: this.clubEntity, as: 'awayClub' },
-        ],
-      });
+      return result;
     }
-
-    return matchs;
+    const resultWithProgress = await this.matchEntity.findAll({
+      where: { inProgress },
+      include: [
+        { model: this.clubEntity, as: 'homeClub', attributes: ['clubName'] },
+        { model: this.clubEntity, as: 'awayClub', attributes: ['clubName'] },
+      ],
+    });
+    return resultWithProgress;
   }
 
   async saveMatchInProgress(match: IMatchReq) {
