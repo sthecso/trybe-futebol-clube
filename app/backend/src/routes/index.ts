@@ -1,9 +1,10 @@
 import { Application } from 'express';
 import clubsRoutes from './clubsRoute';
+import loginRoute from './loginRoute';
 
 class Routes {
   public static routes(app: Application) {
-    // app.get('/', (req, res) => res.status(200).json({ message: 'Obrigada Caputo' }));
+    app.use('/login', loginRoute);
     app.use('/club', clubsRoutes);
   }
 }

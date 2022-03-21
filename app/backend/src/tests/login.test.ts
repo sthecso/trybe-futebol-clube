@@ -11,10 +11,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe('Testando rotas do login', () => {
 
   // let chaiHttpResponse: Response;
 
@@ -38,7 +35,20 @@ describe('Seu teste', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+  it('A rota deve receber um status 200 com um token em caso de sucesso', async () => {
+    let responseLogin = await chai.request(app)
+    .post('/login')
+    .send({ email: 'name@name.com', password: '12345678'});
+    expect(responseLogin).to.have.status(200);
+    expect(responseLogin.body).to.have.property('token');
+    // expect(false).to.be.eq(true);
+  });
+
+  it('A rota deve receber um status 401 com email inválido', async () => {
+    let responseLogin = await chai.request(app)
+    .post('/login')
+    .send({ email: 'name', password: '12345678'});
+    expect(responseLogin).to.have.status(401);
+
   });
 });
