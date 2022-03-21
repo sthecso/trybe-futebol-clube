@@ -1,4 +1,8 @@
 {
+  "typeRoots": [
+    "src/@types",
+    "./node_modules/@types",
+  ],
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
