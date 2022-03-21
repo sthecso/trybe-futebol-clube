@@ -32,16 +32,22 @@ const matchsService = {
   }),
   create: async (match: IMatch) => {
     const { homeTeam, awayTeam } = match;
+    const newMatch = { ...match, inProgress: true };
     const homeClub = await clubsService.getById(homeTeam);
     const awayClub = await clubsService.getById(awayTeam);
     if (!homeClub || !awayClub) {
       const error = new Error('There is no team with such id!');
       throw error;
     }
-    const matchCreated = await Match.create(match);
+    const matchCreated = await Match.create(newMatch);
     return matchCreated;
   },
-  finishMatch: (id: string) => Match.update({ inProgress: false }, { where: { id } }),
+  finishMatch: async (id: string) => {
+    await Match.update({ inProgress: false }, { where: { id } });
+  },
+  updateMatch: async (id: string, homeTeamGoals: string, awayTeamGoals: string) => {
+    await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+  },
 };
 
 export default matchsService;

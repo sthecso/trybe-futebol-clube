@@ -12,16 +12,13 @@ const matchsController = {
     return res.status(200).send(matchs);
   },
   create: async (req: express.Request, res: express.Response) => {
-    const { inProgress, homeTeam, awayTeam } = req.body;
-    const inProgressBool = inProgress === 'true';
+    const { homeTeam, awayTeam } = req.body;
     try {
       if (homeTeam === awayTeam) {
         const error = new Error('It is not possible to create a match with two equal teams');
         throw error;
       }
-      const match = await matchsService.create({
-        ...req.body, inProgressBool,
-      });
+      const match = await matchsService.create(req.body);
       return res.status(201).send(match);
     } catch (error) {
       const { message } = error as Error;
@@ -32,6 +29,13 @@ const matchsController = {
     const { id } = req.params;
     await matchsService.finishMatch(id);
     return res.status(200).send({ message: 'Finished match' });
+  },
+  updateMatch: async (req: express.Request, res: express.Response) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+
+    await matchsService.updateMatch(id, homeTeamGoals, awayTeamGoals);
+    return res.status(200).send({ message: 'Match updated' });
   },
 };
 

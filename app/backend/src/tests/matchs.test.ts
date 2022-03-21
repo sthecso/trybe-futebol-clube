@@ -88,91 +88,216 @@ describe('Tests GET /matchs?inProgress route', () => {
 });
 
 describe('Tests POST /matchs route', () => {
-  describe('When teams are the same', () => {
-    it('Returns status 401 with error message', () => {
-      return chai
-        .request(app)
-        .post('/matchs')
-        .send({
-          "homeTeam": 8,
-          "awayTeam": 8,
-          "homeTeamGoals": 2,
-          "awayTeamGoals": 2,
-          "inProgress": true
-        })
-        .then((res: Response) => {
-          expect(res.status).to.be.equal(401);
-          expect(res.body.message).to.equal('It is not possible to create a match with two equal teams');
-        });
+  describe('Validate authorization header', () => {
+    describe('When no token is passed', () => {
+      it('Return status 401 with error message', async () => {
+        return chai
+          .request(app)
+          .post('/matchs')
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('No token provided');
+          });
+      })
+    })
+    describe('When a invalid token is passed', () => {
+      it('Return status 401 with error message', async () => {
+        return chai
+          .request(app)
+          .post('/matchs')
+          .set('authorization', 'invalid token')
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('Invalid token');
+          });
+      })
     })
   })
-  describe('When a team is not found', () => {
-    it('Returns status 401 with error message', () => {
-      return chai
-        .request(app)
-        .post('/matchs')
-        .send({
-          "homeTeam": 99,
-          "awayTeam": 8,
-          "homeTeamGoals": 2,
-          "awayTeamGoals": 2,
-          "inProgress": true
-        })
-        .then((res: Response) => {
-          expect(res.status).to.be.equal(401);
-          expect(res.body.message).to.equal('There is no team with such id!');
-        });
+  describe('When authorization header is passed', () => {
+    describe('When teams are the same', () => {
+      it('Returns status 401 with error message', async () => {
+        let chaiHttpResponse: Response;
+        chaiHttpResponse = await chai
+          .request(app)
+          .post('/login')
+          .send({ email: 'admin@admin.com', password: 'secret_admin' })
+
+        const { token } = chaiHttpResponse.body;
+
+        return chai
+          .request(app)
+          .post('/matchs')
+          .set('authorization', token)
+          .send({
+            "homeTeam": 8,
+            "awayTeam": 8,
+            "homeTeamGoals": 2,
+            "awayTeamGoals": 2,
+            "inProgress": true
+          })
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('It is not possible to create a match with two equal teams');
+          });
+      })
     })
-  })
-  describe('When a match is created with success', () => {
-    it('Returns status 201 with created match', () => {
-      return chai
-        .request(app)
-        .post('/matchs')
-        .send({
-          "homeTeam": 16,
-          "awayTeam": 8,
-          "homeTeamGoals": 2,
-          "awayTeamGoals": 2,
-          "inProgress": true
-        })
-        .then((res: Response) => {
-          expect(res.status).to.be.equal(201);
-          expect(res.body).to.have.property('id');
-          expect(res.body.homeTeam).to.equal(16)
-          expect(res.body.awayTeam).to.equal(8)
-          expect(res.body.homeTeamGoals).to.equal(2)
-          expect(res.body.awayTeamGoals).to.equal(2)
-          expect(res.body.inProgress).to.be.true
-        });
+    describe('When a team is not found', () => {
+      it('Returns status 401 with error message', async () => {
+        let chaiHttpResponse: Response;
+        chaiHttpResponse = await chai
+          .request(app)
+          .post('/login')
+          .send({ email: 'admin@admin.com', password: 'secret_admin' })
+
+        const { token } = chaiHttpResponse.body;
+
+        return chai
+          .request(app)
+          .post('/matchs')
+          .set('authorization', token)
+          .send({
+            "homeTeam": 99,
+            "awayTeam": 8,
+            "homeTeamGoals": 2,
+            "awayTeamGoals": 2,
+            "inProgress": true
+          })
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('There is no team with such id!');
+          });
+      })
+    })
+    describe('When a match is created with success', () => {
+      it('Returns status 201 with created match', async () => {
+        let chaiHttpResponse: Response;
+        chaiHttpResponse = await chai
+          .request(app)
+          .post('/login')
+          .send({ email: 'admin@admin.com', password: 'secret_admin' })
+
+        const { token } = chaiHttpResponse.body;
+        return chai
+          .request(app)
+          .post('/matchs')
+          .set('authorization', token)
+          .send({
+            "homeTeam": 16,
+            "awayTeam": 8,
+            "homeTeamGoals": 2,
+            "awayTeamGoals": 2,
+            "inProgress": true
+          })
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(201);
+            expect(res.body).to.have.property('id');
+            expect(res.body.homeTeam).to.equal(16)
+            expect(res.body.awayTeam).to.equal(8)
+            expect(res.body.homeTeamGoals).to.equal(2)
+            expect(res.body.awayTeamGoals).to.equal(2)
+            expect(res.body.inProgress).to.be.true
+          });
+      })
     })
   })
 })
 
 describe('Tests PATCH /matchs/:id/finish route', () => {
-  it('Returns status 200 with ok message', () => {
-    return chai
-      .request(app)
-      .patch('/matchs/1/finish')
-      .then((res: Response) => {
-        expect(res.status).to.be.equal(200);
-        expect(res.body.message).to.equal('Finished match');
-      });
-  });
+  describe('Validate authorization header', () => {
+    describe('When no token is passed', () => {
+      it('Return status 401 with error message', async () => {
+        return chai
+          .request(app)
+          .patch('/matchs/1/finish')
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('No token provided');
+          });
+      })
+    })
+    describe('When a invalid token is passed', () => {
+      it('Return status 401 with error message', async () => {
+        return chai
+          .request(app)
+          .patch('/matchs/1/finish')
+          .set('authorization', 'invalid token')
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('Invalid token');
+          });
+      })
+    })
+  })
+  describe('When authorization header is passed', () => {
+    it('Returns status 200 with ok message', async () => {
+      let chaiHttpResponse: Response;
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send({ email: 'admin@admin.com', password: 'secret_admin' })
+
+      const { token } = chaiHttpResponse.body;
+
+      return chai
+        .request(app)
+        .patch('/matchs/1/finish')
+        .set('authorization', token)
+        .then((res: Response) => {
+          expect(res.status).to.be.equal(200);
+          expect(res.body.message).to.equal('Finished match');
+        });
+    });
+  })
 });
 
 describe('Tests PATCH /matchs/:id route', () => {
-  it('Returns status 200 with ok message', () => {
-    return chai
-      .request(app)
-      .patch('/matchs/1')
-      .send({
-        "homeTeamGoals": 3,
-        "awayTeamGoals": 1
+  describe('Validate authorization header', () => {
+    describe('When no token is passed', () => {
+      it('Return status 401 with error message', async () => {
+        return chai
+          .request(app)
+          .patch('/matchs/1')
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('No token provided');
+          });
       })
-      .then((res: Response) => {
-        expect(res.status).to.be.equal(200);
-        expect(res.body.message).to.equal('Updated match');
-      });
-  });
+    })
+    describe('When a invalid token is passed', () => {
+      it('Return status 401 with error message', async () => {
+        return chai
+          .request(app)
+          .patch('/matchs/1')
+          .set('authorization', 'invalid token')
+          .then((res: Response) => {
+            expect(res.status).to.be.equal(401);
+            expect(res.body.message).to.equal('Invalid token');
+          });
+      })
+    })
+  })
+  describe('When authorization header is passed', () => {
+    it('Returns status 200 with ok message', async () => {
+      let chaiHttpResponse: Response;
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send({ email: 'admin@admin.com', password: 'secret_admin' })
+
+      const { token } = chaiHttpResponse.body;
+
+      return chai
+        .request(app)
+        .patch('/matchs/1')
+        .set('authorization', token)
+        .send({
+          "homeTeamGoals": 3,
+          "awayTeamGoals": 1
+        })
+        .then((res: Response) => {
+          expect(res.status).to.be.equal(200);
+          expect(res.body.message).to.equal('Match updated');
+        });
+    });
+  })
 });
