@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import Login from './routes/login';
 import Clubs from './routes/clubs';
 import domain from './controller/erros/joi';
+import Matchs from './routes/matchs';
 
 class App {
   public app: express.Express;
@@ -32,6 +33,7 @@ class App {
     this.app.use(express.json());
     this.app.use('/login', Login);
     this.app.use('/clubs', Clubs);
+    this.app.use('/matchs', Matchs);
     this.app.use(domain);
   }
 

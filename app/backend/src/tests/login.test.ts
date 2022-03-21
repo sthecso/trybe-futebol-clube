@@ -13,14 +13,11 @@ const User = {
   email: "user@user.com",
   password: "$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO"
 }
-// const notUser = {null}
-// const app = `http://localhost:${PORT}`
 
 chai.use(chaiHttp);
 
 const { expect } = chai
 
-// const rota = app.listen(PORT)
 
 describe("testa o funcionamento da rota Login" ,() =>{
   let chaiHttpResponse: Response
@@ -78,7 +75,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
       before(async () => {
         return sinon.stub(Model2User, "findOne").resolves({
             ...User
-          } as unknown as Model2User) // linter meu amigo apenas 
+          } as unknown as Model2User) // types do ts meu amigo apenas 
       })
       after(() => {
         (Model2User.findOne as sinon.SinonStub).restore()
@@ -97,7 +94,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
     describe("Testa se há o usuario" ,()=>{
       let chaiHttpResponse: Response
       before(async () => {
-        sinon.stub(Model2User, "findOne").resolves(null as unknown as Model2User) // linter meu amigo apenas 
+        sinon.stub(Model2User, "findOne").resolves(null as unknown as Model2User) // types do ts meu amigo apenas  
       })
       after(() => {
         (Model2User.findOne as sinon.SinonStub).restore()
@@ -116,7 +113,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
     describe("Caso de sucesso usuario" ,()=>{
       let chaiHttpResponse: Response
       before(async () => {
-        return sinon.stub(Model2User, "findOne").resolves(User as unknown as Model2User) // linter meu amigo apenas 
+        return sinon.stub(Model2User, "findOne").resolves(User as unknown as Model2User) // types do ts meu amigo apenas 
       })
       after(() => {
         (Model2User.findOne as sinon.SinonStub).restore()

@@ -4,36 +4,15 @@ import { app } from '../app'
 import ModelClubs from '../database/models/clubs'
 import { Response } from 'superagent'
 import chaiHttp = require('chai-http')
-interface IClubDTO {
-  id: number,
-  clubName: string
-}
+import {allClubs, oneClub, IClubDTO } from './mock' //mocks aqui heheh xD
 chai.use(chaiHttp)
 const { expect } = chai
-const allClubs = [
-  {
-    id: 1,
-    club_name: 'Avaí/Kindermann',
-  },
-  {
-    id: 2,
-    club_name: 'Bahia',
-  },
-  {
-    id: 3,
-    club_name: 'Botafogo',
-  },
-  {
-    id: 4,
-    club_name: 'Corinthians',
-  },
-]
-const oneClub = { id: 1, club_name: 'Avaí/Kindermann' }
+
 
 describe("Clubs mudar nome", () => {
   let chaiHttpResponse: Response
 
-  describe("buscando dados", () => {
+  describe("Buscando todos os clubs", () => {
     before(async () => {
       sinon.stub(ModelClubs, "findAll").resolves(allClubs as unknown as ModelClubs[])
     })
@@ -50,7 +29,7 @@ describe("Clubs mudar nome", () => {
       })
     })
   })
-  describe("", () => {
+  describe("Buscando clubs por id", () => {
     before(async () => {
       sinon.stub(ModelClubs, "findByPk").resolves(oneClub as unknown as ModelClubs)
     })
