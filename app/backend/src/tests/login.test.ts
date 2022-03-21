@@ -1,21 +1,3 @@
-// verificar se a rota de /login é do tipo POST ✅ 
-
-// verificar se é possível fazer o login com dados corretos ✅ 
-// verificar que após o acesso será redirecionado para a tela de jogos
-// verificar se o resultado retornado é o esperado
-// verificar se o status http é 200 ✅ 
-
-// verificar se não é possível fazer login sem o campo `email` -> status 400
-// verificar se não é possível fazer login com o campo `email` em branco -> status 400
-
-
-// verificar se não é possível fazer login sem o campo `password` -> status 400
-// verificar se não é possível fazer login com o campo `password` em branco' -> status 400
-// verificar se password tem o mínimo de 6 caracteres
-
-// verificar se o token existe
-// verificar se o token é válido
-
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
@@ -36,7 +18,7 @@ describe('Login', () => {
     it('tests if /login is POST with status 200 when we provide correct information', async () => {
       const login = {
         email: 'admin@admin.com',
-        password: '123456'
+        password: 'secret_admin'
       }
       
       chaiHttpResponse = await chai
@@ -48,7 +30,75 @@ describe('Login', () => {
   
       expect(chaiHttpResponse.status).to.be.equal(200);
       expect(token).not.to.be.undefined;
-      expect(user.username).to.be.equal('Admin');
+      expect(user.email).to.be.equal('admin@admin.com');
     });
-  })
+    it('tests when "email" is invalid - status 401', async () => {
+      const login = {
+        email: 'iamnotadmin@admin.com',
+        password: 'secret_admin'
+      }
+      
+      chaiHttpResponse = await chai
+         .request(app)
+         .post('/login')
+         .send(login)
+
+        const { message } = chaiHttpResponse.body;
+  
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(message).to.be.equal('Incorrect email or password');
+      
+    });
+    it('tests when "password" is invalid - status 401', async () => {
+      const login = {
+        email: 'admin@admin.com',
+        password: 'wrongpassword'
+      }
+      
+      chaiHttpResponse = await chai
+         .request(app)
+         .post('/login')
+         .send(login)
+
+        const { message } = chaiHttpResponse.body;
+  
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(message).to.be.equal('Incorrect email or password');
+      
+    });
+    it('tests when "email" is not provided - status 401', async () => {
+      const login = {
+        email: '',
+        password: 'secret_admin'
+      }
+      
+      chaiHttpResponse = await chai
+         .request(app)
+         .post('/login')
+         .send(login)
+
+        const { message } = chaiHttpResponse.body;
+  
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(message).to.be.equal('All fields must be filled');
+      
+    });
+    it('tests when "password" is not provided - status 401', async () => {
+      const login = {
+        email: '',
+        password: 'secret_admin'
+      }
+      
+      chaiHttpResponse = await chai
+         .request(app)
+         .post('/login')
+         .send(login)
+
+        const { message } = chaiHttpResponse.body;
+  
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(message).to.be.equal('All fields must be filled');
+      
+    });
+  });
 });
