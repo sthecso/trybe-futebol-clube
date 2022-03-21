@@ -11,8 +11,10 @@ export default (req: Request, res: Response, next: NextFunction) => {
   tokenValidation({ authorization }, res);
   try {
     const decoded = jwt.verifyToken(authorization as string);
+
     req.id = decoded;
-    next();
+
+    return next();
   } catch (e) {
     console.log(e);
     console.log(JsonWebTokenError);
