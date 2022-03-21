@@ -10,6 +10,7 @@ class MatchController {
 
   Routes() {
     this.router.get('/', MatchService.getAllMatches);
+    this.router.post('/', MatchService.createMatch);
   }
 }
 
