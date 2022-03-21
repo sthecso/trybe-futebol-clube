@@ -13,6 +13,8 @@ export default class UserRespository {
     });
     const userInfo = result as unknown as IUserSequelizeResult;
 
+    if (userInfo === null) return false;
+
     const comparison = await compare(password, userInfo.password);
     if (!comparison) return false;
 
