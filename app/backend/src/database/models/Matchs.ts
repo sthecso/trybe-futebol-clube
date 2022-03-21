@@ -11,24 +11,24 @@ Matchs.init({
     primaryKey: true,
     allowNull: false,
   },
-  home_team: {
+  homeTeam: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  home_team_goals: {
+  homeTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  away_team: {
+  awayTeam: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  away_team_goals: {
+  awayTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  in_progress: {
-    type: DataTypes.INTEGER,
+  inProgress: {
+    type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: 0,
   },
@@ -39,10 +39,7 @@ Matchs.init({
   timestamps: false,
 });
 
-Clubs.belongsTo(Matchs, { foreignKey: 'home_team', as: 'timeDaCasa' });
-Clubs.belongsTo(Matchs, { foreignKey: 'away_team', as: 'timeVisitante' });
-
-Matchs.hasMany(Clubs, { foreignKey: 'home_team', as: 'golsTimeDaCasa' });
-Matchs.hasMany(Clubs, { foreignKey: 'away_team', as: 'golsTimeVisitante' });
+Matchs.belongsTo(Clubs, { foreignKey: 'homeTeam', as: 'homeClub' });
+Matchs.belongsTo(Clubs, { foreignKey: 'awayTeam', as: 'awayClub' });
 
 export default Matchs;

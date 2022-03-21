@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as bcrypt from 'bcryptjs';
-import findUser from '../../Services/userService';
+import { find } from '../../Services/userService';
 
 const msg = 'All fields must be filled';
 
@@ -29,7 +29,7 @@ const validatePassword = async (req: Request, res: Response, next: NextFunction)
 const validateLogin = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
 
-  const user = await findUser(email);
+  const user = await find(email);
   if (!user) return res.status(401).json({ message: 'Incorrect email or password' });
   const userpass = user.getDataValue('password');
   const crypt = bcrypt.compareSync(password, userpass);

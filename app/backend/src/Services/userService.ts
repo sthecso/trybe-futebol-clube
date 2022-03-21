@@ -7,4 +7,11 @@ const findUser = async (email: string) => {
   return user;
 };
 
+const find = async (email: string) => {
+  const user = await userModel.findOne({ where: { email } });
+
+  return user;
+};
+
 export default findUser;
+export { find };
