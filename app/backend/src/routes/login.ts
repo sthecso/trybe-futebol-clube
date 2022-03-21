@@ -4,7 +4,7 @@ import LoginController from '../controllers/login.controller';
 
 const routes = Router()
 
-routes.get('/', async (_req, res) => {
+routes.get('/validate', async (_req, res) => {
   res.json({ message: "nobruApelão" })
 })
 
