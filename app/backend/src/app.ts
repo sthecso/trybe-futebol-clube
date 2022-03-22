@@ -5,6 +5,7 @@ import 'express-async-errors';
 
 import { Login } from './routes/LoginRoute';
 import { Club } from './routes/ClubRoute';
+import { Match } from './routes/MatchRoute';
 
 import domainError from './controllers/middlewares/domainError';
 
@@ -30,6 +31,7 @@ class App {
 
     this.app.use('/login', Login);
     this.app.use('/clubs', Club);
+    this.app.use('/matchs', Match);
     this.app.use(domainError);
   }
 
