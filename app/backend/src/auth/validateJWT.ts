@@ -22,23 +22,21 @@ export default async (req: Data, res: Response, next: NextFunction) => {
   const secret = jwtConfig.jwt.secret as unknown as string;
 
   const token = req.headers.authorization;
+
   if (!token) {
     return res.status(401).json('Token not found');
   }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      secret,
-      { algorithms: ['HS256'] },
-    ) as jwt.JwtPayload;
-    const receivedEmail = decoded.data.email;
+    const decoded = jwt.verify(token, secret, { algorithms: ['HS256'] }) as jwt.JwtPayload;
+    const receivedEmail = decoded.sub as string;
     const email = await findEmail(receivedEmail);
 
     req.email = email;
 
     next();
-  } catch (err:unknown) {
+  } catch (err) {
+    console.error(err);
     return res.status(401).json({ error: 'Invalid token', err });
   }
 };
