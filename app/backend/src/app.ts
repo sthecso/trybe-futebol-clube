@@ -2,6 +2,7 @@ import * as express from 'express';
 import ClubController from './controllers/ClubController';
 import LoginController from './controllers/LoginController';
 import MatchController from './controllers/MatchController';
+import LeaderboardController from './controllers/LeaderboardController';
 
 class App {
   public app: express.Express;
@@ -30,6 +31,7 @@ class App {
     this.app.patch('/matchs/:id/finish', MatchController.finish);
     this.app.get('/clubs', ClubController.all);
     this.app.get('/clubs/:id', ClubController.club);
+    this.app.get('/leaderboard/home', LeaderboardController.all);
   }
 
   public start(PORT: string | number):void {

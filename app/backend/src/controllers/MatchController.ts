@@ -11,11 +11,8 @@ class MatchController {
   static async all(_req: Request, res: Response) {
     const matchs = await Match.findAll({
       include: [
-        {
-          model: Club,
-          as: 'homeClub',
-          attributes: ['clubName'],
-        },
+        { model: Club, as: 'homeClub', attributes: ['clubName'] },
+        { model: Club, as: 'awayClub', attributes: ['clubName'] },
       ],
     });
     return res.status(Status.OK).json(matchs);
