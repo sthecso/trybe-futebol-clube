@@ -1,4 +1,4 @@
-import chai from 'chai';
+import * as chai from "chai";
 import { Response } from 'superagent';
 import { app } from '../app';
 import { clubs } from './assets/club';
