@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import LoginValidateService from '../services/LoginValidateService';
 
-const LoginController = async (req: Request, res: Response) => {
+const LoginValidateController = async (req: Request, res: Response) => {
   const { id } = req.body;
   const idNumber = Number(id);
   const role = await LoginValidateService.login(idNumber);
@@ -9,4 +9,4 @@ const LoginController = async (req: Request, res: Response) => {
   res.status(200).json(role);
 };
 
-export default LoginController;
+export default LoginValidateController;
