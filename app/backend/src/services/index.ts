@@ -1,3 +1,4 @@
-import Login from './Login';
+import LoginService from './Login';
+import ClubService from './Clubs';
 
-export default Login;
+export { LoginService, ClubService };
