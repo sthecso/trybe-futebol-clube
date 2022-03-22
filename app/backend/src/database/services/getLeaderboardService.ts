@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Leaderboard from '../../utils/LeaderboardObject';
 import { BaseLeaderboard, ClubGols, ClubsAndMatchs } from '../../utils/Interfaces';
 import Clubs from '../models/Clubs';
 import Matchs from '../models/Matchs';
@@ -48,18 +49,39 @@ function filterClubToReturnToUser(club: ClubsAndMatchs[]) {
   return finalLeaderboard;
 }
 
-function sortArray(a: BaseLeaderboard, b: BaseLeaderboard) {
-  if (a.totalPoints > b.totalPoints) { return -1; }
-  if (a.totalPoints < b.totalPoints) { return 1; }
-  if (a.totalVictories > b.totalVictories) { return -1; }
-  if (a.totalVictories < b.totalVictories) { return 1; }
-  if (a.goalsBalance > b.goalsBalance) { return -1; }
-  if (a.goalsBalance < b.goalsBalance) { return 1; }
-  if (a.goalsFavor > b.goalsFavor) { return -1; }
-  if (a.goalsFavor < b.goalsFavor) { return 1; }
-  if (a.goalsOwn > b.goalsOwn) { return -1; }
-  if (a.goalsOwn < b.goalsOwn) { return 1; }
+function sortByGoalsOwn(a: BaseLeaderboard, b: BaseLeaderboard) {
+  console.log('O filtro por gols feitos não foi realizado, fazendo filtro por gols tomados');
+  if (a.goalsOwn > b.goalsOwn) return -1;
+  if (a.goalsOwn < b.goalsOwn) return 1;
   return 0;
+}
+
+function sortByGoalsFavor(a: BaseLeaderboard, b: BaseLeaderboard) {
+  console.log('O filtro por KDA não foi realizado, fazendo filtro por gols feitos');
+  if (a.goalsFavor > b.goalsFavor) return -1;
+  if (a.goalsFavor < b.goalsFavor) return 1;
+  return sortByGoalsOwn(a, b);
+}
+
+function sortByGoalsBalance(a: BaseLeaderboard, b: BaseLeaderboard) {
+  console.log('O filtro por vitórias não foi realizado, fazendo filtro por K/D/A de gols');
+  if (a.goalsBalance > b.goalsBalance) return -1;
+  if (a.goalsBalance < b.goalsBalance) return 1;
+  return sortByGoalsFavor(a, b);
+}
+
+function sortByVictories(a: BaseLeaderboard, b: BaseLeaderboard) {
+  console.log('O filtro por pontos não foi realizado, fazendo filtro por vitórias');
+  if (a.totalVictories > b.totalVictories) return -1;
+  if (a.totalVictories < b.totalVictories) return 1;
+  return sortByGoalsBalance(a, b);
+}
+
+function sortByPoints(a: BaseLeaderboard, b: BaseLeaderboard) {
+  console.log('Fazendo o filtro por pontos.');
+  if (a.totalPoints > b.totalPoints) return -1;
+  if (a.totalPoints < b.totalPoints) return 1;
+  return sortByVictories(a, b);
 }
 
 async function getLeaderboardService() {
@@ -79,8 +101,8 @@ async function getLeaderboardService() {
     arrayToSetLeaderboard.push(n);
   });
   const responseLeaderboard = filterClubToReturnToUser(arrayToSetLeaderboard);
-  responseLeaderboard.sort(sortArray);
-  return responseLeaderboard;
+  await responseLeaderboard.sort(sortByPoints);
+  return Leaderboard;
 }
 
 export default getLeaderboardService;
