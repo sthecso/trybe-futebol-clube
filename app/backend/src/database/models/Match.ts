@@ -1,4 +1,4 @@
-import { INTEGER, Model } from 'sequelize';
+import { INTEGER, BOOLEAN, Model } from 'sequelize';
 import db from '.';
 import Club from './Club';
 
@@ -13,7 +13,7 @@ class Match extends Model {
 
   public awayTeamGoals: number;
 
-  public inProgress: number;
+  public inProgress: boolean;
 }
 
 Match.init({
@@ -40,7 +40,7 @@ Match.init({
     allowNull: false,
   },
   inProgress: {
-    type: INTEGER,
+    type: BOOLEAN,
     allowNull: false,
   },
 
@@ -52,20 +52,10 @@ Match.init({
   timestamps: false,
 });
 
-// Relacionamento 1:N
+Club.hasMany(Match, { foreignKey: 'homeTeam', as: 'homeMatches' });
+Club.hasMany(Match, { foreignKey: 'awayTeam', as: 'awayMatches' });
 
-// ======= Club doa duas chaves para Match: homeTeam e awayTeam =======
-
-// Club pertence a Match onde sua chave estrangeira é homeTeam que está no campo estrangeiro 'match'
-Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
-
-// Club pertence a Match onde sua chave estrangeira é awayTeam que está no campo estrangeiro 'match'
-Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
-
-// ======= Match recebe duas chaves de Club: homeTeam e awayTeam =======
-
-// Match recebe muitas chaves de Club, e suas chaves estrangeiras recebidas são: homeTeam e awayTeam que está no campo estrangeiro 'club'
-Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'club' });
-Match.hasMany(Club, { foreignKey: 'awayTeam', as: 'club' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
 
 export default Match;
