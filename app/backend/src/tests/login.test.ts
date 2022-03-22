@@ -15,8 +15,8 @@ describe('/login', () => {
     describe('Login com sucesso: ', () => {
       it('retorna um token', async () => {
         const user = {
-          "email": "admin@admin.com",
-          "password": "secret_admin"
+          email: "admin@admin.com",
+          password: "secret_admin"
         }
 
         await chai.request(app)

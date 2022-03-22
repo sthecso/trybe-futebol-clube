@@ -13,7 +13,7 @@ matchs.post(
   verifyBody,
   create,
 );
-matchs.patch('/:id', updateResult);
 matchs.patch('/:id/finish', updateInProgress);
+matchs.patch('/:id', updateResult);
 
 export default matchs;
