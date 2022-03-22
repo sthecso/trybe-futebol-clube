@@ -1,8 +1,8 @@
 import { Application } from 'express';
-// import loginRouter from './login';
+import loginRouter from './login';
 
 export default class Routes {
   public static routes(app: Application) {
-    app.use('/login', () => {});
+    app.use('/login', loginRouter);
   }
 }

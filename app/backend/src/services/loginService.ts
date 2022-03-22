@@ -13,7 +13,7 @@ export default class LoginService {
       };
     }
 
-    const correctPassword = bcrypt.compare(findUser.password, password);
+    const correctPassword = await bcrypt.compare(password, findUser.password);
 
     if (!correctPassword) {
       return {
@@ -22,7 +22,8 @@ export default class LoginService {
       };
     }
 
+    const { id, role, username } = findUser;
     const token = utilsJWT.createJwt(email);
-    return { user: findUser, token };
+    return { user: { id, username, role, email }, token };
   }
 }
