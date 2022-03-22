@@ -10,6 +10,7 @@ import bcrypt = require('bcryptjs');
 import MatchModel from '../models/match';
 import Match from '../database/modelsSequelize/match';
 import ClubsModels from '../models/club';
+import IMatchReq from '../interfaces/match/IMatchReq';
 
 
 chai.use(chaiHttp);
@@ -106,6 +107,40 @@ describe('Testa a classe clubModel', async () => {
 
 });
 
+describe('Testa a classe matchModel', async () => {
+
+  const mockData = {
+    homeTeam: 16,
+    homeTeamGoals: 2,
+    awayTeam: 8,
+    awayTeamGoals: 2,
+    inProgress: true
+  } as unknown as IMatchReq;
+
+ 
+
+  const matchModel = new MatchModel();
+
+      
+    it('testa o retorno do methodo getMatchByProgress ', async () => {
+    
+    expect(matchModel).to.be.instanceOf(MatchModel);
+    expect(await matchModel.getMatchsByProgress(false)).to.be.an("array");
+  });
+
+  it('testa o retorno do methodo saveMatchInProgress ', async () => {
+    
+    expect(await matchModel.saveMatchInProgress(mockData)).to.be.an("object");
+  });
+
+  it('testa o retorno do methodo updateResultsMatch ', async () => {
+    
+    expect(await matchModel.updateResultsMatch(1, {homeTeamGoals: 1, awayTeamGoals: 2})).to.be.an("object");
+  });
+
+
+});
+
 /*===========================Controller==========================*/
 describe('Testa a classe LoginUserController', () => {
   it('testa o retorno com um request valido', async () => {
@@ -148,4 +183,37 @@ describe('Testa a classe ClubController', () => {
       expect(chaiHttpResponse.body).to.have.keys('id', 'clubName');
   
     });
+})
+
+
+describe('Testa a classe matchController', () => {
+    
+  const mockData = {
+    homeTeam: 1,
+    homeTeamGoals: 2,
+    awayTeam: 8,
+    awayTeamGoals: 2,
+    inProgress: true
+  } as unknown as IMatchReq;
+
+  const mockDataeq = {
+    homeTeam: 1,
+    homeTeamGoals: 2,
+    awayTeam: 1,
+    awayTeamGoals: 2,
+    inProgress: true
+  } as unknown as IMatchReq;
+
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjQ3ODk1NzY4LCJleHAiOjE2NDg1MDA1Njh9.op-ZUbbRwCzO_-Oy1lS3HJ1AfYtxrZyT5MLx9ikXLKU"
+
+
+  it('testa o resultado quando usuario tenta salvar uma partida', async () => {
+    const chaiHttpResponse = await chai
+    .request(app)
+    .post('/matchs').auth(token, { type: 'bearer' })
+    .send(mockData);
+    expect(chaiHttpResponse.status).to.be.equal(200);
+
+
+  });
 })
