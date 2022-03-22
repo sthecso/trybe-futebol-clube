@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import inputValidation from '../middlewares/inputValidation';
 import LoginController from '../controllers/login.controller';
+import validateToken from '../middlewares/validateToken';
 
 const routes = Router()
 
-routes.get('/validate', async (_req, res) => {
-  res.json({ message: "nobruApelão" })
-})
+routes.get('/validate', validateToken, async (req, res) => {
+  const { role } = req.body.validate;
+  res.status(200).send(role);
+});
 
 routes.post('/', inputValidation, async (req, res) => {
   const data = req.body
@@ -17,6 +19,6 @@ routes.post('/', inputValidation, async (req, res) => {
     return res.status(result.code).json({ message: result.message })
   }
   res.status(200).json(result)
-})
+});
 
 export default routes

@@ -4,12 +4,6 @@ import User from '../database/models/User';
 import Bcrypt from '../utils/bcryptjs';
 
 export default class LoginService {
-  async login(data: ICredentials): Promise<any> {
-    const dataUser = await User.findOne({
-      where: { email: data.email },
-    });
-    return dataUser
-  }
   async create(data: ICredentials): Promise<any> {
     const dataUser = await User.findOne({
       where: { email: data.email },
