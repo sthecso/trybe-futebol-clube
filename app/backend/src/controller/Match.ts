@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import MatchService from '../service/Match';
 
 class Match {
@@ -6,6 +7,8 @@ class Match {
 
   constructor() {
     this.get();
+    this.post();
+    this.patch();
   }
 
   get() {
@@ -17,6 +20,16 @@ class Match {
       }
       const matchs = await MatchService.findAll();
       return res.status(200).json(matchs);
+    });
+  }
+
+  post() {
+    this.router.post('/', async (req: Request, res: Response) => {
+      const { inProgress } = req.body;
+      if (inProgress) {
+        const resultMatchCreated = await MatchService.create(req.body);
+        return res.status(StatusCodes.CREATED).json(resultMatchCreated);
+      }
     });
   }
 }
