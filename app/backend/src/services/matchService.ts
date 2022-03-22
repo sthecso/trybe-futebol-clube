@@ -25,7 +25,7 @@ const getAll = async (inProgress: boolean | undefined) => {
   return rowsWhereProgress;
 };
 
-const getById = async (id: number) => {
+const getById = async (id: string) => {
   const match = await Match.findOne({ where: { id } });
 
   if (!match) return null;
@@ -34,23 +34,27 @@ const getById = async (id: number) => {
 };
 
 const create = async (data: IMatch) => {
-  const { homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress } = data;
-
-  const match = await Match.create({
-    homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress,
-  });
-
-  if(!inProgress) return null;
+  const match = await Match.create(data);
 
   return match;
 };
 
-const updateInProgress = async (id: number) => {
-  await Match.update({ inProgress: false }, { where: { id } });
+const updateInProgress = async (id: string) => {
+  const [result] = await Match.update(
+    { inProgress: false },
+    { where: { id } }
+  );
+
+  return result;
 };
 
-const updateResult = async (id: number, homeTeamGoals: number, awayTeamGoals: number) => {
-  await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+const updateResult = async (id: string, homeTeamGoals: number, awayTeamGoals: number) => {
+  const [result] = await Match.update(
+    { homeTeamGoals, awayTeamGoals },
+    { where: { id } }
+  );
+
+  return result;
 };
 
 export {

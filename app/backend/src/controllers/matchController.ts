@@ -35,24 +35,23 @@ const create = async (req: Request, res: Response) => {
 const updateInProgress = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  await matchService.updateInProgress(Number(id));
+  const match = await matchService.updateInProgress(id);
 
-  const match = await matchService.getById(Number(id));
   if (!match) return res.status(404).json(message);
 
-  return res.status(200).json(match);
+  return res.status(200).json({ message: 'Match finished' });
 };
 
 const updateResult = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { homeTeamGoals, awayTeamGoals } = req.body;
 
-  await matchService.updateResult(Number(id), homeTeamGoals, awayTeamGoals);
+  const match = await matchService
+    .updateResult(id, homeTeamGoals, awayTeamGoals);
 
-  const match = await matchService.getById(Number(id));
   if (!match) return res.status(404).json(message);
 
-  return res.status(200).json(match);
+  return res.status(200).json({ message: 'Match updated' });
 };
 
 export { getAll, create, updateInProgress, updateResult };
