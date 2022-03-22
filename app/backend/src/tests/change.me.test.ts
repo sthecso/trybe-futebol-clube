@@ -13,14 +13,11 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-
 describe('Testa endpoint /login', () => {
   let chaiHttpResponse: Response;
   let expectedResult = {
-      id: 1,
-      username: 'Admin',
-      role: 'admin',
       email: 'admin@admin.com',
+      password: '123456'
   }
 
   before(async () => {
@@ -44,39 +41,36 @@ describe('Testa endpoint /login', () => {
         expect(res.status).to.be.equal(200);
         expect(res.body).not.to.be.empty;
         expect(res.body).to.be.an('object');
-        // expect(res.body.id).to.be.a('string'); /* Dá um erro de undefined no body.id, verificar */
-        // expectedResult = res.body.id;
       }).catch((err) => {
         throw err
       }) as unknown as Response;
   });
 })
 
+// describe('Testa auth/validateJWT.ts,', () => {
+//   let chaiHttpResponse: Response;
+//   before(async () => {
+//     sinon
+//       .stub(jwt, "verify")
+//       .resolves(() => {
+//         throw new Error('Token not found')
+//       })
+//   });
 
-describe('Testa auth/validateJWT.ts,', () => {
-  let chaiHttpResponse: Response;
-  before(async () => {
-    sinon
-      .stub(jwt, "verify")
-      .resolves(() => {
-        throw new Error('Token not found')
-      })
-  });
+//   after(()=>{
+//     (jwt.verify as sinon.SinonStub).restore();
+//   });
 
-  after(()=>{
-    (jwt.verify as sinon.SinonStub).restore();
-  });
-
-  it('E verificado se o token não existir a reposta de status e 401', async () => {
-    chaiHttpResponse = await chai
-       .request(app)
-       .get('/login/validate')
-       .set('authorization', 'algumTokenJwtAleatório')
-       .send({})
-       .then((res) => {
-         expect(res.status).to.be.equal(401);
-       }).catch((err) => {
-         throw err
-       }) as unknown as Response;
-  });
-})
+//   it('E verificado se o token não existir a reposta de status e 401', async () => {
+//     chaiHttpResponse = await chai
+//        .request(app)
+//        .get('/login/validate')
+//        .set('authorization', 'algumTokenJwtAleatório')
+//        .send({})
+//        .then((res) => {
+//          expect(res.status).to.be.equal(401);
+//        }).catch((err) => {
+//          throw err
+//        }) as unknown as Response;
+//   });
+// })
