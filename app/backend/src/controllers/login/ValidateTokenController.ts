@@ -1,6 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
-
-import { IErrorMessage } from '../../interfaces';
+import { IUserResponse } from '../../interfaces/login';
 
 import { HttpStatusCode } from '../../utils';
 
@@ -11,14 +9,11 @@ class ValidateTokenController {
     this.handle = this.handle.bind(this);
   }
 
-  handle(
-    req: Request,
-    res: Response,
-    _nextMiddleware: NextFunction,
-  ): Response<string | IErrorMessage> {
-    const { userDataDecoded: jwtDecoded } = req;
-
-    return res.status(this.httpStatusCode.Ok).json(jwtDecoded.role);
+  handle(jwtDecoded: IUserResponse) {
+    return {
+      httpStatusCode: this.httpStatusCode.Ok,
+      result: jwtDecoded.role,
+    };
   }
 }
 

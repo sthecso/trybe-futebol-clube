@@ -1,10 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { IUserRequest } from '../../interfaces/login';
 
 import { HttpStatusCode, schemaUserRequest } from '../../utils';
-
-import { IErrorMessage } from '../../interfaces';
 
 class ValidateLoginRequest {
   private httpStatusCode = HttpStatusCode;
@@ -15,22 +11,15 @@ class ValidateLoginRequest {
     this.handle = this.handle.bind(this);
   }
 
-  async handle(
-    req: Request,
-    res: Response,
-    nextMiddleware: NextFunction,
-  ): Promise<void | Response<IErrorMessage>> {
-    const userData = req.body as IUserRequest;
-
+  async handle(userData: IUserRequest) {
     const { error } = this.schemaUserRequest.validate(userData);
 
     if (error) {
-      return res
-        .status(this.httpStatusCode.NotAuthorized)
-        .json({ message: error.message });
+      return {
+        httpStatusCode: this.httpStatusCode.NotAuthorized,
+        result: { message: error.message },
+      };
     }
-
-    nextMiddleware();
   }
 }
 

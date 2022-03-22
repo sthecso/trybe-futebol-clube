@@ -1,8 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { LoginService } from '../../services/login';
 
-import { IUserRequest, ILoginResponse } from '../../interfaces/login';
+import { IUserRequest } from '../../interfaces/login';
 
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
@@ -17,24 +15,20 @@ class LoginController {
     this.handle = this.handle.bind(this);
   }
 
-  async handle(
-    req: Request,
-    res: Response,
-    _nextMiddleware: NextFunction,
-  ): Promise<Response<ILoginResponse>> {
-    const userData = req.body as IUserRequest;
-
+  async handle(userData: IUserRequest) {
     const user = await this.loginService.handle(userData);
 
     if (user instanceof this.ErrorCatcher) {
-      return res
-        .status(user.httpStatusCode)
-        .json({ message: user.message });
+      return {
+        httpStatusCode: user.httpStatusCode,
+        result: { message: user.message },
+      };
     }
 
-    return res
-      .status(this.httpStatusCode.Ok)
-      .json(user.data);
+    return {
+      httpStatusCode: this.httpStatusCode.Ok,
+      result: user.data,
+    };
   }
 }
 

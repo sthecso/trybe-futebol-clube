@@ -1,5 +1,3 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { readFileSync } from 'fs';
 
 import * as jwt from 'jsonwebtoken';
@@ -7,8 +5,6 @@ import * as jwt from 'jsonwebtoken';
 import { IUserResponse } from '../../interfaces/login';
 
 import { HttpStatusCode } from '../../utils';
-
-import { IErrorMessage } from '../../interfaces';
 
 class ValidateToken {
   private httpStatusCode = HttpStatusCode;
@@ -34,28 +30,24 @@ class ValidateToken {
     }
   }
 
-  handle(
-    req: Request,
-    res: Response,
-    nextMiddleware: NextFunction,
-  ): Response<IErrorMessage> | void {
-    const { authorization: token } = req.headers;
-
+  handle(token: string | undefined) {
     if (!token || !token.length) {
-      return res.status(this.httpStatusCode.NotAuthorized)
-        .json({ message: 'Has no token in headers' });
+      return {
+        httpStatusCode: this.httpStatusCode.NotAuthorized,
+        result: { message: 'Has no token in headers' },
+      };
     }
 
     const jwtDecoded = this.decodeToken(token);
 
     if (typeof jwtDecoded === 'string') {
-      return res.status(this.httpStatusCode.NotAuthorized)
-        .json({ message: jwtDecoded });
+      return {
+        httpStatusCode: this.httpStatusCode.NotAuthorized,
+        result: { message: jwtDecoded },
+      };
     }
 
-    req.userDataDecoded = jwtDecoded;
-
-    nextMiddleware();
+    return jwtDecoded;
   }
 }
 
