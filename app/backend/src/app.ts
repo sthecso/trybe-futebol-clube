@@ -1,6 +1,7 @@
 import * as express from 'express';
 import ClubController from './controllers/ClubController';
 import LoginController from './controllers/LoginController';
+import MatchController from './controllers/MatchController';
 
 class App {
   public app: express.Express;
@@ -13,7 +14,7 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
@@ -23,13 +24,17 @@ class App {
 
     this.app.post('/login', LoginController.login);
     this.app.get('/login/validate', LoginController.validate);
+    this.app.get('/matchs', MatchController.all);
+    this.app.post('/matchs', MatchController.create);
+    this.app.patch('/matchs/:id', MatchController.update);
+    this.app.patch('/matchs/:id/finish', MatchController.finish);
     this.app.get('/clubs', ClubController.all);
     this.app.get('/clubs/:id', ClubController.club);
   }
 
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
-      console.log(`Servidor rodando na porta$ ${PORT}`);
+      console.log(`Servidor ouvindo na porta$ ${PORT}`);
     });
   }
 }

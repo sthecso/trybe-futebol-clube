@@ -28,6 +28,7 @@ class MatchController {
       where: { id: { [Op.in]: [homeTeam, awayTeam] } },
     });
     if (teams.count < 2) return res.status(Status.UNAUTHORIZED).json({ message: noTeam });
+
     try {
       const newMatch = await Match.create({ ...req.body });
       return res.status(Status.OK).json(newMatch);
@@ -36,24 +37,26 @@ class MatchController {
     }
   }
 
-  static async finishMatch(req: Request, res: Response) {
+  static async finish(req: Request, res: Response) {
     const { id } = req.params;
 
     try {
       const [ok] = await Match.update({ inProgress: false }, { where: { id } });
-      return res.status(Status.OK).json({ message: 'Finished match', ok });
+      return res.status(Status.OK).json({ message: 'Finished match' });
+      console.log(ok);
     } catch (error) {
       return res.status(Status.INTERNAL_SERVER_ERROR).json({ erro: error });
     }
   }
 
-  static async updateMatch(req: Request, res: Response) {
+  static async update(req: Request, res: Response) {
     const { id } = req.params;
     const { homeTeamGoals, awayTeamGoals } = req.body;
 
     try {
       const [ok] = await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
-      res.status(Status.OK).json({ message: 'Updated match', ok });
+      res.status(Status.OK).json({ message: 'Updated match' });
+      console.log(ok);
     } catch (error) {
       return res.status(Status.INTERNAL_SERVER_ERROR).json({ erro: error });
     }
