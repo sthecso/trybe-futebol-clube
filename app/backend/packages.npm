@@ -1,3 +1,5 @@
+joi
+express-async-errors
 bcryptjs
--D @types/bcryptjs
-express-async-errors --save
+@types/bcryptjs
+@types/debug

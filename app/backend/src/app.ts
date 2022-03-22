@@ -26,8 +26,8 @@ class App {
       next();
     };
 
-    this.app.use(accessControl);
     this.app.use(express.json());
+    this.app.use(accessControl);
     this.app.use(cors());
   }
 
