@@ -14,8 +14,8 @@ Club.init({
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true,
     autoIncrement: true,
+    primaryKey: true,
   },
   clubName: {
     type: DataTypes.STRING,
@@ -25,7 +25,7 @@ Club.init({
   // ... Outras configs
   underscored: true,
   sequelize: db,
-  modelName: 'Clubs',
+  modelName: 'Club',
   tableName: 'clubs',
   timestamps: false,
 });
