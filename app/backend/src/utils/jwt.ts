@@ -14,9 +14,10 @@ export const signToken = (payload: IUserResponse) => {
 };
 
 export const verifyToken = (token: string) => {
-  jwt.verify(
+  const verifiedToken = jwt.verify(
     token,
     SECRET,
     { algorithms: ['HS256'] },
   );
+  return verifiedToken;
 };
