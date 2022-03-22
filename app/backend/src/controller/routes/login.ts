@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { ILoginController } from '../../utils/interfaces';
+import { ILoginController, IPayload } from '../../utils/interfaces';
 import { LoginFactory } from '../../utils/factory';
 import { validateBody, validateJwt } from '../middlewares';
 import * as joiSchemas from '../../utils/joi.schemas';
@@ -28,7 +28,7 @@ export default class Login {
       '/validate',
       validateJwt,
       async (req: Request, res: Response) => {
-        const { code, data } = this.loginController.validate(req.token);
+        const { code, data } = this.loginController.validate(req.token as IPayload);
         return res.status(code).send(data);
       },
     );
