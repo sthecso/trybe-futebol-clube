@@ -1,7 +1,9 @@
 import { IPayload } from '../../utils/interfaces';
 
-declare module 'express-serve-static-core' {
-  interface Request {
-    token?: IPayload
+declare global {
+  namespace Express {
+    interface Request {
+      token?: IPayload
+    }
   }
 }
