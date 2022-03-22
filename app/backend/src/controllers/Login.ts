@@ -8,6 +8,7 @@ class LoginController {
     const { email, password } = req.body;
     const { code, data } = await LoginService.getLogin({ email, password });
     if (data.message) {
+      console.log(data.message);
       return res.status(code).json(data.message);
     }
 

@@ -1,7 +1,7 @@
 import { CRUDLogin } from '../interfaces/CRUD';
 import { IEmailAndPasswordDTO, LoginDTO } from '../interfaces/ILogin';
 import User from '../database/models/User';
-import { hash, compare } from '../utils/Bcrypt';
+import compare from '../utils/Bcrypt';
 
 class LoginService implements CRUDLogin {
   userReturnOnlogin = async (email: string) => {
@@ -18,14 +18,6 @@ class LoginService implements CRUDLogin {
     return recoverAttributesUserLogged;
   };
 
-  checkIfPasswordTrueOrFalse = async (password: string, user: string) => {
-    const hashPassword = await hash(password);
-
-    const comparePassword = await compare(hashPassword, user);
-
-    return comparePassword;
-  };
-
   getLogin = async (value: IEmailAndPasswordDTO) => {
     const { email, password } = value;
     const searchUser = await User.findOne({ where: { email } }) as User;
@@ -34,9 +26,9 @@ class LoginService implements CRUDLogin {
       return { code: 401, data: { message: 'Incorrect email or password' } };
     }
 
-    const comparePassword = await this.checkIfPasswordTrueOrFalse(password, searchUser.password);
+    const comparePassword = await compare(password, searchUser.password);
 
-    if (comparePassword) {
+    if (!comparePassword) {
       return { code: 401, data: { message: 'Incorrect email or password' } };
     }
 
