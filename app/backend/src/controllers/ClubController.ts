@@ -3,7 +3,7 @@ import Status from '../Enums/statusCode';
 import Club from '../database/models/Club';
 
 class ClubController {
-  static async all(req: Request, res: Response) {
+  static async all(_req: Request, res: Response) {
     const clubs = await Club.findAll();
     return res.status(Status.OK).json(clubs);
   }
@@ -12,6 +12,7 @@ class ClubController {
     const { id } = req.params;
     const club = await Club.findByPk(id);
     return res.status(Status.OK).json(club);
+    // comentário para teste
   }
 }
 
