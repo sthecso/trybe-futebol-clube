@@ -22,6 +22,7 @@ const ROLE_ADMIN = 'admin';
 const ROUTE_LOGIN = '/login';
 const ROUTE_LOGIN_VALIDATE = '/login/validate';
 
+/* eslint-disable */
 describe('When login is ok', () => {
   let chaiHttpResponse: Response;
   beforeEach(async () => sinon.stub(Users, "findOne")

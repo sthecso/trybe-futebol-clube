@@ -1,5 +1,4 @@
 import * as chai from 'chai';
-import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 import { Response } from 'superagent';
 import { app } from '../app';
@@ -13,6 +12,7 @@ const ROUTE_MATCHS_PROGRESS_TRUE = '/matchs?inProgress=true';
 const ROUTE_MATCHS_PROGRESS_FALSE = '/matchs?inProgress=false';
 const ROUTE_MATCHS_FINISH = '/matchs/1/finish';
 
+/* eslint-disable */
 describe('GET Route', () => {
   let chaiHttpResponse: Response;
   it('when return status code 200', async () => {

@@ -10,6 +10,7 @@ const { expect } = chai;
 const ROUTE_CLUBS = '/clubs';
 const ROUTE_CLUBS_ID = '/clubs/1';
 
+/* eslint-disable */
 describe('Clubs Test', () => {
   describe('When the request is ok', () => {
     let chaiHttpResponse: Response;
