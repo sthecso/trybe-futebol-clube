@@ -32,6 +32,13 @@ class Match {
       }
     });
   }
+
+  patch() {
+    this.router.patch('/:id/finish', async (req: Request, res: Response) => {
+      const { id } = req.params;
+      res.status(StatusCodes.CREATED).json(id);
+    });
+  }
 }
 
 export default new Match().router;
