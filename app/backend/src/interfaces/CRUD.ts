@@ -1,5 +1,9 @@
 import { IEmailAndPasswordDTO } from './ILogin';
 
-export default interface CRUD {
+export interface CRUDLogin {
   getLogin: (value: IEmailAndPasswordDTO) => Promise<object>;
+}
+
+export interface CRUDClub {
+  getClubs: () => object
 }
