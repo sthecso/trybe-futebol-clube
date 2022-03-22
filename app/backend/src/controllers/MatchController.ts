@@ -32,13 +32,13 @@ class MatchController {
     const { id } = req.params;
     const matchGoals = { id, ...req.body } as IMatchGoals;
     const { code, data } = await this.matchService.editMatch(matchGoals);
-    return res.status(code).json(data);
+    return res.status(code).send(data);
   }
 
   async finishMatch(req: Request, res: Response) {
     const { id } = req.params;
     const { code, data } = await this.matchService.finishMatch(parseInt(id, 10));
-    return res.status(code).json(data);
+    return res.status(code).send(data);
   }
 }
 
