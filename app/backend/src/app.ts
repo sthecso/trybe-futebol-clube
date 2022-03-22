@@ -8,14 +8,10 @@ import domainError from './controllers/middlewares/domainError';
 class App {
   public app: express.Express;
 
-  // private parseJson = bodyParser;
-
   constructor() {
     this.app = express();
 
     this.config();
-
-    // this.app.use(bodyParser.json());
   }
 
   private config():void {
@@ -28,6 +24,7 @@ class App {
 
     this.app.use(bodyParser.json());
     this.app.use(accessControl);
+
     this.app.use('/login', Login);
     this.app.use(domainError);
   }
