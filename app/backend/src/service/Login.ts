@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import User from '../database/models/users';
 
 class Login {
@@ -32,8 +32,7 @@ class Login {
   }
 
   get passwordIsValid() {
-    this._passwordIsValid = bcrypt
-      .compareSync(this.password, String(this._userFound?.password));
+    this._passwordIsValid = bcrypt.compareSync(this.password, String(this._userFound?.password));
     return this._passwordIsValid;
   }
 }
