@@ -83,4 +83,55 @@ describe('Testing Login Route', () => {
       expect(chaiHttpResponse.text).to.be.equal(JSON.stringify(jsonResponse));
     });
   });
+
+  describe('Get role with token', () => {
+    it('If token is incorrect', async () => {
+      const token = 'asdasdad';
+      const jsonResponse = {
+        error: 'Invalid token',
+      };
+
+      // get role
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', token);
+
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(chaiHttpResponse.text).to.be.equal(JSON.stringify(jsonResponse));
+    });
+
+    it('If token does not exist', async () => {
+      const jsonResponse = {
+        error: 'Token not found',
+      };
+
+      // get role
+      chaiHttpResponse = await chai.request(app).get('/login/validate');
+
+      expect(chaiHttpResponse.status).to.be.equal(401);
+      expect(chaiHttpResponse.text).to.be.equal(JSON.stringify(jsonResponse));
+    });
+
+    it('If token is correct', async () => {
+      const payload = {
+        email: 'admin@admin.com',
+        password: 'secret_admin',
+      };
+      const roleResponse = 'admin';
+
+      // get token
+      chaiHttpResponse = await chai.request(app).post('/login').send(payload);
+      const token = JSON.parse(chaiHttpResponse.text).token;
+
+      // get role
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', token);
+
+      expect(chaiHttpResponse.status).to.be.equal(200);
+      expect(JSON.parse(chaiHttpResponse.text)).to.be.equal(roleResponse);
+    });
+  });
 });

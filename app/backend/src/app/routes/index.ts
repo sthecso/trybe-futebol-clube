@@ -13,4 +13,10 @@ login.post(
   userController.login,
 );
 
+login.get(
+  '/validate',
+  validateLogin.tokenValidation,
+  userController.loginValidate,
+);
+
 export default { login };

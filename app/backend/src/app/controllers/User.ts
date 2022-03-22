@@ -16,4 +16,11 @@ export default class UserController {
     res.status(StatusCode.OK).json(loginRes);
     return this;
   }
+
+  async loginValidate(req: Request, res: Response) {
+    const { role } = req.body;
+
+    res.status(StatusCode.OK).json(role);
+    return this;
+  }
 }
