@@ -34,9 +34,27 @@ const getMatchs = async (param: string) => {
   }
 };
 
-// const createMatchs = async () => {
+const createMatchs = async (body: object) => {
+  const matchCreated = await matchModel.create(body);
 
-// }
+  return matchCreated;
+};
+
+const updateMatch = async (id: number) => {
+  await matchModel.update({ inProgress: false }, { where: { id } });
+
+  const match = await matchModel.findOne({ where: { id } });
+
+  return match;
+};
+
+const changeGoalsTeam = async (id: number, home: number, away: number) => {
+  await matchModel.update({ homeTeamGoals: home, awayTeamGoals: away }, { where: { id } });
+
+  const match = await matchModel.findOne({ where: { id } });
+
+  return match;
+};
 
 export default getAllMatchs;
-export { getMatchs };
+export { getMatchs, createMatchs, updateMatch, changeGoalsTeam };
