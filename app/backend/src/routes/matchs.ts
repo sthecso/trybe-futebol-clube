@@ -26,6 +26,12 @@ class Matchs {
       '/:id/finish',
       this._controllerMatchs.finish.bind(this._controllerMatchs),
     );
+
+    this.matchRoute.patch(
+      '/:id',
+      this._controllerMatchs.upGols.bind(this._controllerMatchs),
+    );
+
     this.matchRoute.use(this._checkToken.VerifyToken.bind(this._checkToken));
 
     this.matchRoute.post('/', this._controllerMatchs.create.bind(this._controllerMatchs));

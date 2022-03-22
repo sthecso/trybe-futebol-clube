@@ -1,6 +1,6 @@
 import ModeelMatchs from '../models/matchs';
 import ModelClubs from '../models/clubs';
-import ICreateMatchDTO from '../../interface/match';
+import ICreateMatchDTO, { Gols } from '../../interface/match';
 
 interface IMatchsDT02 {
   id: number,
@@ -72,6 +72,10 @@ class Matchs {
 
   async update(id:number) {
     await this._metodos.update({ inProgress: false }, { where: { id } });
+  }
+
+  async updateGols(id:number, gols:Gols) {
+    await this._metodos.update({ ...gols, inProgress: false }, { where: { id } });
   }
 }
 

@@ -1,4 +1,4 @@
-import ICreateMatchDTO from '../interface/match';
+import ICreateMatchDTO, { Gols } from '../interface/match';
 import ModelMatchs from '../database/fé/match';
 import ModelClubs from '../database/fé/clubs';
 
@@ -18,6 +18,8 @@ class ServiceMatchs {
   };
 
   public finish = async (id:number) => this.ModelMatchs.update(id);
+
+  public updateGols = async (id:number, gols:Gols) => this.ModelMatchs.updateGols(id, gols);
 }
 
 export default ServiceMatchs;

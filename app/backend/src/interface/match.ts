@@ -5,3 +5,7 @@ export default interface ICreateMatchDTO{
   awayTeamGoals: number,
   inProgress: boolean // a partida deve ser criada como em progresso
 }
+export interface Gols{
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
