@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { matchSchema } from '../schemas/joiSchemas';
+import { matchGoalsSchema, matchSchema } from '../schemas/joiSchemas';
 import { validateJWT, validateSchema } from '../middlewares';
 import { MatchController } from '../controllers';
 import validateMatch from '../middlewares/validateMatch';
@@ -25,10 +25,12 @@ class MatchRouter {
       this.matchController.postMatch,
     );
     this.router.patch(
-      '/:id/finish',
+      '/:id',
       validateJWT,
-      this.matchController.finishMatch,
+      validateSchema(matchGoalsSchema),
+      this.matchController.editMatch,
     );
+    this.router.patch('/:id/finish', validateJWT, this.matchController.finishMatch);
   }
 }
 

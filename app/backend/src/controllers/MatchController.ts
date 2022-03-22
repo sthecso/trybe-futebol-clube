@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { IMatchGoals } from '../interfaces';
 import { MatchService } from '../services';
 
 class MatchController {
@@ -8,6 +9,7 @@ class MatchController {
     this.matchService = new MatchService();
     this.getMatchs = this.getMatchs.bind(this);
     this.postMatch = this.postMatch.bind(this);
+    this.editMatch = this.editMatch.bind(this);
     this.finishMatch = this.finishMatch.bind(this);
   }
 
@@ -23,6 +25,13 @@ class MatchController {
 
   async postMatch(req: Request, res: Response) {
     const { code, data } = await this.matchService.postMatch(req.body);
+    return res.status(code).json(data);
+  }
+
+  async editMatch(req: Request, res: Response) {
+    const { id } = req.params;
+    const matchGoals = { id, ...req.body } as IMatchGoals;
+    const { code, data } = await this.matchService.editMatch(matchGoals);
     return res.status(code).json(data);
   }
 

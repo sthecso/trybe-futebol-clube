@@ -1,6 +1,6 @@
 import IErrorStatus from './errorStatus';
 import ILogin from './login';
 import ITokenData from './token';
-import IMatch from './match';
+import { IMatch, IMatchGoals } from './match';
 
-export { IErrorStatus, ILogin, ITokenData, IMatch };
+export { IErrorStatus, ILogin, ITokenData, IMatch, IMatchGoals };

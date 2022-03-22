@@ -19,7 +19,7 @@ describe('Request Get Match',() => {
     exec('npm run db:reset');
   });
 
-  it('On /matchs returns all matchs', async () => {
+  it('On / returns all matchs', async () => {
     matchResponse = await chai.request(app)
     .get('/matchs');
 
@@ -31,7 +31,7 @@ describe('Request Get Match',() => {
 
   it('On /matchs?inProgress=true returns all inProgress matchs', async () => {
     matchResponse = await chai.request(app)
-    .get('/matchs?inProgress=true');
+    .get('/?inProgress=true');
 
     const { status, body } = matchResponse;
     const filteredMatchs = matchs.filter((match) => match.inProgress);
@@ -39,7 +39,7 @@ describe('Request Get Match',() => {
     expect(body).to.be.deep.equal(filteredMatchs);
   });
 
-  it('On /matchs?inProgress=false returns all not inProgress matchs', async () => {
+  it('On /?inProgress=false returns all not inProgress matchs', async () => {
     matchResponse = await chai.request(app)
     .get('/matchs?inProgress=false');
 
@@ -69,7 +69,7 @@ describe('Request Post Match',() => {
     lastId = matchs[matchs.length - 1].id;
   });
 
-  it('On /matchs with correct correct Body and correct Token', async () => {
+  it('On / with correct correct Body and correct Token', async () => {
     matchResponse = await chai.request(app)
     .post('/matchs')
     .set('authorization', token)
@@ -92,7 +92,7 @@ describe('Request Post Match',() => {
     });
   });
 
-  it('On /matchs with correct Body and Missing Token', async () => {
+  it('On / with correct Body and Missing Token', async () => {
     matchResponse = await chai.request(app)
     .post('/matchs')
     .send({
@@ -107,7 +107,7 @@ describe('Request Post Match',() => {
     expect(error).to.be.equal('Token not found');
   });
 
-  it('On /matchs with correct Body and invalid Token', async () => {
+  it('On / with correct Body and invalid Token', async () => {
     matchResponse = await chai.request(app)
     .post('/matchs')
     .set('authorization', 'invalidToken')
@@ -123,7 +123,7 @@ describe('Request Post Match',() => {
     expect(error).to.be.equal('Invalid token');
   });
 
-  it('On /matchs with incorrect Body and correct Token', async () => {
+  it('On / with incorrect Body and correct Token', async () => {
     matchResponse = await chai.request(app)
     .post('/matchs')
     .set('authorization', token)
@@ -136,3 +136,21 @@ describe('Request Post Match',() => {
     expect(message).to.be.equal('All fields must be filled');
   })
 });
+
+describe('Request PATCH matchs', () => {
+  let matchResponse: Response;
+  let loginResponse: Response;
+  let token: string;
+
+  before(async () => {
+    exec('npm run db:reset');
+    loginResponse = await chai.request(app)
+    .post('/login')
+    .send({
+      email: 'admin@admin.com',
+      password: 'secret_admin'
+    });
+    token = loginResponse.body.token;
+  });
+  
+})

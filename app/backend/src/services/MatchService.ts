@@ -1,6 +1,6 @@
 import StatusCode from '../enums';
 import { ClubModel, MatchModel } from '../database/models';
-import { IMatch } from '../interfaces';
+import { IMatch, IMatchGoals } from '../interfaces';
 
 class MatchService {
   private matchModel: typeof MatchModel;
@@ -37,6 +37,15 @@ class MatchService {
       ...match,
     };
     return { code: StatusCode.CREATED, data };
+  }
+
+  async editMatch(matchGoals: IMatchGoals) {
+    const { id, homeTeamGoals, awayTeamGoals } = matchGoals;
+    await this.matchModel.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
+    return { code: StatusCode.NO_CONTENT, data: 'Updated' };
   }
 
   async finishMatch(id: number) {

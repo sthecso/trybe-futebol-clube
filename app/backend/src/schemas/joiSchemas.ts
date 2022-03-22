@@ -45,4 +45,17 @@ const matchSchema = Joi.object({
   }),
 });
 
-export { loginSchema, matchSchema };
+const matchGoalsSchema = Joi.object({
+  homeTeamGoals: Joi.number().required().positive().messages({
+    'number.base': 'homeTeamGoals must be a number',
+    'number.positive': errorPositve,
+    'any.required': errorField,
+  }),
+  awayTeamGoals: Joi.number().required().positive().messages({
+    'number.base': 'awayTeamGoals must be a number',
+    'number.positive': errorPositve,
+    'any.required': errorField,
+  }),
+});
+
+export { loginSchema, matchSchema, matchGoalsSchema };
