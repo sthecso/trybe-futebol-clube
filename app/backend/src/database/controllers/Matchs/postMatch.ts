@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import { UserSentMatchData } from '../../../helpers/Interfaces';
-import getClubByIdService from '../../services/Clubs/getClubByIdService';
-import postMatchService from '../../services/Matchs/postMatchService';
+import getClubByIdService from '../../services/Clubs/getClubById';
+import postMatchService from '../../services/Matchs/postMatch';
 
 const MSG_INSERT_VALID_GOALS = { message: 'Insira um número de gols válido' };
 const MSG_INSERT_GAME_PROGRESS = { message: 'Insira se a partida está em progresso ou não' };

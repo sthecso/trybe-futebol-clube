@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import getClubsService from '../../services/Clubs/getClubsService';
+import getClubsService from '../../services/Clubs/getClubs';
 
 async function getClubsController(_req: Request, res: Response) {
   const clubs = await getClubsService();

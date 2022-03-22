@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import finishMatchService from '../../services/Matchs/finishMatchService';
+import finishMatchService from '../../services/Matchs/finishMatch';
 
 const MSG_GAME_FINALLIZED = { message: 'Partida finalizada!' };
 
