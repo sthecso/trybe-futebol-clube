@@ -22,14 +22,13 @@ class Matchs {
       '/',
       this._controllerMatchs.findProgres.bind(this._controllerMatchs),
     );
-    this.matchRoute.use(this._checkToken.VerifyToken.bind(this._checkToken));
-
-    this.matchRoute.post('/', this._controllerMatchs.create.bind(this._controllerMatchs));
-
     this.matchRoute.patch(
       '/:id/finish',
       this._controllerMatchs.finish.bind(this._controllerMatchs),
     );
+    this.matchRoute.use(this._checkToken.VerifyToken.bind(this._checkToken));
+
+    this.matchRoute.post('/', this._controllerMatchs.create.bind(this._controllerMatchs));
   }
 }
 
