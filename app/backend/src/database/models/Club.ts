@@ -1,18 +1,32 @@
-import { Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import db from '.';
 // import OtherModel from './OtherModel';
 
-class Example extends Model {
+class Club extends Model {
   // public <campo>!: <tipo>;
+  id: number;
+
+  clubName: string;
 }
 
-Example.init({
+Club.init({
   // ... Campos
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  clubName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   // ... Outras configs
   underscored: true,
   sequelize: db,
-  // modelName: 'example',
+  modelName: 'Clubs',
+  tableName: 'clubs',
   timestamps: false,
 });
 
@@ -27,4 +41,4 @@ Example.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default Example;
+export default Club;
