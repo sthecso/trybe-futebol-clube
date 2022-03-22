@@ -28,7 +28,7 @@ Match.init({
     type: INTEGER,
     allowNull: false,
   },
-  homeTeamgGoals: {
+  homeTeamGoals: {
     type: INTEGER,
     allowNull: false,
   },
@@ -52,10 +52,10 @@ Match.init({
   timestamps: false,
 });
 
-Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
-Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
+Club.hasMany(Match, { foreignKey: 'homeTeam', as: 'match' });
+Club.hasMany(Match, { foreignKey: 'awayTeam', as: 'Match' });
 
-Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'club' });
-Match.hasMany(Club, { foreignKey: 'awayTeam', as: 'club' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'club' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'Club' });
 
 export default Match;
