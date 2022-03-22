@@ -1,11 +1,13 @@
 import * as express from 'express';
-import finishMatchController from './database/controllers/Matchs/finishMatchController';
-import getClubByIdController from './database/controllers/Clubs/getClubByIdController';
-import getClubsController from './database/controllers/Clubs/getClubsController';
-import getMatchsController from './database/controllers/Matchs/getMatchsController';
-import loginController from './database/controllers/Login/LoginController';
-import postMatchController from './database/controllers/Matchs/postMatchController';
-import validateLoginController from './database/controllers/Middlewares/validateLoginController';
+import finishMatchController from './database/controllers/Matchs/finishMatch';
+import getClubByIdController from './database/controllers/Clubs/getClubById';
+import getClubsController from './database/controllers/Clubs/getClubs';
+import getLeaderboardController from './database/controllers/Leaderboard/getLeaderboard';
+import getMatchsController from './database/controllers/Matchs/getMatchs';
+import loginController from './database/controllers/Login/Login';
+import postMatchController from './database/controllers/Matchs/postMatch';
+import validateLoginController from './database/controllers/Middlewares/validateLogin';
+import updateMatchController from './database/controllers/Matchs/updateMatch';
 
 class App {
   public app: express.Express;
@@ -18,19 +20,21 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
 
     this.app.use(accessControl);
     this.app.use(express.json());
-    this.app.post('/login', loginController);
-    this.app.get('/login/validate', validateLoginController);
     this.app.get('/clubs', getClubsController);
     this.app.get('/clubs/:id', getClubByIdController);
+    this.app.get('/leaderboard/home', getLeaderboardController);
+    this.app.post('/login', loginController);
+    this.app.get('/login/validate', validateLoginController);
     this.app.get('/matchs', getMatchsController);
     this.app.post('/matchs', postMatchController);
+    this.app.patch('/matchs/:id', updateMatchController);
     this.app.patch('/matchs/:id/finish', finishMatchController);
   }
 
