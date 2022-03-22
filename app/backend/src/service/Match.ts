@@ -19,6 +19,11 @@ class MatchService {
       ] });
     return oneTeam;
   }
+
+  static async create(matchCreated: object) {
+    const resultQuery = await Match.create(matchCreated);
+    return resultQuery;
+  }
 }
 
 export default MatchService;
