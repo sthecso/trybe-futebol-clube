@@ -1,8 +1,11 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-// import route from './routes';
+
 import 'express-async-errors';
+
 import { Login } from './routes/LoginRoute';
+import { Club } from './routes/ClubRoute';
+
 import domainError from './controllers/middlewares/domainError';
 
 class App {
@@ -26,6 +29,7 @@ class App {
     this.app.use(accessControl);
 
     this.app.use('/login', Login);
+    this.app.use('/clubs', Club);
     this.app.use(domainError);
   }
 
