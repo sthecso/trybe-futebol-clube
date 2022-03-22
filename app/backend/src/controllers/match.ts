@@ -15,6 +15,7 @@ class MatchController {
     this.getMatchsByProgress = this.getMatchsByProgress.bind(this);
     this.saveMatchInProgress = this.saveMatchInProgress.bind(this);
     this.updateResultsMatch = this.updateResultsMatch.bind(this);
+    this.finishMatch = this.finishMatch.bind(this);
   }
 
   async getMatchsByProgress(req: Request, res: Response) {
@@ -55,6 +56,12 @@ class MatchController {
         .json({ message: 'Team not found' });
     }
     return res.status(this.statusCode.Ok).json(saveProgressMatch);
+  }
+
+  async finishMatch(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    const finishMatch = await this.matchmodel.finishMatch(id);
+    return res.status(this.statusCode.Ok).json(finishMatch);
   }
 }
 

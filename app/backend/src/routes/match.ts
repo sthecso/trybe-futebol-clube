@@ -17,6 +17,7 @@ class MatchRouter {
   routerPath() {
     this.router.get('/', this.matchController.getMatchsByProgress);
     this.router.post('/', this.validateAuth.verifyToken, this.matchController.saveMatchInProgress);
+    this.router.patch('/:id/finish', this.matchController.finishMatch);
     this.router.patch('/:id', this.matchController.updateResultsMatch);
   }
 }

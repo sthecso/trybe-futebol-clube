@@ -47,6 +47,14 @@ class MatchModel {
     );
     return { homeTeamGoals, awayTeamGoals };
   }
+
+  async finishMatch(id: number) {
+    await this.matchEntity.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+    return { inProgress: false };
+  }
 }
 
 export default MatchModel;
