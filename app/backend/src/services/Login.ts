@@ -1,53 +1,33 @@
-import { CRUDLogin } from '../interfaces/CRUD';
-import { IEmailAndPasswordDTO, LoginDTO } from '../interfaces/ILogin';
+import { IEmailAndPasswordDTO } from '../interfaces/ILogin';
 import User from '../database/models/User';
 import compare from '../utils/Bcrypt';
+import Token from '../auth/createTokenJWT';
 
-class LoginService implements CRUDLogin {
-  userReturnOnlogin = async (email: string) => {
-    const attributesUser = await User.findAll() as LoginDTO[];
-    const filteringEmailUser = attributesUser.filter((e) => e.email === email);
-    const recoverAttributesUserLogged = filteringEmailUser.map((a) => {
-      const { id, username, role } = a;
-      return {
-        id,
-        username,
-        role,
-      };
-    });
-    return recoverAttributesUserLogged;
-  };
-
-  getLogin = async (value: IEmailAndPasswordDTO) => {
+class LoginService {
+  static async getLogin(value: IEmailAndPasswordDTO) {
     const { email, password } = value;
-    const searchUser = await User.findOne({ where: { email } }) as User;
+    const searchUser = await User.findOne({ where: { email } });
 
-    if (!searchUser || searchUser === undefined) {
-      return { code: 401, data: { message: 'Incorrect email or password' } };
+    if (!searchUser) {
+      return { code: 401, message: 'Incorrect email or password' };
     }
 
     const comparePassword = await compare(password, searchUser.password);
 
     if (!comparePassword) {
-      return { code: 401, data: { message: 'Incorrect email or password' } };
+      return { code: 401, message: 'Incorrect email or password' };
     }
 
-    const userLogged = await this.userReturnOnlogin(email);
+    const token = Token.createToken(searchUser.email);
 
-    return { code: 200,
-      data: {
-        id: userLogged[0].id,
-        username: userLogged[0].username,
-        role: userLogged[0].role,
-        email: searchUser.email,
-        password,
-      } };
-  };
+    const { id, username, role } = searchUser;
+    return { user: { id, username, role, email }, token };
+  }
 
-  getUser = async () => {
+  static async getUser() {
     const getUser = await User.findAll();
     return { code: 200, data: getUser[0] };
-  };
+  }
 }
 
-export default new LoginService();
+export default LoginService;
