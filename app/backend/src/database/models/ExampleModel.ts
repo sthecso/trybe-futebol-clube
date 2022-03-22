@@ -1,8 +1,8 @@
-import { Model } from 'sequelize';
-import db from '.';
+// import { Model } from 'sequelize';
+// import db from '.';
 // import OtherModel from './OtherModel';
 
-class Example extends Model {
+/* class Example extends Model {
   // public <campo>!: <tipo>;
 }
 
@@ -27,4 +27,4 @@ Example.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default Example;
+// export default Example;
