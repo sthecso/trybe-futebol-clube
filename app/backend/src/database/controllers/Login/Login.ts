@@ -3,7 +3,7 @@ import loginService from '../../services/LoginService';
 
 const MSG_FIELDS_FILLED = { message: 'All fields must be filled' };
 
-async function loginController(req: Request, res: Response) {
+async function login(req: Request, res: Response) {
   const { email, password } = req.body;
   if (email === undefined || email === '' || password === undefined || password === '') {
     return res.status(401).json(MSG_FIELDS_FILLED);
@@ -12,4 +12,4 @@ async function loginController(req: Request, res: Response) {
   return res.status(response.code).json(response.payload);
 }
 
-export default loginController;
+export default login;
