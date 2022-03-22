@@ -1,8 +1,14 @@
 import { Request, Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
+import { verifyToken } from '../utils/jwt';
 import LoginValidateService from '../services/LoginValidateService';
 
 const LoginValidateController = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const token = req.headers.authorization as string;
+
+  const verifiedToken = verifyToken(token);
+
+  const { id } = verifiedToken as JwtPayload;
   const idNumber = Number(id);
   const role = await LoginValidateService.login(idNumber);
 
