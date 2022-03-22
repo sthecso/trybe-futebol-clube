@@ -20,11 +20,7 @@ Users.init({
   role: { type: DataTypes.STRING },
   password: { type: DataTypes.STRING },
 }, {
-  underscored: true,
-  sequelize: db,
-  timestamps: false,
-  modelName: 'Users',
-  tableName: 'users',
+  underscored: true, sequelize: db, timestamps: false, modelName: 'Users', tableName: 'users',
 });
 
 export default Users;

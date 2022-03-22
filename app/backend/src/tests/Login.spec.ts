@@ -9,8 +9,8 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-const CORRECT_PASSWORD = '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW';
-const INCORRECT_PASSWORD = '$2a$90$zk.Hxk1czAO0nZR..F455u10aED0RQ1N3GFEXH7HxtLjKPEZTb.FG';
+const CORRECT_PASSWORD = 'B393u10aED0RQ1N3PAEXQ7';
+const INCORRECT_PASSWORD = 'F455u10aED0RQ1N3GFEXH7';
 const EMAIL_TEST = 'emaill@test.com';
 const EMAIL_ADMIN = 'admin@admin.com';
 const EMAIL_BLANK = '';
@@ -64,8 +64,7 @@ describe('When login é is not ok, because password is incorrect', () => {
   afterEach(()=>{ (Users.findOne as sinon.SinonStub).restore() })
 
   it('Return status code 401', async () => {
-    chaiHttpResponse = await chai
-      .request(app).post('/login')
+    chaiHttpResponse = await chai.request(app).post(ROUTE_LOGIN)
       .send({ email: EMAIL_TEST, password: PASSWORD_TYPE2_TEST });
     expect(chaiHttpResponse.status).to.be.equal(401);
   });

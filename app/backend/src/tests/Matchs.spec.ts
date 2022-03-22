@@ -41,6 +41,12 @@ describe('GET Route', () => {
     expect(chaiHttpResponse.status).to.be.equal(201);
   });
 
+  it('Return status code 401', async () => {
+    chaiHttpResponse = await chai.request(app).post(ROUTE_MATCHS)
+      .send({ "homeTeam": 16, "awayTeam": 8, "homeTeamGoals": 2, "awayTeamGoals": 2, "inProgress": false })
+    expect(chaiHttpResponse.status).to.be.equal(401);
+  });
+
   it('When request is incorrect, in route post, with homeTeam undefined', async () => {
     chaiHttpResponse = await chai.request(app).post(ROUTE_MATCHS)
       .send({"awayTeam": 8, "homeTeamGoals": 2, "awayTeamGoals": 2,"inProgress": true})
