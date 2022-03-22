@@ -22,19 +22,13 @@ function verifyData(matchData: UserSentMatchData) {
 }
 
 async function verifyTeams(team1: number | string, team2: number | string) {
-  if (team1 === team2) {
-    return {
-      code: 401,
-      payload: MSG_CREATE_MATCH_TEAMS };
-  }
+  if (team1 === team2) { return { code: 401, payload: MSG_CREATE_MATCH_TEAMS }; }
   if (team1 === undefined || team2 === undefined) {
     return { code: 401, payload: MSG_INSERT_VALID_TEAM };
   }
   const club1 = await getClubByIdService(team1);
   const club2 = await getClubByIdService(team2);
-  if (!club1 || !club2) {
-    return { code: 401, payload: MSG_ERROR_TEAM_ID };
-  }
+  if (!club1 || !club2) { return { code: 401, payload: MSG_ERROR_TEAM_ID }; }
   return { code: 200 };
 }
 

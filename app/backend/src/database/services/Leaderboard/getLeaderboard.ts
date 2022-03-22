@@ -2,6 +2,8 @@ import { BaseLeaderboard, ClubGols, ClubsAndMatchs } from '../../../helpers/Inte
 import Clubs from '../../models/Clubs';
 import Matchs from '../../models/Matchs';
 
+const INITIAL_VALUES = 0;
+
 function finishCalculation(matchs: any, object: BaseLeaderboard) {
   const newObject = object;
   matchs.forEach((match: any) => {
@@ -21,14 +23,14 @@ function finishCalculation(matchs: any, object: BaseLeaderboard) {
 function calculatePoints(matchs: ClubGols[]) {
   const baseLeaderboard = {
     name: '',
-    totalPoints: 0,
-    totalVictories: 0,
-    totalLosses: 0,
-    totalDraws: 0,
-    goalsFavor: 0,
-    goalsOwn: 0,
-    goalsBalance: 0,
-    efficiency: 0,
+    totalPoints: INITIAL_VALUES,
+    totalVictories: INITIAL_VALUES,
+    totalLosses: INITIAL_VALUES,
+    totalDraws: INITIAL_VALUES,
+    goalsFavor: INITIAL_VALUES,
+    goalsOwn: INITIAL_VALUES,
+    goalsBalance: INITIAL_VALUES,
+    efficiency: INITIAL_VALUES,
   };
   const finalLeaderboard = finishCalculation(matchs, baseLeaderboard);
   finalLeaderboard.goalsBalance = finalLeaderboard.goalsFavor - finalLeaderboard.goalsOwn;

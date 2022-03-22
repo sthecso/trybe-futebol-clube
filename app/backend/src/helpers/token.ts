@@ -4,13 +4,13 @@ import { User } from './Interfaces';
 
 const jwtConfig = { expiresIn: '4h' };
 
-const segredo = readFileSync('jwt.evaluation.key', 'utf-8');
+const secretKey = readFileSync('jwt.evaluation.key', 'utf-8');
 
 export function generateToken(tokenData: User) {
-  return sign({ data: tokenData }, segredo, jwtConfig);
+  return sign({ data: tokenData }, secretKey, jwtConfig);
 }
 
 export function verifyToken(token: string) {
   if (token === 'notatoken') return { data: { username: 'fernando' } };
-  return verify(token, segredo);
+  return verify(token, secretKey);
 }

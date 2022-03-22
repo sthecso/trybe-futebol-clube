@@ -25,11 +25,11 @@ const ROUTE_LOGIN_VALIDATE = '/login/validate';
 /* eslint-disable */
 describe('When login is ok', () => {
   let chaiHttpResponse: Response;
-  beforeEach(async () => sinon.stub(Users, "findOne")
+  before(async () => sinon.stub(Users, "findOne")
     .resolves({ id: 1, password: CORRECT_PASSWORD, email: EMAIL_TEST, role: ROLE_ADMIN } as Users)
   );
 
-  afterEach(()=>{ (Users.findOne as sinon.SinonStub).restore() })
+  after(()=>{ (Users.findOne as sinon.SinonStub).restore() })
 
   it('Return status code 200', async () => {
     chaiHttpResponse = await chai.request(app).post(ROUTE_LOGIN)
@@ -40,12 +40,8 @@ describe('When login is ok', () => {
 
 describe('When login is not ok', () => {
   let chaiHttpResponse: Response
-  beforeEach(async () => {
-    sinon.stub(Users, "findOne").resolves(null)
-  })
-  afterEach(()=>{
-    (Users.findOne as sinon.SinonStub).restore()
-  })
+  before(async () => { sinon.stub(Users, "findOne").resolves(null) })
+  after(()=>{ (Users.findOne as sinon.SinonStub).restore() })
 
   it('Return status code 401', async () => {
     chaiHttpResponse = await chai.request(app).post(ROUTE_LOGIN)
@@ -56,12 +52,12 @@ describe('When login is not ok', () => {
 
 describe('When login é is not ok, because password is incorrect', () => {
   let chaiHttpResponse: Response;
-  beforeEach(async () => {
+  before(async () => {
     sinon.stub(Users, "findOne").resolves({
       id: 1, password: INCORRECT_PASSWORD, email: EMAIL_TEST, role: ROLE_ADMIN,
     } as Users);
   });
-  afterEach(()=>{ (Users.findOne as sinon.SinonStub).restore() })
+  after(()=>{ (Users.findOne as sinon.SinonStub).restore() })
 
   it('Return status code 401', async () => {
     chaiHttpResponse = await chai.request(app).post(ROUTE_LOGIN)
@@ -94,8 +90,8 @@ describe('LOGIN Validate Tests', async () => {
   });
 
   describe('When token is incorrect', async () => {
-    beforeEach(async () => { sinon.stub(Users, "findOne").resolves(null) })
-    afterEach(()=>{ (Users.findOne as sinon.SinonStub).restore()} )
+    before(async () => { sinon.stub(Users, "findOne").resolves(null) })
+    after(()=>{ (Users.findOne as sinon.SinonStub).restore()} )
 
     it('Return status code 401', async () => {
       chaiHttpResponse = await chai.request(app).get(ROUTE_LOGIN_VALIDATE)
