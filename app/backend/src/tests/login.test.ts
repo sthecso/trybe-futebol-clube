@@ -15,7 +15,7 @@ describe("Testing Login functionality", () => {
     chaiHttpResponse = await chai
       .request(app)
       .post("/login")
-      .send({ email: "admin@admin.com", password: "iambatman" });
+      .send({ email: "admin@admin.com", password: "secret_admin" });
 
     const { user, token } = chaiHttpResponse.body;
 
@@ -31,7 +31,7 @@ describe("Testing Login functionality", () => {
       chaiHttpResponse = await chai
         .request(app)
         .post("/login")
-        .send({ email: "notadmin@admin.com", password: "iambatman" });
+        .send({ email: "notadmin@admin.com", password: "secret_admin" });
 
       const { message } = chaiHttpResponse.body;
 
@@ -43,7 +43,7 @@ describe("Testing Login functionality", () => {
       chaiHttpResponse = await chai
         .request(app)
         .post("/login")
-        .send({ password: "iambatman" });
+        .send({ password: "secret_admin" });
 
       const { message } = chaiHttpResponse.body;
 
@@ -55,7 +55,7 @@ describe("Testing Login functionality", () => {
       chaiHttpResponse = await chai
         .request(app)
         .post("/login")
-        .send({ email: 12345, password: "iambatman" });
+        .send({ email: 12345, password: "secret_admin" });
 
       const { message } = chaiHttpResponse.body;
 
@@ -67,7 +67,7 @@ describe("Testing Login functionality", () => {
       chaiHttpResponse = await chai
         .request(app)
         .post("/login")
-        .send({ email: "", password: "iambatman" });
+        .send({ email: "", password: "secret_admin" });
 
       const { message } = chaiHttpResponse.body;
 
@@ -81,7 +81,7 @@ describe("Testing Login functionality", () => {
       chaiHttpResponse = await chai
         .request(app)
         .post("/login")
-        .send({ email: "admin@admin.com", password: "iamnotbatman" });
+        .send({ email: "admin@admin.com", password: "iambatman" });
 
       const { message } = chaiHttpResponse.body;
 
