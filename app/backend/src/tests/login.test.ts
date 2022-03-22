@@ -43,5 +43,23 @@ describe('Na rota "/login"', () => {
       expect(response).to.have.status(401);
       expect(response.body).to.have.property('message');
     });
+    it('sem o email: deve retornar status 401', async () => {
+      let response = await chai.request(app)
+        .post('/login')
+        .send({
+          password: 'secret_user'
+        });
+        expect(response).to.have.status(401);
+        expect(response.body.message).to.be.equal('All fields must be filled');
+    });
+    it('sem a senha: deve retornar status 401', async () => {
+      let response = await chai.request(app)
+        .post('/login')
+        .send({
+          email: 'user@user.com',
+        });
+        expect(response).to.have.status(401);
+        expect(response.body.message).to.be.equal('All fields must be filled');
+    });
   });
 });
