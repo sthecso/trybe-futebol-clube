@@ -26,7 +26,7 @@ class LoginService {
 
   static async getUser() {
     const getUser = await User.findAll();
-    return { code: 200, data: getUser[0] };
+    return { code: 200, data: getUser[0].role };
   }
 }
 
