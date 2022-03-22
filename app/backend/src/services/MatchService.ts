@@ -41,21 +41,31 @@ class MatchService {
 
   async editMatch(matchGoals: IMatchGoals) {
     const { id, homeTeamGoals, awayTeamGoals } = matchGoals;
-    await this.matchModel.update(
+    const [match] = await this.matchModel.update(
       { homeTeamGoals, awayTeamGoals },
-      { where: { id } },
+      { where: { id, inProgress: true } },
     );
+    if (!match) {
+      return {
+        code: StatusCode.UNPROCESSABLE_ENTITY, data: { message: 'Match is not in progress!' },
+      };
+    }
     return { code: StatusCode.NO_CONTENT, data: 'Updated' };
   }
 
   async finishMatch(id: number) {
-    await this.matchModel.update(
+    const [match] = await this.matchModel.update(
       { inProgress: false },
       {
         where: { id },
       },
     );
-    return { code: StatusCode.NO_CONTENT, data: 'Updated' };
+    if (!match) {
+      return {
+        code: StatusCode.UNPROCESSABLE_ENTITY, data: { message: 'Match is not in progress!' },
+      };
+    }
+    return { code: StatusCode.NO_CONTENT, data: 'Match finished' };
   }
 }
 
