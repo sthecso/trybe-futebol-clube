@@ -1,13 +1,12 @@
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-import LoginService from '../services';
+import { LoginService } from '../services';
 import jwtConfig from '../utils';
 
 class LoginController {
   getLogin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const { code, data } = await LoginService.getLogin({ email, password });
-
     if (data.message) {
       return res.status(code).json(data.message);
     }
