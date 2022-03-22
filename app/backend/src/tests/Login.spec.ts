@@ -14,10 +14,13 @@ const INCORRECT_PASSWORD = 'F455u10aED0RQ1N3GFEXH7';
 const EMAIL_TEST = 'emaill@test.com';
 const EMAIL_ADMIN = 'admin@admin.com';
 const EMAIL_BLANK = '';
+const EMAIL_SECOND = 'admin@test.com';
 const PASSWORD_TEST = 'secret_admin';
 const PASSWORD_TYPE2_TEST = 'fernando';
 const PASSWORD_CORRECT = 'secret_admin';
 const ROLE_ADMIN = 'admin';
+
+const MESSAGE_USER_NOT_FOUND = 'user not found';
 
 const ROUTE_LOGIN = '/login';
 const ROUTE_LOGIN_VALIDATE = '/login/validate';
@@ -28,7 +31,6 @@ describe('When login is ok', () => {
   before(async () => sinon.stub(Users, "findOne")
     .resolves({ id: 1, password: CORRECT_PASSWORD, email: EMAIL_TEST, role: ROLE_ADMIN } as Users)
   );
-
   after(()=>{ (Users.findOne as sinon.SinonStub).restore() })
 
   it('Return status code 200', async () => {
@@ -100,10 +102,18 @@ describe('LOGIN Validate Tests', async () => {
     });
   });
 
-  describe('When the token is not exist', async () => {
+  describe('When the token and user is not exist', async () => {
     it('Return status code 401', async () => {
       chaiHttpResponse = await chai.request(app).get(ROUTE_LOGIN_VALIDATE)
       expect(chaiHttpResponse.status).to.be.equal(401);
+    });
+    it('returns status 404 and a message "user not found" when passed wrong email', async () => {
+      const loginData = { email: EMAIL_SECOND,  password: PASSWORD_TEST };
+      const response: Response = await chai
+        .request(app).post(ROUTE_LOGIN).set('content-type', 'application/json').send(loginData);
+      const { body: { message } } = response;
+      expect(message).to.equals(MESSAGE_USER_NOT_FOUND);
+      expect(response.status).to.equals(404);
     });
   });
 });

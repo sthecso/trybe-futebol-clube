@@ -2,7 +2,6 @@ import * as express from 'express';
 import finishMatchController from './database/controllers/Matchs/finishMatch';
 import getClubByIdController from './database/controllers/Clubs/getClubById';
 import getClubsController from './database/controllers/Clubs/getClubs';
-import getLeaderboardController from './database/controllers/Leaderboard/getLeaderboard';
 import getMatchsController from './database/controllers/Matchs/getMatchs';
 import loginController from './database/controllers/Login/Login';
 import postMatchController from './database/controllers/Matchs/postMatch';
@@ -29,7 +28,6 @@ class App {
     this.app.use(express.json());
     this.app.get('/clubs', getClubsController);
     this.app.get('/clubs/:id', getClubByIdController);
-    this.app.get('/leaderboard/home', getLeaderboardController);
     this.app.post('/login', loginController);
     this.app.get('/login/validate', validateLoginController);
     this.app.get('/matchs', getMatchsController);
