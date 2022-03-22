@@ -46,13 +46,24 @@ export interface UserSentNewScores {
   awayTeamGoals: number,
 }
 
-interface ClubGols {
+export interface ClubGols {
   golsFeitos: number,
   golsTomados: number,
 }
 
 export interface ClubsAndMatchs {
-  id: number,
-  clubName: string,
-  Matchs: ClubGols[]
+  name: string,
+  matchs: ClubGols[]
+}
+
+export interface BaseLeaderboard {
+  name: string,
+  totalPoints: number,
+  totalVictories: number,
+  totalLosses: number,
+  totalDraws: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number,
 }

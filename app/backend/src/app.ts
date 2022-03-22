@@ -2,7 +2,7 @@ import * as express from 'express';
 import finishMatchController from './database/controllers/finishMatchController';
 import getClubByIdController from './database/controllers/getClubByIdController';
 import getClubsController from './database/controllers/getClubsController';
-// import getLeaderboardController from './database/controllers/getLeaderboardController';
+import getLeaderboardController from './database/controllers/getLeaderboardController';
 import getMatchsController from './database/controllers/getMatchsController';
 import loginController from './database/controllers/LoginController';
 import postMatchController from './database/controllers/postMatchController';
@@ -40,7 +40,7 @@ class App {
     this.app.patch('/matchs/:id/finish', finishMatchController);
     this.app.patch('/matchs/:id', updateMatchController);
 
-    // this.app.get('/leaderboard/home', getLeaderboardController);
+    this.app.get('/leaderboard/home', getLeaderboardController);
   }
 
   public start(PORT: string | number):void {
