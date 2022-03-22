@@ -32,33 +32,6 @@ describe('Testa os Erros da classe LoginUserModel', async () => {
 
   });
 
-  /* describe('Testa os Erros da classe MatchModel', async () => {
-
-    const mocksAllmatch = [
-      {
-        id: 1,
-        homeTeam: 16,
-        homeTeamGoals: 1,
-        awayTeam: 8,
-        awayTeamGoals: 1,
-        inProgress: false,
-      }
-    ] as any
-
-    before(async () => {
-      sinon.stub(Match, "findAll").resolves(mocksAllmatch)
-    })
-  
-    const matchModel = new MatchModel();
-  
-        
-      it('testa o retorno da classe com um dado valido', async () => {
-      
-  
-      expect(await matchModel.getMatchsByProgress(true)).to.be.an("array");
-        
-    });*/
-  
 
 }); 
 /*===========================Controller==========================*/
@@ -80,4 +53,16 @@ describe('Testa os erros da classe LoginUserController', () => {
         expect(chaiHttpResponse).to.be.an('Object');
     
       });
+})
+
+describe('Testa a classe ClubController', () => {
+    
+    it('testa o resultado quando usuario busca por um time que nao existe', async () => {
+      const chaiHttpResponse = await chai
+      .request(app)
+      .get('/clubs/0').set('content-type', 'application/json');
+      expect(chaiHttpResponse.status).to.be.equal(404);
+      expect(await chaiHttpResponse.body).to.be.eqls({ message: 'club nao encontrado' });
+  
+    });
 })

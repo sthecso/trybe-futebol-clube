@@ -2,13 +2,14 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import { app } from '../app';
-import { Response } from 'superagent';
+import { Response, Request } from 'superagent';
 import User from '../database/modelsSequelize/user';
 import LoginUserModel from '../models/userLogin';
 import { before } from 'mocha';
 import bcrypt = require('bcryptjs');
 import MatchModel from '../models/match';
 import Match from '../database/modelsSequelize/match';
+import ClubsModels from '../models/club';
 
 
 chai.use(chaiHttp);
@@ -82,6 +83,29 @@ describe('Testa a classe MatchModel', async () => {
 
 });
 
+describe('Testa a classe clubModel', async () => {
+
+  const mockId = 1;
+
+ 
+
+  const clubModel = new ClubsModels();
+
+      
+    it('testa o retorno do methodo getAllClubs ', async () => {
+    
+    expect(clubModel).to.be.instanceOf(ClubsModels);
+    expect(await clubModel.getAllClubs()).to.be.an("array");
+  });
+
+  it('testa o retorno do methodo findOne ', async () => {
+    
+    expect(await clubModel.findOneClub(mockId)).to.be.an("object");
+  });
+
+
+});
+
 /*===========================Controller==========================*/
 describe('Testa a classe LoginUserController', () => {
   it('testa o retorno com um request valido', async () => {
@@ -102,21 +126,26 @@ describe('Testa a classe LoginUserController', () => {
 
 })
 
-/* describe('Testa a classe LoginUserController', () => {
-  it('testa o retorno com um request valido', async () => {
-    const chaiHttpResponse = await chai
-    .request(app)
-    .post('/login')
-    .set('content-type', 'application/json')
-    .send({
-        email: 'samuel@samuel.com',
-        password: 'password'
+describe('Testa a classe ClubController', () => {
+    
+  it('testa o resultado quando usuario busca por todos os times', async () => {
+      const chaiHttpResponse = await chai
+      .request(app)
+      .get('/clubs')
+      .set('content-type', 'application/json');
+
+      expect(chaiHttpResponse.status).to.be.equal(200);
+      expect(chaiHttpResponse).to.be.an('object');
+  
     });
 
-
-    expect(chaiHttpResponse.status).to.be.equal(200);
-    expect(chaiHttpResponse).to.be.an('Object');
-
-  });
-
-}) */
+    it('testa o resultado quando usuario busca por um time', async () => {
+      const chaiHttpResponse = await chai
+      .request(app)
+      .get('/clubs/1').set('content-type', 'application/json');
+      expect(chaiHttpResponse.status).to.be.equal(200);
+      expect(chaiHttpResponse).to.be.an('object');
+      expect(chaiHttpResponse.body).to.have.keys('id', 'clubName');
+  
+    });
+})

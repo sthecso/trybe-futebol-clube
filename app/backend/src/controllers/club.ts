@@ -15,11 +15,6 @@ class ClubController {
   async getAllClubs(req: Request, res: Response) {
     const clubs = await this.clubModel.getAllClubs();
 
-    if (clubs === null) {
-      return res.status(this.statusCode.NotFound)
-        .json({ message: 'nenhum club encontrado' });
-    }
-
     return res.status(this.statusCode.Ok).json(clubs);
   }
 
