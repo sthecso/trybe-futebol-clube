@@ -12,3 +12,17 @@ export interface UserSentMatchData {
   inProgress: boolean,
 }
 export interface MatchData extends UserSentMatchData { id: number }
+export interface UserSentNewScores { homeTeamGoals: number, awayTeamGoals: number }
+export interface ClubGols { golsFeitos: number, golsTomados: number }
+export interface ClubsAndMatchs { name: string, matchs: ClubGols[]}
+export interface BaseLeaderboard {
+  name: string,
+  totalPoints: number,
+  totalVictories: number,
+  totalLosses: number,
+  totalDraws: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number,
+}
