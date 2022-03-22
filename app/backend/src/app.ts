@@ -1,4 +1,5 @@
 import * as express from 'express';
+import ClubController from './controllers/ClubController';
 import LoginController from './controllers/LoginController';
 
 class App {
@@ -22,6 +23,8 @@ class App {
 
     this.app.post('/login', LoginController.login);
     this.app.get('/login/validate', LoginController.validate);
+    this.app.get('/clubs', ClubController.all);
+    this.app.get('/clubs/:id', ClubController.club);
   }
 
   public start(PORT: string | number):void {
