@@ -1,6 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
-
-import { IErrorMessage } from '../../interfaces';
+import { IMatchPostRequest } from '../../interfaces/match';
 
 import { HttpStatusCode } from '../../utils';
 
@@ -11,20 +9,15 @@ class ValidateInProgressBodyRequest {
     this.handle = this.handle.bind(this);
   }
 
-  async handle(
-    req: Request,
-    res: Response,
-    nextMiddleware: NextFunction,
-  ): Promise<Response<IErrorMessage> | void> {
-    const { inProgress } = req.body;
+  handle(requestBody: IMatchPostRequest) {
+    const { inProgress } = requestBody;
 
-    if (typeof inProgress === 'boolean') {
-      return nextMiddleware();
+    if (typeof inProgress !== 'boolean') {
+      return {
+        httpStatusCode: this.httpStatusCode.NotAuthorized,
+        result: { message: 'There is no team with such id!' },
+      };
     }
-
-    return res
-      .status(this.httpStatusCode.NotAuthorized)
-      .json({ message: 'There is no team with such id!' });
   }
 }
 

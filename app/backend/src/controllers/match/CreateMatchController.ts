@@ -1,10 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { CreateMatchService } from '../../services/match';
 
-import { IErrorMessage } from '../../interfaces';
-
-import { IMatchResponse, IMatchPostRequest } from '../../interfaces/match';
+import { IMatchPostRequest } from '../../interfaces/match';
 
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
@@ -19,24 +15,20 @@ class CreateMatchController {
     this.handle = this.handle.bind(this);
   }
 
-  async handle(
-    req: Request,
-    res: Response,
-    _nextMiddleware: NextFunction,
-  ): Promise<Response<IErrorMessage | IMatchResponse>> {
-    const matchData = req.body as IMatchPostRequest;
-
+  async handle(matchData: IMatchPostRequest) {
     const createdMatch = await this.createMatchService.handle(matchData);
 
     if (createdMatch instanceof this.ErrorCatcher) {
-      return res
-        .status(createdMatch.httpStatusCode)
-        .json({ message: createdMatch.message });
+      return {
+        httpStatusCode: createdMatch.httpStatusCode,
+        result: { message: createdMatch.message },
+      };
     }
 
-    return res
-      .status(this.httpStatusCode.Created)
-      .json(createdMatch);
+    return {
+      httpStatusCode: this.httpStatusCode.Created,
+      result: createdMatch,
+    };
   }
 }
 

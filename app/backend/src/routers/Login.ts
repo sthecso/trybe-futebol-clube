@@ -20,6 +20,9 @@ class Login {
   private validateTokenMiddleware = new ValidateToken();
 
   constructor() {
+    this.isValidToken = this.isValidToken.bind(this);
+    this.validateLogin = this.validateLogin.bind(this);
+
     this.router = Router();
 
     this.start();

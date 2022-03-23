@@ -1,36 +1,21 @@
-import { NextFunction, Request, Response } from 'express';
-
-import { IErrorMessage } from '../../interfaces';
-
 import { HttpStatusCode } from '../../utils';
 
 class ValidateInProgressQueryString {
   private httpStatusCode = HttpStatusCode;
 
-  constructor() {
-    this.handle = this.handle.bind(this);
-  }
-
-  async handle(
-    req: Request,
-    res: Response,
-    nextMiddleware: NextFunction,
-  ): Promise<Response<IErrorMessage> | void> {
-    const { inProgress } = req.query;
-
+  handle(inProgress: string | undefined) {
     if (!inProgress || !inProgress.length) {
-      return nextMiddleware();
+      return undefined;
     }
 
     // This regex allows any letter to be uppercase and lowercase
     // created by: me :)
-    if (!inProgress.toString().match(/^(true|false)$/i)) {
-      return res
-        .status(this.httpStatusCode.BadRequest)
-        .json({ message: '\'inProgress\' must have \'true\' or \'false\'' });
+    if (!inProgress.match(/^(true|false)$/i)) {
+      return {
+        httpStatusCode: this.httpStatusCode.BadRequest,
+        result: { message: '\'inProgress\' must have \'true\' or \'false\'' },
+      };
     }
-
-    return nextMiddleware();
   }
 }
 

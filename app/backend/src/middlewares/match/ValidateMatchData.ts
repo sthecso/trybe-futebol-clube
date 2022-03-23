@@ -1,17 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
 
-import { IErrorMessage } from '../../interfaces';
+import { IMatchPostRequest } from '../../interfaces/match';
 
 class ValidateMatchData {
   private ErrorCatcher = ErrorCatcher;
 
   private httpStatusCode = HttpStatusCode;
-
-  constructor() {
-    this.handle = this.handle.bind(this);
-  }
 
   verifyIsNumber(
     data: string | object | undefined | null | number | boolean,
@@ -27,12 +21,8 @@ class ValidateMatchData {
     return data;
   }
 
-  async handle(
-    req: Request,
-    res: Response,
-    nextMiddleware: NextFunction,
-  ): Promise<Response<IErrorMessage> | void> {
-    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
+  handle(matchData: IMatchPostRequest) {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = matchData;
 
     const objectToValidate = { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals };
 
@@ -46,10 +36,11 @@ class ValidateMatchData {
     });
 
     if (error instanceof ErrorCatcher) {
-      return res.status(error.httpStatusCode).json({ message: error.message });
+      return {
+        httpStatusCode: error.httpStatusCode,
+        result: { message: error.message },
+      };
     }
-
-    nextMiddleware();
   }
 }
 

@@ -1,8 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { ErrorCatcher, HttpStatusCode } from '../../utils';
-
-import { IErrorMessage } from '../../interfaces';
 
 import { FinishMatchService } from '../../services/match';
 
@@ -13,28 +9,20 @@ class FinishMatchController {
 
   private ErrorCatcher = ErrorCatcher;
 
-  constructor() {
-    this.handle = this.handle.bind(this);
-  }
-
-  async handle(
-    req: Request,
-    res: Response,
-    _nextMiddleware: NextFunction,
-  ): Promise<Response<IErrorMessage | void>> {
-    const { id } = req.params;
-
+  async handle(id: string) {
     const error = await this.finishMatchService.handle(id);
 
     if (error instanceof this.ErrorCatcher) {
-      return res
-        .status(error.httpStatusCode)
-        .json({ message: error.message });
+      return {
+        httpStatusCode: error.httpStatusCode,
+        result: { message: error.message },
+      };
     }
 
-    return res
-      .status(this.httpStatusCode.Ok)
-      .json({ message: 'Match was finish' });
+    return {
+      httpStatusCode: this.httpStatusCode.Ok,
+      result: { message: 'Match was finish' },
+    };
   }
 }
 
