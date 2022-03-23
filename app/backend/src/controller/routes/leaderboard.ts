@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { LeaderboardService } from '../../service';
+import { LeaderboardController } from '../controllers';
 
 export default class LeaderboardRouter {
   public router: Router;
@@ -13,21 +13,21 @@ export default class LeaderboardRouter {
 
   private getHomeRank(): void {
     this.router.get('/home', async (_req: Request, res: Response) => {
-      const { code, data } = await LeaderboardService.getHomeRank();
+      const { code, data } = await LeaderboardController.getHomeRank();
       return res.status(code).json(data);
     });
   }
 
   private getAwayRank(): void {
     this.router.get('/away', async (_req: Request, res: Response) => {
-      const { code, data } = await LeaderboardService.getAwayRank();
+      const { code, data } = await LeaderboardController.getAwayRank();
       return res.status(code).json(data);
     });
   }
 
   private getTeamCapRank(): void {
     this.router.get('/', async (_req: Request, res: Response) => {
-      const { code, data } = await LeaderboardService.getTeamCapRank();
+      const { code, data } = await LeaderboardController.getTeamCapRank();
       return res.status(code).json(data);
     });
   }

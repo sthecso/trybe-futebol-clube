@@ -7,66 +7,75 @@ import {
 } from '../interfaces';
 
 export default class MatchesRepository {
-  static async getAllInProgress(): Promise<IMatch[]> {
+  private _clubModel: typeof ClubModel;
+
+  private _matchModel: typeof MatchModel;
+
+  constructor() {
+    this._clubModel = ClubModel;
+    this._matchModel = MatchModel;
+  }
+
+  async getAllInProgress(): Promise<IMatch[]> {
     return (
-      await MatchModel.findAll({
+      await this._matchModel.findAll({
         where: { inProgress: true },
         include: [
-          { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
-          { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'homeClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'awayClub', attributes: ['clubName'] },
         ],
       })
     ).map((match) => match.get({ plain: true }));
   }
 
-  static async getAllFinished(): Promise<IMatch[]> {
+  async getAllFinished(): Promise<IMatch[]> {
     return (
-      await MatchModel.findAll({
+      await this._matchModel.findAll({
         where: { inProgress: false },
         include: [
-          { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
-          { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'homeClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'awayClub', attributes: ['clubName'] },
         ],
       })
     ).map((match) => match.get({ plain: true }));
   }
 
-  static async getAll(): Promise<IMatch[]> {
+  async getAll(): Promise<IMatch[]> {
     return (
-      await MatchModel.findAll({
+      await this._matchModel.findAll({
         include: [
-          { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
-          { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'homeClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'awayClub', attributes: ['clubName'] },
         ],
       })
     ).map((match) => match.get({ plain: true }));
   }
 
-  static async getById(id: string): Promise<IMatch> {
+  async getById(id: string): Promise<IMatch> {
     return (
-      await MatchModel.findByPk(id, {
+      await this._matchModel.findByPk(id, {
         include: [
-          { model: ClubModel, as: 'homeClub', attributes: ['clubName'] },
-          { model: ClubModel, as: 'awayClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'homeClub', attributes: ['clubName'] },
+          { model: this._clubModel, as: 'awayClub', attributes: ['clubName'] },
         ],
       })
     )?.get({ plain: true });
   }
 
-  static async addMatch(data: INewMatch): Promise<IMatchResponse> {
-    return (await MatchModel.create(data)).get({ plain: true });
+  async addMatch(data: INewMatch): Promise<IMatchResponse> {
+    return (await this._matchModel.create(data)).get({ plain: true });
   }
 
-  static async finishMatch(id: string): Promise<number> {
-    const [status] = await MatchModel.update(
+  async finishMatch(id: string): Promise<number> {
+    const [status] = await this._matchModel.update(
       { inProgress: false },
       { where: { id } },
     );
     return status;
   }
 
-  static async updateMatchScore(id: string, newScore: IScore): Promise<number> {
-    const [status] = await MatchModel.update(newScore, {
+  async updateMatchScore(id: string, newScore: IScore): Promise<number> {
+    const [status] = await this._matchModel.update(newScore, {
       where: { id, inProgress: true },
     });
     return status;

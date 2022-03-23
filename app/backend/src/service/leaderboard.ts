@@ -3,6 +3,15 @@ import { ClubModel, MatchModel } from '../database/models';
 import { IClubCap, IClubStats, IMatchScore } from '../utils/interfaces';
 
 export default class LeaderboardService {
+  private _clubModel: typeof ClubModel;
+
+  private _matchModel: typeof MatchModel;
+
+  constructor() {
+    this._clubModel = ClubModel;
+    this._matchModel = MatchModel;
+  }
+
   private static countPoints(matches: IMatchScore[]) {
     return matches.reduce((points, match) => {
       if (match.goalsFavor > match.goalsOwn) return points + 3;
@@ -70,9 +79,9 @@ export default class LeaderboardService {
     return this.sortScore(leaderboard);
   }
 
-  static async getHomeRank() {
-    const clubsHomeHistory = (await ClubModel.findAll({ include: [{
-      model: MatchModel,
+  async getHomeRank() {
+    const clubsHomeHistory = (await this._clubModel.findAll({ include: [{
+      model: this._matchModel,
       as: 'homeMatches',
       attributes: [['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
       where: { inProgress: false },
@@ -88,9 +97,9 @@ export default class LeaderboardService {
     return { code: 200, data: LeaderboardService.createLeaderboard(clubsHomeHistory) };
   }
 
-  static async getAwayRank() {
-    const clubsAwayHistory = (await ClubModel.findAll({ include: [{
-      model: MatchModel,
+  async getAwayRank() {
+    const clubsAwayHistory = (await this._clubModel.findAll({ include: [{
+      model: this._matchModel,
       as: 'awayMatches',
       attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
       where: { inProgress: false },
@@ -105,14 +114,14 @@ export default class LeaderboardService {
     return { code: 200, data: LeaderboardService.createLeaderboard(clubsAwayHistory) };
   }
 
-  static async getTeamCapRank() {
-    const teamCapHistory = (await ClubModel.findAll({ include: [{
-      model: MatchModel,
+  async getTeamCapRank() {
+    const teamCapHistory = (await this._clubModel.findAll({ include: [{
+      model: this._matchModel,
       as: 'homeMatches',
       attributes: [['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
       where: { inProgress: false },
     }, {
-      model: MatchModel,
+      model: this._matchModel,
       as: 'awayMatches',
       attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
       where: { inProgress: false },
