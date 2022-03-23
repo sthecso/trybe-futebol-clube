@@ -16,7 +16,7 @@ matches.patch(
 
 matches.get(
   '/:id',
-  MatchController.findAll,
+  MatchController.findById,
 );
 
 matches.get(

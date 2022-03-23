@@ -1,6 +1,7 @@
 import { IUser, IUserComplete } from './User';
 import { IClub, IClubStats } from './Club';
 import {
+  InProgressQ,
   IMatchScore,
   IMatchCreate,
   IMatch,
@@ -12,6 +13,7 @@ export {
   IUserComplete,
   IClub,
   IClubStats,
+  InProgressQ,
   IMatchScore,
   IMatchCreate,
   IMatch,

@@ -4,6 +4,7 @@ import {
 } from '../repositories';
 
 import {
+  InProgressQ,
   IMatchScore,
   IMatchCreate,
   IMatch,
@@ -13,13 +14,13 @@ import {
 import * as messages from '../utils/messages';
 
 import NotFoundError from './errors/NotFound';
-import UnprocessableError from './errors/Unprocessable';
 import UnauthorizedError from './errors';
+import BadRequestError from './errors/BadRequest';
 
 class MatchService {
-  public static async findAll(inProgress: boolean) {
+  public static async findAll(inProgressQ: InProgressQ) {
     const result: IMatchComplete[] = await MatchRepository
-      .findAll(inProgress);
+      .findAll(inProgressQ);
 
     return result;
   }
@@ -38,9 +39,9 @@ class MatchService {
   public static async validateNewMatch(newMatch: IMatchCreate) {
     const { homeTeam: homeTeamId, awayTeam: awayTeamId } = newMatch;
 
-    const conflictErr = new UnauthorizedError(messages.match.teams.conflict);
+    const unauthErr = new UnauthorizedError(messages.match.teams.conflict);
 
-    if (homeTeamId === awayTeamId) throw conflictErr;
+    if (homeTeamId === awayTeamId) throw unauthErr;
 
     const notFoundErr = new UnauthorizedError(
       messages.match.teams.notFound,
@@ -63,15 +64,15 @@ class MatchService {
   public static async finish(matchId: IMatch['id']) {
     const match = await MatchRepository.findById(matchId);
 
-    const unauthErr = new UnauthorizedError(messages.match.notFound);
+    const notFoundErr = new NotFoundError(messages.match.notFound);
 
-    if (!match) throw unauthErr;
+    if (!match) throw notFoundErr;
 
     const result: boolean = await MatchRepository.finish(matchId);
 
-    const unprocessErr = new UnprocessableError(messages.match.patchFail);
+    const badReqErr = new BadRequestError(messages.match.patchFail);
 
-    if (!result) throw unprocessErr;
+    if (!result) throw badReqErr;
 
     return messages.match.finished;
   }
@@ -82,16 +83,16 @@ class MatchService {
   ) {
     const match = await MatchRepository.findById(matchId);
 
-    const unauthErr = new UnauthorizedError(messages.match.notFound);
+    const notFoundErr = new NotFoundError(messages.match.notFound);
 
-    if (!match) throw unauthErr;
+    if (!match) throw notFoundErr;
 
     const result: boolean = await MatchRepository
       .edit(matchId, updatedScore);
 
-    const unprocessErr = new UnprocessableError(messages.match.patchFail);
+    const badReqErr = new BadRequestError(messages.match.patchFail);
 
-    if (!result) throw unprocessErr;
+    if (!result) throw badReqErr;
 
     return messages.match.updated;
   }

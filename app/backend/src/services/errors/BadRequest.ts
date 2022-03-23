@@ -1,6 +1,6 @@
 import StatusCodes from '../../utils/StatusCodes';
 
-export default class ConflictError extends Error {
+export default class BadRequestError extends Error {
   message: string;
 
   code: number;

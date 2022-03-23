@@ -1,6 +1,7 @@
 import Match from '../database/models/Match';
 import Club from '../database/models/Club';
 import {
+  InProgressQ,
   IMatchScore,
   IMatchCreate,
   IMatch,
@@ -8,7 +9,7 @@ import {
 } from '../utils/interfaces';
 
 class MatchRepository {
-  public static async findAll(inProgress: IMatch['inProgress']) {
+  public static async findAll(inProgressQ: InProgressQ) {
     const baseOptions = {
       include: [
         { model: Club, as: 'homeClub', attributes: ['clubName'] },
@@ -16,7 +17,9 @@ class MatchRepository {
       ],
     };
 
-    const options = inProgress ? ({
+    const inProgress = inProgressQ === 'true';
+
+    const options = inProgressQ !== undefined ? ({
       ...baseOptions,
       where: { inProgress },
     }) : baseOptions;

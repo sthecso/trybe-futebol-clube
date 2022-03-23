@@ -10,15 +10,39 @@ const firstMatch = {
   },
   awayClub: {
     clubName: 'Grêmio',
-  }
+  },
 };
 
-const validNewMatch = {
+const newMatch = {
   homeTeam: 16,
   awayTeam: 8,
   homeTeamGoals: 2,
   awayTeamGoals: 3,
   inProgress: true,
+};
+
+const createNewMatchResponse = {
+  id: 49,
+  homeTeam: 16,
+  awayTeam: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 3,
+  inProgress: true,
+};
+
+const getNewMatchResponse = {
+  id: 49,
+  homeTeam: 16,
+  homeTeamGoals: 2,
+  awayTeam: 8,
+  awayTeamGoals: 3,
+  inProgress: true,
+  homeClub: {
+    clubName: 'São Paulo',
+  },
+  awayClub: {
+    clubName: 'Grêmio',
+  },
 };
 
 const sameTeam = {
@@ -44,7 +68,9 @@ const newScore = {
 
 export {
   firstMatch,
-  validNewMatch,
+  newMatch,
+  createNewMatchResponse,
+  getNewMatchResponse,
   sameTeam,
   inexistentTeam,
   newScore,

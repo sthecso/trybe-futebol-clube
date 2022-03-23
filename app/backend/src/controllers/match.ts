@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 
 import {
+  InProgressQ,
   IMatchScore,
   IMatchCreate,
   IMatch,
@@ -15,7 +16,7 @@ const findAll: RequestHandler = async (req, res, _next) => {
   const { inProgress } = req.query;
 
   const result: IMatchComplete[] = await MatchService
-    .findAll(inProgress === 'true');
+    .findAll(inProgress as unknown as InProgressQ);
 
   return res
     .status(StatusCodes.OK)

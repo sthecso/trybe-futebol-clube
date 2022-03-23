@@ -10,7 +10,9 @@ import StatusCodes from '../utils/StatusCodes';
 
 import {
   firstMatch,
-  validNewMatch,
+  newMatch,
+  createNewMatchResponse,
+  getNewMatchResponse,
   sameTeam,
   inexistentTeam,
   newScore,
@@ -106,7 +108,8 @@ describe('Match', () => {
       it('The API responds with the correct match', () => {
         const { body } = httpResponse;
 
-        expect(body).to.be.deep.equal(firstMatch);
+        expect(JSON.stringify(body)).to.be
+          .equal(JSON.stringify(firstMatch));
       });
     });
 
@@ -131,28 +134,13 @@ describe('Match', () => {
   describe('POST /matchs', () => {
     let createdId: number = 49;
 
-    const newMatchResponse = {
-      id: createdId,
-      homeTeam: 16,
-      awayTeam: 8,
-      homeTeamGoals: 2,
-      awayTeamGoals: 3,
-      inProgress: true,
-      homeClub: {
-        clubName: 'São Paulo',
-      },
-      awayClub: {
-        clubName: 'Grêmio',
-      }
-    };
-
     describe('When the request is successful', () => {
       it('The API responds with status 201', async () => {
         httpResponse = await chai
           .request(app)
           .post('/matchs')
           .set('authorization', token)
-          .send(validNewMatch);
+          .send(newMatch);
 
         expect(httpResponse.status).to.be
           .equal(StatusCodes.CREATED);
@@ -163,7 +151,8 @@ describe('Match', () => {
 
         createdId = body.id;
 
-        expect(body).to.be.deep.equal(validNewMatch);
+        expect(JSON.stringify(body)).to.be
+          .equal(JSON.stringify(createNewMatchResponse));
       });
 
       it('New match can be found in the database', async () => {
@@ -174,7 +163,8 @@ describe('Match', () => {
         const { body, status } = httpResponse;
 
         expect(status).to.be.equal(StatusCodes.OK);
-        expect(body).to.be.deep.equal(newMatchResponse);
+        expect(JSON.stringify(body)).to.be
+          .equal(JSON.stringify(getNewMatchResponse));
       });
     });
 
@@ -258,7 +248,7 @@ describe('Match', () => {
       it('The API responds with status 200', async () => {
         httpResponse = await chai
           .request(app)
-          .post('/matchs/41/finish')
+          .patch('/matchs/41/finish')
 
         expect(httpResponse.status).to.be.equal(StatusCodes.OK);
       });
@@ -282,7 +272,7 @@ describe('Match', () => {
     });
 
     describe('When match does not exist', () => {
-      it('The API responds with status 422', async () => {
+      it('The API responds with status 404', async () => {
         httpResponse = await chai
           .request(app)
           .patch('/matchs/800/finish');
@@ -290,19 +280,19 @@ describe('Match', () => {
         const { status } = httpResponse;
 
         expect(status).to.be
-          .equal(StatusCodes.UNPROCESSABLE_ENTITY);
+          .equal(StatusCodes.NOT_FOUND);
       });
 
       it('The API responds with the correct message', () => {
         const { message } = httpResponse.body;
 
         expect(message).to.be
-          .equal(messages.match.patchFail);
+          .equal(messages.match.notFound);
       });
     });
 
     describe('When match is already finished', () => {
-      it('The API responds with status 422', async () => {
+      it('The API responds with status 400', async () => {
         httpResponse = await chai
           .request(app)
           .patch('/matchs/1/finish');
@@ -310,7 +300,7 @@ describe('Match', () => {
         const { status } = httpResponse;
 
         expect(status).to.be
-          .equal(StatusCodes.UNPROCESSABLE_ENTITY);
+          .equal(StatusCodes.BAD_REQUEST);
       });
 
       it('The API responds with the correct message', () => {
@@ -353,7 +343,7 @@ describe('Match', () => {
     });
 
     describe('When match does not exist', () => {
-      it('The API responds with status 422', async () => {
+      it('The API responds with status 404', async () => {
         httpResponse = await chai
           .request(app)
           .patch('/matchs/800')
@@ -362,19 +352,19 @@ describe('Match', () => {
         const { status } = httpResponse;
 
         expect(status).to.be
-          .equal(StatusCodes.UNPROCESSABLE_ENTITY);
+          .equal(StatusCodes.NOT_FOUND);
       });
 
       it('The API responds with the correct message', () => {
         const { message } = httpResponse.body;
 
         expect(message).to.be
-          .equal(messages.match.patchFail);
+          .equal(messages.match.notFound);
       });
     });
 
     describe('When match is already finished', () => {
-      it('The API responds with status 422', async () => {
+      it('The API responds with status 400', async () => {
         httpResponse = await chai
           .request(app)
           .patch('/matchs/1')
@@ -383,7 +373,7 @@ describe('Match', () => {
         const { status } = httpResponse;
 
         expect(status).to.be
-          .equal(StatusCodes.UNPROCESSABLE_ENTITY);
+          .equal(StatusCodes.BAD_REQUEST);
       });
 
       it('The API responds with the correct message', () => {

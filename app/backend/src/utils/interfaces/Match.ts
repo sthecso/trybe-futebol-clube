@@ -1,3 +1,5 @@
+export type InProgressQ = string | undefined;
+
 export interface IMatchScore {
   homeTeamGoals: number;
   awayTeamGoals: number;

@@ -2,8 +2,10 @@ import * as bcrypt from 'bcryptjs';
 import { UserRepository } from '../repositories';
 import { IUserComplete } from '../utils/interfaces';
 import * as jwt from '../utils/jwt';
-import UnauthorizedError from './errors';
+
 import * as messages from '../utils/messages';
+
+import UnauthorizedError from './errors';
 import UnprocessableError from './errors/Unprocessable';
 
 class LoginService {
