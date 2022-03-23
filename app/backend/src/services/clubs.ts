@@ -7,7 +7,6 @@ export default class ClubsService {
 
   async clubsRequest() {
     const clubs = await this.clubs.findAll();
-    console.log(clubs);
 
     return { code: 200, clubs };
   }

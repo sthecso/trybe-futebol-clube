@@ -1,4 +1,5 @@
 import LoginController from './login';
 import ClubsController from './clubs';
+import MatchController from './matchs';
 
-export { LoginController, ClubsController };
+export { MatchController, LoginController, ClubsController };
