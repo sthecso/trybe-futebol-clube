@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { JwtPayload } from 'jsonwebtoken';
+import validateAuth from '../middleware/auth/authorization';
 import validateEmail from '../middleware/validate/email';
 import validatePassword from '../middleware/validate/password';
 import Token from '../auth/Token';
@@ -45,18 +45,14 @@ class Login {
   }
 
   validate() {
-    this.router.get('/validate', async (req: Request, res: Response) => {
-      try {
-        const token = await Token.verify(req.headers.authorization as string) as JwtPayload;
+    this.router.get('/validate', validateAuth, async (req: Request, res: Response) => {
+      const { token } = req.body;
+      this.loginService = new LoginService(token.email, 'password');
 
-        this.loginService = new LoginService(token.email, 'password');
-        await this.loginService.findUser();
+      await this.loginService.findUser();
 
-        if (this.loginService.userFound) {
-          return res.status(StatusCodes.OK).send(this.loginService.userFound.role);
-        }
-      } catch (error) {
-        return res.status(StatusCodes.UNAUTHORIZED).send();
+      if (this.loginService.userFound) {
+        return res.status(StatusCodes.OK).send(this.loginService.userFound.role);
       }
     });
   }

@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import validateAuth from '../middleware/auth/authorization';
 import MatchService from '../service/Match';
 
 class Match {
@@ -24,7 +25,7 @@ class Match {
   }
 
   post() {
-    this.router.post('/', async (req: Request, res: Response) => {
+    this.router.post('/', validateAuth, async (req: Request, res: Response) => {
       const { inProgress } = req.body;
       if (inProgress) {
         const resultMatchCreated = await MatchService.create(req.body);
