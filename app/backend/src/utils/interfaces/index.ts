@@ -1,5 +1,5 @@
 import { IUser, IUserComplete } from './User';
-import IClub from './Club';
+import { IClub, IClubStats } from './Club';
 import {
   IMatchScore,
   IMatchCreate,
@@ -11,6 +11,7 @@ export {
   IUser,
   IUserComplete,
   IClub,
+  IClubStats,
   IMatchScore,
   IMatchCreate,
   IMatch,
