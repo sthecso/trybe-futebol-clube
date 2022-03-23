@@ -87,21 +87,11 @@ describe('Testa a rota /login/validate ', () => {
     expect(ResponseGetValidate.text).to.equal('admin')
   });
   
-  it('Testa a rota /login/validate sem token', async () => {
-    ResponseGetValidate = await chai.request(app)
-    .get('/login/validate')
-    
-    expect(ResponseGetValidate).have.status(401)
-    expect(ResponseGetValidate.text).to.equal('')
-  });
-
   it('Testa a rota /login/validate token invalido', async () => {
     ResponseGetValidate = await chai.request(app)
   .get('/login/validate').set("Authorization", 'token')
     
     expect(ResponseGetValidate).have.status(401)
-    expect(ResponseGetValidate.text).to.equal('')
+    expect(ResponseGetValidate.body).to.deep.equal({"message":"token inválido"})
   });
-
-
 });
