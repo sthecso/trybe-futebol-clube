@@ -16,7 +16,7 @@ const validateEmail = async (req: Request, res: Response, next: NextFunction) =>
 const validatePassword = async (req: Request, res: Response, next: NextFunction) => {
   const { password } = req.body;
 
-  if (!password || password === undefined) {
+  if (!password) {
     return res.status(401)
       .json({ message: MESSAGE_FIELD });
   }

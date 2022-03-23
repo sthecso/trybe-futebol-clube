@@ -3,6 +3,7 @@ import * as express from 'express';
 import debug from 'debug';
 import CommonRoutesConfig from './routes/common.routes.config';
 import LoginRoutes from './routes/login.routes';
+import DomainError from './middlewares/domainError';
 
 require('express-async-errors');
 
@@ -29,6 +30,7 @@ class App {
     this.app.use(express.json());
     this.app.use(accessControl);
     this.app.use(cors());
+    this.app.use(DomainError.errorMiddleware);
   }
 
   routesConfig() {
