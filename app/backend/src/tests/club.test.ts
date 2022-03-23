@@ -60,7 +60,7 @@ describe('Club', () => {
       it('The API responds with status 404', async () => {
         httpResponse = await chai
           .request(app)
-          .get('/matchs/571')
+          .get('/clubs/71');
 
         expect(httpResponse.status).to.be
           .equal(StatusCodes.NOT_FOUND);
