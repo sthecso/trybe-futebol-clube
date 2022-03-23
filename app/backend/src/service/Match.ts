@@ -1,28 +1,42 @@
 import Match from '../database/models/matchs';
 import Club from '../database/models/club';
 
+type UpdatePatch = {
+  id: number;
+};
+
 class MatchService {
   static async findAll() {
-    const allTeams = await Match.findAll({
+    const allMatch = await Match.findAll({
       include: [
         { model: Club, as: 'homeClub' },
         { model: Club, as: 'awayClub' },
       ] });
-    return allTeams;
+    return allMatch;
   }
 
   static async findOneByInProgress(inProgress: string) {
-    const oneTeam = await Match.findAll({ where: { in_progress: JSON.parse(inProgress) },
+    const oneMatch = await Match.findAll({ where: { in_progress: JSON.parse(inProgress) },
       include: [
         { model: Club, as: 'homeClub' },
         { model: Club, as: 'awayClub' },
       ] });
-    return oneTeam;
+    return oneMatch;
   }
 
   static async create(matchCreated: object) {
     const resultQuery = await Match.create(matchCreated);
     return resultQuery;
+  }
+
+  static async updatePatch(params: UpdatePatch) {
+    const { id } = params;
+
+    const result = await Match.update({
+      inProgress: false,
+    }, { where: { id, inProgress: true } });
+
+    return result[0];
   }
 }
 

@@ -26,18 +26,26 @@ class Match {
 
   post() {
     this.router.post('/', validateAuth, async (req: Request, res: Response) => {
-      const { inProgress } = req.body;
-      if (inProgress) {
+      const { inProgress, homeTeam, awayTeam } = req.body;
+      if (inProgress && homeTeam !== awayTeam) {
         const resultMatchCreated = await MatchService.create(req.body);
         return res.status(StatusCodes.CREATED).json(resultMatchCreated);
       }
+      return res.status(StatusCodes.BAD_REQUEST).json(
+        { message: 'It is not possible to create a match with two equal teams' },
+      );
     });
   }
 
   patch() {
-    this.router.patch('/:id/finish', async (req: Request, res: Response) => {
+    this.router.patch('/:id/finish', validateAuth, async (req: Request, res: Response) => {
       const { id } = req.params;
-      res.status(StatusCodes.CREATED).json(id);
+
+      const resultMatchUpdate = await MatchService.updatePatch({ id: Number(id) });
+      if (resultMatchUpdate) {
+        return res.status(StatusCodes.OK).json();
+      }
+      return res.status(StatusCodes.BAD_REQUEST).json();
     });
   }
 }
