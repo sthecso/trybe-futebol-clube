@@ -2,3 +2,5 @@ joi
 express-async-errors
 bcryptjs
 @types/bcryptjs
+sort-array
+@types/sort-array
