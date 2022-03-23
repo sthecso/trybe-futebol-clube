@@ -17,7 +17,7 @@ const auth: RequestHandler = async (req, res, next) => {
   try {
     const userData = verify(token) as IUser;
 
-    req.user = userData;
+    req.body.user = userData;
   } catch (err) {
     console.error(err);
 
