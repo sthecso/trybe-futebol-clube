@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Leaderboard from '../../utils/LeaderboardObject';
+// import Leaderboard from '../../utils/LeaderboardObject';
 import { BaseLeaderboard, ClubGols, ClubsAndMatchs } from '../../utils/Interfaces';
 import Clubs from '../models/Clubs';
 import Matchs from '../models/Matchs';
@@ -102,7 +102,7 @@ async function getLeaderboardService() {
   });
   const responseLeaderboard = filterClubToReturnToUser(arrayToSetLeaderboard);
   await responseLeaderboard.sort(sortByPoints);
-  return Leaderboard;
+  return responseLeaderboard;
 }
 
 export default getLeaderboardService;
