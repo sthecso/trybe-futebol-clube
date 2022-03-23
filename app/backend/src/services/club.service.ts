@@ -1,16 +1,15 @@
-import clubModel from '../database/models/Club';
+import Club from '../database/models/Club';
 
-const findOneClub = async (id: number) => {
-  const club = await clubModel.findOne({ where: { id } });
+export default class ClubsServices {
+  async findOneClub(id: number): Promise<any> {
+    const clubs = await Club.findOne({
+      where: { id },
+    });
+    return clubs;
+  }
 
-  return club;
-};
-
-const findAllClubs = async () => {
-  const clubs = await clubModel.findAll();
-
-  return clubs;
-};
-
-export default findAllClubs;
-export { findOneClub };
+  async findAllClubs(): Promise<any> {
+    const clubs = await Club.findAll();
+    return clubs;
+  }
+}
