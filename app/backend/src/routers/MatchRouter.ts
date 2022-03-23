@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { matchGoalsSchema } from '../schemas/joiSchemas';
-import { validateJWT, validateSchema } from '../middlewares';
+import { validateJWT } from '../middlewares';
 import { MatchController } from '../controllers';
 import validateMatch from '../middlewares/validateMatch';
 
@@ -27,7 +26,8 @@ class MatchRouter {
     );
     this.router.patch(
       '/:id',
-      validateSchema(matchGoalsSchema),
+      // Teste se requisição não precisa passar por validação de conteúdo
+      // validateSchema(matchGoalsSchema),
       this.matchController.editMatch,
     );
     this.router.patch('/:id/finish', this.matchController.finishMatch);

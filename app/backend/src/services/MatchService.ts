@@ -50,10 +50,10 @@ class MatchService {
         code: StatusCode.UNPROCESSABLE_ENTITY, data: { message: 'Match is not in progress!' },
       };
     }
-    return { code: StatusCode.NO_CONTENT, data: 'Updated' };
+    return { code: StatusCode.NO_CONTENT, data: { message: 'Match updated' } };
   }
 
-  async finishMatch(id: number) {
+  async finishMatch(id: string) {
     const [match] = await this.matchModel.update(
       { inProgress: false },
       {
@@ -65,7 +65,7 @@ class MatchService {
         code: StatusCode.UNPROCESSABLE_ENTITY, data: { message: 'Match is not in progress!' },
       };
     }
-    return { code: StatusCode.NO_CONTENT, data: 'Match finished' };
+    return { code: StatusCode.NO_CONTENT, data: { message: 'Match finished' } };
   }
 }
 

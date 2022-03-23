@@ -37,7 +37,7 @@ class MatchController {
 
   async finishMatch(req: Request, res: Response) {
     const { id } = req.params;
-    const { code, data } = await this.matchService.finishMatch(parseInt(id, 10));
+    const { code, data } = await this.matchService.finishMatch(id);
     return res.status(code).send(data);
   }
 }
