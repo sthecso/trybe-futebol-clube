@@ -1,0 +1,99 @@
+import { ClubGols, BaseLboard, ClubsAndMatchs } from '../../../helpers/Interfaces';
+import LBoardUtilities from '../../../utilities/LBoardUtilities';
+import Clubs from '../../models/Clubs';
+import Matchs from '../../models/Matchs';
+
+const INITIAL_NUMBER = 0;
+
+function endCalc(matchs: any, object: BaseLboard) {
+  const nObj = object;
+  matchs.forEach((match: any) => {
+    if (match.golsFeitos > match.golsTomados) { nObj.totalPoints += 3; nObj.totalVictories += 1; }
+    if (match.golsFeitos === match.golsTomados) { nObj.totalPoints += 1; nObj.totalDraws += 1; }
+    if (match.golsFeitos < match.golsTomados) nObj.totalLosses += 1;
+    nObj.goalsFavor += match.golsFeitos;
+    nObj.goalsOwn += match.golsTomados;
+  });
+  return nObj;
+}
+
+function calculatePoints(matchs: ClubGols[]) {
+  const baseLeaderboard = {
+    name: '',
+    totalVictories: INITIAL_NUMBER,
+    goalsOwn: INITIAL_NUMBER,
+    totalLosses: INITIAL_NUMBER,
+    totalDraws: INITIAL_NUMBER,
+    goalsFavor: INITIAL_NUMBER,
+    totalPoints: INITIAL_NUMBER,
+    goalsBalance: INITIAL_NUMBER,
+    efficiency: INITIAL_NUMBER,
+  };
+  const finalLeaderboard = endCalc(matchs, baseLeaderboard);
+  finalLeaderboard.goalsBalance = finalLeaderboard.goalsFavor - finalLeaderboard.goalsOwn;
+  finalLeaderboard.efficiency = Number(
+    ((finalLeaderboard.totalPoints / (matchs.length * 3)) * 100).toFixed(2),
+  );
+  return finalLeaderboard;
+}
+
+function filterClubToReturnToUser(club: ClubsAndMatchs[]) {
+  const finalLeaderboard = club.map((clubObject) => {
+    const leaderboard = calculatePoints(clubObject.matchs);
+    leaderboard.name = clubObject.name;
+    return leaderboard;
+  });
+  return finalLeaderboard;
+}
+function sortGoalsOwn(a: BaseLboard, b: BaseLboard) {
+  if (a.goalsOwn > b.goalsOwn) return -1;
+  if (a.goalsOwn < b.goalsOwn) return 1;
+  return 0;
+}
+
+function sortGoalsFavor(a: BaseLboard, b: BaseLboard) {
+  if (a.goalsFavor > b.goalsFavor) return -1;
+  if (a.goalsFavor < b.goalsFavor) return 1;
+  return sortGoalsOwn(a, b);
+}
+
+function sortGoalsBalance(a: BaseLboard, b: BaseLboard) {
+  if (a.goalsBalance > b.goalsBalance) return -1;
+  if (a.goalsBalance < b.goalsBalance) return 1;
+  return sortGoalsFavor(a, b);
+}
+
+function sortVictories(a: BaseLboard, b: BaseLboard) {
+  if (a.totalVictories > b.totalVictories) return -1;
+  if (a.totalVictories < b.totalVictories) return 1;
+  return sortGoalsBalance(a, b);
+}
+
+function sortPoints(a: BaseLboard, b: BaseLboard) {
+  if (a.totalPoints > b.totalPoints) return -1;
+  if (a.totalPoints < b.totalPoints) return 1;
+  return sortVictories(a, b);
+}
+
+async function getLeaderboardService() {
+  const clubsAndMatchs = await Clubs.findAll({
+    include: [{
+      model: Matchs,
+      attributes: [['home_team_goals', 'golsFeitos'], ['away_team_goals', 'golsTomados']],
+      where: { inProgress: false },
+    }],
+  });
+  const arrayToSetLeaderboard = [] as any;
+  clubsAndMatchs.forEach((club: any) => {
+    const n = { name: club.dataValues.clubName, matchs: [] as ClubGols[] };
+    club.dataValues.Matchs.forEach((match: any) => {
+      const matchs = match.dataValues; n.matchs.push(matchs);
+    });
+    arrayToSetLeaderboard.push(n);
+  });
+  const responseLeaderboard = filterClubToReturnToUser(arrayToSetLeaderboard);
+  await responseLeaderboard.sort(sortPoints);
+  return LBoardUtilities;
+}
+
+export default getLeaderboardService;
