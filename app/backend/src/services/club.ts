@@ -3,7 +3,7 @@ import { IClub } from '../utils/interfaces';
 
 import * as messages from '../utils/messages';
 
-import NotFoundError from './errors/NotFound';
+import { NotFoundError } from './errors';
 
 class ClubService {
   public static async findAll() {

@@ -5,8 +5,10 @@ import * as jwt from '../utils/jwt';
 
 import * as messages from '../utils/messages';
 
-import UnauthorizedError from './errors';
-import UnprocessableError from './errors/Unprocessable';
+import {
+  UnauthorizedError,
+  UnprocessableError,
+} from './errors';
 
 class LoginService {
   public static generateToken(user: IUserComplete) {

@@ -1,11 +1,12 @@
 import { Router } from 'express';
 // import auth from '../middlewares';
-// import { LoginController } from '../controllers';
+import { LeaderboardController } from '../controllers';
 
 const leaderboard = Router();
 
 leaderboard.get(
   '/home',
+  LeaderboardController,
 );
 
 export default leaderboard;

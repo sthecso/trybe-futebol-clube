@@ -13,9 +13,11 @@ import {
 
 import * as messages from '../utils/messages';
 
-import NotFoundError from './errors/NotFound';
-import UnauthorizedError from './errors';
-import BadRequestError from './errors/BadRequest';
+import {
+  NotFoundError,
+  UnauthorizedError,
+  BadRequestError,
+} from './errors';
 
 class MatchService {
   public static async findAll(inProgressQ: InProgressQ) {
