@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { hash, compare } from '../utils/hash';
+import { compare } from '../utils/hash';
 import key from '../utils/readKeyJWT';
 import { Ilogin } from '../utils/interfaces';
 import User from '../database/models/User';
@@ -10,10 +10,8 @@ const userLoginService = async (loginParams: Ilogin) => {
 
   if (!users) { return { code: 401, message: 'Incorrect email or password' }; }
 
-  const passHash = await hash(password);
-
-  const verifyPass = await compare(passHash, users.password);
-  if (verifyPass) { return { code: 401, message: 'Incorrect email or password' }; }
+  const verifyPass = await compare(password, users.password);
+  if (!verifyPass) { return { code: 401, message: 'Incorrect email or password' }; }
 
   const token = jwt.sign({ id: users.id }, key);
   const { id, username, role } = users;
