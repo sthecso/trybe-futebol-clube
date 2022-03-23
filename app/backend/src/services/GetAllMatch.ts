@@ -7,14 +7,12 @@ export default class GetAllService {
       include: [
         { model: Club,
           as: 'homeClub',
-          through: {
-            attributes: ['clubName'],
-          } },
+          attributes: ['clubName'],
+        },
         { model: Club,
           as: 'awayClub',
-          through: {
-            attributes: ['clubName'],
-          } },
+          attributes: ['clubName'],
+        },
       ],
     });
     return match;
