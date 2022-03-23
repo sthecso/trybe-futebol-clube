@@ -45,7 +45,6 @@ class MatchModel {
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
-    return { homeTeamGoals, awayTeamGoals };
   }
 
   async finishMatch(id: number) {

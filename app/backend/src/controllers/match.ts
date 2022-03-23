@@ -55,7 +55,7 @@ class MatchController {
       return res.status(this.statusCode.NotFound)
         .json({ message: 'Team not found' });
     }
-    return res.status(this.statusCode.Ok).json(saveProgressMatch);
+    return res.status(this.statusCode.Ok).json({ message: 'The results was updated' });
   }
 
   async finishMatch(req: Request, res: Response) {
