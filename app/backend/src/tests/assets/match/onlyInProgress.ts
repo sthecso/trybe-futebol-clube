@@ -1,66 +1,30 @@
 export default [
   {
-    id: 41,
-    home_team: 'São Paulo',
-    home_team_goals: '2',
-    away_team: 'Internacional',
-    away_team_goals: '0',
-    in_progress: 1,
+    "id": 41,
+    "homeTeam": 16,
+    "homeTeamGoals": 2,
+    "awayTeam": 9,
+    "awayTeamGoals": 0,
+    "inProgress": true,
+    "homeClub": {
+      "clubName": "São Paulo"
+    },
+    "awayClub": {
+      "clubName": "Internacional"
+    }
   },
   {
-    id: 42,
-    home_team: 'Ferroviária',
-    home_team_goals: '1',
-    away_team: 'Avaí/Kindermann',
-    away_team_goals: '0',
-    in_progress: 1,
-  },
-  {
-    id: 43,
-    home_team: 'Napoli-SC',
-    home_team_goals: '0',
-    away_team: 'Minas Brasília',
-    away_team_goals: '0',
-    in_progress: 1,
-  },
-  {
-    id: 44,
-    home_team: 'Flamengo',
-    home_team_goals: '2',
-    away_team: 'São José-SP',
-    away_team_goals: '2',
-    in_progress: 1,
-  },
-  {
-    id: 45,
-    home_team: 'Cruzeiro',
-    home_team_goals: '1',
-    away_team: 'Botafogo',
-    away_team_goals: '1',
-    in_progress: 1,
-  },
-  {
-    id: 46,
-    home_team: 'Corinthians',
-    home_team_goals: '1',
-    away_team: 'Palmeiras',
-    away_team_goals: '1',
-    in_progress: 1,
-  },
-  {
-    id: 47,
-    home_team: 'Grêmio',
-    home_team_goals: '1',
-    away_team: 'Santos',
-    away_team_goals: '2',
-    in_progress: 1,
-  },
-  {
-    id: 48,
-    home_team: 'Real Brasília',
-    home_team_goals: '1',
-    away_team: 'Bahia',
-    away_team_goals: '1',
-    in_progress: 1,
-  },
-];
+    "id": 42,
+    "homeTeam": 6,
+    "homeTeamGoals": 1,
+    "awayTeam": 1,
+    "awayTeamGoals": 0,
+    "inProgress": true,
+    "homeClub": {
+      "clubName": "Ferroviária"
+    },
+    "awayClub": {
+      "clubName": "Avaí/Kindermann"
+    }
+  }
+]

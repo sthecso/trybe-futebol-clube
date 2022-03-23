@@ -22,11 +22,11 @@ export default class MatchRouter {
   private getAll(): void {
     this.router.get('/', async (req: Request, res: Response) => {
       const { inProgress } = req.query;
-      const progessStatus: boolean | undefined = JSON.parse(
+      const progressStatus: boolean | undefined = JSON.parse(
         inProgress as string,
       );
 
-      const { code, data } = await this._matchController.getAll(progessStatus);
+      const { code, data } = await this._matchController.getAll(progressStatus);
       return res.status(code).json(data);
     });
   }

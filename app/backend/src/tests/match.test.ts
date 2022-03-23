@@ -22,7 +22,6 @@ describe("Testing Match endpoints", () => {
       .request(app)
       .post("/login")
       .send({ email: "admin@admin.com", password: "secret_admin" });
-
     _token = chaiHttpResponse.body.token;
   });
 
@@ -75,7 +74,7 @@ describe("Testing Match endpoints", () => {
     });
 
     it("API returns http status code 400 when the match does not exist", async () => {
-      chaiHttpResponse = await chai.request(app).get("/matches/49");
+      chaiHttpResponse = await chai.request(app).get("/matches/51");
 
       const { status, body } = chaiHttpResponse;
 
@@ -513,7 +512,7 @@ describe("Testing Match endpoints", () => {
     it('API returns an updated score message', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .patch('/matches/48')
+        .patch('/matches/42')
         .send({ homeTeamGoals: 1, awayTeamGoals: 2});
 
         const { status, body } = chaiHttpResponse;

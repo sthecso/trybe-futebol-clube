@@ -19,11 +19,9 @@ export default class MatchService {
     let matches: IMatch[];
 
     if (inProgress) {
-      matches = await this._matchRepository.getAll();
+      matches = await this._matchRepository.getAllInProgress();
     } else {
-      matches = inProgress
-        ? await this._matchRepository.getAllInProgress()
-        : await this._matchRepository.getAllFinished();
+      matches = await this._matchRepository.getAll();
     }
 
     return { code: 200, data: matches };
