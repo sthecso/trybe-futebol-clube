@@ -5,7 +5,7 @@ export default class LoginController {
   public static async login(req: Request, res: Response) {
     const { email, password } = req.body;
 
-    const result = loginService.login(email, password);
+    const result = await loginService.login(email, password);
 
     if (!result) {
       res.status(401).json({ message: 'Incorrect email or password' });

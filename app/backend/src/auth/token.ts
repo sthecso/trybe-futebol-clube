@@ -5,19 +5,9 @@ import * as Jwt from 'jsonwebtoken';
 
 const JWT_SECRET: Jwt.Secret = readFileSync('./jwt.evaluation.key', 'utf8');
 
-const createToken = async (email: string) => {
-  const JWT : {
-    expiresIn: string,
-    algorithm: Jwt.Algorithm,
-  } = {
-    expiresIn: '7d',
-    algorithm: 'HS256',
-  };
+const createToken = (email: string) => Jwt.sign(email, JWT_SECRET);
 
-  return Jwt.sign(email, JWT_SECRET, JWT);
-};
-
-const validateToken = async (req: Request, res: Response, next: NextFunction) => {
+const validateToken = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;
 
   if (!token) {

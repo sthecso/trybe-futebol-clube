@@ -14,12 +14,10 @@ export default class Login {
     if (!checkPassword) {
       return false;
     }
+    const { id, username, role } = user;
+
     const createToken = token.createToken(email);
 
-    // const { id, username, role } = user;
-
-    // return { user: { id, username, role, email }, createToken };
-
-    return { user, createToken };
+    return { user: { id, username, role, email }, token: createToken };
   }
 }
