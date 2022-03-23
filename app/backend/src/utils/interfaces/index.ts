@@ -111,8 +111,8 @@ export interface IClubCap {
 }
 
 export interface IClubRepository {
-  getAllClubs(): Promise<IClub[]>;
-  getClubById(id: string): Promise<IClub | undefined>;
+  getAll(): Promise<IClub[]>;
+  getById(id: string): Promise<IClub | undefined>;
 }
 
 export interface IMatchRepository {

@@ -1,19 +1,15 @@
 import { LeaderboardService } from '../../service';
 
 export default class LeaderboardController {
-  constructor(
-    private leaderboardService: LeaderboardService,
-  ) {}
-
-  async getHomeRank() {
-    return this.leaderboardService.getHomeRank();
+  static async getHomeRank() {
+    return LeaderboardService.getHomeRank();
   }
 
-  async getAwayRank() {
-    return this.leaderboardService.getAwayRank();
+  static async getAwayRank() {
+    return LeaderboardService.getAwayRank();
   }
 
-  async getTeamCapRank() {
-    return this.leaderboardService.getTeamCapRank();
+  static async getTeamCapRank() {
+    return LeaderboardService.getTeamCapRank();
   }
 }
