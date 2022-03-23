@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import Match from '../database/models/matchs';
 import Club from '../database/models/club';
 
@@ -15,6 +16,7 @@ class MatchService {
     return allMatch;
   }
 
+ 
   static async findOneByInProgress(inProgress: string) {
     const oneMatch = await Match.findAll({ where: { in_progress: JSON.parse(inProgress) },
       include: [
@@ -34,7 +36,7 @@ class MatchService {
 
     const result = await Match.update({
       inProgress: false,
-    }, { where: { id, inProgress: true } });
+    }, { where: { id } });
 
     return result[0];
   }

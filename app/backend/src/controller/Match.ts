@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import validateAuth from '../middleware/auth/authorization';
 import MatchService from '../service/Match';
+import ClubService from '../service/Club';
 
 class Match {
   public router = Router();
@@ -17,23 +18,35 @@ class Match {
       const { inProgress } = req.query;
       if (typeof inProgress === 'string') {
         const matchs = await MatchService.findOneByInProgress(inProgress);
-        return res.status(200).json(matchs);
+        return res.status(StatusCodes.OK).json(matchs);
       }
       const matchs = await MatchService.findAll();
-      return res.status(200).json(matchs);
+      return res.status(StatusCodes.OK).json(matchs);
     });
   }
 
   post() {
     this.router.post('/', validateAuth, async (req: Request, res: Response) => {
       const { inProgress, homeTeam, awayTeam } = req.body;
-      if (inProgress && homeTeam !== awayTeam) {
+
+      const resultIsTeam = await ClubService.findAllIsTeam([homeTeam, awayTeam]);
+
+      if (homeTeam === awayTeam) {
+        return res.status(StatusCodes.UNAUTHORIZED).json(
+          { message: 'It is not possible to create a match with two equal teams' },
+        );
+      }
+
+      if (resultIsTeam.length < 2) {
+        return res.status(StatusCodes.UNAUTHORIZED).json(
+          { message: 'There is no team with such id!' },
+        );
+      }
+
+      if (inProgress) {
         const resultMatchCreated = await MatchService.create(req.body);
         return res.status(StatusCodes.CREATED).json(resultMatchCreated);
       }
-      return res.status(StatusCodes.BAD_REQUEST).json(
-        { message: 'It is not possible to create a match with two equal teams' },
-      );
     });
   }
 
