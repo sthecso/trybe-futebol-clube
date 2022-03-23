@@ -1,3 +1,5 @@
+/* eslint-disable mocha/no-identical-title */
+/* eslint-disable max-lines-per-function */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable max-len */
 /* eslint-disable mocha/no-mocha-arrows */
@@ -138,5 +140,20 @@ describe('GET /validate', () => {
       .set('Authorization', token);
     const { body } = secondResponse;
     expect((body)).to.equals('admin');
+  });
+  it('returns http code 401 when not passed a token to the route" ', async () => {
+    const response: Response = await chai
+      .request(app)
+      .get('/login/validate');
+    const { body } = response;
+    expect((body.message)).to.equals('token not found');
+  });
+  it('returns http code 401 when not passed a token to the route" ', async () => {
+    const response: Response = await chai
+      .request(app)
+      .get('/login/validate')
+      .set('Authorization', 'invalid');
+    const { body } = response;
+    expect((body.message)).to.equals('Unauthorized');
   });
 });

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable no-unused-vars */
 /* eslint-disable mocha/no-identical-title */
 /* eslint-disable max-lines */
@@ -553,6 +554,50 @@ describe('/clubs', () => {
       //   .set('content-type', 'application/json');
       expect(firstResponse.status).to.equals(201);
       expect((firstResponse.body)).to.deep.equals(newMatch);
+    });
+  });
+  describe('PATCH  /matchs route', () => {
+    it('/matchs/:id/finish', async () => {
+      const id = 43;
+      const response = await chai
+        .request(app)
+        .patch(`/matchs/${id}/finish`)
+        .set('content-type', 'application/json');
+      expect(response.status).to.equals(200);
+    });
+  });
+  describe('POST  /matchs route', () => {
+    it('/matchs', async () => {
+      const newMatch = {
+        homeTeam: 1,
+        homeTeamGoals: 2,
+        awayTeam: 1,
+        awayTeamGoals: 2,
+        inProgress: true,
+      };
+      const response = await chai
+        .request(app)
+        .post('/matchs')
+        .set('content-type', 'application/json')
+        .send(newMatch);
+      expect(response.status).to.equals(401);
+      expect(response.body.message).to.equals('It is not possible to create a match with two equal teams');
+    });
+    it('/matchs', async () => {
+      const newMatch = {
+        homeTeam: 88888,
+        homeTeamGoals: 2,
+        awayTeam: 1,
+        awayTeamGoals: 2,
+        inProgress: true,
+      };
+      const response = await chai
+        .request(app)
+        .post('/matchs')
+        .set('content-type', 'application/json')
+        .send(newMatch);
+      expect(response.status).to.equals(401);
+      expect(response.body.message).to.equals('There is no team with such id');
     });
   });
 });

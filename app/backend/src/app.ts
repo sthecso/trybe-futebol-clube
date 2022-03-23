@@ -2,7 +2,7 @@ import * as express from 'express';
 
 import * as cors from 'cors';
 
-import { loginRouter, clubRouter, matchRouter } from './controllers/routes';
+import { loginRouter, clubRouter, matchRouter, LeaderboardRouter } from './controllers/routes';
 import { error } from './middlewares';
 
 class App {
@@ -30,6 +30,7 @@ class App {
     this.app.use('/login', loginRouter);
     this.app.use('/clubs', clubRouter);
     this.app.use('/matchs', matchRouter);
+    this.app.use('/leaderboard', LeaderboardRouter);
 
     this.app.use(error);
   }

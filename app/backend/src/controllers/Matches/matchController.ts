@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
 import { Response, NextFunction } from 'express';
-import { Op } from 'sequelize';
 
 import StatusCode from '../../enums';
 import Match from '../../database/models/Matchs';
@@ -10,7 +9,9 @@ import { CustomRequest, IMatch } from '../../interfaces';
 const EMPTY_DB = 'no match registered yet';
 const MATCH_NOT_FOUND = 'match not found';
 const EQUAL_TEAMS = 'It is not possible to create a match with two equal teams';
-const TEAM_NOT_FOUND = 'There is no team with such id';
+const TEAM_NOT_FOUND = 'There is no team with such id!';
+const MATCH_SAVED = 'Finished match';
+const MATCH_UPDATED = 'Updated match';
 
 export default class MatchController {
   static async getMatches(
@@ -55,15 +56,11 @@ export default class MatchController {
       if (homeTeam === awayTeam) {
         return res.status(StatusCode.UNAUTHORIZED).json({ message: EQUAL_TEAMS });
       }
-      const existing = Match.findAll({
-        where: {
-          [Op.or]: [
-            { homeTeam },
-            { awayTeam },
-          ],
-        },
-      });
-      if (!existing) return res.status(StatusCode.UNAUTHORIZED).json({ message: TEAM_NOT_FOUND });
+      const allTeams = await Club.findAll({ raw: true });
+      const existing = allTeams.filter(({ id }) => id === homeTeam || id === awayTeam);
+      if (existing.length < 2) {
+        return res.status(StatusCode.UNAUTHORIZED).json({ message: TEAM_NOT_FOUND });
+      }
       const newMatch = await Match.create({
         homeTeam,
         awayTeam,
@@ -89,7 +86,7 @@ export default class MatchController {
         { inProgress: false },
         { where: { id } },
       );
-      res.status(StatusCode.NO_CONTENT).end();
+      return res.status(StatusCode.OK).json({ message: MATCH_SAVED });
     } catch (err) {
       next(err);
     }
@@ -110,7 +107,7 @@ export default class MatchController {
         },
         { where: { id } },
       );
-      res.status(StatusCode.NO_CONTENT).end();
+      return res.status(StatusCode.OK).json({ message: MATCH_UPDATED });
     } catch (err) {
       next(err);
     }
