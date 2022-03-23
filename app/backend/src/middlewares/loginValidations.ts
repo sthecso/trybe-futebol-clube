@@ -12,7 +12,7 @@ const validateEmail = (req: Request, res: Response, next: NextFunction) => {
 
 const validatePassword = (req: Request, res: Response, next: NextFunction) => {
   const { password } = req.body;
-  if (password.lenght < 7) {
+  if (password.length < 7) {
     return res.status(401).json({ message: 'A senha precisa ter no mínimo 7 caracteres' });
   }
   next();
