@@ -8,7 +8,7 @@ export default class LoginController {
     const result = await loginService.login(email, password);
 
     if (!result) {
-      res.status(401).json({ message: 'Incorrect email or password' });
+      return res.status(401).json({ message: 'Incorrect email or password' });
     }
 
     res.status(200).json(result);

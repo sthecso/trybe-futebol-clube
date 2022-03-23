@@ -38,7 +38,7 @@ describe('Testando rotas do login', () => {
   it('A rota deve receber um status 200 com um token em caso de sucesso', async () => {
     let responseLogin = await chai.request(app)
     .post('/login')
-    .send({ email: 'name@name.com', password: '12345678'});
+    .send({ email: 'user@user.com', password: 'secret_user'});
     expect(responseLogin).to.have.status(200);
     expect(responseLogin.body).to.have.property('token');
     // expect(false).to.be.eq(true);
