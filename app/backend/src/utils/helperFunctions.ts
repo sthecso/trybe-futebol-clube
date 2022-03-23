@@ -133,6 +133,25 @@ const calculateLeaderboardAway = (matchs: IMatch[]) => {
   });
   return leaderboard;
 };
+const calculateLeaderboardAll = (matchs: IMatch[]) => {
+  let leaderboard = {} as ILeaderboardObject;
+  matchs.forEach((match) => {
+    const awayClubName = match.awayClub.clubName;
+    const homeClubName = match.homeClub.clubName;
+    const { homeTeamGoals, awayTeamGoals } = match;
+    if (awayTeamGoals > homeTeamGoals) {
+      leaderboard = addVictoryToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addLossToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+    } else if (awayTeamGoals < homeTeamGoals) {
+      leaderboard = addLossToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addVictoryToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+    } else {
+      leaderboard = addDrawToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addDrawToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+    }
+  });
+  return leaderboard;
+};
 
 const sortLeaderboard = (leaderboard: ILeaderboardTeam[]) => leaderboard.sort((a, b) =>
   b.totalPoints - a.totalPoints
@@ -141,4 +160,5 @@ const sortLeaderboard = (leaderboard: ILeaderboardTeam[]) => leaderboard.sort((a
   || b.goalsFavor - a.goalsFavor
   || b.goalsOwn - a.goalsOwn);
 
-export { calculateLeaderboardHome, calculateLeaderboardAway, sortLeaderboard };
+export { calculateLeaderboardHome, calculateLeaderboardAway,
+  calculateLeaderboardAll, sortLeaderboard };
