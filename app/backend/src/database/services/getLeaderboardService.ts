@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import Leaderboard from '../../utils/LeaderboardObject';
 import { BaseLeaderboard, ClubGols, ClubsAndMatchs } from '../../utils/Interfaces';
 import Clubs from '../models/Clubs';
 import Matchs from '../models/Matchs';
@@ -17,6 +16,7 @@ function finishCalculation(matchs: any, object: BaseLeaderboard) {
     newObject.goalsFavor += match.golsFeitos;
     newObject.goalsOwn += match.golsTomados;
   });
+  newObject.totalGames = matchs.length;
   return newObject;
 }
 
@@ -25,6 +25,7 @@ function calculatePoints(matchs: ClubGols[]) {
     name: '',
     totalPoints: 0,
     totalVictories: 0,
+    totalGames: 0,
     totalLosses: 0,
     totalDraws: 0,
     goalsFavor: 0,
@@ -50,59 +51,62 @@ function filterClubToReturnToUser(club: ClubsAndMatchs[]) {
 }
 
 function sortByGoalsOwn(a: BaseLeaderboard, b: BaseLeaderboard) {
-  console.log('O filtro por gols feitos não foi realizado, fazendo filtro por gols tomados');
   if (a.goalsOwn > b.goalsOwn) return -1;
   if (a.goalsOwn < b.goalsOwn) return 1;
   return 0;
 }
 
 function sortByGoalsFavor(a: BaseLeaderboard, b: BaseLeaderboard) {
-  console.log('O filtro por KDA não foi realizado, fazendo filtro por gols feitos');
   if (a.goalsFavor > b.goalsFavor) return -1;
   if (a.goalsFavor < b.goalsFavor) return 1;
   return sortByGoalsOwn(a, b);
 }
 
 function sortByGoalsBalance(a: BaseLeaderboard, b: BaseLeaderboard) {
-  console.log('O filtro por vitórias não foi realizado, fazendo filtro por K/D/A de gols');
   if (a.goalsBalance > b.goalsBalance) return -1;
   if (a.goalsBalance < b.goalsBalance) return 1;
   return sortByGoalsFavor(a, b);
 }
 
 function sortByVictories(a: BaseLeaderboard, b: BaseLeaderboard) {
-  console.log('O filtro por pontos não foi realizado, fazendo filtro por vitórias');
-  if (a.totalVictories > b.totalVictories) return -1;
   if (a.totalVictories < b.totalVictories) return 1;
   return sortByGoalsBalance(a, b);
 }
 
 function sortByPoints(a: BaseLeaderboard, b: BaseLeaderboard) {
-  console.log('Fazendo o filtro por pontos.');
   if (a.totalPoints > b.totalPoints) return -1;
   if (a.totalPoints < b.totalPoints) return 1;
   return sortByVictories(a, b);
 }
 
-async function getLeaderboardService() {
-  const clubsAndMatchs = await Clubs.findAll({
-    include: [{
-      model: Matchs,
-      attributes: [['home_team_goals', 'golsFeitos'], ['away_team_goals', 'golsTomados']],
-      where: { inProgress: false },
-    }],
-  });
+function finishLeaderboard(clubsAndMatchs: any) {
   const arrayToSetLeaderboard = [] as any;
   clubsAndMatchs.forEach((club: any) => {
     const n = { name: club.dataValues.clubName, matchs: [] as ClubGols[] };
-    club.dataValues.Matchs.forEach((match: any) => {
+    club.dataValues.partidasCasa.forEach((match: any) => {
       const matchs = match.dataValues; n.matchs.push(matchs);
     });
     arrayToSetLeaderboard.push(n);
   });
   const responseLeaderboard = filterClubToReturnToUser(arrayToSetLeaderboard);
-  await responseLeaderboard.sort(sortByPoints);
+  responseLeaderboard.sort(sortByPoints);
   return responseLeaderboard;
+}
+
+async function getLeaderboardService() {
+  const clubsAndMatchs = await Clubs.findAll({
+    attributes: ['clubName'],
+    include: [{
+      model: Matchs,
+      as: 'partidasCasa',
+      attributes: [
+        ['home_team_goals', 'golsFeitos'],
+        ['away_team_goals', 'golsTomados'],
+      ],
+      where: { inProgress: false },
+    }],
+  }) as any;
+  return finishLeaderboard(clubsAndMatchs);
 }
 
 export default getLeaderboardService;

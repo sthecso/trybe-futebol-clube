@@ -60,6 +60,7 @@ export interface BaseLeaderboard {
   name: string,
   totalPoints: number,
   totalVictories: number,
+  totalGames: number,
   totalLosses: number,
   totalDraws: number,
   goalsFavor: number,

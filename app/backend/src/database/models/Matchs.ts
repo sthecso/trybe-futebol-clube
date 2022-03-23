@@ -47,10 +47,12 @@ Matchs.init({
 
 Clubs.hasMany(Matchs, {
   foreignKey: 'homeTeam',
+  as: 'partidasCasa',
 });
 
 Clubs.hasMany(Matchs, {
   foreignKey: 'awayTeam',
+  as: 'partidasDeFora',
 });
 
 Matchs.belongsTo(Clubs, {
