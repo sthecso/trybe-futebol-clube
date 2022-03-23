@@ -20,7 +20,8 @@ describe('/matchs', () => {
       homeTeam: 16,
       awayTeam: 8,
       homeTeamGoals: 2,
-      awayTeamGoals: 2
+      awayTeamGoals: 2,
+      inProgress: true,
     };
 
     const { body: { token } } = await chai.request(app)
@@ -70,7 +71,8 @@ describe('/matchs', () => {
 
   it('GET: quando a query string é passada', async () => {
     await chai.request(app)
-      .get('/matchs?inProgress=true')
+      .get('/matchs')
+      .query({ inProgress: 'false' })
       .then((res: Response) => {
         const body = res.body;
 
@@ -90,6 +92,7 @@ describe('/match/:id/finish', () => {
       .patch('/match/1/finish')
       .then((res: Response) => {
         expect(res).to.have.status(204);
+        expect(res.body.inProgress).to.be.equal(false);
       });
   });
 });

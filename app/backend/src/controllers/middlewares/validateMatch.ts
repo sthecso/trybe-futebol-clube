@@ -12,7 +12,7 @@ const verifyBody = (req: Request, res: Response, next: NextFunction) => {
 
 const verifyExistsClubs = async (req: Request, res: Response, next: NextFunction) => {
   const { homeTeam, awayTeam } = req.body;
-  const message = { message: 'Team not found' };
+  const message = { message: 'There is no team with such id!' };
   const home = await getById(homeTeam);
   const away = await getById(awayTeam);
 
