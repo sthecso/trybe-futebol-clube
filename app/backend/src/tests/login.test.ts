@@ -16,7 +16,7 @@ describe('Testes relacionados ao login', () =>{
     it('Testa retorna status 200 e um token ',async () => {
       let loginTest = await chai.request(app).post('/login').send({ 
         email: 'admin@admin.com',
-        password:'password',
+        password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
       });
       // espera status 200
       expect(loginTest.status).to.be.equal(200);
