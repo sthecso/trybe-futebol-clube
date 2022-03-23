@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import LeaderboardTable from '../components/LeaderboardTable';
 import LoginBtn from '../components/LoginBtn';
-import MatchsBtn from '../components/MatchsBtn';
+import MatchesBtn from '../components/MatchesBtn';
 import TableFilter from '../components/TableFilter';
 import '../styles/pages/leaderboard.css';
 
@@ -22,7 +22,7 @@ const Leaderboard = () => {
     <>
       <Header
         page="CLASSIFICAÇÃO"
-        FirstNavigationLink={ MatchsBtn }
+        FirstNavigationLink={ MatchesBtn }
         SecondNavegationLink={ LoginBtn }
         logged={ logged }
         setLogin={ setLogin }

@@ -15,7 +15,7 @@ const GamesTable = ({ currentFilter, isAdm }) => {
     .catch((error) => console.log(error));
 
   useEffect(() => {
-    const endpoint = '/matchs';
+    const endpoint = '/matches';
 
     switch (currentFilter) {
     case 'Em andamento':
@@ -31,7 +31,7 @@ const GamesTable = ({ currentFilter, isAdm }) => {
   }, [currentFilter]);
 
   useEffect(() => {
-    const endpoint = '/matchs';
+    const endpoint = '/matches';
 
     if (!games.length) {
       getGames(endpoint);
@@ -70,26 +70,26 @@ const GamesTable = ({ currentFilter, isAdm }) => {
               <tr key={ id }>
                 <td
                   className="games-table-tbody-home-team"
-                  data-testid={ `matchs__home_team_${id}` }
+                  data-testid={ `matches__home_team_${id}` }
                 >
                   { homeClub.clubName }
                 </td>
                 <td
                   className="games-table-tbody-home-team-goals"
-                  data-testid={ `matchs__home_team_goals_${id}` }
+                  data-testid={ `matches__home_team_goals_${id}` }
                 >
                   { homeTeamGoals }
                 </td>
                 <td className="games-table-tbody-versus">X</td>
                 <td
                   className="games-table-tbody-away-team-goals"
-                  data-testid={ `matchs__away_team_goals_${id}` }
+                  data-testid={ `matches__away_team_goals_${id}` }
                 >
                   { awayTeamGoals }
                 </td>
                 <td
                   className="games-table-tbody-away-team"
-                  data-testid={ `matchs__away_team_${id}` }
+                  data-testid={ `matches__away_team_${id}` }
                 >
                   { awayClub.clubName }
                 </td>
@@ -101,7 +101,7 @@ const GamesTable = ({ currentFilter, isAdm }) => {
                         ? (
                           <p
                             className="game-status in-progress"
-                            data-testid={ `matchs__match_status_${id}` }
+                            data-testid={ `matches__match_status_${id}` }
                           >
                             Em andamento
                           </p>
@@ -109,7 +109,7 @@ const GamesTable = ({ currentFilter, isAdm }) => {
                         : (
                           <p
                             className="game-status finished-game"
-                            data-testid={ `matchs__match_status_${id}` }
+                            data-testid={ `matches__match_status_${id}` }
                           >
                             Finalizado
                           </p>
@@ -121,11 +121,11 @@ const GamesTable = ({ currentFilter, isAdm }) => {
                       ? (
                         <button
                           type="button"
-                          data-testid={ `matchs__match_status_btn_${id}` }
+                          data-testid={ `matches__match_status_btn_${id}` }
                           disabled={ !inProgress }
                           onClick={ () => {
                             navigate(
-                              '/matchs/settings',
+                              '/matches/settings',
                               { state: {
                                 id,
                                 homeClub,

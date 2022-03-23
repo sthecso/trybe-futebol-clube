@@ -21,13 +21,13 @@ const EditGame = ({
       <form className="match-settings-form">
         <div className="match-settings-form-options">
           <ClubOption
-            testId="insertion_matchs__select_home_team"
+            testId="insertion_matches__select_home_team"
             teams={ homeTeam }
             homeTeam
             getClub={ getClub }
           />
           <Scoreboard
-            testId="insertion_matchs__select_quantity_goals_home_team"
+            testId="insertion_matches__select_quantity_goals_home_team"
             homeTeam
             score={ currentHomeTeamGoals }
             setScore={ setHomeTeamGoals }
@@ -38,14 +38,14 @@ const EditGame = ({
             <span>X</span>
           </div>
           <Scoreboard
-            testId="insertion_matchs__select_quantity_goals_away_team"
+            testId="insertion_matches__select_quantity_goals_away_team"
             homeTeam={ false }
             score={ currentAwayTeamGoals }
             setScore={ setAwayTeamGoals }
             qtyGoal={ awayTeamGoals }
           />
           <ClubOption
-            testId="insertion_matchs__select_away_team"
+            testId="insertion_matches__select_away_team"
             teams={ awayTeam }
             homeTeam={ false }
             getClub={ getClub }
@@ -53,7 +53,7 @@ const EditGame = ({
         </div>
         <div className="match-settings-form-buttons">
           <button
-            data-testid="insertion_matchs__edit_match_btn"
+            data-testid="insertion_matches__edit_match_btn"
             onClick={ () => updateMatch(idMatch,
               {
                 homeTeamGoals: currentHomeTeamGoals,
@@ -65,7 +65,7 @@ const EditGame = ({
 
           </button>
           <button
-            data-testid="insertion_matchs__finish_match_btn"
+            data-testid="insertion_matches__finish_match_btn"
             onClick={ () => finishMatch(idMatch) }
             type="button"
           >

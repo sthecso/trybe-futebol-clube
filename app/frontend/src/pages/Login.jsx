@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import Header from '../components/Header';
 import LeaderboardBtn from '../components/LeaderboardBtn';
-import MatchsBtn from '../components/MatchsBtn';
+import MatchesBtn from '../components/MatchesBtn';
 import { requestLogin } from '../services/requests';
 import { positiveLogo } from '../images';
 import '../styles/pages/login.css';
@@ -33,14 +33,14 @@ const Login = () => {
     setFailedTryLogin(false);
   }, [email, password]);
 
-  if (isLogged) return <Navigate to="/matchs" />;
+  if (isLogged) return <Navigate to="/matches" />;
 
   return (
     <>
       <Header
         page="LOGIN"
         FirstNavigationLink={ LeaderboardBtn }
-        SecondNavegationLink={ MatchsBtn }
+        SecondNavegationLink={ MatchesBtn }
       />
       <section className="user-login-area">
         <img src={ positiveLogo } alt="Trybe Futebol Clube Negative Logo" />

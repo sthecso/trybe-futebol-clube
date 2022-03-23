@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CreateNewGame from '../components/CreateNewGame';
 import EditGame from '../components/EditGame';
 import Header from '../components/Header';
-import MatchsBtn from '../components/MatchsBtn';
+import MatchesBtn from '../components/MatchesBtn';
 import Loading from '../components/Loading';
 import api, { requestData, setToken } from '../services/requests';
 import '../styles/pages/matchSettings.css';
@@ -64,15 +64,15 @@ const MatchSettings = () => {
       inProgress,
     };
 
-    const { data } = await api.post('/matchs', body);
+    const { data } = await api.post('/matches', body);
     return data;
   };
 
   const updateMatch = async (id, updateGoals) => {
-    await api.patch(`/matchs/${id}`, { ...updateGoals });
+    await api.patch(`/matches/${id}`, { ...updateGoals });
   };
   const finishMatch = async (id) => {
-    await api.patch(`/matchs/${id}/finish`);
+    await api.patch(`/matches/${id}/finish`);
   };
 
   if (!isAuthenticated) return <Loading />;
@@ -88,7 +88,7 @@ const MatchSettings = () => {
       <>
         <Header
           page="EDITAR PARTIDA"
-          FirstNavigationLink={ MatchsBtn }
+          FirstNavigationLink={ MatchesBtn }
           logged={ isAuthenticated }
           setLogin={ setIsAuthenticated }
         />
@@ -110,7 +110,7 @@ const MatchSettings = () => {
     <>
       <Header
         page="ADICIONAR PARTIDA"
-        FirstNavigationLink={ MatchsBtn }
+        FirstNavigationLink={ MatchesBtn }
         logged={ isAuthenticated }
         setLogin={ setIsAuthenticated }
       />

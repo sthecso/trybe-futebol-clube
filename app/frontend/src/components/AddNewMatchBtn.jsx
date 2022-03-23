@@ -6,7 +6,7 @@ const AddNewMatchBtn = () => (
     <Link
       className="add-new-game-button"
       data-testid="header__add_match_btn"
-      to="/matchs/settings"
+      to="/matches/settings"
     >
       + Adicionar nova partida
     </Link>

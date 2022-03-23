@@ -14,7 +14,7 @@ const GamerFilter = ({ currentFilter, setCurrentFilter }) => {
         <select
           id="game-filter"
           defaultValue={ currentFilter }
-          data-testid="matchs__option_show_finish_matchs"
+          data-testid="matches__option_show_finish_matches"
         >
           <option>Todos os Jogos</option>
           <option>Em andamento</option>
@@ -22,7 +22,7 @@ const GamerFilter = ({ currentFilter, setCurrentFilter }) => {
         </select>
       </label>
       <button
-        data-testid="matchs__search_match_btn"
+        data-testid="matches__search_match_btn"
         type="button"
         onClick={ () => handleCurrentFilter() }
       >
