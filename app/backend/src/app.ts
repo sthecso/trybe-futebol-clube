@@ -1,4 +1,7 @@
 import * as express from 'express';
+import 'express-async-errors';
+import serverErrorHandler from './presenter/middlewares/errorHandlers/server';
+import loginRouter from './presenter/routes/login/login';
 
 class App {
   public app: express.Express;
@@ -17,12 +20,17 @@ class App {
     };
 
     this.app.use(accessControl);
+
+    this.app.use(express.json());
+
+    this.app.use('/login', loginRouter);
+
+    this.app.use(serverErrorHandler);
   }
 
   public start(PORT: string | number): void {
     this.app.listen(PORT, () =>
-      console.log(`Running on http://localhost:${PORT}`),
-    );
+      console.log(`Running on http://localhost:${PORT}`));
   }
 }
 
