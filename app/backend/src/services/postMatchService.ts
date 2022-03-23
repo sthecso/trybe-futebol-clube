@@ -4,7 +4,6 @@ import GetById from './ClubById';
 
 export default class PostMatch {
   public static async postMatch(data: IMatch) {
-    console.log(data.homeTeam,'home');
     const homeId = Number(data.homeTeam);
     const awayId = Number(data.awayTeam);
     const homeClubId = await GetById.getById(homeId);
