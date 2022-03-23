@@ -1,6 +1,6 @@
-import { ClubGols, BaseLboard, ClubsAndMatchs } from '../../../helpers/Interfaces';
 import Clubs from '../../models/Clubs';
 import Matchs from '../../models/Matchs';
+import { ClubGols, BaseLboard, ClubsAndMatchs } from '../../../helpers/Interfaces';
 
 const INITIAL_NUMBER = 0;
 
@@ -18,7 +18,7 @@ function endCalc(matchs: any, object: BaseLboard) {
 }
 
 function calculatePoints(matchs: ClubGols[]) {
-  const baseLeaderboard = {
+  const baseLboard = {
     name: '',
     totalVictories: INITIAL_NUMBER,
     goalsOwn: INITIAL_NUMBER,
@@ -30,21 +30,21 @@ function calculatePoints(matchs: ClubGols[]) {
     totalGames: INITIAL_NUMBER,
     efficiency: INITIAL_NUMBER,
   };
-  const finalLeaderboard = endCalc(matchs, baseLeaderboard);
-  finalLeaderboard.goalsBalance = finalLeaderboard.goalsFavor - finalLeaderboard.goalsOwn;
-  finalLeaderboard.efficiency = Number(
-    ((finalLeaderboard.totalPoints / (matchs.length * 3)) * 100).toFixed(2),
+  const endLeaderboard = endCalc(matchs, baseLboard);
+  endLeaderboard.goalsBalance = endLeaderboard.goalsFavor - endLeaderboard.goalsOwn;
+  endLeaderboard.efficiency = Number(
+    ((endLeaderboard.totalPoints / (matchs.length * 3)) * 100).toFixed(2),
   );
-  return finalLeaderboard;
+  return endLeaderboard;
 }
 
 function filterClubToReturnToUser(club: ClubsAndMatchs[]) {
-  const finalLeaderboard = club.map((clubObject) => {
+  const endLeaderboard = club.map((clubObject) => {
     const leaderboard = calculatePoints(clubObject.matchs);
     leaderboard.name = clubObject.name;
     return leaderboard;
   });
-  return finalLeaderboard;
+  return endLeaderboard;
 }
 function sortGoalsOwn(a: BaseLboard, b: BaseLboard) {
   if (a.goalsOwn > b.goalsOwn) return -1;
