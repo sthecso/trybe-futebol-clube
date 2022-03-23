@@ -1,16 +1,14 @@
 import * as express from 'express';
 import loginValidation from './middlewares/loginValidation';
-import { LoginController } from './controllers';
+import tokenValidaton from './middlewares/tokenValidaton';
+import LoginController from './controllers/LoginController';
 
 class App {
   public app: express.Express;
 
-  private loginController: LoginController;
-
   constructor() {
     this.app = express();
     this.config();
-    this.loginController = new LoginController();
   }
 
   private config():void {
@@ -23,7 +21,8 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
-    this.app.post('/login', loginValidation, this.loginController.login);
+    this.app.post('/login', loginValidation, LoginController.login);
+    this.app.get('/login/validate', tokenValidaton);
   }
 
   // ...

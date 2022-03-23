@@ -2,10 +2,10 @@ import * as Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
 
 const schemaLogin = Joi.object({
-  email: Joi.string().min(3).required().messages({
+  email: Joi.string().email().required().messages({
     'any.required': 'All fields must be filled',
   }),
-  password: Joi.string().min(6).required().messages({
+  password: Joi.string().required().messages({
     'any.required': 'All fields must be filled',
   }),
 });
