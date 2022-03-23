@@ -15,6 +15,7 @@ class App {
     this.app = express();
     this.config();
     this.route();
+    this.handleErrors();
   }
 
   private config(): void {
@@ -34,6 +35,9 @@ class App {
     this.app.use('/clubs', new ClubRouter().router);
     this.app.use('/matches', new MatchRouter().router);
     this.app.use('/leaderboard', new LeaderboardRouter().router);
+  }
+
+  private handleErrors(): void {
     this.app.use(handleErrors);
   }
 
