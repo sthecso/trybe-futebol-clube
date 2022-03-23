@@ -1,3 +1,4 @@
 import Leaderboard from './Leaderboard';
+import Team from './Team';
 
-export default Leaderboard;
+export { Leaderboard, Team };
