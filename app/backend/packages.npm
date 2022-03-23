@@ -1,1 +1,4 @@
 nodemon -D
+express-async-errors
+bcryptjs
+@types/bcryptjs
