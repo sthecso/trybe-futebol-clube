@@ -1,7 +1,6 @@
 import * as express from 'express';
 import Login from './routes/login';
 import Club from './routes/clubs';
-import Match from './routes/matchs';
 
 class App {
   public app: express.Express;
@@ -27,7 +26,6 @@ class App {
   private routes(): void {
     this.app.use('/login', Login)
     this.app.use('/clubs', Club)
-    this.app.use('/matchs', Match)
   }
 
   public start(PORT: string | number): void {
