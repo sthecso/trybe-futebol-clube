@@ -100,4 +100,19 @@ describe('match', () => {
      expect(chaiHttpResponse.body).to.be.all.keys('id','homeTeam','homeTeamGoals','awayTeam','awayTeamGoals','inProgress')
     })
   })
+  describe('Inserido um match valido', () => {
+    const id = {id:1}
+    before( async() => {
+      sinon.stub(ModelMatchs, 'update').resolves();
+    })
+    after(() => {
+      (ModelMatchs.update as sinon.SinonStub).restore();
+    })
+    it('qualquer coisa', async () => {
+
+      chaiHttpResponse = await chai.request(app).patch('/matchs/49/finish')
+     expect(chaiHttpResponse).to.be.status(200)
+    })
+      
+  })
 })
