@@ -5,7 +5,7 @@ const validateTeams = async (req: Request, res: Response, next: NextFunction) =>
   const { homeTeam, awayTeam } = req.body;
 
   if (homeTeam === awayTeam) {
-    res.status(400).json(
+    return res.status(400).json(
       { message: 'It is not possible to create a match with two equal teams' },
     );
   }
@@ -15,11 +15,11 @@ const validateTeams = async (req: Request, res: Response, next: NextFunction) =>
 const checkTeam = async (req: Request, res: Response, next: NextFunction) => {
   const { homeTeam, awayTeam } = req.body;
 
-  const home = findOneClub(homeTeam);
-  const away = findOneClub(awayTeam);
+  const home = await findOneClub(homeTeam);
+  const away = await findOneClub(awayTeam);
 
   if (!home || !away) {
-    res.status(400).json({ message: 'Team not found' });
+    return res.status(400).json({ message: 'Team not found' });
   }
   next();
 };
