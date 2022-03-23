@@ -1,8 +1,6 @@
 import { LoginController } from '../controllers';
 import Router from './Router';
 
-require('express-async-errors');
-
 class LoginRouter extends Router {
   private LoginController: LoginController;
 

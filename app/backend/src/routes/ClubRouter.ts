@@ -1,8 +1,6 @@
 import Router from './Router';
 import { ClubController } from '../controllers';
 
-require('express-async-errors');
-
 class ClubRouter extends Router {
   private ClubController: ClubController;
 

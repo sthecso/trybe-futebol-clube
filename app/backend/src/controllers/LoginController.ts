@@ -20,10 +20,8 @@ class LoginController {
 
   validate = (req: Request, res: Response) => {
     const token = req.headers.authorization;
-    console.log(token);
     if (token) {
       const role = this.LoginService.validate(token);
-      console.log(role);
       return res.status(200).json(role);
     }
     res.status(400).json({ message: 'missing token' });
