@@ -31,7 +31,7 @@ describe('Request Get Match',() => {
 
   it('On /matchs?inProgress=true returns all inProgress matchs', async () => {
     matchResponse = await chai.request(app)
-    .get('/?inProgress=true');
+    .get('/matchs/?inProgress=true');
 
     const { status, body } = matchResponse;
     const filteredMatchs = matchs.filter((match) => match.inProgress);
@@ -41,7 +41,7 @@ describe('Request Get Match',() => {
 
   it('On /?inProgress=false returns all not inProgress matchs', async () => {
     matchResponse = await chai.request(app)
-    .get('/matchs?inProgress=false');
+    .get('/matchs/?inProgress=false');
 
     const { status, body } = matchResponse;
     const filteredMatchs = matchs.filter((match) => !match.inProgress);
