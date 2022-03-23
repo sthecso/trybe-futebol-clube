@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import readKeyJWT from '../../utils/readKeyJWT';
+import readKeyJWT from '../utils/readKeyJWT';
 
 interface IPayload {
   iat: number;

@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express';
 import { Iuser } from './utils/interfaces';
 import User from './database/models/User';
-import userLogin from './database/controller/loginController';
-import validLogin from './database/middlewares/validLogin';
-import validToken from './database/middlewares/validToken';
+import userLogin from './controllers/loginController';
+import validLogin from './middlewares/validLogin';
+import validToken from './middlewares/validToken';
 
 const router = Router();
 
