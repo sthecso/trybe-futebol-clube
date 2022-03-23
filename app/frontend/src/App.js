@@ -3,8 +3,8 @@ import React from 'react';
 import MatchSettings from './pages/MatchSettings';
 import Leaderboard from './pages/Leaderboard';
 import Games from './pages/Games';
-import Login from './pages/Login';
 import './styles/app.css';
+import Login from './pages/Login';
 
 function App() {
   return (
