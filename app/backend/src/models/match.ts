@@ -53,7 +53,6 @@ class MatchModel {
       { inProgress: false },
       { where: { id } },
     );
-    return { inProgress: false };
   }
 }
 

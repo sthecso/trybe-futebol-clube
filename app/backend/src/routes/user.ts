@@ -21,14 +21,12 @@ class LoginRouter {
   }
 
   private routePath() {
-    this.router.post('/', this.validateFields.verifyRequest, this.loginController.findUser);
-
     this.router.get(
       '/validate',
       this.validateAuth.verifyToken,
-
       this.validateController.verifyControllerAuth,
     );
+    this.router.post('/', this.validateFields.verifyRequest, this.loginController.findUser);
   }
 }
 

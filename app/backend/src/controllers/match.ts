@@ -40,7 +40,7 @@ class MatchController {
     if (saveMatch === null) {
       return res.status(this.statusCode.Unauthorized).json({ message: 'team not found' });
     }
-    if (saveMatch === 'equals') {
+    if (typeof saveMatch === 'string') {
       return res.status(this.statusCode.Unauthorized)
         .json({ message: 'It is not possible to create a match with two equal teams' });
     }
@@ -60,8 +60,8 @@ class MatchController {
 
   async finishMatch(req: Request, res: Response) {
     const id = Number(req.params.id);
-    const finishMatch = await this.matchmodel.finishMatch(id);
-    return res.status(this.statusCode.Ok).json(finishMatch);
+    await this.matchmodel.finishMatch(id);
+    return res.status(this.statusCode.Ok).json({ message: 'match was finish' });
   }
 }
 
