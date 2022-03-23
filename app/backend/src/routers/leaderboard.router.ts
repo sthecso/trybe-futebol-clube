@@ -1,5 +1,8 @@
 import { Router, Request, Response } from 'express';
+import { leaderboardFactory } from '../factories';
 import { LeaderboardService } from '../services';
+
+const leaderboardService = leaderboardFactory();
 
 export class LeaderboardRouter {
   public router: Router;
@@ -7,7 +10,6 @@ export class LeaderboardRouter {
   private LeaderboardService: LeaderboardService;
 
   constructor() {
-    this.LeaderboardService = new LeaderboardService();
     this.router = Router();
     this.getHomeRanking();
     this.getAwayRanking();
@@ -18,7 +20,7 @@ export class LeaderboardRouter {
     this.router.get(
       '/home',
       async (_req: Request, res: Response) => {
-        const { code, data } = await this.LeaderboardService.getHomeRanking();
+        const { code, data } = await leaderboardService.getHomeRanking();
         return res.status(code).json(data);
       },
     );
@@ -28,7 +30,7 @@ export class LeaderboardRouter {
     this.router.get(
       '/away',
       async (_req: Request, res: Response) => {
-        const { code, data } = await this.LeaderboardService.getAwayRanking();
+        const { code, data } = await leaderboardService.getAwayRanking();
         return res.status(code).json(data);
       },
     );
@@ -38,7 +40,7 @@ export class LeaderboardRouter {
     this.router.get(
       '/',
       async (_req: Request, res: Response) => {
-        const { code, data } = await this.LeaderboardService.getOverallRanking();
+        const { code, data } = await leaderboardService.getOverallRanking();
         return res.status(code).json(data);
       },
     );
