@@ -1,18 +1,15 @@
-import calculateLeaderboardHome from '../utils/helperFunctions';
+import { calculateLeaderboardAway, calculateLeaderboardHome,
+  sortLeaderboard } from '../utils/helperFunctions';
 import matchsService from './matchsService';
 
 const leaderboardServices = {
-  getAllHome: async () => {
+  getAll: async (teamField: string) => {
     const matchs = await matchsService.getAllInProgress(false);
-    const leaderboard = calculateLeaderboardHome(matchs);
+    const leaderboard = teamField === 'home'
+      ? calculateLeaderboardHome(matchs) : calculateLeaderboardAway(matchs);
     const clubsName = Object.keys(leaderboard);
     const leaderboardInArray = clubsName.map((clubName) => ({ ...leaderboard[clubName] }));
-    return leaderboardInArray.sort((a, b) =>
-      b.totalPoints - a.totalPoints
-      || b.totalVictories - a.totalVictories
-      || b.goalsBalance - a.goalsBalance
-      || b.goalsFavor - a.goalsFavor
-      || b.goalsOwn - a.goalsOwn);
+    return sortLeaderboard(leaderboardInArray);
   },
 };
 
