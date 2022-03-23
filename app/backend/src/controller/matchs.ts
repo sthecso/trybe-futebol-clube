@@ -36,7 +36,12 @@ class ClubsMetodos {
 
   upGols:RequestHandler = async (req, res) => {
     const { id } = req.params;
-    await this.ServiceMatchs.updateGols(+id, req.body);
+    if (!req.body) {
+      await this.ServiceMatchs.finish(+id);
+    } else {
+      await this.ServiceMatchs.updateGols(+id, req.body);
+    }
+
     return res.status(200).json('sem sentido .com');
   };
 }

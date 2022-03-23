@@ -75,7 +75,7 @@ class Matchs {
   }
 
   async updateGols(id:number, gols:Gols) {
-    await this._metodos.update({ ...gols, inProgress: false }, { where: { id } });
+    await this._metodos.update({ ...gols }, { where: { id } });
   }
 }
 
