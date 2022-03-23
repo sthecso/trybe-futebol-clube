@@ -53,11 +53,11 @@ Match.init(
     timestamps: false,
   }
 );
-
-Club.belongsTo(Match, { foreignKey: "homeTeam", as: "match" });
-Club.belongsTo(Match, { foreignKey: "awayTeam", as: "match" });
-
-Match.hasMany(Club, { foreignKey: "homeTeam", as: "club" });
-Match.hasMany(Club, { foreignKey: "awayTeam", as: "club" });
+// para cada club tem varios matchs
+Club.hasMany(Match, { foreignKey: "homeTeam", as: "match" });
+Club.hasMany(Match, { foreignKey: "awayTeam", as: "match" });
+// match pertence a club
+Match.belongsTo(Club, { foreignKey: "homeTeam", as: "club" });
+Match.belongsTo(Club, { foreignKey: "awayTeam", as: "club" });
 
 export default Match;
