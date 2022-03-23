@@ -19,19 +19,18 @@ export interface IUser {
 }
 
 export interface IUserRepository {
-  getByEmail(email: string): Promise<IUser | null>
+  getByEmail(email: string): Promise<IUser | null>;
 }
 
 export interface ILoginResponse {
   code: number;
   data:
-  {
+  | {
     message: string;
     user?: undefined;
     token?: undefined;
   }
-  |
-  {
+  | {
     user: {
       id: number;
       email: string;
@@ -44,9 +43,140 @@ export interface ILoginResponse {
 }
 
 export interface ILoginService {
-  login(credential: ICredential): Promise<ILoginResponse>
+  login(credential: ICredential): Promise<ILoginResponse>;
 }
 
 export interface ILoginController extends ILoginService {
-  validate(token: IPayload): { code: number, data: string }
+  validate(token: IPayload): { code: number; data: string };
+}
+
+export interface IClub {
+  id: number;
+  clubName: string;
+}
+
+export interface IMatch {
+  id: number;
+  homeTeam: number;
+  homeTeamGoals: number;
+  awayTeam: number;
+  awayTeamGoals: number;
+  inProgress: boolean;
+  homeClub: {
+    clubName: string;
+  };
+  awayClub: {
+    clubName: string;
+  };
+}
+
+export interface INewMatch {
+  homeTeam: number;
+  awayTeam: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+  inProgress: true;
+}
+
+export interface IMatchResponse extends INewMatch {
+  id: number;
+}
+
+export interface IScore {
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
+export interface IMatchScore {
+  goalsFavor: number;
+  goalsOwn: number;
+}
+
+export interface IClubCap {
+  clubName: string;
+  matches: IMatchScore[];
+}
+
+export interface IClubRepository {
+  getAllClubs(): Promise<IClub[]>;
+  getClubById(id: string): Promise<IClub | undefined>;
+}
+
+export interface IMatchRepository {
+  getAll(): Promise<IMatch[]>;
+  getAllInProgress(): Promise<IMatch[]>;
+  getAllFinished(): Promise<IMatch[]>;
+  getById(id: string): Promise<IMatch>;
+  addMatch(data: INewMatch): Promise<IMatchResponse>;
+  finishMatch(id: string): Promise<number>;
+  updateMatchScore(id: string, newScore: IScore): Promise<number>;
+}
+
+export interface IClubService {
+  getAll(): Promise<{
+    code: number;
+    data: IClub[];
+  }>;
+  getById(id: string): Promise<
+  | {
+    code: number;
+    data: IClub;
+  }
+  | {
+    code: number;
+    data: {
+      message: string;
+    };
+  }
+  >;
+}
+
+export interface IMatchService {
+  getAll(inProgress: boolean | undefined): Promise<{
+    code: number;
+    data: IMatch[];
+  }>;
+
+  getById(id: string): Promise<
+  | {
+    code: number;
+    data: IMatch;
+  }
+  | {
+    code: number;
+    data: {
+      message: string;
+    };
+  }
+  >;
+
+  addMatch(data: INewMatch): Promise<
+  | {
+    code: number;
+    data: {
+      message: string;
+    };
+  }
+  | {
+    code: number;
+    data: IMatchResponse;
+  }
+  >;
+
+  finishMatch(id: string): Promise<{
+    code: number;
+    data: {
+      message: string;
+    };
+  }>;
+
+  updateMatchScore(
+    id: string,
+    newScore: IScore
+  ): Promise<{
+    code: number;
+    data: {
+      message: string;
+    };
+  }>;
 }
