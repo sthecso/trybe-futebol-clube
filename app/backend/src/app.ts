@@ -1,4 +1,5 @@
-import * as express from "express";
+import * as express from 'express';
+import route from './routes';
 
 class App {
   public app: express.Express;
@@ -10,22 +11,23 @@ class App {
     // ...
   }
 
-  private config(): void {
+  private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS,PUT");
-      res.header("Access-Control-Allow-Headers", "*");
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Headers', '*');
       next();
     };
 
     this.app.use(accessControl);
+    this.app.use(express.json());
+    this.app.use('/', route);
+    // ...
   }
 
   // ...
-  public start(PORT: string | number): void {
-    this.app.listen(PORT, () => {
-      console.log(`Online na porta ${PORT}`);
-    });
+  public start(PORT: string | number):void {
+    this.app.listen(PORT, () => console.log(`App rodando na porta ${PORT}`));
   }
 }
 
