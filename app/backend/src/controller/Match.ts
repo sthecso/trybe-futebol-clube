@@ -59,6 +59,18 @@ class Match {
       }
       return res.status(StatusCodes.BAD_REQUEST).json();
     });
+
+    this.router.patch('/:id', validateAuth, async (req: Request, res: Response) => {
+      const { id } = req.params;
+
+      const resultMatchUpdate = await MatchService.updatePatchTeamGoals({
+        id: Number(id), ...req.body });
+
+      if (resultMatchUpdate) {
+        return res.status(StatusCodes.OK).json(resultMatchUpdate);
+      }
+      return res.status(StatusCodes.BAD_REQUEST).json();
+    });
   }
 }
 
