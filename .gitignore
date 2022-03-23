@@ -7,3 +7,4 @@ coverage
 front.eval
 back.eval
 .vscode
+app/backend/src/database/models/teste.ts

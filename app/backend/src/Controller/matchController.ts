@@ -28,7 +28,7 @@ matchs.get('/', async (_req: Request, res: Response) => {
 matchs.post('/', validateToken, validateTeams, checkTeam, async (req: Request, res: Response) => {
   const match = await createMatchs(req.body);
 
-  res.status(200).json(match);
+  return res.status(201).json(match);
 });
 
 matchs.patch('/:id', async (req: Request, res: Response) => {
