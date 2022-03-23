@@ -27,7 +27,7 @@ const getAll = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response) => {
   const match = await matchService.create(req.body);
 
-  if(!match) return res.status(404).json({ message: 'The match must be created as in progress' });
+  if (!match) return res.status(404).json({ message: 'The match must be created as in progress' });
 
   return res.status(201).json(match);
 };

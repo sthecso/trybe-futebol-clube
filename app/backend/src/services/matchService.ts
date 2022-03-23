@@ -42,7 +42,7 @@ const create = async (data: IMatch) => {
 const updateInProgress = async (id: string) => {
   const [result] = await Match.update(
     { inProgress: false },
-    { where: { id } }
+    { where: { id } },
   );
 
   return result;
@@ -51,7 +51,7 @@ const updateInProgress = async (id: string) => {
 const updateResult = async (id: string, homeTeamGoals: number, awayTeamGoals: number) => {
   const [result] = await Match.update(
     { homeTeamGoals, awayTeamGoals },
-    { where: { id } }
+    { where: { id } },
   );
 
   return result;
