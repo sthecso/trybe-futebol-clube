@@ -5,7 +5,7 @@ import Match from './match';
 class Club extends Model {
   public id: number;
 
-  public club_name: string;
+  public clubName: string;
 }
 
 Club.init({
@@ -15,8 +15,9 @@ Club.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  club_name: {
+  clubName: {
     type: DataTypes.STRING,
+    field: 'club_name',
     allowNull: false,
   },
 }, {
