@@ -10,8 +10,9 @@ class UserValidateTokenController {
 
   verifyControllerAuth(req:Request, res: Response) {
     const { decodedUser } = req;
+
     if (!decodedUser) {
-      const message = 'Usuario nao authenticado';
+      const message = 'There is no team with such id!';
       return res.status(this.statusCode.Unauthorized).json({ message });
     }
 

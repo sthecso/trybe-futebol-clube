@@ -14,7 +14,6 @@ class ValidateAuth {
 
   async verifyToken(req: Request, res:Response, next: NextFunction) {
     const { authorization } = req.headers as unknown as IAuth;
-    const token = authorization.split(' ')[1];
     const message = 'usuario nao authenticado';
     if (!authorization || !authorization.length) {
       return res.status(this.StatusCode.Unauthorized)
@@ -22,7 +21,8 @@ class ValidateAuth {
     }
 
     try {
-      const dataDecoded = this.jwtUtils.verifyToken(token);
+      const dataDecoded = this.jwtUtils.verifyToken(authorization);
+
       if (dataDecoded === null) {
         return res.status(this.StatusCode.Unauthorized).json({ message });
       }

@@ -42,7 +42,8 @@ class MatchController {
         .json({ message: 'It is not possible to create a match with two equal teams' });
     }
     if (saveMatch === null) {
-      return res.status(this.statusCode.Unauthorized).json({ message: 'team not found' });
+      return res.status(this.statusCode.Unauthorized)
+        .json({ message: 'There is no team with such id!' });
     }
     return res.status(this.statusCode.Created).json(saveMatch);
   }
