@@ -1,22 +1,36 @@
-const Club = (sequelize: any, DataTypes: any) => {
-  const club = sequelize.define('Club', {
-    id: DataTypes.INTEGER,
-    club_name: DataTypes.STRING,
-  });
+import { Model, DataTypes } from 'sequelize';
+import db from '.';
+import Match from './match';
 
-  club.associate = (models: any) => {
-    club.hasMany(
-      models.Matchs,
-      {
-        foreignKey: 'home_team', as: 'home_team',
-      },
-      {
-        foreignKey: 'away_team', as: 'away_team',
-      },
-    );
-  };
+class Club extends Model {
+  public id: number;
 
-  return club;
-};
+  public clubName: string;
+}
 
-module.exports = Club;
+Club.init({
+  id: {
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataTypes.INTEGER,
+  },
+  club_name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+}, {
+  underscored: true,
+  sequelize: db,
+  modelName: 'Club',
+  tableName: 'clubs',
+  timestamps: false,
+});
+
+Club.hasMany(Club, { foreignKey: 'home_team', as: 'home_team' });
+Club.hasMany(Club, { foreignKey: 'away_team', as: 'away_team' });
+
+Match.belongsTo(Club, { foreignKey: 'home_team', as: 'home_team' });
+Match.belongsTo(Club, { foreignKey: 'away_team', as: 'away_team' });
+// belongsTo = pertence a
+export default Club;
