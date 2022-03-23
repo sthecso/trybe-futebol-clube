@@ -1,62 +1,56 @@
 import * as Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
-import Jwt from '../../utils/jwt';
+import { jwt } from '../../utils/jwt';
 import { IUser, IUserLogin } from '../../interfaces/IUser';
 import StatusCode from '../../utils/statusCode';
+import jsonMessages from '../../utils/jsonMessages';
 
-const jwt = new Jwt();
+const { fieldsFilled, invalidToken, notFoundToken } = jsonMessages;
 
 export default class ValidateLogin {
-  async email(req: Request, res: Response, next: NextFunction) {
+  static async email(req: Request, res: Response, next: NextFunction) {
     const { email } = req.body as IUserLogin;
 
     const { error: emailRequired } = Joi.string().required().validate(email);
     if (emailRequired) {
-      return res
-        .status(StatusCode.UNAUTHORIZED)
-        .json({ message: 'All fields must be filled' });
+      return res.status(StatusCode.UNAUTHORIZED).json(fieldsFilled);
     }
 
     next();
-    return this;
   }
 
-  async password(req: Request, res: Response, next: NextFunction) {
+  static async password(req: Request, res: Response, next: NextFunction) {
     const { password } = req.body as IUserLogin;
 
     const { error: passwordRequired } = Joi.string()
       .required()
       .validate(password);
     if (passwordRequired) {
-      return res
-        .status(StatusCode.UNAUTHORIZED)
-        .json({ message: 'All fields must be filled' });
+      return res.status(StatusCode.UNAUTHORIZED).json(fieldsFilled);
     }
 
     next();
-    return this;
   }
 
-  async tokenValidation(req: Request, res: Response, next: NextFunction) {
+  static async tokenValidation(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     const auth: string = req.headers.authorization || '';
-
     const { error: authRequiredErr } = Joi.string().required().validate(auth);
     if (authRequiredErr) {
-      return res
-        .status(StatusCode.UNAUTHORIZED)
-        .json({ error: 'Token not found' });
+      return res.status(StatusCode.UNAUTHORIZED).json(notFoundToken);
     }
 
     try {
-      const userInfo = jwt.verifyToken(auth) as IUser;
-      req.body.role = userInfo.role;
+      const user = jwt.verifyToken(auth) as IUser;
+      req.body.role = user.role;
     } catch (err) {
-      return res
-        .status(StatusCode.UNAUTHORIZED)
-        .json({ error: 'Invalid token' });
+      return res.status(StatusCode.UNAUTHORIZED).json(invalidToken);
     }
-
     next();
-    return this;
   }
 }
+
+export const validateLogin = ValidateLogin;

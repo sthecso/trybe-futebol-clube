@@ -25,5 +25,7 @@ export default class Jwt {
   }
 }
 
+export const jwt = new Jwt();
+
 // Payload type error
 // https://stackoverflow.com/questions/47117709/payload-error-in-jsonwebtoken

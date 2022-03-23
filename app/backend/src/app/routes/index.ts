@@ -1,12 +1,10 @@
 import { Router } from 'express';
 import { clubController } from '../controllers/Club';
-import ValidateLogin from '../controllers/middlewares/validateLogin';
-import UserController from '../controllers/User';
+import { validateLogin } from '../controllers/middlewares/validateLogin';
+import { userController } from '../controllers/User';
 
 const login = Router();
 const club = Router();
-const userController = new UserController();
-const validateLogin = new ValidateLogin();
 
 // login routes
 login.post(

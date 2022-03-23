@@ -4,7 +4,7 @@ import { IUserLogin } from '../interfaces/IUser';
 import { userService } from '../services/User';
 
 export default class UserController {
-  async login(req: Request, res: Response) {
+  static async login(req: Request, res: Response) {
     const loginInfo = req.body as IUserLogin;
     const loginRes = await userService.login(loginInfo);
 
@@ -13,14 +13,14 @@ export default class UserController {
         .status(StatusCode.UNAUTHORIZED)
         .json({ message: 'Incorrect email or password' });
     }
-    res.status(StatusCode.OK).json(loginRes);
-    return this;
+    return res.status(StatusCode.OK).json(loginRes);
   }
 
-  async loginValidate(req: Request, res: Response) {
+  static async loginValidate(req: Request, res: Response) {
     const { role } = req.body;
 
-    res.status(StatusCode.OK).json(role);
-    return this;
+    return res.status(StatusCode.OK).json(role);
   }
 }
+
+export const userController = UserController;

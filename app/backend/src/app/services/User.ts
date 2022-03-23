@@ -1,24 +1,18 @@
-import Jwt from '../utils/jwt';
+import { jwt } from '../utils/jwt';
 import { IUserLogin, ILoginResponse } from '../interfaces/IUser';
 import { userRepo } from '../repositories/user.repository';
 
 export default class UserService {
-  private readonly jwt: Jwt;
-
-  constructor() {
-    this.jwt = new Jwt();
-  }
-
-  async login(loginInfo: IUserLogin): Promise<ILoginResponse | false> {
+  static async login(loginInfo: IUserLogin): Promise<ILoginResponse | false> {
     const userInfo = await userRepo.login(loginInfo);
     if (userInfo) {
       return {
         user: userInfo,
-        token: this.jwt.generateToken(userInfo),
+        token: jwt.generateToken(userInfo),
       };
     }
     return false;
   }
 }
 
-export const userService = new UserService();
+export const userService = UserService;
