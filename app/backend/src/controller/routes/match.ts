@@ -1,13 +1,17 @@
 import { Request, Response, Router } from 'express';
-import { MatchService } from '../../service';
+import { MatchController } from '../controllers';
 import * as joiSchemas from '../../utils/joi.schemas';
 import * as middlewares from '../middlewares';
 
 export default class MatchRouter {
   public router: Router;
 
+  private _matchController: MatchController;
+
   constructor() {
     this.router = Router();
+    this._matchController = new MatchController();
+
     this.getAll();
     this.getById();
     this.addMatch();
@@ -22,14 +26,14 @@ export default class MatchRouter {
         inProgress as string,
       );
 
-      const { code, data } = await MatchService.getAll(progessStatus);
+      const { code, data } = await this._matchController.getAll(progessStatus);
       return res.status(code).json(data);
     });
   }
 
   private getById(): void {
     this.router.get('/:id', async (req: Request, res: Response) => {
-      const { code, data } = await MatchService.getById(req.params.id);
+      const { code, data } = await this._matchController.getById(req.params.id);
 
       return res.status(code).json(data);
     });
@@ -51,7 +55,7 @@ export default class MatchRouter {
             });
         }
 
-        const { code, data } = await MatchService.addMatch(req.body);
+        const { code, data } = await this._matchController.addMatch(req.body);
 
         return res.status(code).json(data);
       },
@@ -60,7 +64,7 @@ export default class MatchRouter {
 
   private finishMatch(): void {
     this.router.patch('/:id/finish', async (req: Request, res: Response) => {
-      const { code, data } = await MatchService.finishMatch(req.params.id);
+      const { code, data } = await this._matchController.finishMatch(req.params.id);
 
       return res.status(code).json(data);
     });
@@ -68,7 +72,7 @@ export default class MatchRouter {
 
   private updateMatchScore(): void {
     this.router.patch('/:id', async (req: Request, res: Response) => {
-      const { code, data } = await MatchService.updateMatchScore(
+      const { code, data } = await this._matchController.updateMatchScore(
         req.params.id,
         req.body,
       );
