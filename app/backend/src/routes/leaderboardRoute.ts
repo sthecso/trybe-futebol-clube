@@ -5,6 +5,15 @@ const leaderboardRoute = Router();
 const leaderboardController = LeaderboardControllerFactory();
 
 leaderboardRoute.get(
+  '/',
+  async (req: Request, res: Response) => {
+    const result = await leaderboardController.getAll();
+
+    res.status(200).json(result);
+  },
+);
+
+leaderboardRoute.get(
   '/home',
   async (req: Request, res: Response): Promise<Response> => {
     const result = await leaderboardController.getAllHome();

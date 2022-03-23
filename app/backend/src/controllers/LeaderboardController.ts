@@ -17,4 +17,10 @@ export default class LeaderboardController {
 
     return result;
   }
+
+  public async getAll(): Promise<IClubRanking[]> {
+    const result = await this.leaderboardService.createRankingAll();
+
+    return result;
+  }
 }

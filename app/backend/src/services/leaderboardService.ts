@@ -151,4 +151,36 @@ export default class LeaderboardService {
 
     return LeaderboardService.createRanking(newAwayClubs);
   }
+
+  private async getAll() {
+    return this.clubModel.findAll({
+      include: [{
+        model: this.matchModel,
+        as: 'homeMatchs',
+        attributes: [['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
+        where: { inProgress: false },
+      }, {
+        model: this.matchModel,
+        as: 'awayMatchs',
+        attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
+        where: { inProgress: false },
+      }],
+      nest: true,
+    });
+  }
+
+  public async createRankingAll() {
+    const allClubs = await this.getAll();
+
+    const newAllClubs = allClubs.map((club) => {
+      const clubMatchs = club.get({ plain: true });
+      const matchs = [...clubMatchs.homeMatchs, ...clubMatchs.awayMatchs];
+      delete Object.assign(clubMatchs, { matchs }).homeMatchs;
+      delete Object.assign(clubMatchs, { matchs }).awayMatchs;
+
+      return clubMatchs;
+    });
+
+    return LeaderboardService.createRanking(newAllClubs);
+  }
 }
