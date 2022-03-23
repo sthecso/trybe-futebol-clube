@@ -1,10 +1,11 @@
-// import { Request, Response } from 'express';
-// import LoginService from '../services';
+import { Request, Response } from 'express';
+import { ClubService } from '../services';
 
-// class ClubsController {
-//   getClubs = async (req: Request, res: Response) => {
-//     const clubs = await ClubService;
-//   };
-// }
+class ClubsController {
+  static async getClubs(_req: Request, res: Response) {
+    const { code, data } = await ClubService.getClubs();
+    res.status(code).json(data);
+  }
+}
 
-// export default new ClubsController();
+export default ClubsController;
