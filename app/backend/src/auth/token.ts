@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import * as Jwt from 'jsonwebtoken';
 // import * as bcrypt from 'bcryptjs';
 
-const JWT_SECRET: Jwt.Secret = readFileSync('./jwt.evaluation.key', 'utf8');
+const JWT_SECRET: Jwt.Secret = readFileSync('./jwt.evaluation.key', 'utf8').trim();
 
 const createToken = (email: string) => Jwt.sign(email, JWT_SECRET);
 
