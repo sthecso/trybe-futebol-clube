@@ -1,4 +1,5 @@
 import * as express from 'express';
+import 'express-async-errors';
 import bodyParser = require('body-parser');
 import { ClubRouter, LoginRouter, MatchRouter } from './routes';
 import errorHandler from './controllers/middlewares/errorHandler';
@@ -16,7 +17,7 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
