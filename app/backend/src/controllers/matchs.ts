@@ -10,8 +10,14 @@ export default class MatchController {
   }
 
   async getMatchs(req: Request, res: Response) {
-    const { code, matchs } = await this.service.matchRequest();
+    const { inProgress } = req.query;
 
+    if (inProgress) {
+      const { code, matchs } = await this.service.inProgressRequest(inProgress === 'true');
+      return res.status(code).json(matchs);
+    }
+
+    const { code, matchs } = await this.service.matchRequest();
     return res.status(code).json(matchs);
   }
 }

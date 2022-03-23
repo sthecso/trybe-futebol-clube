@@ -33,7 +33,7 @@ describe('testes de retorno da rota /matchs', () => {
     });
 
     after(() => {
-      (Match.findOne as sinon.SinonStub).restore();
+      (Match.findAll as sinon.SinonStub).restore();
     });
 
     it('testa se retorna os status corretos', async () => {
@@ -48,8 +48,10 @@ describe('testes de retorno da rota /matchs', () => {
       let chaiHttpResponse: Response = await chai
       .request(app)
       .get('/matchs');
+      console.log(chaiHttpResponse.body);
+      console.log(matchMock, 'mock');
 
-      expect(chaiHttpResponse.body).to.be.equal(matchMock);
+      expect(chaiHttpResponse.body).to.be.deep.equal(matchMock);
     });
 
   });

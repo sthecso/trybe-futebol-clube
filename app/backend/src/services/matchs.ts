@@ -7,6 +7,21 @@ export default class MatchsService {
     private clubs = Clubs,
   ) {}
 
+  // pense em como você pode unir os métodos abaixo (inProgressRequest e matchRequest);
+
+  async inProgressRequest(inProgress: boolean) {
+    const matchs = await this.matchs
+      .findAll(
+        {
+          where: { inProgress },
+          include: [
+            { model: this.clubs, as: 'homeClub', attributes: ['clubName'] },
+            { model: this.clubs, as: 'awayClub', attributes: ['clubName'] },
+          ] },
+      );
+    return { matchs, code: 200 };
+  }
+
   async matchRequest() {
     const matchs = await this.matchs
       .findAll(
@@ -16,7 +31,6 @@ export default class MatchsService {
             { model: this.clubs, as: 'awayClub', attributes: ['clubName'] },
           ] },
       );
-    console.log(matchs);
     return { matchs, code: 200 };
   }
 }
