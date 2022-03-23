@@ -31,20 +31,23 @@ class MatchModel {
   }
 
   async saveMatchInProgress(match: IMatchReq) {
-    const verifyExistTeam1 = await this.clubEntity.findByPk(match.homeTeam);
-    const verifyExistTeam2 = await this.clubEntity.findByPk(match.awayTeam);
-    if (verifyExistTeam1 === null || verifyExistTeam2 === null) return null;
-    if (verifyExistTeam1.clubName === verifyExistTeam2.clubName) return 'equals';
+    const verifyExistTeam1 = await this.clubEntity.findOne({ where: { id: match.homeTeam } });
+    const verifyExistTeam2 = await this.clubEntity.findOne({ where: { id: match.awayTeam } });
+    if (!verifyExistTeam1 || !verifyExistTeam2) return null;
     const saveProgressMatch = await this.matchEntity.create(match);
 
     return saveProgressMatch;
   }
 
   async updateResultsMatch(id: number, { homeTeamGoals, awayTeamGoals }: IUpdateGoalsReq) {
-    await this.matchEntity.update(
+    const [result] = await this.matchEntity.update(
       { homeTeamGoals, awayTeamGoals },
-      { where: { id } },
+      { where: { id, iProgress: true } },
     );
+
+    if (!result) return null;
+
+    return 'Match updated';
   }
 
   async finishMatch(id: number) {
