@@ -10,5 +10,5 @@ module.exports = {
   dialectOptions: {
     timezone: 'Z',
   },
-  logging: true,
+  logging: false,
 };
