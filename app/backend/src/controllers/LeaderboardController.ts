@@ -11,4 +11,10 @@ export default class LeaderboardController {
 
     return result;
   }
+
+  public async getAllAway(): Promise<IClubRanking[]> {
+    const result = await this.leaderboardService.getAllAway();
+
+    return result;
+  }
 }

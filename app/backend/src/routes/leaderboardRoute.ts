@@ -13,4 +13,13 @@ leaderboardRoute.get(
   },
 );
 
+leaderboardRoute.get(
+  '/away',
+  async (req: Request, res: Response): Promise<Response> => {
+    const result = await leaderboardController.getAllAway();
+
+    return res.status(200).json(result);
+  },
+);
+
 export default leaderboardRoute;

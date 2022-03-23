@@ -129,4 +129,26 @@ export default class LeaderboardService {
 
     return LeaderboardService.createRanking(newHomeClubs);
   }
+
+  public async getAllAway(): Promise<IClubRanking[]> {
+    const awayClubs = await this.clubModel.findAll({
+      include: [{
+        model: this.matchModel,
+        as: 'awayMatchs',
+        attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
+        where: { inProgress: false },
+      }],
+      nest: true,
+    });
+
+    const newAwayClubs = awayClubs.map((club) => {
+      const clubMatchs = club.get({ plain: true });
+      const matchs = [...clubMatchs.awayMatchs];
+      delete Object.assign(clubMatchs, { matchs }).awayMatchs;
+
+      return clubMatchs;
+    });
+
+    return LeaderboardService.createRanking(newAwayClubs);
+  }
 }
