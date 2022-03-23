@@ -1,7 +1,5 @@
 import * as express from 'express';
-import loginValidation from './middlewares/loginValidation';
-import tokenValidaton from './middlewares/tokenValidaton';
-import LoginController from './controllers/LoginController';
+import loginRouter from './router/loginRouter';
 
 class App {
   public app: express.Express;
@@ -21,8 +19,7 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
-    this.app.post('/login', loginValidation, LoginController.login);
-    this.app.get('/login/validate', tokenValidaton);
+    this.app.use('/login', loginRouter);
   }
 
   // ...
