@@ -34,8 +34,6 @@ const { expect } = chai;
 //        .send({})
 //        .then((res) => {
 //          expect(res.status).to.be.equal(401);
-//        }).catch((err) => {
-//          throw err
-//        }) as unknown as Response;
+//        }) as Response;
 //   });
 // })
