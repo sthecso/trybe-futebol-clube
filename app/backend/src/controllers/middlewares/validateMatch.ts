@@ -16,7 +16,7 @@ const verifyExistsClubs = async (req: Request, res: Response, next: NextFunction
   const home = await getById(homeTeam);
   const away = await getById(awayTeam);
 
-  if (!home || !away) return res.status(404).json(message);
+  if (!home || !away) return res.status(401).json(message);
 
   next();
 };
