@@ -23,7 +23,16 @@ export default class LoginService {
     }
 
     const { id, role, username } = findUser;
-    const token = utilsJWT.createJwt(email);
+    const payload = { email };
+    const token = utilsJWT.createJwt(payload);
     return { user: { id, username, role, email }, token };
+  }
+
+  public static async validate(email: string) {
+    const findUser = await User.findOne({ where: { email } });
+
+    if (findUser) {
+      return findUser.role;
+    }
   }
 }

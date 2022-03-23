@@ -62,4 +62,21 @@ describe('Na rota "/login"', () => {
         expect(response.body.message).to.be.equal('All fields must be filled');
     });
   });
+  describe('Quando a requisição é feita na rota /validate...', () => {
+    it('Deve retornar status 200 e o role correto', async () => {
+      let response = await chai.request(app)
+        .post('/login')
+        .send({
+          email: 'admin@admin.com',
+          password: 'secret_admin'
+        });
+      const { token } = response.body;
+      let responseValidate = await chai.request(app)
+        .get('/login/validate')
+        .set('authorization', token);
+
+      expect(responseValidate).to.have.status(200);
+      expect(responseValidate.body).to.be.equal('admin');
+    });
+  });
 });
