@@ -1,7 +1,7 @@
 import * as express from 'express';
 import 'express-async-errors';
 import { joiError, domainError } from './middlewares';
-import { loginRoute, clubRoute, matchRoute } from './routes';
+import { loginRoute, clubRoute, matchRoute, leaderboardRoute } from './routes';
 
 class App {
   public app: express.Express;
@@ -25,6 +25,7 @@ class App {
     this.app.use('/login', loginRoute);
     this.app.use('/clubs', clubRoute);
     this.app.use('/matchs', matchRoute);
+    this.app.use('/leaderboard', leaderboardRoute);
 
     this.app.use(domainError);
     this.app.use(joiError);
