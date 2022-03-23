@@ -15,14 +15,14 @@ export interface MatchData extends UserSentMatchData { id: number }
 export interface UserSentNewScores { homeTeamGoals: number, awayTeamGoals: number }
 export interface ClubGols { golsFeitos: number, golsTomados: number }
 export interface ClubsAndMatchs { name: string, matchs: ClubGols[]}
-export interface BaseLeaderboard {
+export interface BaseLboard {
   name: string,
-  totalPoints: number,
-  totalVictories: number,
-  totalLosses: number,
-  totalDraws: number,
-  goalsFavor: number,
-  goalsOwn: number,
   goalsBalance: number,
+  totalLosses: number,
+  totalPoints: number,
   efficiency: number,
+  totalVictories: number,
+  totalDraws: number,
+  goalsOwn: number,
+  goalsFavor: number,
 }

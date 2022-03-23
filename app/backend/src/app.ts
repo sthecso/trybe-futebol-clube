@@ -7,6 +7,7 @@ import loginController from './database/controllers/Login/Login';
 import postMatchController from './database/controllers/Matchs/postMatch';
 import validateLoginController from './database/controllers/Middlewares/validateLogin';
 import updateMatchController from './database/controllers/Matchs/updateMatch';
+import getLeaderboardController from './database/controllers/Leaderboard/getLeader';
 
 class App {
   public app: express.Express;
@@ -26,12 +27,16 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
+
     this.app.get('/clubs', getClubsController);
     this.app.get('/clubs/:id', getClubByIdController);
-    this.app.post('/login', loginController);
     this.app.get('/login/validate', validateLoginController);
     this.app.get('/matchs', getMatchsController);
+    this.app.get('/leaderboard/home', getLeaderboardController);
+
+    this.app.post('/login', loginController);
     this.app.post('/matchs', postMatchController);
+
     this.app.patch('/matchs/:id', updateMatchController);
     this.app.patch('/matchs/:id/finish', finishMatchController);
   }
