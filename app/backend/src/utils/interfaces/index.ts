@@ -55,6 +55,19 @@ export interface IClub {
   clubName: string;
 }
 
+export interface IClubStats {
+  name: string,
+  points: number,
+  games: number,
+  wons: number,
+  draws: number,
+  losses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number,
+}
+
 export interface IMatch {
   id: number;
   homeTeam: number;
