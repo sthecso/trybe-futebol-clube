@@ -21,6 +21,7 @@ class MatchController {
   static async create(req: Request, res: Response) {
     const { homeTeam, awayTeam } = req.body;
     if (homeTeam === awayTeam) return res.status(Status.UNAUTHORIZED).json({ message: equalTeams });
+
     const teams = await Club.findAndCountAll({
       where: { id: { [Op.in]: [homeTeam, awayTeam] } },
     });
@@ -28,7 +29,7 @@ class MatchController {
 
     try {
       const newMatch = await Match.create({ ...req.body });
-      return res.status(Status.OK).json(newMatch);
+      return res.status(Status.CREATED).json(newMatch);
     } catch (error) {
       return res.status(Status.INTERNAL_SERVER_ERROR).json({ erro: error });
     }
@@ -39,8 +40,8 @@ class MatchController {
 
     try {
       const [ok] = await Match.update({ inProgress: false }, { where: { id } });
+      console.log('finishMatch', ok);
       return res.status(Status.OK).json({ message: 'Finished match' });
-      console.log(ok);
     } catch (error) {
       return res.status(Status.INTERNAL_SERVER_ERROR).json({ erro: error });
     }
@@ -52,8 +53,8 @@ class MatchController {
 
     try {
       const [ok] = await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
-      res.status(Status.OK).json({ message: 'Updated match' });
-      console.log(ok);
+      console.log('updateMatch', ok);
+      return res.status(Status.OK).json({ message: 'Updated match' });
     } catch (error) {
       return res.status(Status.INTERNAL_SERVER_ERROR).json({ erro: error });
     }

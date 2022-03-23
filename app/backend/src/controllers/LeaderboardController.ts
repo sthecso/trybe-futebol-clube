@@ -16,7 +16,7 @@ export interface ILeaderboard {
   efficiency: string,
 }
 
-const query = 'WITH totals AS ( '
+const sqlQuery = 'WITH totals AS ( '
 + ' SELECT '
 + ' c.club_name as name, '
 + ' sum(case when (m.home_team_goals - m.away_team_goals) > 0 '
@@ -43,12 +43,12 @@ const query = 'WITH totals AS ( '
 
 class LeaderboardController {
   static async all(req: Request, res: Response) {
-    const [result] = await sequelize.query(query, { type: QueryTypes.RAW });
+    const [result] = await sequelize.query(sqlQuery, { type: QueryTypes.RAW });
 
     const leaderboard: ILeaderboard[] = (result as ILeaderboard[]).map((item) => ({
       name: item.name,
       totalPoints: item.totalPoints,
-      totalGames: item.totalGames,
+      totalGames: item.totalGames.toString(),
       totalVictories: item.totalVictories,
       totalDraws: item.totalDraws,
       totalLosses: item.totalLosses,
@@ -57,6 +57,7 @@ class LeaderboardController {
       goalsBalance: item.goalsBalance,
       efficiency: Number(Number(item.efficiency).toFixed(2)).toString(),
     }));
+
     return res.status(Status.OK).json(leaderboard);
   }
 }
