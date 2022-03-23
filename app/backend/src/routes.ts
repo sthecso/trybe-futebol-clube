@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+// import { IUserRequest } from './types/interface';
 import { Iuser } from './utils/interfaces';
 import User from './database/models/User';
 import userLogin from './controllers/loginController';
@@ -8,7 +9,7 @@ import validToken from './middlewares/validToken';
 const router = Router();
 
 router.get('/login/validate', validToken, async (req: Request, res: Response) => {
-  const { id } = req.user;
+  const { id } = req.body.user;
 
   const { role } = await User.findByPk(id) as Iuser;
   return res.status(200).send(role);

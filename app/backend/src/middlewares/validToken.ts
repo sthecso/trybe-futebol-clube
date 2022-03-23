@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken';
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction, Request } from 'express';
+// import { IUserRequest } from '../types/interface';
 import readKeyJWT from '../utils/readKeyJWT';
 
 interface IPayload {
@@ -19,7 +20,7 @@ const validToken = async (req: Request, res: Response, next: NextFunction) => {
     const decoded = jwt.verify(authorization.split(' ')[1], readKeyJWT);
 
     const { id } = decoded as IPayload;
-    req.user = {
+    req.body.user = {
       id,
     };
 
