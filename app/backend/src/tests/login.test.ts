@@ -47,11 +47,11 @@ describe('Login', () => {
     });
 
     describe('When email is not a string', () => {
-      it('The API responds with status 200', async () => {
+      it('The API responds with status 422', async () => {
         httpResponse = await chai
           .request(app)
           .post('/login')
-          .send({ email: 0, password: 'secret_user' });
+          .send({ email: 1, password: 'secret_user' });
   
         expect(httpResponse.status).to.be
           .equal(StatusCodes.UNPROCESSABLE_ENTITY);
@@ -105,7 +105,7 @@ describe('Login', () => {
         httpResponse = await chai
           .request(app)
           .post('/login')
-          .send({ email: 'user@user.com', password: 0 });
+          .send({ email: 'user@user.com', password: 1 });
 
         expect(httpResponse.status).to.be
           .equal(StatusCodes.UNPROCESSABLE_ENTITY);
