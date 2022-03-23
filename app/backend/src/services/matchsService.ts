@@ -4,7 +4,7 @@ import Match from '../database/models/Match';
 import clubsService from './clubsService';
 
 const matchsService = {
-  getAllWithQuery: async (inProgress: boolean) => Match.findAll({
+  getAllInProgress: async (inProgress: boolean) => Match.findAll({
     where: { inProgress },
     include: [{
       model: Club,
@@ -16,20 +16,25 @@ const matchsService = {
       as: 'awayClub',
       attributes: { exclude: ['id'] },
     }],
-  }),
+  })
+    .then((matchArr) => matchArr.map((match) => match.get({ plain: true }))),
 
-  getAll: async () => Match.findAll({
-    include: [{
-      model: Club,
-      as: 'homeClub',
-      attributes: { exclude: ['id'] },
-    },
-    {
-      model: Club,
-      as: 'awayClub',
-      attributes: { exclude: ['id'] },
-    }],
-  }),
+  getAll: async () => {
+    const matchs = await Match.findAll({
+      include: [{
+        model: Club,
+        as: 'homeClub',
+        attributes: { exclude: ['id'] },
+      },
+      {
+        model: Club,
+        as: 'awayClub',
+        attributes: { exclude: ['id'] },
+      }],
+    })
+      .then((matchArr) => matchArr.map((match) => match.get({ plain: true })));
+    return matchs;
+  },
   create: async (match: IMatch) => {
     const { homeTeam, awayTeam } = match;
     const newMatch = { ...match, inProgress: true };

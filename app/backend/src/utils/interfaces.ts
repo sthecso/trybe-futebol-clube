@@ -17,10 +17,6 @@ export interface IClub {
   name: string;
 }
 
-export interface IClubName {
-  clubname: string;
-}
-
 export interface IMatch {
   id?: number;
   homeTeam: string;
@@ -28,8 +24,12 @@ export interface IMatch {
   awayTeam: string;
   awayTeamGoals: number;
   inProgress?: boolean;
-  homeClub: IClubName;
-  awayClub: IClubName;
+  homeClub: {
+    clubName: string;
+  }
+  awayClub: {
+    clubName: string;
+  }
 }
 
 export interface ILeaderboardTeam {
@@ -42,5 +42,9 @@ export interface ILeaderboardTeam {
   goalsFavor: number,
   goalsOwn: number,
   goalsBalance: number,
-  efficiency: number,
+  efficiency: number | string,
+}
+
+export interface ILeaderboardObject {
+  [key: string]: ILeaderboardTeam;
 }

@@ -7,7 +7,7 @@ const matchsController = {
     const inProgressBool = inProgress === 'true';
 
     const matchs = inProgress
-      ? await matchsService.getAllWithQuery(inProgressBool)
+      ? await matchsService.getAllInProgress(inProgressBool)
       : await matchsService.getAll();
     return res.status(200).send(matchs);
   },
