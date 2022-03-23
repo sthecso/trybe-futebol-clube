@@ -1,5 +1,8 @@
-import { Model, DataTypes } from 'sequelize';
-import db from '.';
+import { Model, DataTypes, Sequelize, Options } from 'sequelize';
+import * as databaseOptions from '../config/database';
+
+const databaseConfig = databaseOptions as unknown as Options;
+const db = new Sequelize(databaseConfig);
 
 class Club extends Model {
   id: number;
