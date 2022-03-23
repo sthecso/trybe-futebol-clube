@@ -3,6 +3,7 @@ import * as chai from 'chai';
 
 // Import Repositories
 import { userRepo } from '../app/repositories/user.repository';
+import { clubRepo } from '../app/repositories/club.repository';
 
 const { expect } = chai;
 
@@ -34,6 +35,28 @@ describe('Testing User Repository', () => {
       const result = await userRepo.login(payload);
       expect(result).to.be.an('object');
       expect(result).to.have.all.keys('email', 'id', 'role', 'username');
+    });
+  });
+});
+
+describe('Testing Club Repository', () => {
+  describe('Get all clubs', () => {
+    it('Returns an array', async () => {
+      const result = await clubRepo.getAll();
+      expect(result).to.be.an('array');
+    });
+  });
+
+  describe('Get club by id', () => {
+    it('Was found a club', async () => {
+      const result = await clubRepo.getById(1);
+      expect(result).to.be.an('object');
+      expect(result).to.have.all.keys('id', 'clubName');
+    });
+
+    it('Club was not found', async () => {
+      const result = await clubRepo.getById(123);
+      expect(result).to.be.false;
     });
   });
 });

@@ -135,3 +135,44 @@ describe('Testing Login Route', () => {
     });
   });
 });
+
+describe('Testing Clubs Route', () => {
+  let chaiHttpResponse: Response;
+
+  describe('Return all clubs', () => {
+    it('Code status 200', async () => {
+      chaiHttpResponse = await chai.request(app).get('/clubs').send();
+
+      expect(chaiHttpResponse.status).to.be.equal(200);
+    });
+    it('Returned an array', async () => {
+      chaiHttpResponse = await chai.request(app).get('/clubs').send();
+
+      const clubs = JSON.parse(chaiHttpResponse.text);
+      expect(clubs).to.be.an('array');
+    });
+  });
+
+  describe('Return a club by id', () => {
+    it('Was found a club', async () => {
+      chaiHttpResponse = await chai.request(app).get('/clubs/1').send();
+
+      const club = JSON.parse(chaiHttpResponse.text);
+      expect(chaiHttpResponse.status).to.be.equal(200);
+      expect(club).to.be.an('object');
+      expect(club).to.have.all.keys('id', 'clubName');
+    });
+
+    it('Was not found a club', async () => {
+      const jsonResponse = {
+        message: 'Club does not exist',
+      };
+      chaiHttpResponse = await chai.request(app).get('/clubs/123').send();
+
+      const response = JSON.parse(chaiHttpResponse.text);
+      expect(chaiHttpResponse.status).to.be.equal(404);
+      expect(response).to.be.an('object');
+      expect(response).to.deep.equal(jsonResponse);
+    });
+  });
+});

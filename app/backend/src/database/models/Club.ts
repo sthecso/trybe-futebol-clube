@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize/types';
+import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
 export default class Club extends Model {}
@@ -18,6 +18,7 @@ Club.init(
   {
     sequelize: db,
     modelName: 'Club',
+    tableName: 'clubs',
   },
 );
 

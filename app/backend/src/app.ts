@@ -23,6 +23,7 @@ class App {
 
   private endpoints(): void {
     this.app.use('/login', routes.login);
+    this.app.use('/clubs', routes.club);
   }
 
   public start(PORT: string | number): void {

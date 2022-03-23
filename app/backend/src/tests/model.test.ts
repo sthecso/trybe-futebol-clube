@@ -3,6 +3,7 @@ import * as chai from 'chai';
 
 // Import Models
 import User from '../database/models/User';
+import Club from '../database/models/Club';
 
 const { expect } = chai;
 
@@ -27,6 +28,17 @@ describe('Testing User Model', () => {
       };
       const result = await userModel.findOne({ where: payload });
       expect(result).to.be.an('object');
+    });
+  });
+});
+
+describe('Testing Club Model', () => {
+  const clubModel = Club;
+
+  describe('Return all clubs', () => {
+    it('Returns an array', async () => {
+      const result = await clubModel.findAll();
+      expect(result).to.be.an('array');
     });
   });
 });
