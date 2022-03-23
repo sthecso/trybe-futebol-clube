@@ -29,14 +29,13 @@ class Match {
     this.router.post('/', validateAuth, async (req: Request, res: Response) => {
       const { inProgress, homeTeam, awayTeam } = req.body;
 
-      const resultIsTeam = await ClubService.findAllIsTeam([homeTeam, awayTeam]);
-
       if (homeTeam === awayTeam) {
         return res.status(StatusCodes.UNAUTHORIZED).json(
           { message: 'It is not possible to create a match with two equal teams' },
         );
       }
 
+      const resultIsTeam = await ClubService.findAllIsTeam([homeTeam, awayTeam]);
       if (resultIsTeam.length < 2) {
         return res.status(StatusCodes.UNAUTHORIZED).json(
           { message: 'There is no team with such id!' },
@@ -56,7 +55,7 @@ class Match {
 
       const resultMatchUpdate = await MatchService.updatePatch({ id: Number(id) });
       if (resultMatchUpdate) {
-        return res.status(StatusCodes.OK).json();
+        return res.status(StatusCodes.OK).json(resultMatchUpdate);
       }
       return res.status(StatusCodes.BAD_REQUEST).json();
     });
