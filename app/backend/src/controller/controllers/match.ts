@@ -2,23 +2,29 @@ import { MatchService } from '../../service';
 import { INewMatch, IScore } from '../../utils/interfaces';
 
 export default class MatchController {
-  static async getAll(inProgress: boolean | undefined = undefined) {
-    return MatchService.getAll(inProgress);
+  private _matchService: MatchService;
+
+  constructor() {
+    this._matchService = new MatchService();
   }
 
-  static async getById(id: string) {
-    return MatchService.getById(id);
+  async getAll(inProgress: boolean | undefined = undefined) {
+    return this._matchService.getAll(inProgress);
   }
 
-  static async addMatch(data: INewMatch) {
-    return MatchService.addMatch(data);
+  async getById(id: string) {
+    return this._matchService.getById(id);
   }
 
-  static async finishMatch(id: string) {
-    return MatchService.finishMatch(id);
+  async addMatch(data: INewMatch) {
+    return this._matchService.addMatch(data);
   }
 
-  static async updateMatchScore(id: string, newScore: IScore) {
-    return MatchService.updateMatchScore(id, newScore);
+  async finishMatch(id: string) {
+    return this._matchService.finishMatch(id);
+  }
+
+  async updateMatchScore(id: string, newScore: IScore) {
+    return this._matchService.updateMatchScore(id, newScore);
   }
 }
