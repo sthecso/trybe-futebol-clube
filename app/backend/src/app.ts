@@ -1,13 +1,15 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 class App {
   public app: express.Express;
   // ...
+  private parseJson = bodyParser;
 
   constructor() {
     this.app = express();
     this.config();
-    // ...
+    this.app.use(this.parseJson.json());
   }
 
   private config():void {
