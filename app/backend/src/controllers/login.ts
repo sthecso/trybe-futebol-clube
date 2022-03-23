@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { IId } from '../../interfaces';
-import { Login } from '../../services';
+import { IId } from '../interfaces';
+import { Login } from '../services';
 
 export default class LoginController {
   private service: Login;

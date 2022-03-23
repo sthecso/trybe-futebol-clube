@@ -1,4 +1,4 @@
-import LoginController from './login/login';
-import ClubsController from './clubs/clubs';
+import LoginController from './login';
+import ClubsController from './clubs';
 
 export { LoginController, ClubsController };

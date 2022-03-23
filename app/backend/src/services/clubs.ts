@@ -1,4 +1,4 @@
-import Clubs from '../../database/models/Club';
+import Clubs from '../database/models/Club';
 
 export default class ClubsService {
   constructor(
@@ -17,9 +17,10 @@ export default class ClubsService {
       where: { id },
       raw: true,
     });
+    console.log(club);
 
-    if (!club) return { message: 'Club not found', code: 404 };
+    if (club === null) return { message: 'Club not found', code: 404 };
 
-    return { code: 200, club };
+    return { code: 200, message: club };
   }
 }

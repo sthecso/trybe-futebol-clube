@@ -49,13 +49,34 @@ describe('testes da rota login', () => {
     });
   
     let { token, user } = chaiHttpResponse.body;
-  
+    
     expect(chaiHttpResponse.status).to.be.equal(200);
     expect(token).to.be.a('string');
   
     expect(user.username).to.be.equal('Admin');
     expect(user.email).to.be.equal('admin@admin.com');
     expect(user.id).to.be.equal(1);
+    });
+
+    it('testa retorno da rota /validate', async () => {
+    let chaiHttpResponse: Response = await chai
+    .request(app)
+    .post('/login')
+    .send({
+      email: 'admin@admin.com',
+      password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+    });
+    
+    const { token } = chaiHttpResponse.body;
+    
+    chaiHttpResponse = await chai
+    .request(app)
+    .get('/login/validate')
+    .set(
+      'Authorization', token
+    );
+
+    expect(chaiHttpResponse.body).to.be.equal('admin');
     });
   })
   

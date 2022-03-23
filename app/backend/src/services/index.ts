@@ -1,4 +1,4 @@
-import Login from './login/login';
-import ClubsService from './clubs/clubs';
+import Login from './login';
+import ClubsService from './clubs';
 
 export { Login, ClubsService };

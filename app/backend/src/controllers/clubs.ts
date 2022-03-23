@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ClubsService } from '../../services';
+import { ClubsService } from '../services';
 
 export default class ClubsController {
   private service: ClubsService;
@@ -18,8 +18,8 @@ export default class ClubsController {
 
   async getClubsById(req: Request, res: Response) {
     const { id } = req.params;
-    const { code, club } = await this.service.clubsRequestById(id);
+    const { code, message } = await this.service.clubsRequestById(id);
 
-    return res.status(code).json(club);
+    return res.status(code).json(message);
   }
 }

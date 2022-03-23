@@ -12,6 +12,7 @@ import { app } from '../app';
 */
 import { Response } from 'superagent';
 import Club from '../database/models/Club';
+import clubsMock from './mocks/clubs.mock';
 
 chai.use(chaiHttp);
 
@@ -26,72 +27,50 @@ describe('testes da rota clubs', () => {
 
   describe('quando são passado os dados esperados', () => {
     before(async () => {
-      sinon
+      return sinon
         .stub(Club, "findAll")
-        .resolves([{
-          {
-            "id": 1,
-            "clubName": "Avaí/Kindermann"
-          },
-          {
-            "id": 2,
-            "clubName": "Bahia"
-          },
-          {
-            "id": 3,
-            "clubName": "Botafogo"
-          },
-        }]);
+        .resolves(clubsMock as unknown as []);
     });
   
     after(()=>{
-       (User.findOne as sinon.SinonStub).restore();
+       (Club.findAll as sinon.SinonStub).restore();
      })
   
     it('testa se retorna status e body esperados', async () => {
     let chaiHttpResponse: Response = await chai
     .request(app)
-    .post('/login')
-    .send({
-      email: 'admin@admin.com',
-      password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
-    });
+    .get('/clubs');
   
-    let { token, user } = chaiHttpResponse.body;
+    let body = chaiHttpResponse.body;
   
     expect(chaiHttpResponse.status).to.be.equal(200);
-    expect(token).to.be.a('string');
+    expect(body).to.be.a('array');
   
-    expect(user.username).to.be.equal('Admin');
-    expect(user.email).to.be.equal('admin@admin.com');
-    expect(user.id).to.be.equal(1);
+    expect(body[0]).to.have.property('id', 1);
+    expect(body[1]).to.have.property('id', 2);
     });
   })
   
-  describe('testa quando o login deve falhar', () => {
+  describe('quando chamamos por um club inexistente', () => {
     before(async () => {
       return sinon
-        .stub(User, "findOne")
-        .resolves(undefined);
+        .stub(Club, "findOne")
+        .resolves(null);
     });
   
     after(()=>{
-       (User.findOne as sinon.SinonStub).restore();
-     });
+       (Club.findOne as sinon.SinonStub).restore();
+     })
 
-    it('testa quando passamos credenciais inexistentes', async () => {
+     it('passando um ID inválido', async () => {
       let chaiHttpResponse: Response = await chai
       .request(app)
-      .post('/login')
-      .send({
-        email: 'abuble@abuble',
-        password: 'abubleabuble'
-      });
+      .get('/clubs/5');
+    
+      let { status, body } = chaiHttpResponse;      
 
-      const { message } = chaiHttpResponse.body;
-
-      expect(chaiHttpResponse.status).to.be.equal(401);
-      expect(message).to.be.equal('Incorrect email or password');
-    });
+      expect(status).to.be.equal(404);
+      expect(body).to.be.equal('Club not found');
+     });
   });
 });

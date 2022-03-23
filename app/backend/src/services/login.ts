@@ -1,6 +1,6 @@
-import { ILogin } from '../../interfaces';
-import User from '../../database/models/User';
-import { jwt } from '../../utils';
+import { ILogin } from '../interfaces';
+import User from '../database/models/User';
+import { jwt } from '../utils';
 
 export default class Login {
   constructor(
