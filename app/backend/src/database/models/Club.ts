@@ -4,9 +4,9 @@ import db from '.';
 
 class Club extends Model {
   // public <campo>!: <tipo>;
-  id: number;
+  public id: number;
 
-  clubName: string;
+  public clubName: string;
 }
 
 Club.init({

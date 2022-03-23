@@ -4,17 +4,17 @@ import Club from './Club';
 
 class Match extends Model {
   // public <campo>!: <tipo>;
-  id: number;
+  public id: number;
 
-  homeTeam: number;
+  public homeTeam: number;
 
-  homeTeamGoals: number;
+  public homeTeamGoals: number;
 
-  awayTeam: number;
+  public awayTeam: number;
 
-  awayTeamGoals: number;
+  public awayTeamGoals: number;
 
-  inProgress: number;
+  public inProgress: number;
 }
 
 Match.init({
