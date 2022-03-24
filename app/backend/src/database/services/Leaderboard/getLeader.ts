@@ -5,6 +5,7 @@ import LBoardUtilities from '../../../utilities/LBoardUtilities';
 
 const INITIAL_NUMBER = 0;
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function endCalc(matchs: any, object: BaseLboard) {
   const nObj = object;
   matchs.forEach((match: any) => {
