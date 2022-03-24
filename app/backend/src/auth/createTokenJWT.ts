@@ -4,9 +4,9 @@ import jwtConfig from '../utils';
 export default class Token {
   static createToken(searchUser: string) {
     const dataEmail = searchUser;
-    const secret = jwtConfig.jwt.secret as string;
+    const { secret } = jwtConfig.jwt;
 
-    const token = jwt.sign({}, secret, { subject: dataEmail, expiresIn: '7d', algorithm: 'HS256' });
+    const token = jwt.sign({ data: dataEmail }, secret, { expiresIn: '7d', algorithm: 'HS256' });
 
     return token;
   }
