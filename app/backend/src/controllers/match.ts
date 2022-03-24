@@ -48,14 +48,14 @@ class MatchController {
     return res.status(this.statusCode.Created).json(saveMatch);
   }
 
-  async updateResultsMatch(req: Request, _res: Response) {
+  async updateResultsMatch(req: Request, res: Response) {
     const goalsMatch = req.body as unknown as IUpdateGoalsReq;
     const id = Number(req.params.id);
     const saveProgressMatch = await this.matchmodel.updateResultsMatch(id, goalsMatch);
     if (typeof saveProgressMatch === null) {
       return 'Match is not in progress';
     }
-    return saveProgressMatch;
+    return res.status(200).json({ message: 'The result was updated' });
   }
 
   async finishMatch(req: Request, res: Response) {

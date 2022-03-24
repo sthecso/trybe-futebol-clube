@@ -42,7 +42,7 @@ class MatchModel {
   async updateResultsMatch(id: number, { homeTeamGoals, awayTeamGoals }: IUpdateGoalsReq) {
     const [result] = await this.matchEntity.update(
       { homeTeamGoals, awayTeamGoals },
-      { where: { id, iProgress: true } },
+      { where: { id, inProgress: true } },
     );
 
     if (!result) return null;
