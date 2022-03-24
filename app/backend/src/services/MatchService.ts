@@ -50,7 +50,7 @@ class MatchService {
         code: StatusCode.UNPROCESSABLE_ENTITY, data: { message: 'Match is not in progress!' },
       };
     }
-    return { code: StatusCode.NO_CONTENT, data: { message: 'Match updated' } };
+    return { code: StatusCode.OK, data: { message: 'Match updated' } };
   }
 
   async finishMatch(id: string) {
@@ -65,7 +65,7 @@ class MatchService {
         code: StatusCode.UNPROCESSABLE_ENTITY, data: { message: 'Match is not in progress!' },
       };
     }
-    return { code: StatusCode.NO_CONTENT, data: { message: 'Match finished' } };
+    return { code: StatusCode.OK, data: { message: 'Match finished' } };
   }
 }
 

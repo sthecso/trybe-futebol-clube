@@ -26,10 +26,11 @@ class MatchRouter {
     );
     this.router.patch(
       '/:id',
+      validateJWT,
       validateSchema(matchGoalsSchema),
       this.matchController.editMatch,
     );
-    this.router.patch('/:id/finish', this.matchController.finishMatch);
+    this.router.patch('/:id/finish', validateJWT, this.matchController.finishMatch);
   }
 }
 
