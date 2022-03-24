@@ -4,6 +4,7 @@ import 'express-async-errors';
 
 import { Login } from './routes/LoginRoute';
 import Club from './routes/ClubsRoutes';
+import Matchs from './routes/MatchsRoutes';
 import errorMessage from './middlewares/errorMessage';
 
 class App {
@@ -29,6 +30,7 @@ class App {
 
     this.app.use('/login', Login);
     this.app.use('/clubs', Club);
+    this.app.use('/matchs', Matchs);
     this.app.use(errorMessage);
   }
 
