@@ -12,6 +12,9 @@ class MatchRoutes extends CommonRoutesConfig {
       .route('/matchs')
       .get(MatchController.getMatchs);
 
+    this.app
+      .route('/matchs')
+      .get(MatchController.getMatchsInProgress);
     return this.app;
   }
 }
