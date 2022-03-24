@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import ControllerMatchPost from '../controller/postMatchController';
 import GetAllMatchs from '../controller/getAllMatchControl';
 import PatchMatchController from '../controller/patchMatchControl';
+import PatchMatchController27 from '../controller/patchMatchControl27';
 import validateToken from '../controller/middlewares/validateToken';
 
 const matchRoute = Router();
@@ -30,7 +31,15 @@ matchRoute.patch('/matchs/:id/finish', async (req:Request, res:Response) => {
   return res.status(200).json(result);
 });
 
-
+matchRoute.patch('/matchs/:id', async (req:Request, res:Response) => {
+  const { id } = req.params;
+  const { homeTeamGoals, awayTeamGoals } = req.body;
+  const numberId = Number(id);
+  const numberHomeGoals = Number(homeTeamGoals);
+  const numberAwayGoals = Number(awayTeamGoals);
+  const result = await PatchMatchController27.patch27(numberId, numberHomeGoals, numberAwayGoals);
+  return res.status(200).json(result);
+});
 
 matchRoute.post('/matchs', validateToken, async (req:Request, res:Response) => {
   const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
