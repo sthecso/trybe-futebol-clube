@@ -1,7 +1,7 @@
 import * as express from 'express';
 import 'express-async-errors';
 import bodyParser = require('body-parser');
-import { ClubRouter, LoginRouter, MatchRouter } from './routes';
+import { ClubRouter, LeaderboardRouter, LoginRouter, MatchRouter } from './routes';
 import errorHandler from './controllers/middlewares/errorHandler';
 import joiError from './controllers/middlewares/joiError';
 
@@ -36,6 +36,7 @@ class App {
     this.app.use('/login', new LoginRouter().router);
     this.app.use('/clubs', new ClubRouter().router);
     this.app.use('/matchs', new MatchRouter().router);
+    this.app.use('/leaderboard', new LeaderboardRouter().router);
     this.app.use(joiError);
     this.app.use(errorHandler);
   }

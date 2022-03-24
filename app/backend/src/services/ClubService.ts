@@ -1,4 +1,4 @@
-import IClub from '../interfaces/IClub';
+import { IClub } from '../interfaces/IClub';
 import Club from '../database/models/Club';
 
 class ClubService {

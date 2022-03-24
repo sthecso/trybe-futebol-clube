@@ -55,7 +55,7 @@ class MatchService {
   async update(updatedDetails: updateMatch, id: number) {
     const match = await this.MatchModel.findByPk(id);
 
-    if(!match) {
+    if (!match) {
       throw new APIError('There is no team with such id!', 'unauthorized');
     }
 
@@ -67,12 +67,12 @@ class MatchService {
 
   async finishMatch(id: number) {
     const match = await this.MatchModel.findByPk(id);
-    if(!match) {
+    if (!match) {
       const error = new APIError('There is no match with such id!', 'unauthorized');
       throw error;
     }
 
-    await this.MatchModel.update({ inProgress: false }, { where: { id }});
+    await this.MatchModel.update({ inProgress: false }, { where: { id } });
   }
 }
 

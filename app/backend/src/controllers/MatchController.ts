@@ -29,22 +29,22 @@ class MatchController {
     const { id } = req.params;
     const matchId = Number(id);
 
-    if(!matchId) {
-      return res.status(400).json({ message: 'Invalid ID'});
+    if (!matchId) {
+      return res.status(400).json({ message: 'Invalid ID' });
     }
-    
+
     const updatedMatch = await this.MatchService.update(req.body, matchId);
     res.status(200).json(updatedMatch);
-  }
+  };
 
   finishMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
-    if(!Number(id)) {
+    if (!Number(id)) {
       return res.status(400).json({ message: 'Invalid Match ID' });
     }
     await this.MatchService.finishMatch(Number(id));
-    res.status(200).json({ message: 'ok'});
-  }
+    res.status(200).json({ message: 'ok' });
+  };
 }
 
 export default MatchController;
