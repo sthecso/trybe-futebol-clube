@@ -30,6 +30,8 @@ matchRoute.patch('/matchs/:id/finish', async (req:Request, res:Response) => {
   return res.status(200).json(result);
 });
 
+
+
 matchRoute.post('/matchs', validateToken, async (req:Request, res:Response) => {
   const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
   const data = { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress };
