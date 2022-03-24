@@ -14,7 +14,7 @@ class Leaderboards {
   }
 
   Routes() {
-    this.leaderboardsRoutes.get('/home', this._metodos.findAll.bind(this._metodos));
+    this.leaderboardsRoutes.get('/', this._metodos.findAll.bind(this._metodos));
   }
 }
 
