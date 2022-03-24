@@ -57,7 +57,7 @@ class MatchService {
     const [match] = await this.matchModel.update(
       { inProgress: false },
       {
-        where: { id },
+        where: { id, inProgress: true },
       },
     );
     if (!match) {
