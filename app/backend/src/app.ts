@@ -1,11 +1,15 @@
 import * as express from 'express';
+import routeMain from './routes/index.routes';
 
 class App {
   public app: express.Express;
 
   constructor() {
     this.app = express();
+
     this.config();
+
+    this.route();
   }
 
   private config():void {
@@ -15,9 +19,12 @@ class App {
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
-
     this.app.use(accessControl);
     this.app.use(express.json());
+  }
+
+  private route(): void {
+    this.app.use(routeMain);
   }
 
   // ...
