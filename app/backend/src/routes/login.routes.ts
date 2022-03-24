@@ -1,6 +1,6 @@
 import * as express from 'express';
 import validateJWT from '../auth/validateJWT';
-import { LoginController, ClubsController } from '../controllers';
+import { LoginController } from '../controllers';
 import CommonRoutesConfig from './common.routes.config';
 import { validateEmail, validatePassword } from '../middlewares/validate.login';
 
@@ -21,12 +21,6 @@ class LoginRoutes extends CommonRoutesConfig {
       .get(
         validateJWT,
         LoginController.getUser,
-      );
-
-    this.app
-      .route('/clubs')
-      .get(
-        ClubsController.getClubs,
       );
 
     return this.app;

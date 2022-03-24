@@ -12,6 +12,10 @@ class ClubRoutes extends CommonRoutesConfig {
       .route('/clubs')
       .get(ClubsController.getClubs);
 
+    this.app
+      .route('/clubs/:id')
+      .get(ClubsController.getByIdClub);
+
     return this.app;
   }
 }
