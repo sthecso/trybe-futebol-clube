@@ -143,7 +143,7 @@ describe('Request PATCH matchs', () => {
   let matchResponse: Response;
   let loginResponse: Response;
   let token: string;
-  let initialMatchs: Match[] = [];
+  let insertedMatch: Match;
 
   before(async () => {
     exec('npm run db:reset');
@@ -154,17 +154,9 @@ describe('Request PATCH matchs', () => {
       password: 'secret_admin'
     });
     token = loginResponse.body.token;
-    matchResponse = await chai.request(app)
-    .get('/matchs');
-    const { body } = matchResponse;
-    if (!body) {
-      initialMatchs = []
-    } else {
-      initialMatchs = body;
-    }
   });
 
-  it('On /:id/finish returns OK and checks if match is Finished', async () => {
+  beforeEach(async () => {
     matchResponse = await chai.request(app)
     .post('/matchs')
     .set('authorization', token)
@@ -175,20 +167,44 @@ describe('Request PATCH matchs', () => {
       "awayTeamGoals": 2,
       "inProgress": true
     });
-    const { body: { id }} = matchResponse;
+    const { body } = matchResponse;
+    insertedMatch = body;
+  })
+
+  it('On /:id/finish returns OK and checks if match is Finished', async () => {
     patchResponse = await chai.request(app)
-    .patch(`/matchs/${id}/finish`)
+    .patch(`/matchs/${insertedMatch.id}/finish`)
     .set('authorization', token);
     matchResponse = await chai.request(app)
     .get('/matchs');
     const { body: afterFinishMatchs } = matchResponse;
-    const finishedMatch = afterFinishMatchs.find((match: Match) => match.id === id);
+    const finishedMatch = afterFinishMatchs.find((match: Match) => match.id === insertedMatch.id);
     const { status, body: { message } } = patchResponse;
     
     expect(status).to.be.equal(200);
     expect(message).to.be.equal('Match finished');
     expect(finishedMatch.inProgress).to.be.false;
 
+  })
+
+  it('On /:id edit Match with correct body', async () => {
+    console.log(token);
+    patchResponse = await chai.request(app)
+    .patch(`/matchs/${insertedMatch.id}`)
+    .set('authorization', token)
+    .send({
+      "homeTeamGoals": 3,
+      "awayTeamGoals": 3
+    });
+    matchResponse = await chai.request(app)
+    .get('/matchs');
+    const { body: afterEditMatchs } = matchResponse;
+    const editedMatch = afterEditMatchs.find((match: Match) => match.id === insertedMatch.id);
+    const { status, body: { message } } = patchResponse;
+    
+    expect(status).to.be.equal(200);
+    expect(message).to.be.equal('Match edited');
+    expect(editedMatch.homeTeamGoals).to.not.be.equal(insertedMatch.homeTeamGoals);
   })
   
 })
