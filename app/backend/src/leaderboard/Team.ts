@@ -1,9 +1,7 @@
 import { ILeaderBoardTeam } from '../interfaces';
 
 class Team implements ILeaderBoardTeam {
-  id: number;
-
-  name: string;
+  name = '';
 
   totalPoints = 0;
 
@@ -23,8 +21,7 @@ class Team implements ILeaderBoardTeam {
 
   efficiency = 0;
 
-  constructor(i: number, n: string) {
-    this.id = i;
+  constructor(n: string) {
     this.name = n;
   }
 
@@ -56,7 +53,7 @@ class Team implements ILeaderBoardTeam {
 
   attBalanceAndEfficiency() {
     this.goalsBalance = this.goalsFavor - this.goalsOwn;
-    this.efficiency = (this.totalPoints / (this.totalGames * 3)) * 100;
+    this.efficiency = Number(((this.totalPoints / (this.totalGames * 3)) * 100).toFixed(2));
   }
 }
 

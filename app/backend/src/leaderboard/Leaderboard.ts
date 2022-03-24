@@ -23,7 +23,7 @@ class Leaderboard {
   }
 
   async orderBoard(): Promise<Team[]> {
-    const afterMatchesLeaderBoard = await this.calculateMatchs();
+    const afterMatchesLeaderBoard = await this.calculateAllMatchs();
     const ordered = afterMatchesLeaderBoard.sort((a: Team, b: Team) => {
       const diffPoints = b.totalPoints - a.totalPoints;
       if (diffPoints === 0) {
@@ -51,14 +51,14 @@ class Leaderboard {
     return diffVictories;
   }
 
-  async calculateMatchs(): Promise<Team[]> {
-    const matchs = await this.matchModel.findAll();
+  async calculateAllMatchs(): Promise<Team[]> {
+    const matchs = await this.matchModel.findAll({ where: { inProgress: false } });
     const promises = matchs.map(async (match) => {
       const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = match;
       const { clubName: homeTeamName } = await this.clubModel.findByPk(homeTeam) as Club;
       const { clubName: awayTeamName } = await this.clubModel.findByPk(awayTeam) as Club;
-      const homeTeamObj = this.leaderBoard[this.getTeamIndexByName(homeTeamName)];
-      const awayTeamObj = this.leaderBoard[this.getTeamIndexByName(awayTeamName)];
+      const homeTeamObj = this.getTeamIndexByName(homeTeamName);
+      const awayTeamObj = this.getTeamIndexByName(awayTeamName);
       this.resultMatch(homeTeamObj, awayTeamObj, homeTeamGoals, awayTeamGoals);
     });
     const promisedAll = await Promise.all(promises);
@@ -79,26 +79,22 @@ class Leaderboard {
       homeTeam.lose(homeTeamGoals, awayTeamGoals);
       awayTeam.win(awayTeamGoals, homeTeamGoals);
     }
-    this.updateLeaderBoard(homeTeam, awayTeam);
+    this.ordered = false;
   }
 
-  updateLeaderBoard(homeTeam: Team, awayTeam: Team) {
-    this.leaderBoard[homeTeam.id] = homeTeam;
-    this.leaderBoard[awayTeam.id] = awayTeam;
-  }
-
-  getTeamIndexByName(clubName: string): number {
-    const teamFoundIndex = this.leaderBoard.findIndex((team) => team.name === clubName);
-    if (teamFoundIndex === -1) {
+  getTeamIndexByName(clubName: string): Team {
+    const teamFound = this.leaderBoard.find((team) => team.name === clubName);
+    if (!teamFound) {
       return this.insertTeamToLeaderBoard(clubName);
     }
-    return teamFoundIndex;
+    return teamFound;
   }
 
-  insertTeamToLeaderBoard(clubName: string): number {
-    const newTeam = new Team(this.leaderBoard.length, clubName);
+  insertTeamToLeaderBoard(clubName: string): Team {
+    const newTeam = new Team(clubName);
+    console.log(newTeam);
     this.leaderBoard.push(newTeam);
-    return newTeam.id;
+    return newTeam;
   }
 }
 
