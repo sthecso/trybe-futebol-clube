@@ -23,13 +23,13 @@ export default class MatchRouter {
     this.router.get('/', async (req: Request, res: Response) => {
       const { inProgress } = req.query;
 
-      if (JSON.parse(inProgress as string)) {
+      if (inProgress === 'true' || inProgress === 'false') {
         const { code, data } = await this._matchController
           .getAll(JSON.parse(inProgress as string));
         return res.status(code).json(data);
       }
 
-      const { code, data } = await this._matchController.getAll(false);
+      const { code, data } = await this._matchController.getAll();
       return res.status(code).json(data);
     });
   }

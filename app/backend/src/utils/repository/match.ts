@@ -16,22 +16,10 @@ export default class MatchesRepository {
     this._matchModel = MatchModel;
   }
 
-  async getAllInProgress(): Promise<IMatch[]> {
+  async getAllByProgress(inProgress: boolean): Promise<IMatch[]> {
     return (
       await this._matchModel.findAll({
-        where: { inProgress: true },
-        include: [
-          { model: this._clubModel, as: 'homeClub', attributes: ['clubName'] },
-          { model: this._clubModel, as: 'awayClub', attributes: ['clubName'] },
-        ],
-      })
-    ).map((match) => match.get({ plain: true }));
-  }
-
-  async getAllFinished(): Promise<IMatch[]> {
-    return (
-      await this._matchModel.findAll({
-        where: { inProgress: false },
+        where: { inProgress },
         include: [
           { model: this._clubModel, as: 'homeClub', attributes: ['clubName'] },
           { model: this._clubModel, as: 'awayClub', attributes: ['clubName'] },

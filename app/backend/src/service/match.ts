@@ -18,8 +18,8 @@ export default class MatchService {
   async getAll(inProgress: boolean | undefined) {
     let matches: IMatch[];
 
-    if (inProgress) {
-      matches = await this._matchRepository.getAllInProgress();
+    if (inProgress !== undefined) {
+      matches = await this._matchRepository.getAllByProgress(inProgress);
       return { code: 200, data: matches };
     }
 
