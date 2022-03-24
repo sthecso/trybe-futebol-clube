@@ -1,7 +1,17 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-class Matchs extends Model {}
+class Matchs extends Model {
+  declare id: number;
+
+  declare homeTeam: number;
+
+  declare homeTeamGoals: number;
+
+  declare awayTeam: number;
+
+  declare inProgress: boolean;
+}
 
 Matchs.init({
   id: {
