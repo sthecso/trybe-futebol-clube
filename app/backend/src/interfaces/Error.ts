@@ -1,4 +1,4 @@
-export default class ErrorHandler extends Error {
+export default class ErrorHandle extends Error {
   public code: number;
 
   constructor(code: number, message: string) {

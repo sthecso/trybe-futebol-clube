@@ -1,7 +1,8 @@
 import * as express from 'express';
 import 'express-async-errors';
 import { LoginRouter } from './routes';
-import { domainError, serverError, zodError } from './middlewares';
+import { ErrorHandler } from './middlewares';
+// import DomainError from './middlewares/domain-error';
 
 class App {
   public app: express.Express;
@@ -27,9 +28,9 @@ class App {
   private route(): void {
     this.app.use('/login', new LoginRouter().router);
 
-    this.app.use(zodError);
-    this.app.use(domainError);
-    this.app.use(serverError);
+    this.app.use(ErrorHandler.zodError());
+    this.app.use(ErrorHandler.domainError());
+    this.app.use(ErrorHandler.serverError());
   }
 
   public start(PORT: string | number):void {

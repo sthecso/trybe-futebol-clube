@@ -10,4 +10,8 @@ export default class LoginController {
 
     return result;
   }
+
+  // public static async validate(authorization: string): Promise<string> {
+  //   return LoginService.validate(authorization);
+  // }
 }

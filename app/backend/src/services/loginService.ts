@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { ErrorHandler, ILogin, ILoginResult } from '../interfaces';
+import { ErrorHandle, ILogin, ILoginResult } from '../interfaces';
 import { UserRepository } from '../repositories';
 import * as jwt from '../utils/jwt';
 
@@ -9,7 +9,7 @@ export default class LoginService {
 
     // verify if exist a user registred or password is correct
     if (!user) {
-      throw new ErrorHandler(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
+      throw new ErrorHandle(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
     }
 
     // compare passowrd
@@ -26,4 +26,14 @@ export default class LoginService {
 
     return { user: userReturn, token };
   }
+
+  // public static async validate(authorization: string): Promise<string> {
+  //   const token = await jwt.verify(authorization);
+
+  //   if (!token) {
+  //     throw new ErrorHandler(StatusCodes.UNAUTHORIZED, 'Token Invalid');
+  //   }
+
+  //   return user;
+  // }
 }
