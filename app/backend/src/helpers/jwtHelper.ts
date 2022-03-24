@@ -1,7 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import { readFileSync } from 'fs';
-import IUser from '../interfaces/IUser';
 
 dotenv.config();
 
