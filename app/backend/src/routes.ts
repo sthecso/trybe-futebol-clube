@@ -6,6 +6,7 @@ import userLogin from './controllers/loginController';
 import validLogin from './middlewares/validLogin';
 import validToken from './middlewares/validToken';
 import { getClubController, geyClubIdController } from './controllers/clubsController';
+import getMatchs from './controllers/matchsController';
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.get('/login/validate', validToken, async (req: Request, res: Response) =>
 router.post('/login', validLogin, userLogin);
 router.get('/clubs', getClubController);
 router.get('/clubs/:id', geyClubIdController);
+router.get('/matchs', getMatchs);
 
 export default router;

@@ -13,7 +13,7 @@ class Match extends Model {
 
   public awayTeamGols: number;
 
-  public inProgress: number;
+  public inProgress: boolean;
 }
 
 Match.init({
@@ -26,7 +26,7 @@ Match.init({
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  homeTeamGols: {
+  homeTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
@@ -34,12 +34,12 @@ Match.init({
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  awayTeamGols: {
+  awayTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
   inProgress: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
 }, {
@@ -50,10 +50,10 @@ Match.init({
   timestamps: false,
 });
 
-Club.belongsTo(Match, { foreignKey: 'homeTeam', as: 'match' });
-Club.belongsTo(Match, { foreignKey: 'awayTeam', as: 'match' });
+Club.hasMany(Match, { foreignKey: 'homeTeam', as: 'homeMatch' });
+Club.hasMany(Match, { foreignKey: 'awayTeam', as: 'awayMatch' });
 
-Match.hasMany(Club, { foreignKey: 'homeTeam', as: 'club' });
-Match.hasMany(Club, { foreignKey: 'awayTeam', as: 'club' });
+Match.belongsTo(Club, { foreignKey: 'homeTeam', as: 'homeClub' });
+Match.belongsTo(Club, { foreignKey: 'awayTeam', as: 'awayClub' });
 
 export default Match;
