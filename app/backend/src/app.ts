@@ -4,9 +4,15 @@ import * as express from 'express';
 
 import * as bodyParse from 'body-parser';
 
+import * as swagger from 'swagger-ui-express';
+
+import * as YAML from 'yamljs';
+
 import { Login, Club, Match, Leaderboards } from './routers';
 
 import { HttpStatusCode } from './utils';
+
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 class App {
   public app: express.Express;
@@ -29,6 +35,8 @@ class App {
     this.config();
 
     this.app.use(this.parseJson.json());
+
+    this.app.use('/home', swagger.serve, swagger.setup(swaggerDocument));
 
     this.app.use('/login', this.loginRouter.router);
 

@@ -1,5 +1,9 @@
 shelljs
 joi
 bcryptjs
--D @types/shelljs
--D @types/bcryptjs
+swagger-ui-express
+yamljs
+@types/yamljs
+@types/swagger-ui-express
+@types/shelljs
+@types/bcryptjs
