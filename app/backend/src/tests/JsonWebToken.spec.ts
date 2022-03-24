@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
-import * as chai from 'chai';
 import * as jwt from 'jsonwebtoken';
+import * as chai from 'chai';
 
 import chaiHttp = require('chai-http');
 
@@ -14,17 +14,18 @@ const { expect } = chai;
 
 // describe('Testa auth/validateJWT.ts,', () => {
 //   let chaiHttpResponse: Response;
-//   before(async () => {
-//     sinon
-//       .stub(jwt, "verify")
-//       .resolves(() => {
-//         throw new Error('Token not found')
-//       })
-//   });
+// before(async () => {
+//   sinon
+//     .stub(jwt, "verify")
+//     .resolves(() => {
+//       throw new Error('Token not found')
+//     })
+// }); // should throw
 
-//   after(()=>{
-//     (jwt.verify as sinon.SinonStub).restore();
-//   });
+// after(()=>{
+//   (jwt.verify as sinon.SinonStub).restore();
+// });
+
 
 //   it('E verificado se o token não existir a reposta de status e 401', async () => {
 //     chaiHttpResponse = await chai

@@ -3,6 +3,8 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import { Response } from 'superagent';
 import Token from '../auth/createTokenJWT';
+import * as sinon from 'sinon';
+import * as jwt from 'jsonwebtoken';
 
 chai.use(chaiHttp);
 
@@ -160,26 +162,30 @@ describe('Testa endpoint /login', () => {
   })
 })
 
-// describe('testa o endpoint /login/validate', () => {
-//   describe('caso o metodo getUser retornar com sucesso', async () => {
-//     let chaiHttpResponse: Response;
+describe('testa o endpoint /login/validate', () => {
+  describe('caso o metodo getUser retornar com sucesso', async () => {
+    let chaiHttpResponse: Response;
 
-//     const mockUserAdmin = {
-//       role: 'admin',
-//       email: 'admin@admin.com',
-//     }
+    const loginCorrect = {
+      email: "admin@admin.com",
+      password: "secret_admin"
+    }
 
-//     const token = Token.createToken(mockUserAdmin.email)
+    it('retorna resposta 200 e a role "admin"', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send(loginCorrect)
+      const token = chaiHttpResponse.body.token;
+      const role = chaiHttpResponse.body.user.role;
 
-//     it('retorna resposta 200', async () => {
-//       chaiHttpResponse = await chai.request(app)
-//         .get('/login/validate')
-//         .set('auth', token)
-//         .send(mockUserAdmin.email)
-//         .then((res) => {
-//           console.log(res)
-//           expect(res.body).to.be.equal(mockUserAdmin.role);
-//       }) as Response;
-//     });
-//   })
-// })
+      chaiHttpResponse = await chai.request(app)
+        .get('/login/validate')
+        .set('authorization', token)
+        .then((res) => {
+          expect(res.status).to.be.equal(200);
+          expect(res.body).to.be.equal(role);
+      }) as Response;
+    });
+  })
+})
