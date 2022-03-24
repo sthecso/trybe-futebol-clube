@@ -59,9 +59,9 @@ class MatchController {
   }
 
   async finishMatch(req: Request, res: Response) {
-    const id = Number(req.params.id);
-    await this.matchmodel.finishMatch(id);
-    return res.status(this.statusCode.Ok).json({ message: 'match was finish' });
+    const { id } = req.params;
+    await this.matchmodel.finishMatch(Number(id));
+    return res.status(200).json('Match was update');
   }
 }
 

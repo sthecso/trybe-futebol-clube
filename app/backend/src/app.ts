@@ -1,10 +1,11 @@
 import * as express from 'express';
-
+import 'express-async-errors';
 import 'dotenv/config';
 
 import LoginRouter from './routes/user';
 import ClubRouter from './routes/club';
 import MatchRouter from './routes/match';
+/* import domainError from './middlewares/domainError'; */
 
 class App {
   public app: express.Express;
@@ -27,7 +28,7 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
@@ -37,6 +38,8 @@ class App {
     this.app.use('/login', this.loginRouter.router);
     this.app.use('/clubs', this.clubRouter.router);
     this.app.use('/matchs', this.matchRouter.router);
+
+    /* this.app.use(domainError); */
 
     // ...
   }
