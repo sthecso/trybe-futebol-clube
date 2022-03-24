@@ -12,7 +12,6 @@ describe('Verifica se o usuário fez login', () => {
   it('O usuário deve ser capaz de se conectar com sucesso', async () => {
     const loginData = { email: 'user@user.com', password: 'secret_user' };
     const response = await chai.request(app).post('/login').send(loginData);
-    const message = response.text;
     const { user, token } = response.body;
     expect(response).to.have.status(200);
     expect(response.body).to.have.property('user');
