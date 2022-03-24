@@ -12,7 +12,7 @@ const LoginValidateController = async (req: Request, res: Response) => {
   const idNumber = Number(id);
   const role = await LoginValidateService.login(idNumber);
 
-  res.status(200).json(role);
+  return res.status(200).json(role);
 };
 
 export default LoginValidateController;
