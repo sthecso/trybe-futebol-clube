@@ -22,7 +22,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe.skip('Match', () => {
+describe('Match', () => {
   let httpResponse: Response;
   let token: string;
 

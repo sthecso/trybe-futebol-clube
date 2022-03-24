@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe.skip('Club', () => {
+describe('Club', () => {
   let httpResponse: Response;
 
   before(() => {

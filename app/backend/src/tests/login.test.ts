@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe.skip('Login', () => {
+describe('Login', () => {
   let httpResponse: Response;
   let token: string;
 
