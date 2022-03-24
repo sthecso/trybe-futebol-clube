@@ -158,3 +158,23 @@ describe('/login', () => {
       })
     })
 })
+
+describe('/login/validate', () => {
+  it('validado com sucesso', async () => {
+    const user = {
+      email: "admin@admin.com",
+      password: "secret_admin"
+    };
+
+    const { body: { token } } = await chai.request(app)
+      .post('/login')
+      .send(user);
+
+    await chai.request(app)
+      .get('/login/validate')
+      .set('Authorization', token)
+      .then((res: Response) => {
+        expect(res).to.have.status(200);
+      });
+  });
+});
