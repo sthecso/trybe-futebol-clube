@@ -1,11 +1,6 @@
-import * as sinon from 'sinon';
 import * as chai from 'chai';
-import * as jwt from 'jsonwebtoken';
-import configJwt from '../utils'
 import chaiHttp = require('chai-http');
-
 import { app } from '../app';
-
 import { Response } from 'superagent';
 import Token from '../auth/createTokenJWT';
 
@@ -20,13 +15,8 @@ enum TestDescription {
   emptyFields = 'All fields must be filled',
 }
 
-// const token =  {
-//   access: 'auth',
-//   token: jwt.sign({}, secret, { subject: dataEmail, expiresIn: '7d', algorithm: 'HS256' })
-// }
-
 describe('Testa endpoint /login', () => {
-  describe('caso o /login com o metodo getLogin', async () => {
+  describe('caso o endpoint /login com o metodo getLogin', async () => {
 
     let chaiHttpResponse: Response;
 
@@ -82,7 +72,7 @@ describe('Testa endpoint /login', () => {
     });
 
   describe('caso o metodo getLogin retornar com sucesso', async () => {
-    it('retorna a resposta 200', async () => {
+    it('a resposta e 200', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -96,7 +86,7 @@ describe('Testa endpoint /login', () => {
       }) as Response;
     });
 
-    it('retorna um objeto não vazio', async () => {
+    it('e um objeto não vazio', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -107,7 +97,7 @@ describe('Testa endpoint /login', () => {
       }) as Response;
     });
 
-    it('retorna um objeto', async () => {
+    it('e um objeto', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -117,7 +107,7 @@ describe('Testa endpoint /login', () => {
       }) as Response;
     });
 
-    it('retorna um objeto usuario onde tem "id, username, role e email"', async () => {
+    it('e um objeto user onde tem "id, username, role e email"', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
@@ -127,7 +117,17 @@ describe('Testa endpoint /login', () => {
       }) as Response;
     });
 
-      it('verifica fora do objeto se existe "user e token"', async () => {
+    it('e um objeto user onde "id e um numero, username, role e email são strings"', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send(loginCorrect)
+        .then((res) => {
+          expect(res.body.user.id).to.have.a('number') && expect(res.body.user.username).to.have.a('string') && expect(res.body.user.role).to.have.a('string') && expect(res.body.user.email).to.have.a('string');
+      }) as Response;
+    });
+
+      it('existe as propriedade "user e token"', async () => {
         chaiHttpResponse = await chai
           .request(app)
           .post('/login')
@@ -137,7 +137,7 @@ describe('Testa endpoint /login', () => {
         }) as Response;
       });
 
-        it('verifica fora do objeto se o user e um objeto', async () => {
+        it('o user e um objeto', async () => {
           chaiHttpResponse = await chai
             .request(app)
             .post('/login')
@@ -147,7 +147,7 @@ describe('Testa endpoint /login', () => {
           }) as Response;
         });
 
-        it('verifica fora do objeto se o token e uma string', async () => {
+        it('o token e uma string', async () => {
           chaiHttpResponse = await chai
             .request(app)
             .post('/login')
@@ -164,19 +164,21 @@ describe('Testa endpoint /login', () => {
 //   describe('caso o metodo getUser retornar com sucesso', async () => {
 //     let chaiHttpResponse: Response;
 
-//     const role = {
-//       email: 'admin@admin.com',
+//     const mockUserAdmin = {
 //       role: 'admin',
-//     };
+//       email: 'admin@admin.com',
+//     }
+
+//     const token = Token.createToken(mockUserAdmin.email)
 
 //     it('retorna resposta 200', async () => {
 //       chaiHttpResponse = await chai.request(app)
 //         .get('/login/validate')
-//         .set('auth', Token.createToken(role.email))
-//         .send(role.role)
+//         .set('auth', token)
+//         .send(mockUserAdmin.email)
 //         .then((res) => {
 //           console.log(res)
-//           expect(res.status).to.be.equal(TestDescription.success);
+//           expect(res.body).to.be.equal(mockUserAdmin.role);
 //       }) as Response;
 //     });
 //   })
