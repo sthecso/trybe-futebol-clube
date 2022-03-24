@@ -9,7 +9,7 @@ const { expect } = chai;
 const tokenExpression = /^ey[\w-]+\.ey[\w-]+\.[\w-]+$/
 
 describe('Verifica se o usuário fez login', () => {
-  it('O usuário não deve ser capaze de se conectar com sucesso', async () => {
+  it('O usuário deve ser capaz de se conectar com sucesso', async () => {
     const loginData = { email: 'user@user.com', password: 'secret_user' };
     const response = await chai.request(app).post('/login').send(loginData);
     const message = response.text;
