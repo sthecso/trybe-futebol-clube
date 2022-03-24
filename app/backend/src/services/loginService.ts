@@ -16,8 +16,19 @@ export default class Login {
     }
     const { id, username, role } = user;
 
-    const createToken = token.createToken(email);
+    const createToken = token.createToken({ email });
 
     return { user: { id, username, role, email }, token: createToken };
+  }
+
+  public static async findrole(email: string) {
+    const user = await userModel.findOne({ where: { email } });
+    if (!user) {
+      return false;
+    }
+
+    const { role } = user;
+
+    return { role };
   }
 }

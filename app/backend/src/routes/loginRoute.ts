@@ -11,4 +11,9 @@ login.post(
   loginController.login,
 );
 
+login.get(
+  '/validate',
+  loginController.findRole,
+);
+
 export default login;

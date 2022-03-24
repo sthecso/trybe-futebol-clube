@@ -5,7 +5,7 @@ import * as Jwt from 'jsonwebtoken';
 
 const JWT_SECRET: Jwt.Secret = readFileSync('./jwt.evaluation.key', 'utf8').trim();
 
-const createToken = (email: string) => Jwt.sign(email, JWT_SECRET);
+const createToken = (payload: Jwt.JwtPayload) => Jwt.sign(payload, JWT_SECRET);
 
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;
@@ -16,8 +16,8 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decoded = Jwt.verify(token, JWT_SECRET) as unknown as Jwt.JwtPayload;
-    const { id } = decoded;
-    req.body.id = id;
+    const { email } = decoded;
+    req.body.id = email;
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Invalid token' });

@@ -13,4 +13,12 @@ export default class LoginController {
 
     res.status(200).json(result);
   }
+
+  public static async findRole(req: Request, res: Response) {
+    const { email } = req.body;
+
+    const result = await loginService.findrole(email);
+
+    res.status(200).json(result);
+  }
 }
