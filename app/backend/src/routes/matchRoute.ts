@@ -33,11 +33,16 @@ matchRoute.patch('/matchs/:id/finish', async (req:Request, res:Response) => {
 
 matchRoute.patch('/matchs/:id', async (req:Request, res:Response) => {
   const { id } = req.params;
-  const { homeTeamGoals, awayTeamGoals } = req.body;
   const numberId = Number(id);
-  const numberHomeGoals = Number(homeTeamGoals);
-  const numberAwayGoals = Number(awayTeamGoals);
-  const result = await PatchMatchController27.patch27(numberId, numberHomeGoals, numberAwayGoals);
+  const { homeTeamGoals, awayTeamGoals } = req.body;
+  const nHomeGoals = Number(homeTeamGoals);
+  const nAwayGoals = Number(awayTeamGoals);
+  if (homeTeamGoals === undefined) {
+    const result = await PatchMatchController27.patchInProgres(numberId);
+    return res.status(200).json(result);
+  }
+
+  const result = await PatchMatchController27.patch27Goal(numberId, nHomeGoals, nAwayGoals);
   return res.status(200).json(result);
 });
 
