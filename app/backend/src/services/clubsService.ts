@@ -6,4 +6,10 @@ export default class ClubsService {
 
     return findClubs;
   }
+
+  public static async getById(id: string) {
+    const club = await Clubs.findByPk(id);
+
+    return club;
+  }
 }

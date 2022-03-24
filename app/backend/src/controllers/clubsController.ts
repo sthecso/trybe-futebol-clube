@@ -7,4 +7,11 @@ export default class ClubsController {
 
     res.status(200).json(service);
   }
+
+  public static async getById(req: Request, res: Response) {
+    const { id } = req.params;
+    const service = await ClubsService.getById(id);
+
+    res.status(200).json(service);
+  }
 }

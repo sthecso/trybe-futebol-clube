@@ -13,11 +13,18 @@ const { expect } = chai;
 
 describe('Na rota "/clubs"', () => {
   describe('Quando a requisição é feita...', () => {
-    it('na rota /clubs: deve retornar status 200 e um array de objetos', async () => {
+    it('na rota "/clubs": deve retornar status 200 e um array de objetos', async () => {
       let response = await chai.request(app)
         .get('/clubs');
       expect(response).to.have.status(200);
       expect(response.body).to.be.an('array').with.length(16);
     });
+    it('na rota" /clubs/:id": deve retornar status 200 e um objeto', async () => {
+      let response = await chai.request(app)
+        .get('/clubs/1');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('clubName');
+        expect(response.body.clubName).to.be.equal('Avaí/Kindermann');
+    })
   });
 });
