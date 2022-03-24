@@ -86,13 +86,28 @@ describe('/matchs', () => {
   });
 });
 
-describe('/match/:id/finish', () => {
-  it('quando é finalizado a partida com sucesso', async () => {
+describe('/matchs/:id', () => {
+  it('GET /matchs/1/finish: quando é finalizado a partida com sucesso', async () => {
     await chai.request(app)
-      .patch('/match/1/finish')
+      .patch('/matchs/1/finish')
       .then((res: Response) => {
         expect(res).to.have.status(204);
-        expect(res.body.inProgress).to.be.equal(false);
+        expect(res.body.message).to.be.equal('Match finished');
+      });
+  });
+
+  it('PATCH /match/1: quando match é atualizado com sucesso', async () => {
+    const newResults = {
+      "homeTeamGoals": 3,
+      "awayTeamGoals": 1
+    };
+
+    await chai.request(app)
+      .patch('/matchs/1')
+      .send(newResults)
+      .then((res: Response) => {
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.be.equal('Match updated');
       });
   });
 });

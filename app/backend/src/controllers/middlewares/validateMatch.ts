@@ -3,7 +3,7 @@ import { getById } from '../../services/clubService';
 
 const verifyBody = (req: Request, res: Response, next: NextFunction) => {
   const { homeTeam, awayTeam } = req.body;
-  const message = { message: "It is not possible to create a match with two equal teams" };
+  const message = { message: 'It is not possible to create a match with two equal teams' };
 
   if (homeTeam === awayTeam) return res.status(401).json(message);
 
@@ -16,7 +16,7 @@ const verifyExistsClubs = async (req: Request, res: Response, next: NextFunction
   const home = await getById(homeTeam);
   const away = await getById(awayTeam);
 
-  if (!home || !away) return res.status(404).json(message);
+  if (!home || !away) return res.status(401).json(message);
 
   next();
 };
