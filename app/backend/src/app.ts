@@ -4,6 +4,7 @@ import bodyParser = require('body-parser');
 import { ClubRouter, LeaderboardRouter, LoginRouter, MatchRouter } from './routes';
 import errorHandler from './controllers/middlewares/errorHandler';
 import joiError from './controllers/middlewares/joiError';
+import tokenError from './controllers/middlewares/tokenError';
 
 class App {
   public app: express.Express;
@@ -37,6 +38,7 @@ class App {
     this.app.use('/clubs', new ClubRouter().router);
     this.app.use('/matchs', new MatchRouter().router);
     this.app.use('/leaderboard', new LeaderboardRouter().router);
+    this.app.use(tokenError);
     this.app.use(joiError);
     this.app.use(errorHandler);
   }

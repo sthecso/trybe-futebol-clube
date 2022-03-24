@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express';
 import IUser from '../../interfaces/IUser';
-import { verify } from '../../helpers/jwtHelper';
+import jwtHelper from '../../helpers/jwtHelper';
 import RequestAuth from '../../interfaces/IRequestAuth';
 
 const auth = (req: RequestAuth, res: Response, next: NextFunction) => {
@@ -10,7 +10,7 @@ const auth = (req: RequestAuth, res: Response, next: NextFunction) => {
   }
 
   try {
-    const data = verify(token) as IUser;
+    const data = jwtHelper.verify(token) as IUser;
     req.user = { ...data };
   } catch (error) {
     console.log(error);

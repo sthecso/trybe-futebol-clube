@@ -1,6 +1,6 @@
 import APIError from '../helpers/APIError';
 import User from '../database/models/User';
-import { sign, verify } from '../helpers/jwtHelper';
+import jwtHelper from '../helpers/jwtHelper';
 import ILogin from '../interfaces/ILogin';
 import { compare } from '../helpers/bcryptHelper';
 import IUser from '../interfaces/IUser';
@@ -27,7 +27,7 @@ class LoginService {
       throw error;
     }
 
-    const token = sign(user);
+    const token = jwtHelper.sign(user);
     return {
       user,
       token,
@@ -35,7 +35,7 @@ class LoginService {
   }
 
   validate(token: string) {
-    this.verifiedUser = verify(token) as IUser;
+    this.verifiedUser = jwtHelper.verify(token) as IUser;
     return this.verifiedUser.role;
   }
 }
