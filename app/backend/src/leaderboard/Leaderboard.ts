@@ -1,38 +1,47 @@
 import Club from '../database/models/Club';
 import { ClubModel, MatchModel } from '../database/models';
 import Team from './Team';
+import Match from '../database/models/Match';
 
 class Leaderboard {
   private clubModel: typeof ClubModel;
 
   private matchModel: typeof MatchModel;
 
-  private leaderBoard: Team[];
+  private leaderBoardOverAll: Team[];
+
+  private leaderBoardHome: Team[];
+
+  private leaderBoardAway: Team[];
+
+  private matchs: Match[];
 
   private ordered: boolean;
 
   constructor() {
     this.clubModel = ClubModel;
     this.matchModel = MatchModel;
-    this.leaderBoard = [];
+    this.leaderBoardOverAll = [];
+    this.leaderBoardHome = [];
+    this.leaderBoardAway = [];
   }
 
   async getBoard(filter = 'all') {
-    this.leaderBoard = [];
-    const orderedBoard = await this.orderBoard(filter);
+    this.leaderBoardOverAll = [];
+    let unorderedBoard;
+    switch (filter) {
+      case 'home': unorderedBoard = await this.calculateHomeMatchs();
+        break;
+      case 'away': unorderedBoard = await this.calculateAwayMatchs();
+        break;
+      default: unorderedBoard = await this.calculateAllMatchs();
+    }
+    const orderedBoard = await this.orderBoard(unorderedBoard);
     return orderedBoard;
   }
 
-  async orderBoard(filter: string): Promise<Team[]> {
-    let afterMatchesLeaderBoard;
-    switch (filter) {
-      case 'home': afterMatchesLeaderBoard = await this.calculateHomeMatchs();
-        break;
-      case 'away': afterMatchesLeaderBoard = await this.calculateAwayMatchs();
-        break;
-      default: afterMatchesLeaderBoard = await this.calculateAllMatchs();
-    }
-    const ordered = afterMatchesLeaderBoard.sort((a: Team, b: Team) => {
+  async orderBoard(unorderedBoard: Team[]): Promise<Team[]> {
+    const ordered = unorderedBoard.sort((a: Team, b: Team) => {
       const diffPoints = b.totalPoints - a.totalPoints;
       if (diffPoints === 0) {
         return this.tieBreaker(a, b);
@@ -71,9 +80,9 @@ class Leaderboard {
     });
     const promisedAll = await Promise.all(promises);
     if (promisedAll) {
-      return this.leaderBoard;
+      return this.leaderBoardOverAll;
     }
-    return this.leaderBoard;
+    return this.leaderBoardOverAll;
   }
 
   async calculateHomeMatchs(): Promise<Team[]> {
@@ -86,9 +95,9 @@ class Leaderboard {
     });
     const promisedAll = await Promise.all(promises);
     if (promisedAll) {
-      return this.leaderBoard;
+      return this.leaderBoardOverAll;
     }
-    return this.leaderBoard;
+    return this.leaderBoardOverAll;
   }
 
   async calculateAwayMatchs(): Promise<Team[]> {
@@ -101,9 +110,9 @@ class Leaderboard {
     });
     const promisedAll = await Promise.all(promises);
     if (promisedAll) {
-      return this.leaderBoard;
+      return this.leaderBoardOverAll;
     }
-    return this.leaderBoard;
+    return this.leaderBoardOverAll;
   }
 
   resultMatch(homeTeam: Team, awayTeam: Team, homeTeamGoals: number, awayTeamGoals: number) {
@@ -143,7 +152,7 @@ class Leaderboard {
   }
 
   getTeamIndexByName(clubName: string): Team {
-    const teamFound = this.leaderBoard.find((team) => team.name === clubName);
+    const teamFound = this.leaderBoardOverAll.find((team) => team.name === clubName);
     if (!teamFound) {
       return this.insertTeamToLeaderBoard(clubName);
     }
@@ -152,7 +161,7 @@ class Leaderboard {
 
   insertTeamToLeaderBoard(clubName: string): Team {
     const newTeam = new Team(clubName);
-    this.leaderBoard.push(newTeam);
+    this.leaderBoardOverAll.push(newTeam);
     return newTeam;
   }
 }
