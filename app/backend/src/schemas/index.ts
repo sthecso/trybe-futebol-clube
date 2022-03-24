@@ -1,4 +1,4 @@
 import errorStatus from './errorsJoi';
-import { loginSchema, matchSchema } from './joiSchemas';
+import { loginSchema, matchSchema, matchGoalsSchema } from './joiSchemas';
 
-export { errorStatus, loginSchema, matchSchema };
+export { errorStatus, loginSchema, matchSchema, matchGoalsSchema };
