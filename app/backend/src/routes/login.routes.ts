@@ -1,8 +1,8 @@
 import * as express from 'express';
+import validateLoginJoi from '../middlewares/validate.login.joi';
 import validateJWT from '../auth/validateJWT';
 import { LoginController } from '../controllers';
 import CommonRoutesConfig from './common.routes.config';
-import { validateEmail, validatePassword } from '../middlewares/validate.login';
 
 class LoginRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
@@ -11,8 +11,7 @@ class LoginRoutes extends CommonRoutesConfig {
 
   configureRoutes(): express.Application {
     this.app.route('/login').post(
-      validateEmail,
-      validatePassword,
+      validateLoginJoi,
       LoginController.getLogin,
     );
 
