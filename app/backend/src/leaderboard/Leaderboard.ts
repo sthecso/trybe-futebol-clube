@@ -132,12 +132,12 @@ class Leaderboard {
   }
 
   resultMatchAway(awayTeam: Team, homeTeamGoals: number, awayTeamGoals: number) {
-    if (homeTeamGoals > awayTeamGoals) {
-      awayTeam.win(homeTeamGoals, awayTeamGoals);
+    if (awayTeamGoals > homeTeamGoals) {
+      awayTeam.win(awayTeamGoals, homeTeamGoals);
     } else if (homeTeamGoals === awayTeamGoals) {
-      awayTeam.draw(homeTeamGoals, awayTeamGoals);
+      awayTeam.draw(awayTeamGoals, homeTeamGoals);
     } else {
-      awayTeam.lose(homeTeamGoals, awayTeamGoals);
+      awayTeam.lose(awayTeamGoals, homeTeamGoals);
     }
     this.ordered = false;
   }
@@ -152,7 +152,6 @@ class Leaderboard {
 
   insertTeamToLeaderBoard(clubName: string): Team {
     const newTeam = new Team(clubName);
-    console.log(newTeam);
     this.leaderBoard.push(newTeam);
     return newTeam;
   }
