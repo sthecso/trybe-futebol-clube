@@ -1,6 +1,7 @@
 import Clubs from '../../models/Clubs';
 import Matchs from '../../models/Matchs';
 import { ClubGols, BaseLboard, ClubsAndMatchs } from '../../../helpers/Interfaces';
+import LBoardUtilities from '../../../utilities/LBoardUtilities';
 
 const INITIAL_NUMBER = 0;
 
@@ -13,7 +14,6 @@ function endCalc(matchs: any, object: BaseLboard) {
     nObj.goalsFavor += match.golsFeitos;
     nObj.goalsOwn += match.golsTomados;
   });
-  nObj.totalGames = matchs.length;
   return nObj;
 }
 
@@ -27,7 +27,6 @@ function calculatePoints(matchs: ClubGols[]) {
     goalsFavor: INITIAL_NUMBER,
     totalPoints: INITIAL_NUMBER,
     goalsBalance: INITIAL_NUMBER,
-    totalGames: INITIAL_NUMBER,
     efficiency: INITIAL_NUMBER,
   };
   const endLeaderboard = endCalc(matchs, baseLboard);
@@ -76,30 +75,24 @@ function sortPoints(a: BaseLboard, b: BaseLboard) {
   return sortVictories(a, b);
 }
 
-function endLboard(clubsAndMatchs: any) {
+async function getLeaderboardService() {
+  const clubsAndMatchs = await Clubs.findAll({
+    include: [{ model: Matchs,
+      attributes: [['home_team_goals', 'golsFeitos'], ['away_team_goals', 'golsTomados']],
+      where: { inProgress: false },
+    }],
+  });
   const arrayToSetLeaderboard = [] as any;
   clubsAndMatchs.forEach((club: any) => {
     const n = { name: club.dataValues.clubName, matchs: [] as ClubGols[] };
-    club.dataValues.partidasCasa.forEach((match: any) => {
+    club.dataValues.Matchs.forEach((match: any) => {
       const matchs = match.dataValues; n.matchs.push(matchs);
     });
     arrayToSetLeaderboard.push(n);
   });
   const responseLeaderboard = filterClubToReturnToUser(arrayToSetLeaderboard);
-  responseLeaderboard.sort(sortPoints);
-  return responseLeaderboard;
-}
-
-async function getLeaderboardService() {
-  const clubsAndMatchs = await Clubs.findAll({
-    attributes: ['clubName'],
-    include: [{ model: Matchs,
-      as: 'partidasCasa',
-      attributes: [['home_team_goals', 'golsFeitos'], ['away_team_goals', 'golsTomados']],
-      where: { inProgress: false },
-    }],
-  }) as any;
-  return endLboard(clubsAndMatchs);
+  await responseLeaderboard.sort(sortPoints);
+  return LBoardUtilities;
 }
 
 export default getLeaderboardService;

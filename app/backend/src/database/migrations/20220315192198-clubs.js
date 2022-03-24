@@ -7,10 +7,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      club_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      club_name: { type: Sequelize.STRING, allowNull: false },
     });
   },
 

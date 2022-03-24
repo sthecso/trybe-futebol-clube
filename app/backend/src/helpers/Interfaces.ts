@@ -20,7 +20,6 @@ export interface BaseLboard {
   goalsBalance: number,
   totalLosses: number,
   totalPoints: number,
-  totalGames: number,
   efficiency: number,
   totalVictories: number,
   totalDraws: number,
