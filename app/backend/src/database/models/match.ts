@@ -4,15 +4,15 @@ import db from '.';
 class Match extends Model {
   public id: number;
 
-  public home_team: number;
+  public homeTeam: number;
 
-  public home_team_goals: number;
+  public homeTeamGoals: number;
 
-  public away_team: number;
+  public awayTeam: number;
 
-  public away_team_goals: number;
+  public awayTeamGoals: number;
 
-  public in_progress: number;
+  public inProgress: boolean;
 }
 
 Match.init({
@@ -22,24 +22,29 @@ Match.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  home_team: {
+  homeTeam: {
     type: DataTypes.INTEGER,
+    field: 'home_team',
     allowNull: false,
   },
-  home_team_goals: {
+  homeTeamGoals: {
     type: DataTypes.INTEGER,
+    field: 'home_team_goals',
     allowNull: false,
   },
-  away_team: {
+  awayTeam: {
     type: DataTypes.INTEGER,
+    field: 'away_team',
     allowNull: false,
   },
-  away_team_goals: {
+  awayTeamGoals: {
     type: DataTypes.INTEGER,
+    field: 'away_team_goals',
     allowNull: false,
   },
-  in_progress: {
-    type: DataTypes.INTEGER,
+  inProgress: {
+    type: DataTypes.BOOLEAN,
+    field: 'in_progress',
     allowNull: false,
   },
 }, {
