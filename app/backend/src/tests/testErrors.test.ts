@@ -35,7 +35,6 @@ describe('Testa os Erros da classe LoginUserModel', async () => {
 
   });
 
-
 }); 
 
 describe('Testa os Erros da classe MatchModel', async () => {
