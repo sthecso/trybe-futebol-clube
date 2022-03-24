@@ -6,8 +6,20 @@ import validateToken from '../controller/middlewares/validateToken';
 const matchRoute = Router();
 
 matchRoute.get('/matchs', async(req:Request, res: Response)=> {
-  const result = await GetAllMatchs.getMatch();
-  return res.status(200).json(result);
+  const { inProgress } = req.query;
+  if(inProgress === undefined){
+    const result = await GetAllMatchs.getMatch();
+    return res.status(200).json(result)
+  }
+  let bool = inProgress === 'true'? true:false
+  if(bool === true){
+    const resultTrue = await GetAllMatchs.getMatchTrue();
+    return res.status(200).json(resultTrue)
+  }
+  if(bool === false){
+    const resultFalse = await GetAllMatchs.getMatchFalse();
+    return res.status(200).json(resultFalse);
+  }
 });
 
 matchRoute.post('/matchs', validateToken, async (req:Request, res:Response) => {

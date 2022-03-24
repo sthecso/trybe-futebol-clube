@@ -17,4 +17,37 @@ export default class GetAllService {
     });
     return match;
   }
+  public static async getAllTrue(){
+    const match = await Match.findAll({
+      where:{ inProgress: true},
+      include: [
+        { model: Club,
+          as: 'homeClub',
+          attributes: ['clubName'],
+        },
+        { model: Club,
+          as: 'awayClub',
+          attributes: ['clubName'],
+        },
+      ],
+    });
+    return match;
+  }
+  public static async getAllFalse(){
+    const match = await Match.findAll({
+      where:{ inProgress: false},
+      include: [
+        { model: Club,
+          as: 'homeClub',
+          attributes: ['clubName'],
+        },
+        { model: Club,
+          as: 'awayClub',
+          attributes: ['clubName'],
+        },
+      ],
+    });
+    return match;
+  }
 }
+
