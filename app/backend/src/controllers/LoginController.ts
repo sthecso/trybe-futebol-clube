@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
-import { verifyToken } from '../utils/jwt';
-import LoginValidateService from '../service/LoginValidateSer';
+import LoginService from '../services/LoginService';
 
-const LoginValidateController = async (req: Request, res: Response) => {
-  const token = req.headers.authorization as string;
+const LoginController = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const token = await LoginService.login(email, password);
 
-  const verifiedToken = verifyToken(token);
+  if (!token) {
+    return res.status(401).json({ message: 'Incorrect email or password' });
+  }
 
-  const { id } = verifiedToken as JwtPayload;
-  const idNumber = Number(id);
-  const role = await LoginValidateService.login(idNumber);
-
-  return res.status(200).json(role);
+  res.status(200).json(token);
 };
 
-export default LoginValidateController;
+export default LoginController;

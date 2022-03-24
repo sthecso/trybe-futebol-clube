@@ -20,10 +20,10 @@ export default class LoginService {
       role: user.role,
     };
 
-    const tokenCreate = signToken(payload);
+    const token = signToken(payload);
 
     const { id, username, role } = user;
 
-    return { user: { id, username, role, email }, token: tokenCreate };
+    return { user: { id, username, role, email }, token };
   }
 }

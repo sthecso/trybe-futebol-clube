@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import 'express-async-errors';
 
 import { Login } from './routes/LoginRoute';
+import errorMessage from './middlewares/errorMessage';
 
 class App {
   public app: express.Express;
@@ -26,6 +27,7 @@ class App {
     this.app.use(accessControl);
 
     this.app.use('/login', Login);
+    this.app.use(errorMessage);
   }
 
   // ...
