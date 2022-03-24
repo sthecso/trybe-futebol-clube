@@ -1,8 +1,9 @@
+import IMatchs from '../interfaces/IMatchs';
 import Clubs from '../database/models/Club';
 import Matchs from '../database/models/Match';
 
 class MatchService {
-  static async getMatchs() {
+  static async getMatchs(inProgress?: string) {
     const matchs = await Matchs.findAll({
       include: [
         { model: Clubs,
@@ -14,27 +15,13 @@ class MatchService {
           attributes: { exclude: ['id'] },
         },
       ],
-    });
-    return { code: 200, data: matchs };
-  }
+    }) as unknown as IMatchs[];
 
-  static async getMatchsInProgress(q: string) {
-    const matchs = await Matchs.findAll({
-      where: { in_progress: q },
-      include: [
-        { model: Clubs,
-          as: 'homeClub',
-          attributes: { exclude: ['id'] },
-        },
+    if (inProgress) {
+      return matchs.filter((match) => String(match.inProgress) === inProgress);
+    }
 
-        { model: Clubs,
-          as: 'awayClub',
-          attributes: { exclude: ['id'] },
-        },
-      ],
-    });
-
-    return { code: 200, data: matchs };
+    return matchs;
   }
 }
 

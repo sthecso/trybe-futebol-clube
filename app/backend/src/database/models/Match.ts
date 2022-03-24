@@ -10,21 +10,26 @@ Matchs.init({
     primaryKey: true,
     allowNull: false,
   },
-  home_team: {
+  homeTeam: {
     type: DataTypes.NUMBER,
     allowNull: false,
+    field: 'home_team',
   },
-  home_team_goals: {
+  homeTeamGoals: {
     type: DataTypes.NUMBER,
     allowNull: false,
+    field: 'home_team_goals',
+
   },
-  away_team: {
+  awayTeam: {
     type: DataTypes.NUMBER,
     allowNull: false,
+    field: 'away_team',
   },
-  in_progress: {
+  inProgress: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    field: 'in_progress',
   },
 
 }, { sequelize: db, timestamps: false, modelName: 'matchs', underscored: true });

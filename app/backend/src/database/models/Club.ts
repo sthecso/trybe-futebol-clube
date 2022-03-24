@@ -11,24 +11,31 @@ Clubs.init({
     primaryKey: true,
     allowNull: false,
   },
-  club_name: {
+  clubName: {
     type: DataTypes.STRING,
     allowNull: false,
+    field: 'club_name',
   },
 }, { sequelize: db, timestamps: false, modelName: 'clubs', underscored: true });
 
 Clubs.hasOne(Matchs, {
-  as: 'club a',
   foreignKey: 'home_team',
+  as: 'club a',
 });
 
 Clubs.hasOne(Matchs, {
-  as: 'club b',
   foreignKey: 'away_team',
+  as: 'club b',
 });
 
-Matchs.belongsTo(Clubs, { as: 'homeClub', foreignKey: 'home_team' });
+Matchs.belongsTo(Clubs, {
+  foreignKey: 'home_team',
+  as: 'homeClub',
+});
 
-Matchs.belongsTo(Clubs, { as: 'awayClub', foreignKey: 'away_team' });
+Matchs.belongsTo(Clubs, {
+  foreignKey: 'away_team',
+  as: 'awayClub',
+});
 
 export default Clubs;
