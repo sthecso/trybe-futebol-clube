@@ -10,6 +10,8 @@ class Login {
     const user = await LoginService.loginService(email, password);
     return res.status(200).json(user);
   }
+
+  // public static async validateLogin(req: Request, res: Response) { }
 }
 
 export default Login;
