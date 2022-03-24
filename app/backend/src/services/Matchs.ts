@@ -7,7 +7,25 @@ class MatchService {
       include: [
         { model: Clubs,
           as: 'homeClub',
-          attributes: { exclude: ['id'] } },
+          attributes: { exclude: ['id'] },
+        },
+        { model: Clubs,
+          as: 'awayClub',
+          attributes: { exclude: ['id'] },
+        },
+      ],
+    });
+    return { code: 200, data: matchs };
+  }
+
+  static async getMatchsInProgress(q: string) {
+    const matchs = await Matchs.findAll({
+      where: { in_progress: q },
+      include: [
+        { model: Clubs,
+          as: 'homeClub',
+          attributes: { exclude: ['id'] },
+        },
 
         { model: Clubs,
           as: 'awayClub',
@@ -15,6 +33,7 @@ class MatchService {
         },
       ],
     });
+
     return { code: 200, data: matchs };
   }
 }
