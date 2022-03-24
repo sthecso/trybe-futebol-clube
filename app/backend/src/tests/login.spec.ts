@@ -14,26 +14,47 @@ const { expect } = chai;
 const tokenExpression = /^ey[\w-]+\.ey[\w-]+\.[\w-]+$/
 
 describe('Verifica se o usuário fez login', () => {
-  /*
-  {
-    id: 2,
-    username: 'User',
-    role: 'user',
-    email: 'user@user.com',
-    password: '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO'
-  }
-  */
-  // password: secret_user
-  it('Tenta fazer login de usuário', async () => {
+  it('O usuário não deve ser capaze de se conectar com sucesso', async () => {
     const loginData = { email: 'user@user.com', password: 'secret_user' };
-    // const loginData = { email: 'user@user.com' };
-    // const userRequest = await chai.request(app).post('/login').send(loginData);
-    // console.log(userRequest);
-    chai.request(app).post('/login').send(loginData).then((res) => console.log(res));
-
-    chai.request(app).post('/login').send(loginData).end(function (err, res) {
-      expect(err).to.be.null;
-      expect(res).to.have.status(200);
-    });
+    const response = await chai.request(app).post('/login').send(loginData);
+    const message = response.text;
+    const { user, token } = response.body;
+    expect(response).to.have.status(200);
+    expect(response.body).to.have.property('user');
+    expect(response.body).to.have.property('token');
+    expect(user).to.have.property('id').that.is.a('number');
+    expect(user).to.have.property('username').that.is.a('string');
+    expect(user).to.have.property('role').that.is.a('string');
+    expect(user).to.have.property('email').that.is.a('string');
+    expect(user).not.to.have.property('password');
+    expect(token).to.match(tokenExpression);
+  });
+  it('O usuário não deve se conectar com email inválido', async () => {
+    const loginData = { email: 'userr@user.com', password: 'secret_user' };
+    const response = await chai.request(app).post('/login').send(loginData);
+    const message = response.text;
+    expect(response).to.have.status(401);
+    expect(message).to.be.equal('{"message":"Incorrect email or password"}');
+  });
+  it('O usuário não deve se conectar com uma senha inválida', async () => {
+    const loginData = { email: 'user@user.com', password: 'secret' };
+    const response = await chai.request(app).post('/login').send(loginData);
+    const message = response.text;
+    expect(response).to.have.status(401);
+    expect(message).to.be.equal('{"message":"Incorrect email or password"}');
+  });
+  it('O usuário não deve se conectar sem fornecer um email', async () => {
+    const loginData = { password: 'secret_user' };
+    const response = await chai.request(app).post('/login').send(loginData);
+    const message = response.text;
+    expect(response).to.have.status(401);
+    expect(message).to.be.equal('{"message":"All fields must be filled"}');
+  });
+  it('O usuário não deve se conectar sem informar a senha', async () => {
+    const loginData = { email: 'user@user.com' };
+    const response = await chai.request(app).post('/login').send(loginData);
+    const message = response.text;
+    expect(response).to.have.status(401);
+    expect(message).to.be.equal('{"message":"All fields must be filled"}');
   });
 });
