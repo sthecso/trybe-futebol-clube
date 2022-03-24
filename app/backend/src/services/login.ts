@@ -12,8 +12,9 @@ export const login = async (loginData: ILogin) => {
   if (!compareSync(password, user.password)) {
     throw new HttpException(401, 'Incorrect email or password');
   }
+  const { password: notUse, ...userData } = user;
   const token = createToken(user);
-  return { user, token };
+  return { user: userData, token };
 };
 
 export const validate = async ({ email }: ILogin) => User
