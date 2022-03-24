@@ -11,5 +11,6 @@ export default class Login {
 
   private route(): void {
     this.router.post('/', LoginController.login());
+    this.router.get('/validate', LoginController.validate());
   }
 }

@@ -15,4 +15,20 @@ export default class LoginController {
       res.status(StatusCodes.OK).json(result);
     };
   }
+
+  public static validate() {
+    return async (req: Request, res: Response) => {
+      const { authorization } = req.headers;
+
+      if (!authorization) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: 'Token not found' });
+      }
+
+      const result = await LoginService.validate(authorization);
+
+      res.status(StatusCodes.OK).json({ role: result });
+    };
+  }
 }
