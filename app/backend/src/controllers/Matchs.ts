@@ -6,6 +6,19 @@ class MatchController {
     const { code, data } = await MatchService.getMatchs();
     res.status(code).json(data);
   }
+
+  static async getMatchsInProgress(req: Request, res: Response) {
+    const { inProgress } = req.query;
+    if (inProgress === 'true') {
+      const { code, data } = await MatchService.getMatchsInProgress(inProgress);
+      res.status(code).json(data);
+    }
+
+    if (inProgress === 'false') {
+      const { code, data } = await MatchService.getMatchsInProgress(inProgress);
+      res.status(code).json(data);
+    }
+  }
 }
 
 export default MatchController;
