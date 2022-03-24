@@ -6,11 +6,21 @@ import matchsModel from './matchsModel';
 class Clubs extends Model {
   public id: number;
 
-  public club_name: string;
+  public clubName: string;
 }
 
 Clubs.init({
-  club_name: DataTypes.STRING,
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  club_name: {
+    type: DataTypes.STRING,
+    field: 'club_name',
+    allowNull: false,
+  },
 }, {
   underscored: true,
   sequelize: db,

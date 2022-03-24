@@ -35,7 +35,7 @@ describe('Testando rotas do login', () => {
   //   expect(...)
   // });
 
-  it('A rota deve receber um status 200 com um token em caso de sucesso', async () => {
+  it('1- A rota deve receber um status 200 com um token em caso de sucesso', async () => {
     let responseLogin = await chai.request(app)
     .post('/login')
     .send({ email: 'user@user.com', password: 'secret_user'});
@@ -44,11 +44,18 @@ describe('Testando rotas do login', () => {
     // expect(false).to.be.eq(true);
   });
 
-  it('A rota deve receber um status 401 com email inválido', async () => {
+  it('2- A rota deve receber um status 401 com email inválido', async () => {
     let responseLogin = await chai.request(app)
     .post('/login')
     .send({ email: 'name', password: '12345678'});
     expect(responseLogin).to.have.status(401);
 
+  });
+
+  it('3- A rota deve receber um status 401 quando o email não é informado', async () => {
+    let resLogin = await chai.request(app)
+    .post('/login')
+    .send({ password: '12345678' });
+    expect(resLogin).to.have.status(401);
   });
 });
