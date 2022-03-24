@@ -107,7 +107,7 @@ describe('Testa a classe clubModel', async () => {
 
 });
 
-describe('Testa a classe matchModel', async () => {
+describe.only('Testa a classe matchModel', async () => {
 
   const mockData = {
     homeTeam: 16,
@@ -135,7 +135,12 @@ describe('Testa a classe matchModel', async () => {
 
   it('testa o retorno do methodo updateResultsMatch ', async () => {
     
-    expect(await matchModel.updateResultsMatch(1, {homeTeamGoals: 1, awayTeamGoals: 2})).to.be.an("object");
+    expect(await matchModel.updateResultsMatch(51, {homeTeamGoals: 1, awayTeamGoals: 2})).to.be.null;
+  });
+
+  it('testa a chamada do metodo finishMatch ', async () => {
+    
+    expect(await matchModel.finishMatch(1)).to.be.undefined;
   });
 
 
@@ -204,14 +209,35 @@ describe('Testa a classe matchController', () => {
     inProgress: true
   } as unknown as IMatchReq;
 
+  const goals = { homeTeam: 1, awayTeam: 2}
+
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjQ3ODk1NzY4LCJleHAiOjE2NDg1MDA1Njh9.op-ZUbbRwCzO_-Oy1lS3HJ1AfYtxrZyT5MLx9ikXLKU"
 
 
   it('testa o resultado quando usuario tenta salvar uma partida', async () => {
     const chaiHttpResponse = await chai
     .request(app)
-    .post('/matchs').auth(token, { type: 'bearer' })
+    .post('/matchs').set({ Authorization: token })
     .send(mockData);
+    expect(chaiHttpResponse.status).to.be.equal(201);
+
+
+  });
+
+  it('testa o resultado quando usuario atualizar uma partida', async () => {
+    const chaiHttpResponse = await chai
+    .request(app)
+    .patch('/matchs/51')
+    .send(goals);
+    expect(chaiHttpResponse.status).to.be.equal(200);
+
+
+  });
+
+  it('testa o resultado quando usuario acessa a routa de finalizar uma partida', async () => {
+    const chaiHttpResponse = await chai
+    .request(app)
+    .patch('/matchs/51/finish')
     expect(chaiHttpResponse.status).to.be.equal(200);
 
 
