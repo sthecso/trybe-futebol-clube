@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Express, RequestHandler } from 'express';
+import { Express, RequestHandler, json } from 'express';
 import router from './routes';
 import errorHandler from './middlewares/errorHandler';
 import notFoundHandler from './middlewares/notFoundHandler';
@@ -26,6 +26,7 @@ class App {
       .status(200).send({ message: 'Locked and loaded, little lizard!!!' });
 
     this.app.use(accessControl);
+    this.app.use(json());
     this.app.use(router);
     this.app.use(rootEntrypoint);
     this.app.use(errorHandler);
