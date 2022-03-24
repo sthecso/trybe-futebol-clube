@@ -33,6 +33,10 @@ Matchs.init({
     type: DataTypes.NUMBER,
     allowNull: false,
   },
+  awayTeamGoals: {
+    type: DataTypes.NUMBER,
+    allowNull: false,
+  },
   inProgress: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
