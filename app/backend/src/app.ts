@@ -33,7 +33,7 @@ class App {
   private route(): void {
     this.app.use('/login', new LoginRouter().router);
     this.app.use('/clubs', new ClubRouter().router);
-    this.app.use('/matches', new MatchRouter().router);
+    this.app.use('/matchs', new MatchRouter().router);
     this.app.use('/leaderboard', new LeaderboardRouter().router);
   }
 
