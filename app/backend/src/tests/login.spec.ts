@@ -1,12 +1,7 @@
-import * as sinon from 'sinon';
 import * as chai from 'chai';
-import * as request from 'superagent';
-import { Model } from 'sequelize';
-import { Request, Response } from 'superagent';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import { User } from '../database/models';
 
 chai.use(chaiHttp);
 
