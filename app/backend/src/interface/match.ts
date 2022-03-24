@@ -9,3 +9,23 @@ export interface Gols{
   homeTeamGoals: number,
   awayTeamGoals: number,
 }
+
+export interface IMatchsDT02 {
+  id: number,
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+  homeClub: {
+    clubName: string
+  },
+  awayClub: {
+    clubName: string
+  }
+}
+
+export interface ISequelizeValuesDTO<T> {
+  desconnhecido: string,
+  dataValues:T
+}

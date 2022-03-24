@@ -1,9 +1,5 @@
 import Clubs from '../models/clubs';
-
-interface IClubsCamelDTO {
-  id:number,
-  clubName:string
-}
+import IClubsCamelDTO from '../../interface/clubs';
 
 class ClearClubs {
   private _metodos = Clubs;

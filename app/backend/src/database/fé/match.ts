@@ -1,35 +1,13 @@
-import ModeelMatchs from '../models/matchs';
+import ModelMatchs from '../models/matchs';
 import ModelClubs from '../models/clubs';
-import ICreateMatchDTO, { Gols } from '../../interface/match';
+import ICreateMatchDTO, { Gols, IMatchsDT02, ISequelizeValuesDTO } from '../../interface/match';
 
-interface IMatchsDT02 {
-  id: number,
-  homeTeam: number,
-  homeTeamGoals: number,
-  awayTeam: number,
-  awayTeamGoals: number,
-  inProgress: boolean,
-  homeClub: {
-    clubName: string
-  },
-  awayClub: {
-    clubName: string
-  }
-}
-interface Xablau {
-  desconnhecido: string,
-  dataValues:IMatchsDT02
-}
 interface ICreateMatchWithIdDTO extends ICreateMatchDTO{
   id:number
 }
-interface XablauORetorno {
-  desconnhecido: string,
-  dataValues:ICreateMatchWithIdDTO
-}
 
 class Matchs {
-  private _metodos = ModeelMatchs;
+  private _metodos = ModelMatchs;
 
   async findAll(): Promise<IMatchsDT02[]> {
     const result = await this._metodos.findAll(
@@ -40,7 +18,7 @@ class Matchs {
       },
     );
 
-    const allClubs = result as unknown as Xablau[];
+    const allClubs = result as unknown as ISequelizeValuesDTO<IMatchsDT02>[];
     return allClubs.map((club) => club.dataValues);
   }
 
@@ -51,11 +29,11 @@ class Matchs {
         [{ model: ModelClubs, as: 'homeClub', attributes: { exclude: ['id'] } },
           { model: ModelClubs, as: 'awayClub', attributes: ['clubName'] }],
     });
-    const allClubs = result as unknown as Xablau[];
+    const allClubs = result as unknown as ISequelizeValuesDTO<IMatchsDT02>[];
     return allClubs.map((club) => club.dataValues);
   }
 
-  private orderkeys = (newMatch:XablauORetorno) => ({
+  private orderkeys = (newMatch:ISequelizeValuesDTO<ICreateMatchWithIdDTO>) => ({
     id: newMatch.dataValues.id,
     homeTeam: newMatch.dataValues.homeTeam,
     homeTeamGoals: newMatch.dataValues.homeTeamGoals,
@@ -66,7 +44,7 @@ class Matchs {
 
   async create(match:ICreateMatchDTO):Promise<ICreateMatchWithIdDTO> {
     const result = await this._metodos.create(match);
-    const createMatch = result as unknown as XablauORetorno;
+    const createMatch = result as unknown as ISequelizeValuesDTO<ICreateMatchWithIdDTO>;
     return this.orderkeys(createMatch);
   }
 
