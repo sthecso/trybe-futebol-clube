@@ -58,4 +58,11 @@ describe('Testando rotas do login', () => {
     .send({ password: '12345678' });
     expect(resLogin).to.have.status(401);
   });
+
+  it('4- A rota deve receber um status 401 quando o password não é informado', async () => {
+    let resLogin = await chai.request(app)
+    .post('/login')
+    .send({ email: 'user@user.com' });
+    expect(resLogin).to.have.status(401);
+  });
 });
