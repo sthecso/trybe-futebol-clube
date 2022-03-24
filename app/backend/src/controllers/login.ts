@@ -1,5 +1,4 @@
 import { RequestHandler, Response, NextFunction } from 'express';
-import { User } from '../database/models';
 import { IRequest, ILogin } from '../utils/interfaces';
 import * as service from '../services/login';
 
@@ -9,6 +8,6 @@ export const login: RequestHandler = (req, res, next) => service
   .catch(next);
 
 export const validate = (req: IRequest, res: Response, next: NextFunction) => service
-  .validate(req.user as User)
-  .then(console.log)
+  .validate(req.user as ILogin)
+  .then(({ role }) => res.status(200).send(role))
   .catch(next);

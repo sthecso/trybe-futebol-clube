@@ -16,7 +16,6 @@ export const login = async (loginData: ILogin) => {
   return { user, token };
 };
 
-export const validate = async (user: User) => {
-  console.log('user', user);
-  return user;
-};
+export const validate = async ({ email }: ILogin) => User
+  .findOne({ where: { email } })
+  .then((user) => user as User);
