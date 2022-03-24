@@ -15,15 +15,15 @@ export default class MatchService {
     this._clubRepository = new ClubRepository();
   }
 
-  async getAll(inProgress: boolean | undefined = undefined) {
+  async getAll(inProgress: boolean | undefined) {
     let matches: IMatch[];
 
     if (inProgress) {
       matches = await this._matchRepository.getAllInProgress();
-    } else {
-      matches = await this._matchRepository.getAll();
+      return { code: 200, data: matches };
     }
 
+    matches = await this._matchRepository.getAll();
     return { code: 200, data: matches };
   }
 
