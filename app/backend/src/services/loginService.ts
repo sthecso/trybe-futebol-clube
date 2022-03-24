@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { ErrorHandle, ILogin, ILoginResult } from '../interfaces';
 import { UserRepository } from '../repositories';
-import * as jwt from '../utils/jwt';
+import JWT from '../utils/jwt';
 
 export default class LoginService {
   public static async login(login: ILogin): Promise<ILoginResult> {
@@ -22,18 +22,8 @@ export default class LoginService {
       role: user.role,
     };
 
-    const token = jwt.sign(userReturn);
+    const token = new JWT().sign(userReturn);
 
     return { user: userReturn, token };
   }
-
-  // public static async validate(authorization: string): Promise<string> {
-  //   const token = await jwt.verify(authorization);
-
-  //   if (!token) {
-  //     throw new ErrorHandler(StatusCodes.UNAUTHORIZED, 'Token Invalid');
-  //   }
-
-  //   return user;
-  // }
 }

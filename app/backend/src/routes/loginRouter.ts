@@ -21,16 +21,5 @@ export default class Login {
         res.status(StatusCodes.OK).json(result);
       },
     );
-
-    // this.router.get(
-    //   '/validate',
-    //   async (req: Request, res: Response) => {
-    //     const { authorization } = req.header;
-
-    //     const result = await LoginController.validate(authorization);
-
-    //     res.status(StatusCodes.OK).send(result);
-    //   },
-    // );
   }
 }
