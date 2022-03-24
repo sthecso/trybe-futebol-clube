@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { IMatch } from '../interfaces/IMatch';
-import validateWithJoi from '../helpers/joiValidation';
-import { matchSchema } from '../joi_schemas';
+// import validateWithJoi from '../helpers/joiValidation';
+// import { matchSchema } from '../joi_schemas';
 import { MatchService } from '../services';
 
 class MatchController {

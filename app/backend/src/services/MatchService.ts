@@ -1,4 +1,4 @@
-import { ICreatedMatch, IMatch, IMatchWithClubs, updateMatch } from '../interfaces/IMatch';
+import { IMatch, IMatchWithClubs, UpdateMatch } from '../interfaces/IMatch';
 import Match from '../database/models/Match';
 import Club from '../database/models/Club';
 import ClubService from './ClubService';
@@ -36,7 +36,10 @@ class MatchService {
     const { homeTeam, awayTeam } = matchDetails;
 
     if (homeTeam === awayTeam) {
-      const error = new APIError('It is not possible to create a match with two equal teams', 'unauthorized');
+      const error = new APIError(
+        'It is not possible to create a match with two equal teams',
+        'unauthorized',
+      );
       throw error;
     }
 
@@ -52,7 +55,7 @@ class MatchService {
     return newMatch;
   }
 
-  async update(updatedDetails: updateMatch, id: number) {
+  async update(updatedDetails: UpdateMatch, id: number) {
     const match = await this.MatchModel.findByPk(id);
 
     if (!match) {

@@ -10,7 +10,7 @@ interface ICreatedMatch extends IMatch {
   id: number;
 }
 
-interface updateMatch {
+interface UpdateMatch {
   homeTeam?: number;
   homeTeamGoals?: number;
   awayTeam?: number;
@@ -31,5 +31,5 @@ export {
   IMatch,
   ICreatedMatch,
   IMatchWithClubs,
-  updateMatch,
+  UpdateMatch,
 };
