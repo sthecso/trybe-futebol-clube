@@ -9,155 +9,150 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('/login', () => {
+  describe('Login com sucesso: ', () => {
+    it('retorna um token', async () => {
+      const user = {
+        email: "admin@admin.com",
+        password: "secret_admin"
+      };
 
-  describe('loginControler: ', () => {
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          const { user, token } = res.body;
 
-    describe('Login com sucesso: ', () => {
-      it('retorna um token', async () => {
-        const user = {
-          email: "admin@admin.com",
-          password: "secret_admin"
-        }
+          expect(res).to.have.status(200);
+          expect(token).to.be.a('string');
+          expect(user).to.be.a('object');
+          expect(token).not.to.be.undefined;
+          expect(user.email).to.be.equal("admin@admin.com");
+        });
+    });
+  });
 
-        await chai.request(app)
-          .post('/login')
-          .send(user)
-          .then((res: Response) => {
-            const { user, token } = res.body;
+  describe('Email: ', () => {
+    it('quando está vazio', async () => {
+      const user = {
+        email: '',
+        password: ''
+      };
 
-            expect(res).to.have.status(200);
-            expect(token).to.be.a('string');
-            expect(user).to.be.a('object');
-            expect(token).not.to.be.undefined;
-            expect(user.email).to.be.equal("admin@admin.com");
-          });
-      });
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('All fields must be filled');
+        });
+    });
 
+    it('quando o email está incorreto', async () => {
+      const user = {
+        email: 'email',
+        password: ''
+      };
 
-    })
-    describe('Email: ', () => {
-      it('quando está vazio', async () => {
-        const user = {
-          email: '',
-          password: ''
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('Incorrect email or password');
+        });
+    });
+
+    it('quando não existe o campo email', async () => {
+      const user = {
+        password: ''
+      };
+
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('All fields must be filled');
+        });
+    });
+
+    it('quando email é um número', async () => {
+      const user = {
+        email: 1,
+        password: ''
         };
 
-        await chai.request(app)
-          .post('/login')
-          .send(user)
-          .then((res: Response) => {
-            expect(res.status).to.equal(401);
-            expect(res.body.message).to.equal('All fields must be filled');
-          });
-        })
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(422);
+          expect(res.body.message).to.equal('email must be a string');
+        });
+    });
+  });
 
-        it('quando o email está incorreto', async () => {
-          const user = {
-            email: 'email',
-            password: ''
-            };
+  describe('Password: ', () => {
+    it('quando está vazio', async () => {
+      const user = {
+        email: 'admin@admin.com',
+        password: ''
+      };
 
-          await chai.request(app)
-            .post('/login')
-            .send(user)
-            .then((res: Response) => {
-              expect(res.status).to.equal(401);
-              expect(res.body.message).to.equal('Incorrect email or password');
-            });
-          })
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('All fields must be filled');
+        });
+    });
 
-        it('quando não existe o campo email', async () => {
-          const user = {
-            password: ''
-            };
+    it('quando password é incorreta', async () => {
+      const user = {
+        email: 'admin@admin.com',
+        password: '123456'
+      };
 
-          await chai.request(app)
-            .post('/login')
-            .send(user)
-            .then((res: Response) => {
-              expect(res.status).to.equal(401);
-              expect(res.body.message).to.equal('All fields must be filled');
-            });
-          })
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('Incorrect email or password');
+        });
+    });
 
-          it('quando email é um número', async () => {
-            const user = {
-              email: 1,
-              password: ''
-              };
+    it('quando não existe o campo password', async () => {
+      const user = {
+        email: 'admin@admin.com',
+      };
 
-            await chai.request(app)
-              .post('/login')
-              .send(user)
-              .then((res: Response) => {
-                expect(res.status).to.equal(422);
-                expect(res.body.message).to.equal('email must be a string');
-              });
-            });
-    })
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('All fields must be filled');
+        });
+    });
 
-    describe('Password: ', () => {
-      it('quando está vazio', async () => {
-        const user = {
-          email: 'admin@admin.com',
-          password: ''
-        };
+    it('quando é menor que 6 caracteres', async () => {
+      const user = {
+        "email": "admin@admin.com",
+        "password": "senha"
+      };
 
-        await chai.request(app)
-          .post('/login')
-          .send(user)
-          .then((res: Response) => {
-            expect(res.status).to.equal(401);
-            expect(res.body.message).to.equal('All fields must be filled');
-          });
-        })
-
-        it('quando password é incorreta', async () => {
-          const user = {
-            email: 'admin@admin.com',
-            password: '123456'
-          };
-
-          await chai.request(app)
-            .post('/login')
-            .send(user)
-            .then((res: Response) => {
-              expect(res.status).to.equal(401);
-              expect(res.body.message).to.equal('Incorrect email or password');
-            });
-        })
-
-        it('quando não existe o campo password', async () => {
-          const user = {
-            email: 'admin@admin.com',
-          };
-
-          await chai.request(app)
-            .post('/login')
-            .send(user)
-            .then((res: Response) => {
-              expect(res.status).to.equal(401);
-              expect(res.body.message).to.equal('All fields must be filled');
-            });
-          })
-
-        it('quando é menor que 6 caracteres'), async () => {
-          const user = {
-            "email": "admin@admin.com",
-            "password": "senha"
-          };
-
-          await chai.request(app)
-            .post('/login')
-            .send(user)
-            .then((res: Response) => {
-              expect(res.status).to.equal(401);
-              expect(res.body.message).to.equal('Incorrect email or password');
-            });
-        }
-      })
-    })
-})
+      await chai.request(app)
+        .post('/login')
+        .send(user)
+        .then((res: Response) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('Incorrect email or password');
+        });
+    });
+  });
+});
 
 describe('/login/validate', () => {
   it('validado com sucesso', async () => {
