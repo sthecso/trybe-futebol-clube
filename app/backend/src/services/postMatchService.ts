@@ -12,11 +12,9 @@ export default class PostMatch {
       throw new Error('There is no team with such id!');
     }
     if (homeClubId.id === awayClubId.id) {
-      console.log(homeClubId.id)
       throw new Error('It is not possible to create a match with two equal teams');
     }
     const match = await Match.create(data);
-    console.log(match,'match')
     return match as unknown as MatchWithId;
   }
 }

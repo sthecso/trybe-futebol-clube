@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import ControllerMatchPost from '../controller/postMatchController';
-import GetAllMatchs from '../controller/getAllMatchContro';
+import GetAllMatchs from '../controller/getAllMatchControl';
+import PatchMatchController from '../controller/patchMatchControl';
 import validateToken from '../controller/middlewares/validateToken';
 
 const matchRoute = Router();
@@ -20,6 +21,13 @@ matchRoute.get('/matchs', async (req:Request, res: Response) => {
     const resultFalse = await GetAllMatchs.getMatchFalse();
     return res.status(200).json(resultFalse);
   }
+});
+
+matchRoute.patch('/matchs/:id/finish', async (req:Request, res:Response) => {
+  const { id } = req.params;
+  const numberId = Number(id);
+  const result = await PatchMatchController.patch(numberId);
+  return res.status(200).json(result);
 });
 
 matchRoute.post('/matchs', validateToken, async (req:Request, res:Response) => {

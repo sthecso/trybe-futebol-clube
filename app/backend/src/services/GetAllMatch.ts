@@ -17,9 +17,10 @@ export default class GetAllService {
     });
     return match;
   }
-  public static async getAllTrue(){
+
+  public static async getAllTrue() {
     const match = await Match.findAll({
-      where:{ inProgress: true},
+      where: { inProgress: true },
       include: [
         { model: Club,
           as: 'homeClub',
@@ -33,9 +34,10 @@ export default class GetAllService {
     });
     return match;
   }
-  public static async getAllFalse(){
+
+  public static async getAllFalse() {
     const match = await Match.findAll({
-      where:{ inProgress: false},
+      where: { inProgress: false },
       include: [
         { model: Club,
           as: 'homeClub',
@@ -50,4 +52,3 @@ export default class GetAllService {
     return match;
   }
 }
-
