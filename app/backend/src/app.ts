@@ -26,6 +26,7 @@ class App {
     this.app.use('/login', router.login);
     this.app.use('/clubs', router.clubs);
     this.app.use('/matchs', router.matchs);
+    this.app.use('/leaderboard', router.leaderboard);
     this.app.use(errorMiddleware);
     // ...
   }
