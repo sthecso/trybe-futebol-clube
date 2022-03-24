@@ -1,3 +1,0 @@
-/*
-  V: Total de Vitórias;
-*/

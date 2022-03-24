@@ -1,3 +1,0 @@
-/*
-  D: Total de Derrotas;
-*/

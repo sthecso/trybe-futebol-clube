@@ -5,7 +5,6 @@ import { app } from '../app';
 
 import { Response } from 'superagent';
 import { exec } from 'shelljs';
-// import * as messages from '../utils/messages';
 import StatusCodes from '../utils/StatusCodes';
 
 import {

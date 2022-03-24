@@ -1,3 +1,0 @@
-/*
-  E: Total de Empates;
-*/

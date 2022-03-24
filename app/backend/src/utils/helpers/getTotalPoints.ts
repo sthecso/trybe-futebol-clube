@@ -1,3 +1,0 @@
-/*
-  P: Total de Pontos;
-*/

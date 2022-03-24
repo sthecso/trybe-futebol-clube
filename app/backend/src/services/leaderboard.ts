@@ -1,12 +1,29 @@
-import { LeaderboardRepository } from '../repositories';
-import { IClubStats } from '../utils/interfaces';
+import orderLeaderboard from '../utils/helpers/orderLeaderboard';
+
+import {
+  MatchRepository,
+  ClubRepository,
+  LeaderboardRepository,
+} from '../repositories';
+
+import {
+  IClub,
+  IClubStats,
+  IMatchComplete,
+} from '../utils/interfaces';
 
 class LeaderboardService {
   public static async findAll() {
-    const leaderboard: IClubStats[] = await LeaderboardRepository
+    const matches: IMatchComplete[] = await MatchRepository
+      .findAll('false');
+
+    const clubs: IClub[] = await ClubRepository
       .findAll();
 
-    return leaderboard;
+    const leaderboard: IClubStats[] = LeaderboardRepository
+      .getLeaderboard(clubs, matches);
+
+    return orderLeaderboard(leaderboard);
   }
 }
 
