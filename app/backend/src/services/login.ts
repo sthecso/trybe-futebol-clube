@@ -15,7 +15,6 @@ export const login = async (loginData: ILogin) => {
   const { id } = userData;
   const user = await User.findByPk(id, { attributes: { exclude: ['password'] } }) as User;
   const token = createToken(user);
-  console.log(user);
   return { user, token };
 };
 
