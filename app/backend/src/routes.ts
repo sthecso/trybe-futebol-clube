@@ -9,7 +9,7 @@ import { getClubController, geyClubIdController } from './controllers/clubsContr
 import getMatchs from './controllers/matchsController';
 
 const router = Router();
-
+//
 router.get('/login/validate', validToken, async (req: Request, res: Response) => {
   const { id } = req.body.user;
 
