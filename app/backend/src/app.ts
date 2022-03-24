@@ -4,6 +4,7 @@ import Login from './routes/login';
 import Clubs from './routes/clubs';
 import domain from './controller/erros/handleErros';
 import Matchs from './routes/matchs';
+import Leaderboards from './routes/leaderboards';
 
 class App {
   public app: express.Express;
@@ -34,6 +35,7 @@ class App {
     this.app.use('/login', Login);
     this.app.use('/clubs', Clubs);
     this.app.use('/matchs', Matchs);
+    this.app.use('/leaderboards', Leaderboards);
     this.app.use(domain);
   }
 
