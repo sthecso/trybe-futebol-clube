@@ -13,11 +13,6 @@ class MatchController {
       const { code, data } = await MatchService.getMatchsInProgress(inProgress);
       res.status(code).json(data);
     }
-
-    if (inProgress === 'false') {
-      const { code, data } = await MatchService.getMatchsInProgress(inProgress);
-      res.status(code).json(data);
-    }
   }
 }
 
