@@ -107,7 +107,7 @@ describe('Testa a classe clubModel', async () => {
 
 });
 
-describe.only('Testa a classe matchModel', async () => {
+describe('Testa a classe matchModel', async () => {
 
   const mockData = {
     homeTeam: 16,
@@ -148,19 +148,53 @@ describe.only('Testa a classe matchModel', async () => {
 
 /*===========================Controller==========================*/
 describe('Testa a classe LoginUserController', () => {
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjQ3ODk1NzY4LCJleHAiOjE2NDg1MDA1Njh9.op-ZUbbRwCzO_-Oy1lS3HJ1AfYtxrZyT5MLx9ikXLKU"
+
   it('testa o retorno com um request valido', async () => {
     const chaiHttpResponse = await chai
     .request(app)
     .post('/login')
     .set('content-type', 'application/json')
     .send({
-        email: 'samuel@samuel.com',
-        password: 'password'
+        email: 'admin@admin.com',
+        password: 'secret_admin'
     });
 
 
     expect(chaiHttpResponse.status).to.be.equal(200);
     expect(chaiHttpResponse).to.be.an('Object');
+
+  });
+
+  it('testa a permissao de um usuario autenticado', async () => {
+    const chaiHttpResponse = await chai
+    .request(app)
+    .get('/login/validate').set({ Authorization: token })
+    .set('content-type', 'application/json')
+    .send({
+        email: 'admin@admin.com',
+        password: 'secret_admin'
+    });
+
+
+    expect(chaiHttpResponse.status).to.be.equal(200);
+    expect(chaiHttpResponse.body).to.be.eqls('admin');
+
+  });
+
+  it('testa a permissao de um usuario nao autenticado', async () => {
+    const chaiHttpResponse = await chai
+    .request(app)
+    .get('/login/validate').set({ Authorization: '12345' })
+    .set('content-type', 'application/json')
+    .send({
+        email: 'admin@admin',
+        password: 'secret_admin'
+    });
+
+
+    expect(chaiHttpResponse.status).to.be.equal(401);
+    expect(chaiHttpResponse.body).to.be.eqls({message: 'usuario nao authenticado'});
 
   });
 
