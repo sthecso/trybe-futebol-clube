@@ -64,6 +64,43 @@ class LeaderboardService {
     sortClubs(board);
     return board;
   }
+
+  generateAllGamesStats(clubStats: ClubStats, otherStats: ClubStats) {
+    const stats = new ClubStats(clubStats.name, 0);
+    stats.totalGames = clubStats.totalGames + otherStats.totalGames;
+    stats.totalVictories = clubStats.totalVictories + otherStats.totalVictories;
+    stats.totalLosses = clubStats.totalLosses + otherStats.totalLosses;
+    stats.totalDraws = clubStats.totalDraws + otherStats.totalDraws;
+    stats.goalsFavor = clubStats.goalsFavor + otherStats.goalsFavor;
+    stats.goalsOwn = clubStats.goalsOwn + otherStats.goalsOwn;
+    stats.totalPoints = stats.totalVictories * this.victoryPoints + stats.totalDraws;
+    stats.goalsBalance = stats.goalsFavor - stats.goalsOwn;
+    stats.efficiency = +((stats.totalPoints / (stats.totalGames * 3)) * 100).toFixed(2);
+    return stats;
+  }
+
+  async getAllMatchs() {
+    const awayBoard = await this.getAwayMatchs();
+    const homeBoard = await this.getHomeMatchs();
+
+    let mainBoard = awayBoard; // default main leaderboard
+    let secondaryBoard = homeBoard; // default secondary leaderboard
+
+    if (homeBoard.length > awayBoard.length) { // verify if the other board has more data
+      mainBoard = homeBoard;
+      secondaryBoard = awayBoard;
+    }
+
+    const newBoard = mainBoard.map((clubStats) => {
+      const otherStats = secondaryBoard.find((club) => clubStats.name === club.name);
+      if (!otherStats) return clubStats; // if club has no data in the other board, return the main board
+      const newStats = this.generateAllGamesStats(clubStats, otherStats);
+      return newStats;
+    });
+
+    sortClubs(newBoard);
+    return newBoard;
+  }
 }
 
 export default LeaderboardService;

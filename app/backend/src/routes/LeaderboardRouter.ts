@@ -11,7 +11,9 @@ class LeaderboardRouter extends Router {
   }
 
   route() {
+    this.router.get('/', this.boardController.getAllMatchs);
     this.router.get('/home', this.boardController.getAllHomeMatchs);
+    this.router.get('/away', this.boardController.getAllAwayMatchs);
   }
 }
 
