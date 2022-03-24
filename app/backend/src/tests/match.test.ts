@@ -7,6 +7,7 @@ import { app } from '../app';
 import matchs from './dbMock/matchs';
 
 import { Response } from 'superagent';
+import Match from '../database/models/Match';
 
 chai.use(chaiHttp);
 
@@ -138,9 +139,11 @@ describe('Request Post Match',() => {
 });
 
 describe('Request PATCH matchs', () => {
+  let patchResponse: Response;
   let matchResponse: Response;
   let loginResponse: Response;
   let token: string;
+  let initialMatchs: Match[] = [];
 
   before(async () => {
     exec('npm run db:reset');
@@ -151,6 +154,41 @@ describe('Request PATCH matchs', () => {
       password: 'secret_admin'
     });
     token = loginResponse.body.token;
+    matchResponse = await chai.request(app)
+    .get('/matchs');
+    const { body } = matchResponse;
+    if (!body) {
+      initialMatchs = []
+    } else {
+      initialMatchs = body;
+    }
   });
+
+  it('On /:id/finish returns OK and checks if match is Finished', async () => {
+    matchResponse = await chai.request(app)
+    .post('/matchs')
+    .set('authorization', token)
+    .send({
+      "homeTeam": 16,
+      "awayTeam": 8,
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2,
+      "inProgress": true
+    });
+    const { body: { id }} = matchResponse;
+    patchResponse = await chai.request(app)
+    .patch(`/matchs/${id}/finish`)
+    .set('authorization', token);
+    matchResponse = await chai.request(app)
+    .get('/matchs');
+    const { body: afterFinishMatchs } = matchResponse;
+    const finishedMatch = afterFinishMatchs.find((match: Match) => match.id === id);
+    const { status, body: { message } } = patchResponse;
+    
+    expect(status).to.be.equal(200);
+    expect(message).to.be.equal('Match finished');
+    expect(finishedMatch.inProgress).to.be.false;
+
+  })
   
 })
