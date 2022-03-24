@@ -14,6 +14,8 @@ class LeaderboardRouter {
 
   route() {
     this.router.get('/', this.leaderBoardController.getAll);
+    this.router.get('/home', this.leaderBoardController.getHome);
+    this.router.get('/away', this.leaderBoardController.getAway);
   }
 }
 

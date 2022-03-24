@@ -17,13 +17,21 @@ class Leaderboard {
     this.leaderBoard = [];
   }
 
-  async getAll() {
-    const orderedBoard = await this.orderBoard();
+  async getBoard(filter = 'all') {
+    this.leaderBoard = [];
+    const orderedBoard = await this.orderBoard(filter);
     return orderedBoard;
   }
 
-  async orderBoard(): Promise<Team[]> {
-    const afterMatchesLeaderBoard = await this.calculateAllMatchs();
+  async orderBoard(filter: string): Promise<Team[]> {
+    let afterMatchesLeaderBoard;
+    switch (filter) {
+      case 'home': afterMatchesLeaderBoard = await this.calculateHomeMatchs();
+        break;
+      case 'away': afterMatchesLeaderBoard = await this.calculateAwayMatchs();
+        break;
+      default: afterMatchesLeaderBoard = await this.calculateAllMatchs();
+    }
     const ordered = afterMatchesLeaderBoard.sort((a: Team, b: Team) => {
       const diffPoints = b.totalPoints - a.totalPoints;
       if (diffPoints === 0) {
@@ -68,6 +76,36 @@ class Leaderboard {
     return this.leaderBoard;
   }
 
+  async calculateHomeMatchs(): Promise<Team[]> {
+    const matchs = await this.matchModel.findAll({ where: { inProgress: false } });
+    const promises = matchs.map(async (match) => {
+      const { homeTeam, homeTeamGoals, awayTeamGoals } = match;
+      const { clubName: homeTeamName } = await this.clubModel.findByPk(homeTeam) as Club;
+      const homeTeamObj = this.getTeamIndexByName(homeTeamName);
+      this.resultMatchHome(homeTeamObj, homeTeamGoals, awayTeamGoals);
+    });
+    const promisedAll = await Promise.all(promises);
+    if (promisedAll) {
+      return this.leaderBoard;
+    }
+    return this.leaderBoard;
+  }
+
+  async calculateAwayMatchs(): Promise<Team[]> {
+    const matchs = await this.matchModel.findAll({ where: { inProgress: false } });
+    const promises = matchs.map(async (match) => {
+      const { awayTeam, homeTeamGoals, awayTeamGoals } = match;
+      const { clubName: awayTeamName } = await this.clubModel.findByPk(awayTeam) as Club;
+      const awayTeamObj = this.getTeamIndexByName(awayTeamName);
+      this.resultMatchAway(awayTeamObj, homeTeamGoals, awayTeamGoals);
+    });
+    const promisedAll = await Promise.all(promises);
+    if (promisedAll) {
+      return this.leaderBoard;
+    }
+    return this.leaderBoard;
+  }
+
   resultMatch(homeTeam: Team, awayTeam: Team, homeTeamGoals: number, awayTeamGoals: number) {
     if (homeTeamGoals > awayTeamGoals) {
       homeTeam.win(homeTeamGoals, awayTeamGoals);
@@ -78,6 +116,28 @@ class Leaderboard {
     } else {
       homeTeam.lose(homeTeamGoals, awayTeamGoals);
       awayTeam.win(awayTeamGoals, homeTeamGoals);
+    }
+    this.ordered = false;
+  }
+
+  resultMatchHome(homeTeam: Team, homeTeamGoals: number, awayTeamGoals: number) {
+    if (homeTeamGoals > awayTeamGoals) {
+      homeTeam.win(homeTeamGoals, awayTeamGoals);
+    } else if (homeTeamGoals === awayTeamGoals) {
+      homeTeam.draw(homeTeamGoals, awayTeamGoals);
+    } else {
+      homeTeam.lose(homeTeamGoals, awayTeamGoals);
+    }
+    this.ordered = false;
+  }
+
+  resultMatchAway(awayTeam: Team, homeTeamGoals: number, awayTeamGoals: number) {
+    if (homeTeamGoals > awayTeamGoals) {
+      awayTeam.win(homeTeamGoals, awayTeamGoals);
+    } else if (homeTeamGoals === awayTeamGoals) {
+      awayTeam.draw(homeTeamGoals, awayTeamGoals);
+    } else {
+      awayTeam.lose(homeTeamGoals, awayTeamGoals);
     }
     this.ordered = false;
   }
