@@ -10,8 +10,8 @@ export default class LeaderboardRouter {
     this.router = Router();
     this._leaderboardController = new LeaderboardController();
 
-    this.getHomeRank();
-    this.getAwayRank();
+    // this.getHomeRank();
+    // this.getAwayRank();
     this.getTeamCapRank();
   }
 

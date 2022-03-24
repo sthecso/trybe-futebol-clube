@@ -1,15 +1,12 @@
 import sortArray = require('sort-array');
-import { ClubModel, MatchModel } from '../database/models';
+import { ClubRepository } from '../utils/repository';
 import { IClubCap, IClubStats, IMatchScore } from '../utils/interfaces';
 
 export default class LeaderboardService {
-  private _clubModel: typeof ClubModel;
-
-  private _matchModel: typeof MatchModel;
+  private _clubRepository: ClubRepository;
 
   constructor() {
-    this._clubModel = ClubModel;
-    this._matchModel = MatchModel;
+    this._clubRepository = new ClubRepository();
   }
 
   private static countPoints(matches: IMatchScore[]) {
@@ -80,59 +77,26 @@ export default class LeaderboardService {
   }
 
   async getHomeRank() {
-    const clubsHomeHistory = (await this._clubModel.findAll({ include: [{
-      model: this._matchModel,
-      as: 'homeMatches',
-      attributes: [['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
-      where: { inProgress: false },
-    }],
-    }))
-      .map((clubHistory) => {
-        const plainHistory = clubHistory.get({ plain: true });
-        plainHistory.matches = [...plainHistory.homeMatches];
-        delete plainHistory.homeMatches;
-        return plainHistory;
-      }) as IClubCap[];
+    const homeRank = await this._clubRepository.getHomeRank();
 
-    return { code: 200, data: LeaderboardService.createLeaderboard(clubsHomeHistory) };
+    const leaderboard = LeaderboardService.createLeaderboard(homeRank);
+
+    return { code: 200, data: leaderboard };
   }
 
   async getAwayRank() {
-    const clubsAwayHistory = (await this._clubModel.findAll({ include: [{
-      model: this._matchModel,
-      as: 'awayMatches',
-      attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
-      where: { inProgress: false },
-    }],
-    }))
-      .map((clubHistory) => {
-        const plainHistory = clubHistory.get({ plain: true });
-        plainHistory.matches = [...plainHistory.awayMatches];
-        return plainHistory;
-      }) as IClubCap[];
+    const awayRank = await this._clubRepository.getAwayRank();
 
-    return { code: 200, data: LeaderboardService.createLeaderboard(clubsAwayHistory) };
+    const leaderboard = LeaderboardService.createLeaderboard(awayRank);
+
+    return { code: 200, data: leaderboard };
   }
 
   async getTeamCapRank() {
-    const teamCapHistory = (await this._clubModel.findAll({ include: [{
-      model: this._matchModel,
-      as: 'homeMatches',
-      attributes: [['home_team_goals', 'goalsFavor'], ['away_team_goals', 'goalsOwn']],
-      where: { inProgress: false },
-    }, {
-      model: this._matchModel,
-      as: 'awayMatches',
-      attributes: [['home_team_goals', 'goalsOwn'], ['away_team_goals', 'goalsFavor']],
-      where: { inProgress: false },
-    }],
-    }))
-      .map((clubHistory) => {
-        const plainHistory = clubHistory.get({ plain: true });
-        plainHistory.matches = [...plainHistory.homeMatches, ...plainHistory.awayMatches];
-        return plainHistory;
-      }) as IClubCap[];
+    const capRank = await this._clubRepository.getTeamCapRank();
 
-    return { code: 200, data: LeaderboardService.createLeaderboard(teamCapHistory) };
+    const leaderboard = LeaderboardService.createLeaderboard(capRank);
+
+    return { code: 200, data: leaderboard };
   }
 }
