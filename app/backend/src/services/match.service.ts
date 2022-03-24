@@ -22,4 +22,34 @@ export default class MatchsServices {
     });
     return allTeams;
   }
+
+  async create(data: object) {
+    const result = await Match.create(data);
+    return result;
+  }
+
+  async findById(id: number) {
+    const result = await Match.findOne({
+      where: { id },
+    });
+    return result;
+  }
+
+  async editMatch(id: number) {
+    await Match.update(
+      { inProgress: false },
+      { where: { id } } ,
+    );
+    const findById = this.findById(id);
+    return findById;
+  }
+
+  async updateMatch(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    await Match.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } } ,
+    );
+    const findById = this.findById(id);
+    return findById;
+  }
 };

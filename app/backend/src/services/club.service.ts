@@ -8,7 +8,7 @@ export default class ClubsServices {
     return clubs;
   }
 
-  async findAllClubs(): Promise<any> {
+  async findAllClubs(): Promise<Club[]> {
     const clubs = await Club.findAll();
     return clubs;
   }
