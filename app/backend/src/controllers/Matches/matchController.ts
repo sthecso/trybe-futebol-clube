@@ -10,8 +10,8 @@ const EMPTY_DB = 'no match registered yet';
 const MATCH_NOT_FOUND = 'match not found';
 const EQUAL_TEAMS = 'It is not possible to create a match with two equal teams';
 const TEAM_NOT_FOUND = 'There is no team with such id!';
-const MATCH_SAVED = 'Finished match';
-const MATCH_UPDATED = 'Updated match';
+// const MATCH_SAVED = 'Finished match';
+// const MATCH_UPDATED = 'Updated match';
 
 export default class MatchController {
   static async getMatches(
@@ -58,6 +58,7 @@ export default class MatchController {
       }
       const allTeams = await Club.findAll({ raw: true });
       const existing = allTeams.filter(({ id }) => id === homeTeam || id === awayTeam);
+      console.log(existing);
       if (existing.length < 2) {
         return res.status(StatusCode.UNAUTHORIZED).json({ message: TEAM_NOT_FOUND });
       }
@@ -82,11 +83,12 @@ export default class MatchController {
   ) {
     try {
       const { id } = req.params;
-      await Match.update(
+      const updated = await Match.update(
         { inProgress: false },
         { where: { id } },
       );
-      return res.status(StatusCode.OK).json({ message: MATCH_SAVED });
+      console.log(updated);
+      return res.status(StatusCode.OK).end();
     } catch (err) {
       next(err);
     }
@@ -100,14 +102,14 @@ export default class MatchController {
     try {
       const { id } = req.params;
       const { homeTeamGoals, awayTeamGoals } = req.body;
-      await Match.update(
+      const updated = await Match.update(
         {
           homeTeamGoals,
           awayTeamGoals,
         },
         { where: { id } },
       );
-      return res.status(StatusCode.OK).json({ message: MATCH_UPDATED });
+      return res.status(StatusCode.OK).json(updated);
     } catch (err) {
       next(err);
     }
