@@ -6,7 +6,7 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        autoincrement: true,
+        autoIncrement: true,
         primaryKey: true,
       },
       club_name: {
@@ -17,6 +17,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('clubs');
+    await queryInterface.dropTable('clubs')
   }
 };

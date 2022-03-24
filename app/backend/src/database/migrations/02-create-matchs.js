@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("matchs", {
+    await queryInterface.createTable('matchs', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -13,11 +13,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "clubs",
-          key: "id",
+          model: 'clubs',
+          key: 'id',
         },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       home_team_goals: {
         type: Sequelize.INTEGER,
@@ -27,11 +27,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "clubs",
-          key: "id",
+          model: 'clubs',
+          key: 'id',
         },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       away_team_goals: {
         type: Sequelize.INTEGER,
@@ -45,6 +45,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("matchs");
-  },
+    await queryInterface.dropTable('matchs')
+  }
 };
