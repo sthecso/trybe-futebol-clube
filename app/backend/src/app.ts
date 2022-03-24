@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import 'express-async-errors';
 
 import { Login } from './routes/LoginRoute';
+import Club from './routes/ClubsRoutes';
 import errorMessage from './middlewares/errorMessage';
 
 class App {
@@ -27,6 +28,7 @@ class App {
     this.app.use(accessControl);
 
     this.app.use('/login', Login);
+    this.app.use('/clubs', Club);
     this.app.use(errorMessage);
   }
 
