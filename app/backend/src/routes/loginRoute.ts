@@ -10,12 +10,12 @@ loginRouter.post(
   emailValidation,
   passValidation,
   async (req: Request, res: Response, _next: NextFunction) => {
-    const { email, password } = req.body;
+    const login = req.body;
 
-    const loggedUser = await LoginController.login(email, password);
+    const loggedUser = await LoginController.login(login);
 
     if (!loggedUser) {
-      return res.status(401).json({ error: 'Username or password invalid' });
+      return res.status(401).json({ message: 'Incorrect email or password' });
     }
 
     res.status(200).json(loggedUser);

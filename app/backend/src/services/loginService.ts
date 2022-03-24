@@ -1,18 +1,24 @@
 import { sign } from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 import * as bcrypt from 'bcryptjs';
-import User from '../database/models/User';
+import UserModel from '../database/models/User';
 import { IUser } from '../interfaces/user';
+import { ILogin } from '../interfaces/login';
+import { ILoggedUser } from '../interfaces/loggedUser';
 
 export default class LoginService {
-  public static async login(email:string, password:string) {
-    const user = await User.findOne({ where: { email } });
+  public static async login(login: ILogin): Promise<ILoggedUser | null> {
+    console.log(login.email, login.password);
 
-    if (!user) throw new Error('Incorrect email or password');
+    const { email, password } = login;
 
-    const passTest = await bcrypt.compare(password, user.password);
+    const user = await UserModel.findOne({ where: { email } });
 
-    if (!passTest) throw new Error('Incorrect email or password');
+    if (!user) return null;
+
+    const passTest = bcrypt.compare(password, user.password);
+
+    if (!passTest) return null;
 
     const payload: IUser = {
       id: user.id,
