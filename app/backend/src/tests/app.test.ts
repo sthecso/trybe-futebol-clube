@@ -200,4 +200,41 @@ describe('All tests', () => {
       expect(chaiHttpResponse.body.inProgress).to.be.equal(false);
     });
   });
+
+  describe('Test endpoint /leaderboard', async () => {
+    let chaiHttpResponse: Response;
+  
+    it('status = 200 and returns an array', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/leaderboard/home')
+
+      expect(chaiHttpResponse).have.status(200);
+      expect(chaiHttpResponse.body).to.be.an('array');
+    });
+
+    it('checks if objects have the correct keys', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/leaderboard/home')
+
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('name');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('totalPoints');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('totalGames');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('totalVictories');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('totalDraws');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('totalLosses');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('goalsFavor');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('goalsOwn');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('goalsBalance');
+      expect(chaiHttpResponse.body[0]).to.haveOwnProperty('efficiency');
+    });
+
+    it('checks if objects are in the correct position', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/leaderboard/home')
+
+      expect(chaiHttpResponse.body[1].name).to.deep.equal("Palmeiras");
+      expect(chaiHttpResponse.body[7].name).to.deep.equal("Botafogo");
+      expect(chaiHttpResponse.body[15].name).to.deep.equal("Bahia");
+    });
+  });
 });
