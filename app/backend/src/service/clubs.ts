@@ -20,4 +20,5 @@ const findClubById = async (searchId: number) => {
 export {
   findAllClubs,
   findClubById,
+  IClub,
 };
