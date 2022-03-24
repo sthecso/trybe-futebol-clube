@@ -6,6 +6,7 @@ import HttpException from '../classes/httpException';
 
 export const login = async (loginData: ILogin) => {
   const { email, password } = loginData;
+  if (!email || !password) throw new HttpException(401, 'All fields must be filled');
   const user = await User.findOne({ where: { email } });
   if (!user) throw new HttpException(401, 'Incorrect email or password');
   if (!compareSync(password, user.password)) {
