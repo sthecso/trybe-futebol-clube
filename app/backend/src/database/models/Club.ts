@@ -2,7 +2,11 @@ import { DataTypes, Model } from 'sequelize';
 import Matchs from './Match';
 import db from '.';
 
-class Clubs extends Model {}
+class Clubs extends Model {
+  declare id: number;
+
+  declare clubName: string;
+}
 
 Clubs.init({
   id: {
