@@ -10,7 +10,7 @@ const { expect } = chai;
 
 describe('testa o endpoint /matchs', () => {
   describe('caso o endpoint /matchs com o metodo getMatchs', async () => {
-    describe('retorna com sucesso', async () => {
+    describe('retornar com sucesso', async () => {
 
       let chaiHttpResponse: Response;
 
