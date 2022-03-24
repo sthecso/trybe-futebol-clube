@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
+import Clubs from './Club';
 
 class Matchs extends Model {
   declare id: number;
@@ -23,25 +24,40 @@ Matchs.init({
   homeTeam: {
     type: DataTypes.NUMBER,
     allowNull: false,
-    field: 'home_team',
   },
   homeTeamGoals: {
     type: DataTypes.NUMBER,
     allowNull: false,
-    field: 'home_team_goals',
-
   },
   awayTeam: {
     type: DataTypes.NUMBER,
     allowNull: false,
-    field: 'away_team',
   },
   inProgress: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    field: 'in_progress',
   },
 
 }, { sequelize: db, timestamps: false, modelName: 'matchs', underscored: true });
+
+Clubs.hasOne(Matchs, {
+  foreignKey: 'homeTeam',
+  as: 'club a',
+});
+
+Clubs.hasOne(Matchs, {
+  foreignKey: 'awayTeam',
+  as: 'club b',
+});
+
+Matchs.belongsTo(Clubs, {
+  foreignKey: 'homeTeam',
+  as: 'homeClub',
+});
+
+Matchs.belongsTo(Clubs, {
+  foreignKey: 'awayTeam',
+  as: 'awayClub',
+});
 
 export default Matchs;

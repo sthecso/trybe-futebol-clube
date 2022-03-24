@@ -8,11 +8,11 @@ class MatchService {
       include: [
         { model: Clubs,
           as: 'homeClub',
-          attributes: { exclude: ['id'] },
+          attributes: ['clubName'],
         },
         { model: Clubs,
           as: 'awayClub',
-          attributes: { exclude: ['id'] },
+          attributes: ['clubName'],
         },
       ],
     }) as unknown as IMatchs[];
