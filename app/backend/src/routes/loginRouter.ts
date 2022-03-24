@@ -1,5 +1,4 @@
-import { Request, Response, Router } from 'express';
-import { StatusCodes } from 'http-status-codes';
+import { Router } from 'express';
 import { LoginController } from '../controllers';
 
 export default class Login {
@@ -11,15 +10,6 @@ export default class Login {
   }
 
   private route(): void {
-    this.router.post(
-      '/',
-      async (req: Request, res: Response) => {
-        const { email, password } = req.body;
-
-        const result = await LoginController.login({ email, password });
-
-        res.status(StatusCodes.OK).json(result);
-      },
-    );
+    this.router.post('/', LoginController.login());
   }
 }

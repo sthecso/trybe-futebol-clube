@@ -1,13 +1,18 @@
-import { ILogin, ILoginResult } from '../interfaces';
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { loginSchema } from '../schemas';
 import { LoginService } from '../services';
 
 export default class LoginController {
-  public static async login(login: ILogin): Promise<ILoginResult> {
-    loginSchema.parse(login);
+  public static login() {
+    return async (req: Request, res: Response) => {
+      const { email, password } = req.body;
 
-    const result = LoginService.login(login);
+      loginSchema.parse({ email, password });
 
-    return result;
+      const result = await LoginService.login({ email, password });
+
+      res.status(StatusCodes.OK).json(result);
+    };
   }
 }
