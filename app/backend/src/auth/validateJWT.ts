@@ -29,7 +29,7 @@ export default async (req: RequestData, res: Response, next: NextFunction) => {
 
   try {
     const decoded = jwt.verify(token, secret, { algorithms: ['HS256'] }) as jwt.JwtPayload;
-    const receivedEmail = decoded.data.email as string;
+    const receivedEmail = decoded.sub as string;
     const email = await findEmail(receivedEmail);
 
     req.email = email;
