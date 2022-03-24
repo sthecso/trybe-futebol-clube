@@ -35,7 +35,7 @@ class App {
     this.app.use('/login', Login);
     this.app.use('/clubs', Clubs);
     this.app.use('/matchs', Matchs);
-    this.app.use('/leaderboards', Leaderboards);
+    this.app.use('/leaderboard', Leaderboards);
     this.app.use(domain);
   }
 
