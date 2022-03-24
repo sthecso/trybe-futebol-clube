@@ -45,6 +45,9 @@ export interface ILeaderboardTeam {
   efficiency: number | string,
 }
 
-export interface ILeaderboardObject {
-  [key: string]: ILeaderboardTeam;
+export interface IMatchStats {
+  clubName: string,
+  clubGoals: number,
+  adversaryGoals: number,
+  leaderboard: ILeaderboardTeam[],
 }

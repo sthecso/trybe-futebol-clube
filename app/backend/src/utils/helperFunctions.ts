@@ -1,10 +1,10 @@
-import { ILeaderboardObject, ILeaderboardTeam, IMatch } from './interfaces';
+import { ILeaderboardTeam, IMatch } from './interfaces';
 
-const addWinToLeaderboard = (
-  club: ILeaderboardTeam,
+const addWinToClub = (
   clubName: string,
   clubGoals: number,
   adversaryGoals: number,
+  club?: ILeaderboardTeam,
 ) => ({
   name: clubName,
   totalPoints: (club ? club.totalPoints + 3 : 3),
@@ -21,11 +21,11 @@ const addWinToLeaderboard = (
     / ((club.totalGames + 1) * 3)) * 100 : 100) * 100) / 100,
 });
 
-const addLossToLeaderboard = (
-  club: ILeaderboardTeam,
+const addLossToClub = (
   clubName: string,
   clubGoals: number,
   adversaryGoals: number,
+  club?: ILeaderboardTeam,
 ) => ({
   name: clubName,
   totalPoints: (club ? club.totalPoints : 0),
@@ -42,11 +42,11 @@ const addLossToLeaderboard = (
     / ((club.totalGames + 1) * 3)) * 100 : 0) * 100) / 100,
 });
 
-const addDrawToLeaderboard = (
-  club: ILeaderboardTeam,
+const addDrawToClub = (
   clubName: string,
   clubGoals: number,
   adversaryGoals: number,
+  club?: ILeaderboardTeam,
 ) => ({
   name: clubName,
   totalPoints: (club ? club.totalPoints + 1 : 1),
@@ -63,91 +63,116 @@ const addDrawToLeaderboard = (
     / ((club.totalGames + 1) * 3)) * 100 : 33.33) * 100) / 100,
 });
 
-const addVictoryToTeam = (
+const addWinToLeaderboard = (
   clubName: string,
   clubGoals: number,
   adversaryGoals: number,
-  leaderboard: ILeaderboardObject,
+  leaderboard: ILeaderboardTeam[],
 )
-: ILeaderboardObject => {
-  const updatedLeaderboard = { ...leaderboard } as ILeaderboardObject;
-  const club = updatedLeaderboard[clubName];
-  updatedLeaderboard[clubName] = addWinToLeaderboard(club, clubName, clubGoals, adversaryGoals);
+: ILeaderboardTeam[] => {
+  const updatedLeaderboard = [...leaderboard] as ILeaderboardTeam[];
+  const clubIndex = updatedLeaderboard.findIndex((team) => team.name === clubName);
+  const club = updatedLeaderboard[clubIndex] as ILeaderboardTeam;
+  if (club) {
+    updatedLeaderboard[clubIndex] = addWinToClub(
+      clubName,
+      clubGoals,
+      adversaryGoals,
+      club,
+    );
+  } else updatedLeaderboard.push(addWinToClub(clubName, clubGoals, adversaryGoals));
   return updatedLeaderboard;
 };
 
-const addLossToTeam = (
+const addLossToLeaderboard = (
   clubName: string,
   clubGoals: number,
   adversaryGoals: number,
-  leaderboard: ILeaderboardObject,
+  leaderboard: ILeaderboardTeam[],
 )
-: ILeaderboardObject => {
-  const updatedLeaderboard = { ...leaderboard } as ILeaderboardObject;
-  const club = updatedLeaderboard[clubName];
-  updatedLeaderboard[clubName] = addLossToLeaderboard(club, clubName, clubGoals, adversaryGoals);
+: ILeaderboardTeam[] => {
+  const updatedLeaderboard = [...leaderboard] as ILeaderboardTeam[];
+  const clubIndex = updatedLeaderboard.findIndex((team) => team.name === clubName);
+  const club = updatedLeaderboard[clubIndex] as ILeaderboardTeam;
+  if (club) {
+    updatedLeaderboard[clubIndex] = addLossToClub(
+      clubName,
+      clubGoals,
+      adversaryGoals,
+      club,
+    );
+  } else updatedLeaderboard.push(addLossToClub(clubName, clubGoals, adversaryGoals));
   return updatedLeaderboard;
 };
 
-const addDrawToTeam = (
+const addDrawToLeaderboard = (
   clubName: string,
   clubGoals: number,
   adversaryGoals: number,
-  leaderboard: ILeaderboardObject,
+  leaderboard: ILeaderboardTeam[],
 )
-: ILeaderboardObject => {
-  const updatedLeaderboard = { ...leaderboard } as ILeaderboardObject;
-  const club = updatedLeaderboard[clubName];
-  updatedLeaderboard[clubName] = addDrawToLeaderboard(club, clubName, clubGoals, adversaryGoals);
+: ILeaderboardTeam[] => {
+  const updatedLeaderboard = [...leaderboard] as ILeaderboardTeam[];
+  const clubIndex = updatedLeaderboard.findIndex((team) => team.name === clubName);
+  const club = updatedLeaderboard[clubIndex] as ILeaderboardTeam;
+  if (club) {
+    updatedLeaderboard[clubIndex] = addDrawToClub(
+      clubName,
+      clubGoals,
+      adversaryGoals,
+      club,
+    );
+  } else updatedLeaderboard.push(addDrawToClub(clubName, clubGoals, adversaryGoals));
   return updatedLeaderboard;
 };
 
 const calculateLeaderboardHome = (matchs: IMatch[]) => {
-  let leaderboard = {} as ILeaderboardObject;
+  let leaderboard = [] as ILeaderboardTeam[];
   matchs.forEach((match) => {
     const homeClubName = match.homeClub.clubName;
     const { homeTeamGoals, awayTeamGoals } = match;
     if (homeTeamGoals > awayTeamGoals) {
-      leaderboard = addVictoryToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+      leaderboard = addWinToLeaderboard(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
     } else if (homeTeamGoals < awayTeamGoals) {
-      leaderboard = addLossToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+      leaderboard = addLossToLeaderboard(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
     } else {
-      leaderboard = addDrawToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+      leaderboard = addDrawToLeaderboard(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
     }
   });
   return leaderboard;
 };
 
 const calculateLeaderboardAway = (matchs: IMatch[]) => {
-  let leaderboard = {} as ILeaderboardObject;
+  let leaderboard = [] as ILeaderboardTeam[];
   matchs.forEach((match) => {
     const awayClubName = match.awayClub.clubName;
     const { homeTeamGoals, awayTeamGoals } = match;
     if (awayTeamGoals > homeTeamGoals) {
-      leaderboard = addVictoryToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addWinToLeaderboard(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
     } else if (awayTeamGoals < homeTeamGoals) {
-      leaderboard = addLossToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addLossToLeaderboard(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
     } else {
-      leaderboard = addDrawToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addDrawToLeaderboard(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
     }
   });
   return leaderboard;
 };
+
 const calculateLeaderboardAll = (matchs: IMatch[]) => {
-  let leaderboard = {} as ILeaderboardObject;
+  let leaderboard = [] as ILeaderboardTeam[];
   matchs.forEach((match) => {
     const awayClubName = match.awayClub.clubName;
     const homeClubName = match.homeClub.clubName;
     const { homeTeamGoals, awayTeamGoals } = match;
     if (awayTeamGoals > homeTeamGoals) {
-      leaderboard = addVictoryToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
-      leaderboard = addLossToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+      leaderboard = addWinToLeaderboard(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addLossToLeaderboard(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
     } else if (awayTeamGoals < homeTeamGoals) {
-      leaderboard = addLossToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
-      leaderboard = addVictoryToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+      leaderboard = addLossToLeaderboard(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addWinToLeaderboard(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
     } else {
-      leaderboard = addDrawToTeam(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
-      leaderboard = addDrawToTeam(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
+      leaderboard = addDrawToLeaderboard(awayClubName, awayTeamGoals, homeTeamGoals, leaderboard);
+      leaderboard = addDrawToLeaderboard(homeClubName, homeTeamGoals, awayTeamGoals, leaderboard);
     }
   });
   return leaderboard;
@@ -158,7 +183,9 @@ const sortLeaderboard = (leaderboard: ILeaderboardTeam[]) => leaderboard.sort((a
   || b.totalVictories - a.totalVictories
   || b.goalsBalance - a.goalsBalance
   || b.goalsFavor - a.goalsFavor
-  || b.goalsOwn - a.goalsOwn);
+  || a.goalsOwn - b.goalsOwn);
 
-export { calculateLeaderboardHome, calculateLeaderboardAway,
-  calculateLeaderboardAll, sortLeaderboard };
+export {
+  calculateLeaderboardHome, calculateLeaderboardAway,
+  calculateLeaderboardAll, sortLeaderboard,
+};
