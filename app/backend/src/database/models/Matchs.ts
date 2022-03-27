@@ -2,14 +2,26 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import Clubs from './Clubs';
 
-class Matchs extends Model {}
+class Matchs extends Model {
+  public id: number;
+
+  public homeTeam: number;
+
+  public homeTeamGoals: number;
+
+  public awayTeam: number;
+
+  public awayTeamGoals: number;
+
+  public inProgress: boolean;
+}
 
 Matchs.init({
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   home_team: {
     type: DataTypes.INTEGER,
@@ -30,11 +42,11 @@ Matchs.init({
   in_progress: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  }
+  },
 }, {
   underscored: true,
   sequelize: db,
-  modelName: 'Matchs', 
+  modelName: 'Matchs',
   timestamps: false,
 });
 

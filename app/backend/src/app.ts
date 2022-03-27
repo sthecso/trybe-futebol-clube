@@ -1,4 +1,7 @@
 import * as express from 'express';
+import loginController from './controllers/loginController';
+import errorMiddlweare from './controllers/middlewares/errorMiddlweare';
+import joiError from './controllers/middlewares/joiError';
 
 class App {
   public app: express.Express;
@@ -6,6 +9,8 @@ class App {
   constructor() {
     this.app = express();
     this.config();
+    this.routes();
+    this.initializeErrorHandling();
   }
 
   private config():void {
@@ -17,13 +22,22 @@ class App {
     };
 
     this.app.use(accessControl);
-    this.app.use(express.json())
+    this.app.use(express.json());
+  }
+
+  public initializeErrorHandling() {
+    this.app.use(joiError);
+    this.app.use(errorMiddlweare);
+  }
+
+  public routes() {
+    this.app.use(loginController.router);
   }
 
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
-      console.log(`listening on ${PORT}`)
-    })
+      console.log(`listening on ${PORT}`);
+    });
   }
 }
 
