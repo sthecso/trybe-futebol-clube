@@ -5,6 +5,8 @@ import { schemaBase, validateLogin } from './schemas/schema';
 class LoginController {
   public path = '/login';
 
+  public Service = loginService;
+
   public router = express.Router();
 
   constructor() {
@@ -22,7 +24,7 @@ class LoginController {
   ) => {
     schemaBase(validateLogin, req.body);
     const { email, password } = req.body;
-    const user = await loginService.login(email, password);
+    const user = await this.Service.login(email, password);
     res.status(200).json(user);
   };
 }

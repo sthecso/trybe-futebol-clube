@@ -1,8 +1,14 @@
 import generateToken from '../utils/generateToken';
 import Users from '../database/models/Users';
+import HttpException from '../utils/HttpException';
 
 class LoginService {
   private _UsersModel = Users;
+
+  private ERROR_INCORRECT = new HttpException(401, 'Incorrect email or password');
+
+  private verifyPassword = async (_password: string) => {
+  };
 
   public login = async (emailReceived: string, _password: string) => {
     const user = await this._UsersModel.findOne({
@@ -10,7 +16,7 @@ class LoginService {
     });
 
     if (!user) {
-      throw new Error('user not exists');
+      return this.ERROR_INCORRECT;
     }
 
     const token = await generateToken(user);
