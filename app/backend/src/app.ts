@@ -1,4 +1,5 @@
 import * as express from 'express';
+// import * as bodyParser from 'body-parser';
 import loginController from './controllers/loginController';
 import errorMiddlweare from './controllers/middlewares/errorMiddlweare';
 import joiError from './controllers/middlewares/joiError';

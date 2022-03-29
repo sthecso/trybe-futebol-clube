@@ -20,12 +20,16 @@ class LoginController {
   public login = async (
     req: express.Request,
     res: express.Response,
-    _next: express.NextFunction,
+    next: express.NextFunction,
   ) => {
-    schemaBase(validateLogin, req.body);
-    const { email, password } = req.body;
-    const user = await this.Service.login(email, password);
-    res.status(200).json(user);
+    try {
+      schemaBase(validateLogin, req.body);
+      const { email, password } = req.body;
+      const user = await this.Service.login(email, password);
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
   };
 }
 
