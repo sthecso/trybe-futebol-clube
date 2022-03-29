@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('1.Testing /login', () => {
+describe('Testing /login', () => {
 
   let chaiHttpResponse: Response;
 
@@ -33,7 +33,7 @@ describe('1.Testing /login', () => {
       (Users.findOne as sinon.SinonStub).restore();
     })
 
-  describe('a) If entering the correct login', async () => {
+  describe('1. If entering the correct login', async () => {
     
     it('You must login successfully', async () => {
       chaiHttpResponse = await chai.request(app)
@@ -53,9 +53,9 @@ describe('1.Testing /login', () => {
     })
   });
 
-  describe('b) If entering the incorrect login', async () => {
+  describe('2. If entering the incorrect login', async () => {
 
-    describe('You receive a error', async () => {
+    describe('You receive a error:', async () => {
       it("If don't type an email ", async () => {
         chaiHttpResponse = await chai.request(app)
             .post('/login')
@@ -78,6 +78,19 @@ describe('1.Testing /login', () => {
           
         const { body, status } = chaiHttpResponse;
           
+        expect(status).to.equal(401);
+        expect(body.message).to.equal('All fields must be filled');
+      })
+
+      it("If you enter with an empty email", async () => {
+        chaiHttpResponse = await chai.request(app)
+            .post('/login')
+            .send({
+              email: '',
+              password: 'secret_admin'
+            }) 
+          
+        const { body, status } = chaiHttpResponse;
         expect(status).to.equal(401);
         expect(body.message).to.equal('All fields must be filled');
       })
