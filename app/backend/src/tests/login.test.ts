@@ -33,7 +33,7 @@ describe('1.Testing /login', () => {
       (Users.findOne as sinon.SinonStub).restore();
     })
 
-  describe('If entering the correct login', async () => {
+  describe('a) If entering the correct login', async () => {
     
     it('You must login successfully', async () => {
       chaiHttpResponse = await chai.request(app)
@@ -52,4 +52,49 @@ describe('1.Testing /login', () => {
       expect(body.user.email).to.equal(stubUser.email);
     })
   });
+
+  describe('b) If entering the incorrect login', async () => {
+
+    describe('You receive a error', async () => {
+      it("If don't type an email ", async () => {
+        chaiHttpResponse = await chai.request(app)
+            .post('/login')
+            .send({
+              password: 'secret_admin'
+            }) 
+          
+        const { body, status } = chaiHttpResponse;
+          
+        expect(status).to.equal(401);
+        expect(body.message).to.equal('All fields must be filled');
+      })
+
+      it("If don't type an password ", async () => {
+        chaiHttpResponse = await chai.request(app)
+            .post('/login')
+            .send({
+              email: 'admin@admin.com'
+            }) 
+          
+        const { body, status } = chaiHttpResponse;
+          
+        expect(status).to.equal(401);
+        expect(body.message).to.equal('All fields must be filled');
+      })
+
+      it("If you enter a wrong password", async () => {
+        chaiHttpResponse = await chai.request(app)
+            .post('/login')
+            .send({
+              email: 'admin@admin.com',
+              password: 'fakepass'
+            }) 
+          
+        const { body, status } = chaiHttpResponse;
+        expect(status).to.equal(401);
+        expect(body.message).to.equal('Incorrect email or password');
+      })
+    });
+  });
+  
 });
