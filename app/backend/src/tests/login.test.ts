@@ -114,7 +114,7 @@ describe('Testing /login', () => {
 describe('Testing /login/validate', async () => {
   let chaiHttpResponse: Response;
 
-    describe('1) When passing a valid token', async () => {
+    describe('1. When passing a valid token', async () => {
 
       it('Receives status 200 and user role', async () => {
         const getToken = await myJwt.generateToken(stubUser)
@@ -130,4 +130,38 @@ describe('Testing /login/validate', async () => {
             expect(body).to.be.equal("admin");
     })
   })
+
+  describe('2. When passing a invalid token', async () => {
+
+
+    it('Receives status 500 and error message', async () => {
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .get("/login/validate")
+        .set('authorization', 'invalidToken' )
+
+      const { body, status } = chaiHttpResponse;
+      
+          expect(status).to.equal(500);
+          expect(body.message).to.be.equal('Internal server error');
+    })
+  })
+
+  describe("3. When a token isn't passed", async () => {
+
+    it('Receives status 401 and error message', async () => {
+      
+      chaiHttpResponse = await chai
+        .request(app)
+        .get("/login/validate")
+        .set('authorization', '' )
+
+      const { body, status } = chaiHttpResponse;
+      
+          expect(status).to.equal(401);
+          expect(body.error).to.be.equal("Token not found");
+    })
+  })
+
 })
