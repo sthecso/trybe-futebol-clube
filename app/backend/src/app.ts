@@ -1,5 +1,5 @@
 import * as express from 'express';
-// import * as bodyParser from 'body-parser';
+import clubsController from './controllers/clubsController';
 import loginController from './controllers/loginController';
 import errorMiddlweare from './controllers/middlewares/errorMiddlweare';
 import joiError from './controllers/middlewares/joiError';
@@ -33,6 +33,7 @@ class App {
 
   public routes() {
     this.app.use(loginController.router);
+    this.app.use(clubsController.router);
   }
 
   public start(PORT: string | number):void {
