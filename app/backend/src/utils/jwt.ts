@@ -20,7 +20,7 @@ const jwtVerify = async (token: string) => {
   return user;
 };
 
-export {
+export default {
   generateToken,
   jwtVerify,
 };

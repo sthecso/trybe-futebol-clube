@@ -6,6 +6,7 @@ import { app } from '../app';
 import Users from '../database/models/Users';
 
 import { Response } from 'superagent';
+import myJwt from '../utils/jwt';
 
 // references: https://blog.logrocket.com/unit-testing-node-js-applications-using-mocha-chai-and-sinon/
 
@@ -13,23 +14,24 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
+const stubUser = {
+    id: 1,
+    username: 'Admin',
+    role: 'admin',
+    email: 'admin@admin.com',
+    password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+  } as Users;
+
 describe('Testing /login', () => {
 
   let chaiHttpResponse: Response;
 
-  const stubUser = {
-      id: 1,
-      username: 'Admin',
-      role: 'admin',
-      email: 'admin@admin.com',
-      password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
-    } as Users;
 
-    before(async () => {
+    beforeEach(async () => {
       sinon.stub(Users, 'findOne').resolves(stubUser)
     })
 
-    after(async () => {
+    afterEach(async () => {
       (Users.findOne as sinon.SinonStub).restore();
     })
 
@@ -44,7 +46,6 @@ describe('Testing /login', () => {
           }) 
         
       const { body, status } = chaiHttpResponse;
-        
       expect(status).to.equal(200);
       expect(body.user.id).to.equal(stubUser.id);
       expect(body.user.username).to.equal(stubUser.username);
@@ -77,7 +78,7 @@ describe('Testing /login', () => {
             }) 
           
         const { body, status } = chaiHttpResponse;
-          
+        
         expect(status).to.equal(401);
         expect(body.message).to.equal('All fields must be filled');
       })
@@ -102,12 +103,31 @@ describe('Testing /login', () => {
               email: 'admin@admin.com',
               password: 'fakepass'
             }) 
-          
         const { body, status } = chaiHttpResponse;
         expect(status).to.equal(401);
         expect(body.message).to.equal('Incorrect email or password');
       })
     });
   });
-  
 });
+
+describe('Testing /login/validate', async () => {
+  let chaiHttpResponse: Response;
+
+    describe('1) When passing a valid token', async () => {
+
+      it('Receives status 200 and user role', async () => {
+        const getToken = await myJwt.generateToken(stubUser)
+        
+        chaiHttpResponse = await chai
+          .request(app)
+          .get("/login/validate")
+          .set('authorization', getToken )
+
+        const { body, status } = chaiHttpResponse;
+        
+            expect(status).to.equal(200);
+            expect(body).to.be.equal("admin");
+    })
+  })
+})

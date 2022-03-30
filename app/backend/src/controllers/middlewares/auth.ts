@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express';
 import jwt = require('jsonwebtoken');
-import { jwtVerify } from '../../utils/jwt';
+import myJwt from '../../utils/jwt';
 import IRequest from '../../interfaces/IRequest';
 
 const auth = async (req: IRequest, res: Response, next: NextFunction) => {
@@ -11,7 +11,7 @@ const auth = async (req: IRequest, res: Response, next: NextFunction) => {
   }
 
   try {
-    const user = jwtVerify(token) as jwt.JwtPayload;
+    const user = myJwt.jwtVerify(token) as jwt.JwtPayload;
 
     req.user = { ...user };
   } catch (err) {
