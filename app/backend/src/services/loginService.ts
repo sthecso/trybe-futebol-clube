@@ -1,5 +1,6 @@
 import * as bcrypt from 'bcrypt';
-import generateToken from '../utils/generateToken';
+import jwt = require('jsonwebtoken');
+import { generateToken, jwtVerify } from '../utils/jwt';
 import Users from '../database/models/Users';
 import HttpException from '../utils/HttpException';
 import { IUserModel } from '../interfaces/IUser';
@@ -32,6 +33,16 @@ class LoginService {
       token,
     };
     return data;
+  };
+
+  public getUser = async (token: string) => {
+    const user = await jwtVerify(token) as jwt.JwtPayload;
+    const { email: userEmail } = user;
+    const userByEmail = await this._UsersModel.findOne({
+      where: { email: userEmail },
+    });
+
+    return userByEmail?.role;
   };
 }
 
