@@ -8,9 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      club_name: {
-        type: Sequelize.STRING
-      },
+      clubName: {
+        type: Sequelize.STRING,
+        field: 'club_name'
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {
