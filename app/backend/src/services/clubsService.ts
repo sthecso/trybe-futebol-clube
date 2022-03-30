@@ -1,5 +1,5 @@
+import HttpException from '../utils/HttpException';
 import Clubs from '../database/models/Clubs';
-// import HttpException from '../utils/HttpException';
 import { IClubs } from '../interfaces/IClubs';
 
 class ClubsService {
@@ -8,6 +8,14 @@ class ClubsService {
   public getAll = async () => {
     const clubs: IClubs[] | null = await this._ClubsModel.findAll();
     return clubs;
+  };
+
+  public getById = async (id: string) => {
+    const club: IClubs | null = await this._ClubsModel.findByPk(id);
+    if (!club || club === null) {
+      throw new HttpException(404, 'Club not found');
+    }
+    return club;
   };
 }
 

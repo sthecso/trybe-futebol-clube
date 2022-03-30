@@ -43,7 +43,7 @@ class LoginService {
     });
 
     if (!userByEmail || userByEmail === null) {
-      return new HttpException(401, 'Unauthorized user');
+      throw new HttpException(401, 'Unauthorized user');
     }
 
     return userByEmail.role;
