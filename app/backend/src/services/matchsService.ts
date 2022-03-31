@@ -38,7 +38,7 @@ class MatchsService {
 
   public createMatch = async (body: IMatchs) => {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = body;
-    const matchCreated = this._MatchsModel.create({
+    const matchCreated = await this._MatchsModel.create({
       homeTeam,
       awayTeam,
       homeTeamGoals,
@@ -46,6 +46,12 @@ class MatchsService {
       inProgress,
     });
     return matchCreated;
+  };
+
+  public updateInProgress = async (id: string) => {
+    await this._MatchsModel.update({ inProgress: false }, { where: { id } });
+    const updatedMatch = await this._MatchsModel.findByPk(id);
+    return updatedMatch;
   };
 }
 

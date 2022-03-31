@@ -72,7 +72,6 @@ describe('Testing /matchs', () => {
             
         expect(chaiHttpResponse.body.length).to.eq(40);
       })
-
     })
 
     describe('Filtering for matches with true in progress', async () => {
@@ -101,58 +100,72 @@ describe('Testing /matchs', () => {
       })
     })
   });
-
-  describe('4.When creating a match', async () => {
-    let loginResponse: Response;
-
-    loginResponse = await chai.request(app)
-    .post('/login')
-    .send({
-      email: 'admin@admin.com',
-      password: 'secret_admin'
-    }) 
-
-    const { token } = loginResponse.body;
-    
-    describe('You successfully create the match', async () => {
-      const stubMatch = {
-        "id": 49,
-        "homeTeam": 16,
-        "homeTeamGoals": 2,
-        "awayTeam": 8,
-        "awayTeamGoals": 2,
-        "inProgress": true,
-      } as Matchs
   
-        beforeEach(async () => {
-          sinon.stub(Matchs, 'findOne').resolves(stubMatch)
-        })
-    
-        afterEach(async () => {
-          (Matchs.findOne as sinon.SinonStub).restore();
-        })
+  describe('3.You successfully create the match', async () => {
+    let loginResponse: Response;
+  
+    const stubMatch = {
+      "id": 49,
+      "homeTeam": 16,
+      "homeTeamGoals": 2,
+      "awayTeam": 8,
+      "awayTeamGoals": 2,
+      "inProgress": true,
+    } as Matchs
 
-      it('You get a 200 status with the match created', async () => {
-        chaiHttpResponse = await chai.request(app)
-            .post('/matchs')
-            .set('authorization', token)
-            .send({
-              "homeTeam": 16, 
-              "awayTeam": 8,
-              "homeTeamGoals": 2,
-              "awayTeamGoals": 2,
-              "inProgress": true 
-            }) 
-          
-        const { body, status } = chaiHttpResponse;
-        expect(status).to.equal(201);
-        expect(body.id).to.equal(stubMatch.id);
-        expect(body.homeTeam).to.equal(stubMatch.homeTeam);
-        expect(body.homeTeamGoals).to.equal(stubMatch.homeTeamGoals);
-        expect(body.awayTeam).to.equal(stubMatch.awayTeam);
-        expect(body.awayTeamGoals).to.equal(stubMatch.awayTeamGoals);
-        expect(body.inProgress).to.equal(stubMatch.inProgress);
+      beforeEach(async () => {
+        sinon.stub(Matchs, 'findOne').resolves(stubMatch)
       })
-    });
+  
+      afterEach(async () => {
+        (Matchs.findOne as sinon.SinonStub).restore();
+      })
+
+    it('You get a 200 status with the match created', async () => {
+      loginResponse = await chai.request(app)
+        .post('/login')
+        .send({
+          email: 'admin@admin.com',
+          password: 'secret_admin'
+        }) 
+    
+      const { token } = loginResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+          .post('/matchs')
+          .set('authorization', token)
+          .send({
+            "homeTeam": 16, 
+            "awayTeam": 8,
+            "homeTeamGoals": 2,
+            "awayTeamGoals": 2,
+            "inProgress": true 
+          }) 
+        
+      const { body, status } = chaiHttpResponse;
+      expect(status).to.equal(201);
+      expect(body.id).to.equal(stubMatch.id);
+      expect(body.homeTeam).to.equal(stubMatch.homeTeam);
+      expect(body.homeTeamGoals).to.equal(stubMatch.homeTeamGoals);
+      expect(body.awayTeam).to.equal(stubMatch.awayTeam);
+      expect(body.awayTeamGoals).to.equal(stubMatch.awayTeamGoals);
+      expect(body.inProgress).to.equal(stubMatch.inProgress);
+    })
+  });
+
+  describe('4.Updating a finished game', async () => {
+    it('Successfully updating', async () => {
+      chaiHttpResponse = await chai.request(app)
+          .patch('/matchs/46/finish')
+          
+      const { body, status } = chaiHttpResponse;
+      expect(status).to.equal(200);
+      expect(body.id).to.equal(46);
+      expect(body.homeTeam).to.equal(4);
+      expect(body.homeTeamGoals).to.equal(1);
+      expect(body.awayTeam).to.equal(12);
+      expect(body.awayTeamGoals).to.equal(1);
+      expect(body.inProgress).to.equal(0);
+    })
   })
 });
