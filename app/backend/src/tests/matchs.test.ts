@@ -101,4 +101,58 @@ describe('Testing /matchs', () => {
       })
     })
   });
-})
+
+  describe('4.When creating a match', async () => {
+    let loginResponse: Response;
+
+    loginResponse = await chai.request(app)
+    .post('/login')
+    .send({
+      email: 'admin@admin.com',
+      password: 'secret_admin'
+    }) 
+
+    const { token } = loginResponse.body;
+    
+    describe('You successfully create the match', async () => {
+      const stubMatch = {
+        "id": 49,
+        "homeTeam": 16,
+        "homeTeamGoals": 2,
+        "awayTeam": 8,
+        "awayTeamGoals": 2,
+        "inProgress": true,
+      } as Matchs
+  
+        beforeEach(async () => {
+          sinon.stub(Matchs, 'findOne').resolves(stubMatch)
+        })
+    
+        afterEach(async () => {
+          (Matchs.findOne as sinon.SinonStub).restore();
+        })
+
+      it('You get a 200 status with the match created', async () => {
+        chaiHttpResponse = await chai.request(app)
+            .post('/matchs')
+            .set('authorization', token)
+            .send({
+              "homeTeam": 16, 
+              "awayTeam": 8,
+              "homeTeamGoals": 2,
+              "awayTeamGoals": 2,
+              "inProgress": true 
+            }) 
+          
+        const { body, status } = chaiHttpResponse;
+        expect(status).to.equal(200);
+        expect(body.id).to.equal(stubMatch.id);
+        expect(body.homeTeam).to.equal(stubMatch.homeTeam);
+        expect(body.homeTeamGoals).to.equal(stubMatch.homeTeamGoals);
+        expect(body.awayTeam).to.equal(stubMatch.awayTeam);
+        expect(body.awayTeamGoals).to.equal(stubMatch.awayTeamGoals);
+        expect(body.inProgress).to.equal(stubMatch.inProgress);
+      })
+    });
+  })
+});
