@@ -133,6 +133,14 @@ describe('Testing /login/validate', async () => {
 
   describe('2. When passing a invalid token', async () => {
 
+    beforeEach(async () => {
+      sinon.stub(Users, 'findOne').resolves(stubUser)
+    })
+
+    afterEach(async () => {
+      (Users.findOne as sinon.SinonStub).restore();
+    })
+
 
     it('Receives status 500 and error message', async () => {
 

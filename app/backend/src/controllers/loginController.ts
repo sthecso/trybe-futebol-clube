@@ -1,14 +1,11 @@
 import * as express from 'express';
 import loginService from '../services/loginService';
-import auth from './middlewares/auth';
 import { schemaBase, validateLogin } from './schemas/schema';
 
 class LoginController {
   public path = '/login';
 
   public pathValidate = '/login/validate';
-
-  public auth = auth;
 
   public Service = loginService;
 
@@ -20,7 +17,7 @@ class LoginController {
 
   public initializeRoutes() {
     this.router.post(this.path, this.login);
-    this.router.get(this.pathValidate, this.auth, this.loginValidate);
+    this.router.get(this.pathValidate, this.loginValidate);
   }
 
   public login = async (
@@ -45,10 +42,11 @@ class LoginController {
   ) => {
     try {
       const token = req.headers.authorization;
-      if (token) {
-        const role = await this.Service.getUser(token);
-        res.status(200).json(role);
+      if (!token) {
+        return res.status(401).json({ error: 'Token not found' });
       }
+      const role = await this.Service.getUser(token);
+      res.status(200).json(role);
     } catch (error) {
       next(error);
     }

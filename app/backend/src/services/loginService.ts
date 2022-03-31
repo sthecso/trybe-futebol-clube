@@ -42,11 +42,7 @@ class LoginService {
       where: { email: userEmail },
     });
 
-    if (!userByEmail || userByEmail === null) {
-      throw new HttpException(401, 'Unauthorized user');
-    }
-
-    return userByEmail.role;
+    return userByEmail?.role;
   };
 }
 
