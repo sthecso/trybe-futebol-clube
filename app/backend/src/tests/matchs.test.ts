@@ -145,7 +145,7 @@ describe('Testing /matchs', () => {
             }) 
           
         const { body, status } = chaiHttpResponse;
-        expect(status).to.equal(200);
+        expect(status).to.equal(201);
         expect(body.id).to.equal(stubMatch.id);
         expect(body.homeTeam).to.equal(stubMatch.homeTeam);
         expect(body.homeTeamGoals).to.equal(stubMatch.homeTeamGoals);

@@ -47,7 +47,7 @@ class ClubsController {
         return res.status(401).json({ error: 'Token not found' });
       }
       const matchCreated = await this.Service.createMatch(req.body);
-      res.status(200).json(matchCreated);
+      res.status(201).json(matchCreated);
     } catch (error) {
       next(error);
     }
