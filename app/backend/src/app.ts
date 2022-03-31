@@ -1,6 +1,7 @@
 import * as express from 'express';
 import clubsController from './controllers/clubsController';
 import loginController from './controllers/loginController';
+import matchsController from './controllers/matchsController';
 import errorMiddlweare from './controllers/middlewares/errorMiddlweare';
 import joiError from './controllers/middlewares/joiError';
 
@@ -17,7 +18,7 @@ class App {
   private config():void {
     const accessControl: express.RequestHandler = (_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
+      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT, PATCH');
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
@@ -34,6 +35,7 @@ class App {
   public routes() {
     this.app.use(loginController.router);
     this.app.use(clubsController.router);
+    this.app.use(matchsController.router);
   }
 
   public start(PORT: string | number):void {
