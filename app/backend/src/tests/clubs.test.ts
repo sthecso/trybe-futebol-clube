@@ -81,7 +81,7 @@ describe('Testing /clubs', () => {
           .get('/clubs/732876')
           
         
-      expect(chaiHttpResponse).to.have.status(404);
+      expect(chaiHttpResponse).to.have.status(401);
     })
 
     it('you get an error message', async () => {
@@ -89,7 +89,7 @@ describe('Testing /clubs', () => {
           .get('/clubs/732876')
           
         
-      expect(chaiHttpResponse.body.message).to.be.equal('Club not found');
+      expect(chaiHttpResponse.body.message).to.be.equal('There is no team with such id!');
     })
   });
 })

@@ -10,10 +10,10 @@ class ClubsService {
     return clubs;
   };
 
-  public getById = async (id: string) => {
+  public getById = async (id: string | number) => {
     const club: IClubs | null = await this._ClubsModel.findByPk(id);
     if (!club || club === null) {
-      throw new HttpException(404, 'Club not found');
+      throw new HttpException(401, 'There is no team with such id!');
     }
     return club;
   };
