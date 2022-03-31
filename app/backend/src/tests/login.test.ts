@@ -35,7 +35,7 @@ describe('Testing /login', () => {
       (Users.findOne as sinon.SinonStub).restore();
     })
 
-  describe('1. If entering the correct login', async () => {
+  describe('1.If entering the correct login', async () => {
     
     it('You must login successfully', async () => {
       chaiHttpResponse = await chai.request(app)
@@ -54,7 +54,7 @@ describe('Testing /login', () => {
     })
   });
 
-  describe('2. If entering the incorrect login', async () => {
+  describe('2.If entering the incorrect login', async () => {
 
     describe('You receive a error:', async () => {
       it("If don't type an email ", async () => {
@@ -114,7 +114,7 @@ describe('Testing /login', () => {
 describe('Testing /login/validate', async () => {
   let chaiHttpResponse: Response;
 
-    describe('1. When passing a valid token', async () => {
+    describe('1.When passing a valid token', async () => {
 
       it('Receives status 200 and user role', async () => {
         const getToken = await myJwt.generateToken(stubUser)
@@ -131,7 +131,7 @@ describe('Testing /login/validate', async () => {
     })
   })
 
-  describe('2. When passing a invalid token', async () => {
+  describe('2.When passing a invalid token', async () => {
 
     beforeEach(async () => {
       sinon.stub(Users, 'findOne').resolves(stubUser)
@@ -156,7 +156,7 @@ describe('Testing /login/validate', async () => {
     })
   })
 
-  describe("3. When a token isn't passed", async () => {
+  describe("3.When a token isn't passed", async () => {
 
     it('Receives status 401 and error message', async () => {
       

@@ -1,4 +1,4 @@
-const Clubs = require('./Clubs.json');
+const Clubs = require('./json/Clubs.json');
 
 
 const ClubsMock = {

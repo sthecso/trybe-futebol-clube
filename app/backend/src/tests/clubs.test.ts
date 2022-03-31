@@ -19,7 +19,7 @@ describe('Testing /clubs', () => {
 
 
   
-  describe('1. Successfully list all clubs', async () => {
+  describe('1.Successfully list all clubs', async () => {
 
     beforeEach(async () => {
       sinon.stub(Clubs, 'findAll').callsFake(ClubsMock.findAll)
@@ -46,7 +46,7 @@ describe('Testing /clubs', () => {
     })
   });
 
-  describe('2. Successfully list club by id', async () => {
+  describe('2.Successfully list club by id', async () => {
 
     beforeEach(async () => {
       sinon.stub(Clubs, 'findByPk').callsFake(ClubsMock.findByPk)
@@ -74,7 +74,7 @@ describe('Testing /clubs', () => {
     })
   });
 
-  describe('3. Failed to list club', async () => {
+  describe('3.Failed to list club', async () => {
 
     it('You get 401 status', async () => {
       chaiHttpResponse = await chai.request(app)
