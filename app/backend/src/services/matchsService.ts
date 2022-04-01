@@ -73,6 +73,13 @@ class MatchsService {
     const updatedMatch = await this._MatchsModel.findByPk(id);
     return updatedMatch;
   };
+
+  public updateGoals = async (homeSquadGoals?: string, visitingTeamGoals?: string, id?: string) => {
+    await this._MatchsModel.update({
+      homeTeamGoals: homeSquadGoals, awayTeamGoals: visitingTeamGoals }, { where: { id } });
+    const updatedMatch = await this._MatchsModel.findByPk(id);
+    return updatedMatch;
+  };
 }
 
 export default new MatchsService();

@@ -4,7 +4,9 @@ import matchsService from '../services/matchsService';
 class ClubsController {
   public path = '/matchs';
 
-  public patchWithId = '/matchs/:id/finish';
+  public pathIdAndFinish = '/matchs/:id/finish';
+
+  public pathId = '/matchs/:id';
 
   public Service = matchsService;
 
@@ -17,7 +19,9 @@ class ClubsController {
   public initializeRoutes() {
     this.router.get(this.path, this.getAll);
     this.router.post(this.path, this.createMatch);
-    this.router.patch(this.patchWithId, this.updateInProgress);
+    this.router.patch(this.pathId, this.updateInProgress);
+    this.router.patch(this.pathId, this.updateGoals);
+    this.router.patch(this.pathIdAndFinish, this.updateInProgress);
   }
 
   public getAll = async (
@@ -65,6 +69,21 @@ class ClubsController {
       const { id } = req.params;
       const matchCreated = await this.Service.updateInProgress(id);
       res.status(200).json(matchCreated);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updateGoals = async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction,
+  ) => {
+    try {
+      const { id } = req.params;
+      const { homeTeamGoals, awayTeamGoals } = req.body;
+      const updatedMatch = await this.Service.updateGoals(homeTeamGoals, awayTeamGoals, id);
+      res.status(200).json(updatedMatch);
     } catch (error) {
       next(error);
     }
