@@ -126,53 +126,31 @@ describe('Testing /matchs', () => {
   })
 
   describe('4.You successfully create the match', async () => {
-    let loginResponse: Response;
-  
-    const stubMatch = {
-      "id": 49,
-      "homeTeam": 16,
-      "homeTeamGoals": 2,
-      "awayTeam": 8,
-      "awayTeamGoals": 2,
-      "inProgress": true,
-    } as Matchs
-
-      beforeEach(async () => {
-        sinon.stub(Matchs, 'findOne').resolves(stubMatch)
-      })
-  
-      afterEach(async () => {
-        (Matchs.findOne as sinon.SinonStub).restore();
-      })
 
     it("If you try to enter a match with a team that doesn't exist", async () => {
-      loginResponse = await chai.request(app)
+      let loginResponse = await chai.request(app)
         .post('/login')
         .send({
           email: 'admin@admin.com',
           password: 'secret_admin'
-        }) 
-    
+        });
       const { token } = loginResponse.body;
-
-      chaiHttpResponse = await chai.request(app)
-          .post('/matchs')
-          .set('authorization', token)
-          .send({
-            "homeTeam": 567, 
-            "awayTeam": 8,
-            "homeTeamGoals": 2,
-            "awayTeamGoals": 2,
-            "inProgress": true 
-          }) 
-        
-      const { body, status } = chaiHttpResponse;
-      expect(status).to.equal(401);
-      expect(body.message).to.equal('There is no team with such id!');
+      let chaiHttpResponse = await chai.request(app)
+        .post('/matchs')
+        .set('authorization', token)
+        .send({
+          "homeTeam": 687,
+          "awayTeam": 16,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2,
+          "inProgress": true
+        });
+        expect(chaiHttpResponse).to.have.status(401);
+        expect(chaiHttpResponse.body.message).to.be.equal('There is no team with such id!');
     })
 
     it("If you try to enter a match with teams that doesn't exist", async () => {
-      loginResponse = await chai.request(app)
+      let loginResponse = await chai.request(app)
         .post('/login')
         .send({
           email: 'admin@admin.com',
@@ -198,7 +176,7 @@ describe('Testing /matchs', () => {
     })
 
     it("If you try to insert two equal teams in a match", async () => {
-      loginResponse = await chai.request(app)
+      let loginResponse = await chai.request(app)
         .post('/login')
         .send({
           email: 'admin@admin.com',
@@ -211,7 +189,7 @@ describe('Testing /matchs', () => {
           .post('/matchs')
           .set('authorization', token)
           .send({
-            "homeTeam": 567, 
+            "homeTeam": 8, 
             "awayTeam": 8,
             "homeTeamGoals": 2,
             "awayTeamGoals": 2,
@@ -220,7 +198,7 @@ describe('Testing /matchs', () => {
         
       const { body, status } = chaiHttpResponse;
       expect(status).to.equal(401);
-      expect(body.message).to.equal('There is no team with such id!');
+      expect(body.message).to.equal('It is not possible to create a match with two equal teams');
     })
   });
 
