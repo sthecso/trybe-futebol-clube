@@ -1,5 +1,6 @@
 import * as express from 'express';
 import clubsController from './controllers/clubsController';
+import leaderBoardController from './controllers/leaderBoardController';
 import loginController from './controllers/loginController';
 import matchsController from './controllers/matchsController';
 import errorMiddlweare from './controllers/middlewares/errorMiddlweare';
@@ -36,6 +37,7 @@ class App {
     this.app.use(loginController.router);
     this.app.use(clubsController.router);
     this.app.use(matchsController.router);
+    this.app.use(leaderBoardController.router);
   }
 
   public start(PORT: string | number):void {

@@ -107,18 +107,37 @@ describe('Testing /login', () => {
         expect(status).to.equal(401);
         expect(body.message).to.equal('Incorrect email or password');
       })
+
+      it("If you pass a wrong login", async () => {
+        chaiHttpResponse = await chai.request(app)
+            .post('/login')
+            .send({
+              email: 'impostor@sham.com',
+              password: 'invading'
+            }) 
+        const { body, status } = chaiHttpResponse;
+        expect(status).to.equal(401);
+        expect(body.message).to.equal('Incorrect email or password');
+      })
     });
   });
 });
 
 describe('Testing /login/validate', async () => {
   let chaiHttpResponse: Response;
+ 
+  describe('1.When passing a valid token', async () => {
+    beforeEach(async () => {
+      sinon.stub(Users, 'findOne').resolves(stubUser)
+    })
+  
+    afterEach(async () => {
+      (Users.findOne as sinon.SinonStub).restore();
+    })
 
-    describe('1.When passing a valid token', async () => {
-
-      it('Receives status 200 and user role', async () => {
+    it('Receives status 200 and user role', async () => {
         const getToken = await myJwt.generateToken(stubUser)
-        
+
         chaiHttpResponse = await chai
           .request(app)
           .get("/login/validate")
@@ -131,32 +150,7 @@ describe('Testing /login/validate', async () => {
     })
   })
 
-  describe('2.When passing a invalid token', async () => {
-
-    beforeEach(async () => {
-      sinon.stub(Users, 'findOne').resolves(stubUser)
-    })
-
-    afterEach(async () => {
-      (Users.findOne as sinon.SinonStub).restore();
-    })
-
-
-    it('Receives status 500 and error message', async () => {
-
-      chaiHttpResponse = await chai
-        .request(app)
-        .get("/login/validate")
-        .set('authorization', 'invalidToken' )
-
-      const { body, status } = chaiHttpResponse;
-      
-          expect(status).to.equal(500);
-          expect(body.message).to.be.equal('Internal server error');
-    })
-  })
-
-  describe("3.When a token isn't passed", async () => {
+  describe("2.When a token isn't passed", async () => {
 
     it('Receives status 401 and error message', async () => {
       
@@ -170,6 +164,4 @@ describe('Testing /login/validate', async () => {
           expect(status).to.equal(401);
           expect(body.error).to.be.equal("Token not found");
     })
-  })
-
-})
+})})

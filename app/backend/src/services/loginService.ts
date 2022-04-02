@@ -10,6 +10,11 @@ class LoginService {
 
   private ERROR_INCORRECT: HttpException = new HttpException(401, 'Incorrect email or password');
 
+  private INVALID_USER: HttpException = new HttpException(
+    403,
+    'You don\'t have permission to acess / on this server',
+  );
+
   private checkPassword = async (password: string, passwordEncrypted: string): Promise<boolean> => {
     const compare: boolean = await bcrypt.compare(password, passwordEncrypted);
     return compare;
@@ -42,7 +47,9 @@ class LoginService {
       where: { email: userEmail },
     });
 
-    return userByEmail?.role;
+    if (!userByEmail) throw this.INVALID_USER;
+
+    return userByEmail.role;
   };
 }
 

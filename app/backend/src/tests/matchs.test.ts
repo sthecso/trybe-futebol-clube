@@ -3,10 +3,12 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Matchs from '../database/models/Matchs';
-import { MatchsMock } from './mocks/matchsMock';
-
 import { Response } from 'superagent';
+import { MatchsMock } from './mocks/matchsMock';
+// import myJwt from '../utils/jwt';
+
+import Matchs from '../database/models/Matchs';
+// import Users from '../database/models/Users';
 
 
 chai.use(chaiHttp);
@@ -17,8 +19,6 @@ describe('Testing /matchs', () => {
 
   let chaiHttpResponse: Response;
 
-
-  
   describe('1.Successfully list all matchs', async () => {
 
     beforeEach(async () => {
@@ -46,7 +46,7 @@ describe('Testing /matchs', () => {
     })
   });
 
-  describe('2.Search for matches by filtering pela chave in progress', async () => {
+  describe('2.Search for matches by filtering by in progress', async () => {
 
     
     describe('Filtering for matches with false in progress', async () => {
@@ -102,56 +102,28 @@ describe('Testing /matchs', () => {
   });
   
   describe('3.You successfully create the match', async () => {
-    let loginResponse: Response;
-  
-    const stubMatch = {
-      "id": 49,
-      "homeTeam": 16,
-      "homeTeamGoals": 2,
-      "awayTeam": 8,
-      "awayTeamGoals": 2,
-      "inProgress": true,
-    } as Matchs
-
-      beforeEach(async () => {
-        sinon.stub(Matchs, 'findOne').resolves(stubMatch)
-      })
-  
-      afterEach(async () => {
-        (Matchs.findOne as sinon.SinonStub).restore();
-      })
-
-    it('You get a 200 status with the match created', async () => {
-      loginResponse = await chai.request(app)
+    it('You get a 201 status with the match created', async () => {
+      let loginResponse = await chai.request(app)
         .post('/login')
         .send({
           email: 'admin@admin.com',
           password: 'secret_admin'
-        }) 
-    
+        });
       const { token } = loginResponse.body;
-
-      chaiHttpResponse = await chai.request(app)
-          .post('/matchs')
-          .set('authorization', token)
-          .send({
-            "homeTeam": 16, 
-            "awayTeam": 8,
-            "homeTeamGoals": 2,
-            "awayTeamGoals": 2,
-            "inProgress": true 
-          }) 
-        
-      const { body, status } = chaiHttpResponse;
-      expect(status).to.equal(201);
-      expect(body.id).to.equal(stubMatch.id);
-      expect(body.homeTeam).to.equal(stubMatch.homeTeam);
-      expect(body.homeTeamGoals).to.equal(stubMatch.homeTeamGoals);
-      expect(body.awayTeam).to.equal(stubMatch.awayTeam);
-      expect(body.awayTeamGoals).to.equal(stubMatch.awayTeamGoals);
-      expect(body.inProgress).to.equal(stubMatch.inProgress);
-    })
-  });
+      let chaiHttpResponse = await chai.request(app)
+        .post('/matchs')
+        .set('authorization', token)
+        .send({
+          "homeTeam": 16,
+          "awayTeam": 8,
+          "homeTeamGoals": 2,
+          "awayTeamGoals": 2,
+          "inProgress": true
+        });
+        expect(chaiHttpResponse).to.have.status(201);
+        expect(chaiHttpResponse.body).to.be.an('object');
+    });
+  })
 
   describe('4.You successfully create the match', async () => {
     let loginResponse: Response;
@@ -189,6 +161,32 @@ describe('Testing /matchs', () => {
           .send({
             "homeTeam": 567, 
             "awayTeam": 8,
+            "homeTeamGoals": 2,
+            "awayTeamGoals": 2,
+            "inProgress": true 
+          }) 
+        
+      const { body, status } = chaiHttpResponse;
+      expect(status).to.equal(401);
+      expect(body.message).to.equal('There is no team with such id!');
+    })
+
+    it("If you try to enter a match with teams that doesn't exist", async () => {
+      loginResponse = await chai.request(app)
+        .post('/login')
+        .send({
+          email: 'admin@admin.com',
+          password: 'secret_admin'
+        }) 
+    
+      const { token } = loginResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+          .post('/matchs')
+          .set('authorization', token)
+          .send({
+            "homeTeam": 567, 
+            "awayTeam": 878,
             "homeTeamGoals": 2,
             "awayTeamGoals": 2,
             "inProgress": true 
@@ -240,5 +238,26 @@ describe('Testing /matchs', () => {
       expect(body.awayTeamGoals).to.equal(1);
       expect(body.inProgress).to.equal(0);
     })
+
   })
+
+  describe('6.Updating goals', async () => {
+    it('Successfully updating', async () => {
+      chaiHttpResponse = await chai.request(app)
+          .patch('/matchs/4')
+          .send({
+            "homeTeamGoals": 3,
+            "awayTeamGoals": 1
+          })
+          
+      const { body, status } = chaiHttpResponse;
+      expect(status).to.equal(200);
+      expect(body.id).to.equal(4);
+      expect(body.homeTeam).to.equal(3);
+      expect(body.homeTeamGoals).to.equal(3);
+      expect(body.awayTeam).to.equal(2);
+      expect(body.awayTeamGoals).to.equal(1);
+      expect(body.inProgress).to.equal(0);
+    })
+  });
 });

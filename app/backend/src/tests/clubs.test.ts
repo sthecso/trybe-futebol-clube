@@ -76,6 +76,14 @@ describe('Testing /clubs', () => {
 
   describe('3.Failed to list club', async () => {
 
+    beforeEach(async () => {
+      sinon.stub(Clubs, 'findByPk').callsFake(ClubsMock.findByPk)
+    })
+  
+    afterEach(async () => {
+      (Clubs.findByPk as sinon.SinonStub).restore();
+    })
+
     it('You get 401 status', async () => {
       chaiHttpResponse = await chai.request(app)
           .get('/clubs/732876')
