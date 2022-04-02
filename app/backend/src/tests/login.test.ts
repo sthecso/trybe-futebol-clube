@@ -165,3 +165,5 @@ describe('Testing /login/validate', async () => {
           expect(body.error).to.be.equal("Token not found");
     })
 })})
+
+

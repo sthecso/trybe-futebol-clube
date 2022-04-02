@@ -8,7 +8,7 @@ import { MatchsMock } from './mocks/matchsMock';
 // import myJwt from '../utils/jwt';
 
 import Matchs from '../database/models/Matchs';
-// import Users from '../database/models/Users';
+import Users from '../database/models/Users';
 
 
 chai.use(chaiHttp);
@@ -102,30 +102,53 @@ describe('Testing /matchs', () => {
   });
   
   describe('3.You successfully create the match', async () => {
-    it('You get a 201 status with the match created', async () => {
-      let loginResponse = await chai.request(app)
+    let loginResponse: Response;
+    beforeEach(async () => {
+      sinon.stub(Users, 'findOne').resolves({
+        id: 1,
+        username: 'Admin',
+        role: 'admin',
+        email: 'admin@admin.com',
+        password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+      } as Users);
+
+      loginResponse = await chai.request(app)
         .post('/login')
         .send({
           email: 'admin@admin.com',
           password: 'secret_admin'
         });
-      const { token } = loginResponse.body;
-      let chaiHttpResponse = await chai.request(app)
+      })
+      
+      afterEach(async () => {
+        (Users.findOne as sinon.SinonStub).restore();
+      })
+      
+      it('You get a 201 status with the match created', async () => {
+        loginResponse = await chai.request(app)
+        .post('/login')
+        .send({
+          email: 'admin@admin.com',
+          password: 'secret_admin'
+        });
+        const { token } = loginResponse.body;
+        chaiHttpResponse = await chai.request(app)
         .post('/matchs')
         .set('authorization', token)
         .send({
-          "homeTeam": 16,
+          "homeTeam": 16, 
           "awayTeam": 8,
           "homeTeamGoals": 2,
           "awayTeamGoals": 2,
-          "inProgress": true
-        });
-        expect(chaiHttpResponse).to.have.status(201);
-        expect(chaiHttpResponse.body).to.be.an('object');
+          "inProgress": true  
+        })
+        
+      expect(chaiHttpResponse).to.have.status(201);
+      expect(chaiHttpResponse.body).to.be.an('object');
     });
   })
 
-  describe('4.You successfully create the match', async () => {
+  describe("4.You don't succeed", async () => {
 
     it("If you try to enter a match with a team that doesn't exist", async () => {
       let loginResponse = await chai.request(app)
