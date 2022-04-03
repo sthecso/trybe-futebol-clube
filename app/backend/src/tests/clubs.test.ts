@@ -4,6 +4,7 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import Clubs from '../database/models/Clubs';
+import clubsService from '../services/clubsService';
 import { ClubsMock } from './mocks/clubsMock';
 
 import { Response } from 'superagent';
@@ -74,20 +75,11 @@ describe('Testing /clubs', () => {
     })
   });
 
-  describe('3.Failed to list club', async () => {
-
-    beforeEach(async () => {
-      sinon.stub(Clubs, 'findByPk').callsFake(ClubsMock.findByPk)
-    })
-  
-    afterEach(async () => {
-      (Clubs.findByPk as sinon.SinonStub).restore();
-    })
+  describe.only('3.Failed to list club', async () => {
 
     it('You get 401 status', async () => {
       chaiHttpResponse = await chai.request(app)
           .get('/clubs/732876')
-          
         
       expect(chaiHttpResponse).to.have.status(401);
     })
