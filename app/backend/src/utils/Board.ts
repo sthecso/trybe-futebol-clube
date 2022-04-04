@@ -53,7 +53,7 @@ class Board {
 
   private static getTotalLosses(matches: IMatchWithId[]) {
     const totalLosses = matches.reduce((acc, curr) => {
-      if (curr.homeTeamGoals === curr.awayTeamGoals) return acc + 1;
+      if (curr.homeTeamGoals < curr.awayTeamGoals) return acc + 1;
       return acc;
     }, 0);
     return totalLosses;
