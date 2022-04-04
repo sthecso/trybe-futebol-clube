@@ -22,7 +22,7 @@ class LeaderBoardController {
     next: express.NextFunction,
   ) => {
     try {
-      const matches = await this.Service.structure();
+      const matches = await this.Service.getAll();
       res.status(200).json(matches);
     } catch (error) {
       next(error);
