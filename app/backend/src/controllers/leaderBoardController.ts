@@ -2,7 +2,7 @@ import * as express from 'express';
 import leaderBoardService from '../services/leaderBoardService';
 
 class LeaderBoardController {
-  public path = '/leaderboard/home';
+  public pathHome = '/leaderboard/home';
 
   public pathAway = '/leaderboard/away';
 
@@ -15,7 +15,7 @@ class LeaderBoardController {
   }
 
   public initializeRoutes() {
-    this.router.get(this.path, this.getAllHomeMatches);
+    this.router.get(this.pathHome, this.getAllHomeMatches);
     this.router.get(this.pathAway, this.getAllAwayMatches);
   }
 
