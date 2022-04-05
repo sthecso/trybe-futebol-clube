@@ -1,13 +1,14 @@
 import { ILeaderBoard } from '../interfaces/ILeaderBoard';
-import { IMatchesTeam } from '../interfaces/IMatchs';
+import { IMatchesAwayTeam, IMatchesHomeTeam } from '../interfaces/IMatchs';
 import Clubs from '../database/models/Clubs';
 import Matchs from '../database/models/Matchs';
-import Board from '../utils/Board';
+import HomeBoard from '../utils/HomeBoard';
+import AwayBoard from '../utils/AwayBoard';
 
 class LeaderBoardService {
   private _ClubsModel = Clubs;
 
-  public getAll = async () => {
+  public getAllHomeMatches = async () => {
     const matches = await this._ClubsModel.findAll({
       include: [{
         model: Matchs,
@@ -16,13 +17,35 @@ class LeaderBoardService {
           inProgress: false,
         },
       }],
-    }) as unknown as IMatchesTeam[];
-    return LeaderBoardService.structureMatches(matches);
+    }) as unknown as IMatchesHomeTeam[];
+    return LeaderBoardService.structureHomeMatches(matches);
   };
 
-  private static structureMatches = (matches: IMatchesTeam[]) => {
-    const structuring = matches.map((c: IMatchesTeam) => {
-      const callBoard = Board.receiveHomeClub(c.clubName, c.homeClub);
+  public getAllAwayMatches = async () => {
+    const matches = await this._ClubsModel.findAll({
+      include: [{
+        model: Matchs,
+        as: 'awayClub',
+        where: {
+          inProgress: false,
+        },
+      }],
+    }) as unknown as IMatchesAwayTeam[];
+    return LeaderBoardService.structureAwayMatches(matches);
+  };
+
+  private static structureHomeMatches = (matches: IMatchesHomeTeam[]) => {
+    const structuring = matches.map((c: IMatchesHomeTeam) => {
+      const callBoard = HomeBoard.receiveHomeClub(c.clubName, c.homeClub);
+      return callBoard;
+    });
+    const sorting = structuring.sort(LeaderBoardService.compare);
+    return sorting;
+  };
+
+  private static structureAwayMatches = (matches: IMatchesAwayTeam[]) => {
+    const structuring = matches.map((c: IMatchesAwayTeam) => {
+      const callBoard = AwayBoard.receiveAwayClub(c.clubName, c.awayClub);
       return callBoard;
     });
     const sorting = structuring.sort(LeaderBoardService.compare);

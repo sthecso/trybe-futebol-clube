@@ -16,15 +16,29 @@ class LeaderBoardController {
 
   public initializeRoutes() {
     this.router.get(this.path, this.getAllHomeMatches);
+    this.router.get(this.pathAway, this.getAllAwayMatches);
   }
 
   public getAllHomeMatches = async (
-    req: express.Request,
+    _req: express.Request,
     res: express.Response,
     next: express.NextFunction,
   ) => {
     try {
-      const matches = await this.Service.getAll();
+      const matches = await this.Service.getAllHomeMatches();
+      res.status(200).json(matches);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getAllAwayMatches = async (
+    _req: express.Request,
+    res: express.Response,
+    next: express.NextFunction,
+  ) => {
+    try {
+      const matches = await this.Service.getAllAwayMatches();
       res.status(200).json(matches);
     } catch (error) {
       next(error);

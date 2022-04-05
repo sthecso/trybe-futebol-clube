@@ -1,6 +1,6 @@
 import { IMatchWithId } from '../interfaces/IMatchs';
 
-class Board {
+class AwayBoard {
   private static _totalPoints: number;
 
   private static _goalsFavor: number;
@@ -9,26 +9,26 @@ class Board {
 
   private static _efficiency: number;
 
-  public static receiveHomeClub(clubName: string, matches: IMatchWithId[]) {
+  public static receiveAwayClub(clubName: string, matches: IMatchWithId[]) {
     const structure = {
       name: clubName,
-      totalPoints: Board.getTotalPoints(matches),
+      totalPoints: AwayBoard.getTotalPoints(matches),
       totalGames: matches.length,
-      totalVictories: Board.getTotalVictories(matches),
-      totalDraws: Board.getTotalDraws(matches),
-      totalLosses: Board.getTotalLosses(matches),
-      goalsFavor: Board.getTotalFavor(matches),
-      goalsOwn: Board.getTotalGoalsOwn(matches),
+      totalVictories: AwayBoard.getTotalVictories(matches),
+      totalDraws: AwayBoard.getTotalDraws(matches),
+      totalLosses: AwayBoard.getTotalLosses(matches),
+      goalsFavor: AwayBoard.getTotalFavor(matches),
+      goalsOwn: AwayBoard.getTotalGoalsOwn(matches),
       goalsBalance: this.getTotalGoalsBalance(),
-      efficiency: Board.getEfficiency(matches),
+      efficiency: AwayBoard.getEfficiency(matches),
     };
     return structure;
   }
 
   private static getTotalPoints(matches: IMatchWithId[]) {
     const sumPoints = matches.reduce((acc, curr) => {
-      if (curr.homeTeamGoals > curr.awayTeamGoals) return acc + 3;
-      if (curr.homeTeamGoals === curr.awayTeamGoals) return acc + 1;
+      if (curr.awayTeamGoals > curr.homeTeamGoals) return acc + 3;
+      if (curr.awayTeamGoals === curr.homeTeamGoals) return acc + 1;
       return acc;
     }, 0);
     this._totalPoints = sumPoints;
@@ -37,7 +37,7 @@ class Board {
 
   private static getTotalVictories(matches: IMatchWithId[]) {
     const totalVictories = matches.reduce((acc, curr) => {
-      if (curr.homeTeamGoals > curr.awayTeamGoals) return acc + 1;
+      if (curr.awayTeamGoals > curr.homeTeamGoals) return acc + 1;
       return acc;
     }, 0);
     return totalVictories;
@@ -45,7 +45,7 @@ class Board {
 
   private static getTotalDraws(matches: IMatchWithId[]) {
     const totalDraws = matches.reduce((acc, curr) => {
-      if (curr.homeTeamGoals === curr.awayTeamGoals) return acc + 1;
+      if (curr.awayTeamGoals === curr.homeTeamGoals) return acc + 1;
       return acc;
     }, 0);
     return totalDraws;
@@ -53,20 +53,20 @@ class Board {
 
   private static getTotalLosses(matches: IMatchWithId[]) {
     const totalLosses = matches.reduce((acc, curr) => {
-      if (curr.homeTeamGoals < curr.awayTeamGoals) return acc + 1;
+      if (curr.awayTeamGoals < curr.homeTeamGoals) return acc + 1;
       return acc;
     }, 0);
     return totalLosses;
   }
 
   private static getTotalFavor(matches: IMatchWithId[]) {
-    const totalGoalsFavor = matches.reduce((acc, curr) => acc + curr.homeTeamGoals, 0);
+    const totalGoalsFavor = matches.reduce((acc, curr) => acc + curr.awayTeamGoals, 0);
     this._goalsFavor = totalGoalsFavor;
     return totalGoalsFavor;
   }
 
   private static getTotalGoalsOwn(matches: IMatchWithId[]) {
-    const totalGoalsOwn = matches.reduce((acc, curr) => acc + curr.awayTeamGoals, 0);
+    const totalGoalsOwn = matches.reduce((acc, curr) => acc + curr.homeTeamGoals, 0);
     this._goalsOwn = totalGoalsOwn;
     return totalGoalsOwn;
   }
@@ -84,4 +84,4 @@ class Board {
   }
 }
 
-export default Board;
+export default AwayBoard;

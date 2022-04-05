@@ -10,8 +10,15 @@ export interface IMatchWithId extends IMatch {
   id: number
 }
 
-export interface IMatchesTeam {
+interface IMatches {
   id: number,
   clubName: string,
+}
+
+export interface IMatchesHomeTeam extends IMatches {
   homeClub: IMatchWithId[]
+}
+
+export interface IMatchesAwayTeam extends IMatches {
+  awayClub: IMatchWithId[]
 }
