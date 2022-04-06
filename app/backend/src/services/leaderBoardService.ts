@@ -9,10 +9,14 @@ class LeaderBoardService {
   private _ClubsModel = Clubs;
 
   // referencies: https://pt.stackoverflow.com/questions/493586/como-percorrer-um-array-de-objetos-somar-propriedades-espec%C3%ADficas-e-unificar-es
-  // eslint-disable-next-line max-lines-per-function
   public getAll = (homeMatches: ILeaderBoard[], awayMatches: ILeaderBoard[]) => {
     const merged = [...homeMatches, ...awayMatches];
-    const allMatches = merged.reduce((acc, curr) => {
+    const allMatches = LeaderBoardService.orderAllMatches(merged);
+    return allMatches.sort(LeaderBoardService.compare);
+  };
+
+  private static orderAllMatches = (merged: ILeaderBoard[]) => {
+    const ordering = merged.reduce((acc, curr) => {
       const objRepetido = acc.find((elem) => elem.name === curr.name);
       if (objRepetido) {
         const totalPoints = objRepetido.totalPoints + curr.totalPoints;
@@ -29,7 +33,7 @@ class LeaderBoardService {
       } else acc.push(curr);
       return acc;
     }, [] as unknown as ILeaderBoard[]);
-    return allMatches.sort(LeaderBoardService.compare);
+    return ordering;
   };
 
   public getAllHomeMatches = async () => {
