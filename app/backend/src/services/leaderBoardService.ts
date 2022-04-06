@@ -8,6 +8,30 @@ import AwayBoard from '../utils/AwayBoard';
 class LeaderBoardService {
   private _ClubsModel = Clubs;
 
+  // referencies: https://pt.stackoverflow.com/questions/493586/como-percorrer-um-array-de-objetos-somar-propriedades-espec%C3%ADficas-e-unificar-es
+  // eslint-disable-next-line max-lines-per-function
+  public getAll = (homeMatches: ILeaderBoard[], awayMatches: ILeaderBoard[]) => {
+    const merged = [...homeMatches, ...awayMatches];
+    const allMatches = merged.reduce((acc, curr) => {
+      const objRepetido = acc.find((elem) => elem.name === curr.name);
+      if (objRepetido) {
+        const totalPoints = objRepetido.totalPoints + curr.totalPoints;
+        const totalGames = objRepetido.totalGames + curr.totalGames;
+        objRepetido.totalPoints += curr.totalPoints;
+        objRepetido.totalGames += curr.totalGames;
+        objRepetido.totalVictories += curr.totalVictories;
+        objRepetido.totalDraws += curr.totalDraws;
+        objRepetido.totalLosses += curr.totalLosses;
+        objRepetido.goalsFavor += curr.goalsFavor;
+        objRepetido.goalsOwn += curr.goalsOwn;
+        objRepetido.goalsBalance += curr.goalsBalance;
+        objRepetido.efficiency = LeaderBoardService.calculateEfficieny(totalPoints, totalGames);
+      } else acc.push(curr);
+      return acc;
+    }, [] as unknown as ILeaderBoard[]);
+    return allMatches.sort(LeaderBoardService.compare);
+  };
+
   public getAllHomeMatches = async () => {
     const matches = await this._ClubsModel.findAll({
       include: [{
@@ -64,6 +88,17 @@ class LeaderBoardService {
     if (a.goalsFavor < b.goalsFavor) return 1;
     if (a.goalsOwn > b.goalsOwn) return -1;
     return 1;
+  };
+
+  private static calculateEfficieny = (
+    totalPoints: number,
+    totalGames: number,
+  ) => {
+    const calculating = parseFloat(
+      ((totalPoints / (totalGames * 3)) * 100).toFixed(2),
+    );
+
+    return calculating;
   };
 }
 
